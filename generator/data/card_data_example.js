@@ -1,4 +1,4 @@
-var card_data = [
+var card_data_example = [
     {
         "count": 1,
         "color": "maroon",
