@@ -1,8 +1,3 @@
-.bg-color {
-    background-color: #600a15;
-    color: white;
-}
-
 .card {
     width:66mm;
     min-width:66mm;
@@ -16,15 +11,17 @@
     font-size: 8pt;
 }
 
-.content-container {
+.card-content-container {
     padding:2mm;
     padding-top:1mm;
     border-radius: 2mm;
     margin-top:0px;
     background-color: white;
+    border-color: inherit;
     display: flex;
     flex-direction: column;
     flex: 1;
+    font-size: inherit;
 }
 
 .card-back {
@@ -49,7 +46,7 @@
     align-items: center;
 }
 
-.back-icon {
+.card-back-icon {
     width: 30mm;
     height: 30mm;
     border: 4mm solid;
@@ -59,7 +56,7 @@
     background-size: contain;
 }
 
-.title-icon {
+.card-title-icon {
     width: 12mm;
     height: 12mm;
     background-repeat: no-repeat;
@@ -67,7 +64,7 @@
     background-color: inherit;
     border-color: inherit;
 }
-.title-icon-container {
+.card-title-icon-container {
     position: absolute;
     right: -1mm;
     top: -1mm;
@@ -77,18 +74,51 @@
     border-color: inherit;
 }
 
-.title {
-    height: 28px;
-    line-height: 23px;
+.card-title-inlineicon {
+    width: 7mm;
+    height: 7mm;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: inherit;
+    border-color: inherit;
+}
+.card-title-inlineicon-container {
+    position: absolute;
+    right: -1mm;
+    top: -1mm;
+    border: 1mm solid;
+    border-radius: 1mm;
+    background-color: inherit;
+    border-color: inherit;
+}
+
+.card-title {
+    height: 8mm;
     padding-left: 2mm;
     font-family: Lora, 'Calisto MT', 'Bookman Old Style', Bookman, 'Goudy Old Style', Garamond, 'Hoefler Text', 'Bitstream Charter', Georgia, serif;
     font-variant: small-caps;
     font-weight: bold;
-    font-size: 13pt;
     background-color: inherit;
     color: white;
 }
-.subtitle {
+.card-title-big {
+    font-size: 6mm;
+    line-height: 6mm;
+}
+.card-title-normal {
+    font-size: 5mm;
+    line-height: 6mm;
+}
+.card-title-small {
+    font-size: 4mm;
+    line-height: 6.5mm;
+}
+.card-title-tiny {
+    font-size: 3.5mm;
+    line-height: 6.75mm;
+}
+
+.card-subtitle {
     height: 18px;
     line-height: 18px;
     margin-bottom: 1mm;
@@ -97,19 +127,22 @@
     font-style: italic;
 }
 
-.property-line {
+.card-property-line {
     text-indent: -1em;
     margin-left: 1em;
+    font-size: inherit;
+    color: black;
 }
 
-.property-name {
+.card-property-name {
     display: inline;
+    font-size: inherit;
 }
-.property-text {
+.card-property-text {
     display: inline;
 }
 
-h3 {
+.card-section {
     border-bottom: 1px solid;
     font-size: 10pt;
     font-variant: small-caps;
@@ -117,38 +150,33 @@ h3 {
     letter-spacing: 1px;
     margin: 0;
     margin-bottom: 0.3em;
+    border-color: inherit;
 }
 
-p {
+.card-p {
     margin-top: 0.0em;
     margin-bottom: 0.5em;
+    font-size: inherit;
 }
 
+.card-fill {flex:1;}
 
-.fill-1 {flex:1;}
-.fill-2 {flex:2;}
-.fill-3 {flex:3;}
-.fill-4 {flex:4;}
-.fill-5 {flex:5;}
-.fill-6 {flex:6;}
-
-.description-line {
+.card-description-line {
     margin-bottom: 0.5em;
+    font-size: inherit;
+    color: black;
 }
-.description-name {
+.card-description-name {
     display: inline;
+    font-size: inherit;
 }
-.description-text {
+.card-description-text {
     display: inline;
 }
 
-.ruler {
-    /*content: url(../img/ruler.svg);*/
-    width: 60mm;
-    height: 1.5mm;
+.card-ruler {
+    width: 100%;
+    height: 1.0mm;
     margin-top: 0.5em;
     margin-bottom: 0.2em;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-image: url(../img/ruler2.svg);
 }
