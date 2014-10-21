@@ -3,8 +3,8 @@ var card_data_example = [
         "count": 1,
         "color": "maroon",
         "title": "Burning Hands",
-        "icon": "custom-spell-1",
-        "icon_back": "custom-class-arcane",
+        "icon": "white-book-1",
+        "icon_back": "robe",
         "contents": [
             "subtitle | 1st level evocation",
             "rule",
@@ -24,8 +24,8 @@ var card_data_example = [
         "count": 1,
         "color": "indigo",
         "title": "Cunning Action",
-        "icon": "custom-spell",
-        "icon_back": "custom-class-rogue",
+        "icon": "white-book",
+        "icon_back": "cloak-dagger",
         "contents": [
             "subtitle | Rogue feature",
             "rule",
@@ -40,7 +40,7 @@ var card_data_example = [
         "count": 1,
         "color": "dimgray",
         "title": "Full Plate",
-        "icon": "custom-armor-heavy",
+        "icon": "breastplate",
         "contents": [
             "subtitle | Heavy armor (1500gp)",
             "rule",
@@ -58,7 +58,7 @@ var card_data_example = [
         "count": 1,
         "color": "dimgray",
         "title": "Dagger",
-        "icon": "custom-swordarrow",
+        "icon": "mixed-swords",
         "contents": [
             "subtitle | Simple melee weapon (2gp)",
             "rule",
@@ -78,7 +78,7 @@ var card_data_example = [
         "color": "dimgray",
         "title": "Shortsword of Very Long Names",
         "title_size": "tiny",
-        "icon": "custom-swords",
+        "icon": "crossed-swords",
         "contents": [
             "subtitle | Simple melee weapon (10gp)",
             "rule",
@@ -96,7 +96,7 @@ var card_data_example = [
         "count": 1,
         "color": "dimgray",
         "title": "Wand of Magic Missiles",
-        "icon": "custom-wand",
+        "icon": "crystal-wand",
         "contents": [
             "subtitle | Wondrous item",
             "rule",
@@ -116,7 +116,7 @@ var card_data_example = [
         "count": 2,
         "color": "dimgray",
         "title": "Potion of Healing",
-        "icon": "custom-potion",
+        "icon": "drink-me",
         "contents": [
             "subtitle | Potion (50gp)",
             "rule",
