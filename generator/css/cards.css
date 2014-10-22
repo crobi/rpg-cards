@@ -1,9 +1,7 @@
 .card {
-    width:66mm;
-    min-width:66mm;
-    height:95mm;
     border: 2mm solid;
     border-radius: 4px;
+    box-sizing: border-box;
     position: relative;
     display: flex;
     flex-direction: column;
