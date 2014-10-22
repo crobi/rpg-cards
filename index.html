@@ -81,7 +81,8 @@
 </h3>
 
 <p>
-    <a href="generator/generate.html">Try it out yourself</a>. Press "Load sample cards" in the menu, then press "Generate cards".
+    <a href="generator/generate.html">Try it out yourself</a>.
+    Press "Load sample" in the menu, then press "Generate" and have a look at the newly opened window/tab that contains all the generated cards.
 </p>
 
 <h2>Documentation</h2>
@@ -96,31 +97,31 @@ This is not a complete documentation, but some information that should help you 
 <p>
     <ul>
         <li>
-            <strong>count</strong>
+            <code>count</code>
             The number of times this card is repeated. Useful for consumable items that you hand out multiple times.
         </li>
         <li>
-            <strong>color</strong>
+            <code>color</code>
             Name of the card color. You can use all <a href="http://www.w3schools.com/cssref/css_colornames.asp">CSS color names</a>.
             Additional custom colors are defined in <code>css/custom-colors.css</code>.
         </li>
         <li>
-            <strong>icon</strong>
+            <code>icon</code>
             Name of the card icon. You can use all icons from <a href="http://game-icons.net/">game-icons.net</a>.
             For example, the file name of <a href="http://game-icons.net/lorc/originals/plain-dagger.html">this dagger</a>
             is "plain-dagger.png", so you would use "plain-dagger" as the icon name.
             Additional custom icon names are defined in <code>css/custom-icons.css</code>.
         </li>
         <li>
-            <strong>back_icon</strong>
+            <code>icon_back</code>
             Optional. Name of the big icon on the card back. If not specified, the icon from the "icon" property is used.
         </li>
         <li>
-            <strong>title</strong>
+            <code>title</code>
             The title of the card.
         </li>
         <li>
-            <strong>contents</strong>
+            <code>contents</code>
             An array of strings, specifying all card elements, in top to bottom order (see below).
         </li>
     </ul>
@@ -140,42 +141,39 @@ This is not a complete documentation, but some information that should help you 
 
     <ul>
         <li>
-            <strong>subtitle</strong>
+            <code>subtitle</code>
             Slightly larger italic text.
             Param1: the subtitle text.
         </li>
         <li>
-            <strong>rule</strong>
+            <code>rule</code>
             A horizontal rule.
         </li>
         <li>
-            <strong>property</strong>
+            <code>property</code>
             A property line. The property description is indented if it spans more than one line.
             Param1: the property name (in bold).
             Param2: the property description.
         </li>
         <li>
-            <strong>description</strong>
+            <code>description</code>
             Same as <i>property</i>, but text is not indented.
         </li>
         <li>
-            <strong>text</strong>
+            <code>text</code>
             A simple paragraph of text.
             Param1: the text.
         </li>
         <li>
-            <strong>subsection</strong>
+            <code>subsection</code>
             A subsection header, with a horizontal rule below the subsection name.
             Param1: the subsection name
         </li>
         <li>
-            <strong>fill-1</strong>
-            A dynamically resized empty element that takes up 1 unit of unused space on the card.
+            <code>fill</code>
+            A dynamically resized empty element that takes up a portion of unused space on the card.
             You can use this to vertically center text by adding one of these before and after the text you want to center.
-        </li>
-        <li>
-            <strong>fill-2</strong>
-            Same as <i>fill-1</i>, but takes up 2 units of unused space - these elements will therefore be larger than any <i>fill-1</i> element.
+            Param1: the number of units of empty space to use.
         </li>
     </ul>
 </p>
