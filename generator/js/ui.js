@@ -33,6 +33,7 @@ function merge(left, right, compare) {
     return result;
 }
 
+var ui_generate_modal_shown = false;
 function ui_generate() {
     // Generate output HTML
     var card_html = card_pages_generate_html(card_data, card_options);
@@ -40,6 +41,11 @@ function ui_generate() {
     // Open a new window for the output
     // Use a separate window to avoid CSS conflicts
     var tab = window.open("output.html", 'rpg-cards-output');
+
+    if (ui_generate_modal_shown == false) {
+        $("#print-modal").modal('show');
+        ui_generate_modal_shown = true;
+    }
 
     // Send the generated HTML to the new window
     // Use a delay to give the new window time to set up a message listener
@@ -148,6 +154,7 @@ function ui_update_selected_card() {
     var card = ui_selected_card();
     if (card) {
         $("#card-title").val(card.title);
+        $("#card-title-size").val(card.title_size);
         $("#card-count").val(card.count);
         $("#card-icon").val(card.icon);
         $("#card-icon-back").val(card.icon_back);
@@ -368,6 +375,7 @@ $(document).ready(function () {
     $("#selected-card").change(ui_update_selected_card);
 
     $("#card-title").change(ui_change_card_title);
+    $("#card-title-size").change(ui_change_card_property);
     $("#card-icon").change(ui_change_card_property);
     $("#card-count").change(ui_change_card_property);
     $("#card-icon-back").change(ui_change_card_property);

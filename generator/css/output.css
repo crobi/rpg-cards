@@ -2,6 +2,12 @@
   background: rgb(204,204,204); 
 }
 
+body {
+    display: flex;
+    justify-content:center;
+    align-content:center;
+}
+
 .page-preview {
     background: white;
     margin: 0 auto;

@@ -5,7 +5,7 @@ function card_default_options() {
     return {
         default_color: "black",
         default_icon: "ace",
-        default_title_size: "normal",
+        default_title_size: "13",
         page_size: "A4",
         page_rows: 3,
         page_columns: 3,
