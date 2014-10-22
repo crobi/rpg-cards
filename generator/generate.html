@@ -82,6 +82,41 @@
                     </div>
                     <span class="help-block">Generated cards open in a new tab or window.</span>
                 </form>
+                <h3>Sizes</h3>
+                <form role="form" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="page-size" class="col-sm-4 control-label">Page</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="page-size" data-option="page_size">
+                                <option value="A4" selected>A4</option>
+                                <option value="Letter">US letter</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="card-size" class="col-sm-4 control-label">Card</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="card-size" data-option="card_size">
+                                <option value="225x35">2.25&quot; x 3.5&quot; (Bridge)</option>
+                                <option value="25x35" selected>2.5&quot; x 3.5&quot; (Poker)</option>
+                                <option value="35x50">3.5&quot; x 5.0&quot;</option>
+                                <option value="75x50">7.5&quot; x 5.0&quot;</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="card-size" class="col-sm-4 control-label">Cards/page</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="page-rows" class="form-control" data-option="page_rows" value="3">
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="form-control-static">x</p>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" id="page-columns" class="form-control" data-option="page_columns" value="3">
+                        </div>
+                    </div>
+                </form>
                 <h3>Default values</h3>
                 <form role="form" class="form-horizontal">
                     <div class="form-group">

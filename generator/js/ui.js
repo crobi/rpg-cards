@@ -209,6 +209,14 @@ function ui_set_default_color(color) {
     ui_render_selected_card();
 }
 
+function ui_change_option() {
+    var property = $(this).attr("data-option");
+    var value = $(this).val();
+    card_options[property] = value;
+    ui_render_selected_card();
+
+}
+
 function ui_change_card_title() {
     var title = $("#card-title").val();
     var card = ui_selected_card();
@@ -365,6 +373,11 @@ $(document).ready(function () {
     $("#card-icon-back").change(ui_change_card_property);
     $("#card-color").change(ui_change_card_color);
     $("#card-contents").change(ui_change_card_contents);
+
+    $("#page-size").change(ui_change_option);
+    $("#page-rows").change(ui_change_option);
+    $("#page-columns").change(ui_change_option);
+    $("#card-size").change(ui_change_option);
 
     $("#default-color").change(ui_change_default_color);
     $("#default-icon").change(ui_change_default_icon);
