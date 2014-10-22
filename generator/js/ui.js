@@ -2,6 +2,37 @@
 var card_data = [];
 var card_options = card_default_options();
 
+function mergeSort(arr, compare) {
+    if (arr.length < 2)
+        return arr;
+
+    var middle = parseInt(arr.length / 2);
+    var left = arr.slice(0, middle);
+    var right = arr.slice(middle, arr.length);
+
+    return merge(mergeSort(left, compare), mergeSort(right, compare), compare);
+}
+
+function merge(left, right, compare) {
+    var result = [];
+
+    while (left.length && right.length) {
+        if (compare(left[0], right[0]) <= 0) {
+            result.push(left.shift());
+        } else {
+            result.push(right.shift());
+        }
+    }
+
+    while (left.length)
+        result.push(left.shift());
+
+    while (right.length)
+        result.push(right.shift());
+
+    return result;
+}
+
 function ui_generate() {
     // Generate output HTML
     var card_html = card_pages_generate_html(card_data, card_options);
@@ -55,9 +86,10 @@ function ui_add_new_card() {
 
 function ui_duplicate_card() {
     if (card_data.length > 0) {
-        card_data.push(ui_selected_card());
-        var card = card_data[card_data.length - 1];
-        card.title = card.title + " (Copy)";
+        var old_card = ui_selected_card();
+        var new_card = $.extend({}, old_card);
+        card_data.push(new_card);
+        new_card.title = new_card.title + " (Copy)";
     } else {
         card_data.push(card_default_data());
     }
@@ -84,7 +116,7 @@ function ui_delete_card() {
 }
 
 function ui_update_card_list() {
-    $("#total_card_count").text("Deck contains " + card_data.length + " cards.");
+    $("#total_card_count").text("Deck contains " + card_data.length + " unique cards.");
 
     $('#selected-card').empty();
     for (var i = 0; i < card_data.length; ++i) {
@@ -258,6 +290,53 @@ function ui_change_default_icon_size() {
     ui_render_selected_card();
 }
 
+function ui_sort_by_name() {
+    card_data = mergeSort(card_data, function (a, b) {
+        if (a.title > b.title) {
+            return 1;
+        }
+        if (a.title < b.title) {
+            return -1;
+        }
+        return 0;
+    });
+    ui_update_card_list();
+}
+
+function ui_sort_by_icon() {
+    card_data = mergeSort(card_data, function (a, b) {
+        if (a.icon > b.icon) {
+            return 1;
+        }
+        if (a.icon < b.icon) {
+            return -1;
+        }
+        return 0;
+    });
+    ui_update_card_list();
+}
+
+function ui_apply_default_color() {
+    for (var i = 0; i < card_data.length; ++i) {
+        card_data[i].color = card_options.default_color;
+    }
+    ui_render_selected_card();
+}
+
+function ui_apply_default_icon() {
+    for (var i = 0; i < card_data.length; ++i) {
+        card_data[i].icon = card_options.default_icon;
+    }
+    ui_render_selected_card();
+}
+
+function ui_apply_default_icon_back() {
+    for (var i = 0; i < card_data.length; ++i) {
+        card_data[i].icon_back = card_options.default_icon;
+    }
+    ui_render_selected_card();
+}
+
 $(document).ready(function () {
     ui_setup_color_selector();
     $('.icon-list').typeahead({source:icon_names});
@@ -265,12 +344,19 @@ $(document).ready(function () {
     $("#button-generate").click(ui_generate);
     $("#button-load").click(function () { $("#file-load").click(); });
     $("#file-load").change(ui_load_files);
+    $("#button-clear").click(ui_clear_all);
     $("#button-load-sample").click(ui_load_sample);
     $("#button-save").click(ui_save_file);
+    $("#button-sort-name").click(ui_sort_by_name);
+    $("#button-sort-icon").click(ui_sort_by_icon);
     $("#button-add-card").click(ui_add_new_card);
     $("#button-duplicate-card").click(ui_duplicate_card);
     $("#button-delete-card").click(ui_delete_card);
     $("#button-help").click(ui_open_help);
+    $("#button-apply-color").click(ui_apply_default_color);
+    $("#button-apply-icon").click(ui_apply_default_icon);
+    $("#button-apply-icon-back").click(ui_apply_default_icon_back);
+
     $("#selected-card").change(ui_update_selected_card);
 
     $("#card-title").change(ui_change_card_title);
