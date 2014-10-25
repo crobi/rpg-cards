@@ -9,6 +9,7 @@ function card_default_options() {
         page_size: "A4",
         page_rows: 3,
         page_columns: 3,
+        card_arrangement: "doublesided",
         card_size: "25x35",
         icon_inline: true
     }
@@ -137,6 +138,10 @@ function card_element_unknown(params, card_data, options) {
     return '<div>Unknown element: ' + params.join('<br />') + '</div>';
 }
 
+function card_element_empty(params, card_data, options) {
+    return '';
+}
+
 var card_element_generators = {
     subtitle: card_element_subtitle,
     property: card_element_property,
@@ -146,7 +151,8 @@ var card_element_generators = {
     text: card_element_text,
     bullet: card_element_bullet,
     fill: card_element_fill,
-    section: card_element_section
+    section: card_element_section,
+    disabled: card_element_empty
 };
 
 // ============================================================================
@@ -273,12 +279,30 @@ function card_pages_add_padding(cards, options) {
     }
 }
 
+function card_pages_interleave_cards(front_cards, back_cards, options) {
+    var result = [];
+    var i = 0;
+    while (i < front_cards.length) {
+        result.push(front_cards[i]);
+        result.push(back_cards[i]);
+        if (options.page_columns > 2) {
+            result.push(card_generate_empty(options.page_columns - 2, options));
+        }
+        ++i;
+    }
+    return result;
+}
+
 function card_pages_wrap(pages, options) {
     var size = options.page_size || "A4";
 
     var result = "";
     for (var i = 0; i < pages.length; ++i) {
-        result += '<page class="page page-preview" size="' + size + '">\n';
+        var style = "";
+        if ((options.card_arrangement == "doublesided") &&  (i % 2 == 1)) {
+            style += 'style="background-color:'+options.default_color+'"';
+        }
+        result += '<page class="page page-preview" size="' + size + '" ' + style + '>\n';
         result += pages[i].join("\n");
         result += '</page>\n';
     }
@@ -301,21 +325,31 @@ function card_pages_generate_html(card_data, options) {
         back_cards = back_cards.concat(card_repeat(back, count));
     });
 
-    // Add padding cards so that the last page is full of cards
-    front_cards = card_pages_add_padding(front_cards, options);
-    back_cards = card_pages_add_padding(back_cards, options);
+    var pages = [];
+    if (options.card_arrangement == "doublesided") {
+        // Add padding cards so that the last page is full of cards
+        front_cards = card_pages_add_padding(front_cards, options);
+        back_cards = card_pages_add_padding(back_cards, options);
 
-    // Split cards to pages
-    var front_pages = card_pages_split(front_cards, rows, cols);
-    var back_pages = card_pages_split(back_cards, rows, cols);
+        // Split cards to pages
+        var front_pages = card_pages_split(front_cards, rows, cols);
+        var back_pages = card_pages_split(back_cards, rows, cols);
 
-    // Shuffle back cards so that they line up with their corresponding front cards
-    back_pages = back_pages.map(function (page) {
-        return cards_pages_flip_left_right(page, rows, cols);
-    });
+        // Shuffle back cards so that they line up with their corresponding front cards
+        back_pages = back_pages.map(function (page) {
+            return cards_pages_flip_left_right(page, rows, cols);
+        });
 
-    // Interleave front and back pages so that we can print double-sided
-    var pages = card_pages_merge(front_pages, back_pages);
+        // Interleave front and back pages so that we can print double-sided
+        pages = card_pages_merge(front_pages, back_pages);
+    } else if (options.card_arrangement == "front_only") {
+        var cards = card_pages_add_padding(front_cards, options);
+        pages = card_pages_split(cards, rows, cols);
+    } else if (options.card_arrangement == "side_by_side") {
+        var cards = card_pages_interleave_cards(front_cards, back_cards, options);
+        cards = card_pages_add_padding(cards, options);
+        pages = card_pages_split(cards, rows, cols);
+    }
 
     // Wrap all pages in a <page> element
     return card_pages_wrap(pages, options);

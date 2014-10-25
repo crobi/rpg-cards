@@ -63,7 +63,7 @@ function ui_clear_all() {
 }
 
 function ui_load_files(evt) {
-    ui_clear_all();
+    // ui_clear_all();
 
     var files = evt.target.files;
 
@@ -77,6 +77,9 @@ function ui_load_files(evt) {
 
         reader.readAsText(f);
     }
+
+    // Reset file input
+    $("#file-load-form")[0].reset();
 }
 
 function ui_add_cards(data) {
@@ -385,6 +388,7 @@ $(document).ready(function () {
     $("#page-size").change(ui_change_option);
     $("#page-rows").change(ui_change_option);
     $("#page-columns").change(ui_change_option);
+    $("#card-arrangement").change(ui_change_option);
     $("#card-size").change(ui_change_option);
 
     $("#default-color").change(ui_change_default_color);
