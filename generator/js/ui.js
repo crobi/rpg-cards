@@ -35,6 +35,11 @@ function merge(left, right, compare) {
 
 var ui_generate_modal_shown = false;
 function ui_generate() {
+    if (card_data.length == 0) {
+        alert("Your deck is empty. Please define some cards first, or load the sample deck.");
+        return;
+    }
+
     // Generate output HTML
     var card_html = card_pages_generate_html(card_data, card_options);
 
@@ -49,7 +54,7 @@ function ui_generate() {
 
     // Send the generated HTML to the new window
     // Use a delay to give the new window time to set up a message listener
-    setTimeout(function () { tab.postMessage(card_html, '*') }, 100);
+    setTimeout(function () { tab.postMessage(card_html, '*') }, 500);
 }
 
 function ui_load_sample() {
@@ -209,6 +214,18 @@ function ui_setup_color_selector() {
             ui_set_card_color(value);
         }
     });
+    $('#foreground_color_selector').colorselector({
+        callback: function (value, color, title) {
+            $("#foreground-color").val(title);
+            ui_set_foreground_color(value);
+        }
+    });
+    $('#background_color_selector').colorselector({
+        callback: function (value, color, title) {
+            $("#background-color").val(title);
+            ui_set_background_color(value);
+        }
+    });
 
     // Styling
     $(".dropdown-colorselector").addClass("input-group-addon color-input-addon");
@@ -217,6 +234,14 @@ function ui_setup_color_selector() {
 function ui_set_default_color(color) {
     card_options.default_color = color;
     ui_render_selected_card();
+}
+
+function ui_set_foreground_color(color) {
+    card_options.foreground_color = color;
+}
+
+function ui_set_background_color(color) {
+    card_options.background_color = color;
 }
 
 function ui_change_option() {
@@ -390,6 +415,7 @@ $(document).ready(function () {
     $("#page-columns").change(ui_change_option);
     $("#card-arrangement").change(ui_change_option);
     $("#card-size").change(ui_change_option);
+    $("#background-color").change(ui_change_option);
 
     $("#default-color").change(ui_change_default_color);
     $("#default-icon").change(ui_change_default_icon);

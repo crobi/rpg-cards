@@ -3,6 +3,8 @@
 // ============================================================================
 function card_default_options() {
     return {
+        foreground_color: "white",
+        background_color: "white",
         default_color: "black",
         default_icon: "ace",
         default_title_size: "13",
@@ -11,6 +13,7 @@ function card_default_options() {
         page_columns: 3,
         card_arrangement: "doublesided",
         card_size: "25x35",
+        card_count: null,
         icon_inline: true
     }
 }
@@ -89,6 +92,25 @@ function card_element_ruler(params, card_data, options) {
     return result;
 }
 
+function card_element_boxes(params, card_data, options) {
+    var color = card_data_color_front(card_data, options);
+    var fill = ' fill="none"';
+    var stroke = ' stroke="' + color + '"';
+    var count = params[0] || 1;
+    var size = params[1] || 3;
+    var style = 'style="width:' + size + 'em;height:' + size + 'em"';
+
+    var result = "";
+    result += '<div class="card-element card-description-line">';
+    for (var i = 0; i < count; ++i) {
+        result += '<svg class="card-box" height="100" width="100" viewbox="0 0 100 100" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg" ' + style + '>';
+        result += '    <rect x="5" y="5" width="90" height="90" ' + fill + stroke + ' style="stroke-width:10">';
+        result += '</svg>';
+    }
+    result += '</div>';
+    return result;
+}
+
 function card_element_property(params, card_data, options) {
     var result = "";
     result += '<div class="card-element card-property-line">';
@@ -147,6 +169,7 @@ var card_element_generators = {
     property: card_element_property,
     rule: card_element_ruler,
     ruler: card_element_ruler,
+    boxes: card_element_boxes,
     description: card_element_description,
     text: card_element_text,
     bullet: card_element_bullet,
@@ -300,12 +323,36 @@ function card_pages_wrap(pages, options) {
     for (var i = 0; i < pages.length; ++i) {
         var style = "";
         if ((options.card_arrangement == "doublesided") &&  (i % 2 == 1)) {
-            style += 'style="background-color:'+options.default_color+'"';
+            style += 'style="background-color:' + options.background_color + '"';
+        } else {
+            style += 'style="background-color:' + options.foreground_color + '"';
         }
         result += '<page class="page page-preview" size="' + size + '" ' + style + '>\n';
         result += pages[i].join("\n");
         result += '</page>\n';
     }
+    return result;
+}
+
+function card_pages_generate_style(options) {
+    var size = "a4";
+    switch (options.page_size) {
+        case "A3": size = "A3 portrait"; break;
+        case "A4": size = "210mm 297mm"; break;
+        case "A5": size = "A5 portrait"; break;
+        case "Letter": size = "letter portrait"; break;
+        case "25x35": size = "2.5in 3.5in"; break;
+        default: size = "auto";
+    }
+
+    var result = "";
+    result += "<style>\n";
+    result += "@page {\n";
+    result += "    margin: 0;\n";
+    result += "    size:" + size + ";\n";
+    result += "    -webkit-print-color-adjust: exact;\n";
+    result += "}\n";
+    result += "</style>\n";
     return result;
 }
 
@@ -318,7 +365,7 @@ function card_pages_generate_html(card_data, options) {
     var front_cards = [];
     var back_cards = [];
     card_data.forEach(function (data) {
-        var count = data.count || 1;
+        var count = options.card_count || data.count || 1;
         var front = card_generate_front(data, options);
         var back = card_generate_back(data, options);
         front_cards = front_cards.concat(card_repeat(front, count));
@@ -351,8 +398,12 @@ function card_pages_generate_html(card_data, options) {
         pages = card_pages_split(cards, rows, cols);
     }
 
-    // Wrap all pages in a <page> element
-    return card_pages_wrap(pages, options);
+    // Wrap all pages in a <page> element and add CSS for the page size
+    var result = "";
+    result += card_pages_generate_style(options);
+    result += card_pages_wrap(pages, options);
+
+    return result;
 }
 
 function card_pages_insert_into(card_data, container) {

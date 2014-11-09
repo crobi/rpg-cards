@@ -26,7 +26,7 @@
     background-color: white;
     border-radius: 4mm;
     border-color: inherit;
-    margin: 1mm;
+    margin: 3mm;
     flex: 1;
     display: flex;
 }
@@ -191,6 +191,13 @@
     height: 1.0mm;
     margin-top: 0.3em;
     margin-bottom: 0.3em;
+}
+
+.card-box {
+    display: inline;
+    height: 10mm;
+    width: 10mm;
+    margin-right: 0.3em;
 }
 
 .card-bullet-line {
