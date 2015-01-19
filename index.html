@@ -75,7 +75,7 @@
 }
 </code></pre>
 
-          <h3>
+<h3>
     <a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>
     Live demo
 </h3>
@@ -103,7 +103,6 @@ This is not a complete documentation, but some information that should help you 
         <li>
             <code>color</code>
             Name of the card color. You can use all <a href="http://www.w3schools.com/cssref/css_colornames.asp">CSS color names</a>.
-            Additional custom colors are defined in <code>css/custom-colors.css</code>.
         </li>
         <li>
             <code>icon</code>
@@ -135,7 +134,7 @@ This is not a complete documentation, but some information that should help you 
 
 <p>
     Each card element is a string of the following format:
-    <pre>"element | param1 | param2"</pre><br />
+    <pre>"element | param1 | param2 | ..."</pre><br />
 
     The following elements are available:
 
@@ -167,7 +166,23 @@ This is not a complete documentation, but some information that should help you 
         <li>
             <code>subsection</code>
             A subsection header, with a horizontal rule below the subsection name.
-            Param1: the subsection name
+            Param1: the subsection name.
+        </li>
+        <li>
+            <code>boxes</code>
+            A line full of empty boxes. Useful for items with charges and actions with limited use.
+            Param1: number of boxes.
+            Param2: size of a box (where 1.0 is the size of the letter 'e').
+        </li>
+        <li>
+            <code>dndstats</code>
+            A Dungeons&Dragons stat block.
+            Param1: Strength score.
+            Param2: Dexterity score.
+            Param3: Constitution score.
+            Param4: Intelligence score.
+            Param5: Wisdom score.
+            Param6: Charisma score.
         </li>
         <li>
             <code>fill</code>
