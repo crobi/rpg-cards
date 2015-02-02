@@ -22,8 +22,36 @@ function card_default_data() {
     return {
         count: 1,
         title: "New card",
-        contents: []
+        contents: [],
+        tags: []
     }
+}
+
+function card_init(card) {
+    card.title = card.title || "";
+    card.contents = card.contents || [];
+    card.tags = card.tags || [];
+}
+
+function card_has_tag(card, tag) {
+    tag = tag.trim().toLowerCase();
+    var index = card.tags.indexOf(tag);
+    return index > -1;
+}
+
+function card_add_tag(card, tag) {
+    tag = tag.trim().toLowerCase();
+    var index = card.tags.indexOf(tag);
+    if (index == -1) {
+        card.tags.push(tag);
+    }
+}
+
+function card_remove_tag(card, tag) {
+    tag = tag.trim().toLowerCase();
+    card.tags = card.tags.filter(function (t) {
+        return tag != t;
+    });
 }
 
 // ============================================================================
