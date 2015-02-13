@@ -64,7 +64,7 @@
                 if (value > 16) value = 16;
                 if (value < 10) value = 10;
                 var root = this.shadowRoot;
-                root.querySelector("#title").className = "title-" + value;
+                root.getElementById("title").className = "title-" + value;
             }
         });
         proto.createdCallback = function () {
@@ -75,9 +75,9 @@
 
             this.size = this.getAttribute('size') || 13;
         }
-        proto.attributeChangedCallback = function (name, value) {
+        proto.attributeChangedCallback = function (name, oldValue, newValue) {
             switch (name) {
-                case "size": this.size = value;
+                case "size": this.size = newValue;
             }
         }
 

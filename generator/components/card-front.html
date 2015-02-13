@@ -69,36 +69,39 @@
 </template>
 
 <script>
-(function(window, document) {
-  var elemName = 'card-front';
-  var thatDoc = document;
-  var thisDoc = (thatDoc.currentScript || thatDoc._currentScript).ownerDocument;
-  var proto = Object.create(HTMLElement.prototype, {
-    createdCallback: {
-      value: function() {
-        var template = thisDoc.getElementById(elemName);
-        var clone = thatDoc.importNode(template.content, true);
-        this.createShadowRoot().appendChild(clone);
-      }
-    },
-    attachedCallback: {
-        value: function () {
-            var root = this.shadowRoot;
-            var color = "black";
-            for (var i = 0; i < this.attributes.length; i++) {
-                var attribute = this.attributes[i];
-                switch (attribute.name) {
-                    case "color": color = attribute.value;
-                }
-            }
+    (function (window, document) {
+        var elemName = 'card-front';
+        var mainDoc = document;
+        var importDoc = document.currentScript.ownerDocument;
 
-            var cardStyle = root.getElementById("card").style;
-            cardStyle.color = color;
-            cardStyle.backgroundColor = color;
-            cardStyle.borderColor = color;
+        var proto = Object.create(HTMLElement.prototype);
+        Object.defineProperty(proto, "color", {
+            get: function () {
+                return "";
+            },
+            set: function (value) {
+                var root = this.shadowRoot;
+                var style = root.getElementById("card").style;
+                style.color = value;
+                style.backgroundColor = value;
+                style.borderColor = value;
+            }
+        });
+        proto.createdCallback = function () {
+            var template = importDoc.getElementById(elemName);
+            var clone = mainDoc.importNode(template.content, true);
+            var root = this.createShadowRoot();
+            root.appendChild(clone);
+
+            this.color = this.getAttribute('color') || "black";
         }
-    }
-  });
-  thatDoc.registerElement(elemName, {prototype: proto});
-})(window, document);
+        proto.attributeChangedCallback = function (name, oldValue, newValue) {
+            switch (name) {
+                case "color": this.color = newValue;
+            }
+        }
+
+        mainDoc.registerElement(elemName, { prototype: proto });
+
+    })(window, document);
 </script>
