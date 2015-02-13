@@ -1,0 +1,87 @@
+<link href='http://fonts.googleapis.com/css?family=Lora:700' rel='stylesheet' type='text/css'>
+
+<template id="card-title">
+    <style>
+
+        #title {
+            height: 8mm;
+            padding-left: 2mm;
+            font-family: Lora, 'Calisto MT', 'Bookman Old Style', Bookman, 'Goudy Old Style', Garamond, 'Hoefler Text', 'Bitstream Charter', Georgia, serif;
+            font-variant: small-caps;
+            font-weight: bold;
+            background-color: inherit;
+            color: white;
+        }
+
+        .title-16 {
+            font-size: 16pt;
+            line-height: 6.5mm;
+        }
+        .title-15 {
+            font-size: 15pt;
+            line-height: 6.5mm;
+        }
+        .title-14 {
+            font-size: 14pt;
+            line-height: 6.5mm;
+        }
+        .title-13 {
+            font-size: 13pt;
+            line-height: 7mm;
+        }
+        .title-12 {
+            font-size: 12pt;
+            line-height: 7mm;
+        }
+        .title-11 {
+            font-size: 11pt;
+            line-height: 7.5mm;
+        }
+        .title-10 {
+            font-size: 10pt;
+            line-height: 7.5mm;
+        }
+    </style>
+
+    <div id="title">
+        <content></content>
+    </div>
+
+</template>
+
+<script>
+    (function(window, document) {
+        var elemName = 'card-title';
+        var mainDoc = document;
+        var importDoc = document.currentScript.ownerDocument;
+
+        var proto = Object.create(HTMLElement.prototype);
+        Object.defineProperty(proto, "size", {
+            get: function() { 
+                return "";
+            },
+            set: function (value) {
+                if (value > 16) value = 16;
+                if (value < 10) value = 10;
+                var root = this.shadowRoot;
+                root.querySelector("#title").className = "title-" + value;
+            }
+        });
+        proto.createdCallback = function () {
+            var template = importDoc.getElementById(elemName);
+            var clone = mainDoc.importNode(template.content, true);
+            var root = this.createShadowRoot();
+            root.appendChild(clone);
+
+            this.size = this.getAttribute('size') || 13;
+        }
+        proto.attributeChangedCallback = function (name, value) {
+            switch (name) {
+                case "size": this.size = value;
+            }
+        }
+
+        mainDoc.registerElement(elemName, { prototype: proto });
+
+    })(window, document);
+</script>
