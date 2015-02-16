@@ -19,9 +19,14 @@
             font-size: 8pt;
         }
 
-        ::content > card-title {
+        ::content > card-title:first-child {
             margin-top: -3px;
             margin-bottom: 3px;
+        }
+
+        ::content > card-title:last-child {
+            margin-top: 3px;
+            margin-bottom: -3px;
         }
     </style>
 

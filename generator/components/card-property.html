@@ -1,7 +1,7 @@
 
 <template id="card-property">
     <style>
-        div {
+        :host {
             /* Indenting everything EXCEPT the first line. */
             text-indent: -1em;
             margin-left: 1em;
@@ -23,9 +23,8 @@
         }
     </style>
 
-    <div>
-        <content></content>
-    </div>
+    <content></content>
+
 </template>
 
 <script>
