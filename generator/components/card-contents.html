@@ -1,0 +1,38 @@
+<template id="card-contents">
+    <style>
+
+        :host {
+            padding: 6px;
+            border-radius: 6px;
+            background-color: white;
+            border-color: inherit;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            font-size: inherit;
+        }
+
+    </style>
+
+    <content></content>
+
+</template>
+
+<script>
+    (function (window, document) {
+        var elemName = 'card-contents';
+        var mainDoc = document;
+        var importDoc = document.currentScript.ownerDocument;
+
+        var proto = Object.create(HTMLElement.prototype);
+        proto.createdCallback = function () {
+            var template = importDoc.getElementById(elemName);
+            var clone = mainDoc.importNode(template.content, true);
+            var root = this.createShadowRoot();
+            root.appendChild(clone);
+        }
+
+        mainDoc.registerElement(elemName, { prototype: proto });
+
+    })(window, document);
+</script>

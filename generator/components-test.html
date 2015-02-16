@@ -2,16 +2,24 @@
 <html lang="en">
 <head>
     <title>RPG cards</title>
+    <!-- Library: jQuery -->
+    <script type="text/javascript" src="lib/svg-injector/svg-injector.js" charset="utf-8"></script>
     <!-- CSS -->
     <link rel=" stylesheet" type="text/css" href="css/output.css">
     <link rel="stylesheet" type="text/css" href="css/card-size.css">
     <!-- Components -->
     <link rel="import" href="components/card-front.html">
     <link rel="import" href="components/card-title.html">
+    <link rel="import" href="components/card-icon.html">
+    <link rel="import" href="components/card-contents.html">
 </head>
 <body class="page-background">
-    <card-front class="card-size-25x35" color="blue">
-        <card-title size="13">Burning Hands</card-title>
+    <card-front class="card-size-25x35" color="maroon">
+        <card-title>
+            <h1>Burning Hands</h1>
+            <h2>1</h2>
+            <card-icon src="/icons/lorc/originals/svg/book-cover.svg"></card-icon>
+        </card-title>
         <card-contents>
             <card-subtitle>Mage spell</card-subtitle>
             <card-ruler></card-ruler>

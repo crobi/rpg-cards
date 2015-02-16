@@ -1,0 +1,92 @@
+<template id="card-icon">
+    <style>
+        #icon-container {
+            height: 100%;
+        }
+
+        svg {
+            height: 100%;
+        }
+
+        svg path {
+            fill: rgb(255, 255, 255);
+        }
+    </style>
+
+    <div id="icon-container">
+
+    </div>
+
+</template>
+
+<script>
+    (function(window, document) {
+        var elemName = 'card-icon';
+        var mainDoc = document;
+        var importDoc = document.currentScript.ownerDocument;
+
+        var proto = Object.create(HTMLElement.prototype);
+        proto.loadSvg = function (src, callback) {
+            var isLocal = window.location.protocol === 'file:';
+            var httpRequest = new XMLHttpRequest();
+
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState === 4) {
+
+                    if (httpRequest.status === 404 || httpRequest.responseXML === null) {
+                        throw new Error("Error loading SVG");
+                    }
+
+                    if (httpRequest.status === 200 || (isLocal && httpRequest.status === 0)) {
+                        if (httpRequest.responseXML instanceof Document) {
+                            callback(httpRequest.responseXML.children[0]);
+                        }
+                    }
+                }
+            }
+
+            httpRequest.open('GET', src);
+            if (httpRequest.overrideMimeType) httpRequest.overrideMimeType('text/xml');
+            httpRequest.send();
+        }
+        Object.defineProperty(proto, "src", {
+            get: function() { 
+                return "";
+            },
+            set: function (value) {
+                this.setAttribute('src', value);
+
+                var root = this.shadowRoot;
+                var container = root.getElementById("icon-container");
+                while (container.firstChild) {
+                    container.removeChild(container.firstChild);
+                }
+                this.loadSvg(value, function (svg) {
+                    container.appendChild(svg);
+
+                    // game-icons.net specific modifications
+                    var firstPath = root.querySelector("svg path");
+                    svg.removeChild(firstPath);
+                    var secondPath = root.querySelector("svg path");
+                    secondPath.style.fill = "";
+                });
+            }
+        });
+        proto.createdCallback = function () {
+            var template = importDoc.getElementById(elemName);
+            var clone = mainDoc.importNode(template.content, true);
+            var root = this.createShadowRoot();
+            root.appendChild(clone);
+
+            this.src = this.getAttribute('src') || "";
+        }
+        proto.attributeChangedCallback = function (name, oldValue, newValue) {
+            switch (name) {
+                case "src": this.src = newValue;
+            }
+        }
+
+        mainDoc.registerElement(elemName, { prototype: proto });
+
+    })(window, document);
+</script>
