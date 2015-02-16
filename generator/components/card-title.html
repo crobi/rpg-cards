@@ -55,10 +55,6 @@
             var root = this.createShadowRoot();
             root.appendChild(clone);
         }
-        proto.attributeChangedCallback = function (name, oldValue, newValue) {
-            switch (name) {
-            }
-        }
 
         mainDoc.registerElement(elemName, { prototype: proto });
 
