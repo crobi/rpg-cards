@@ -1,0 +1,50 @@
+
+<template id="card-property">
+    <style>
+        div {
+            /* Indenting everything EXCEPT the first line. */
+            text-indent: -1em;
+            margin-left: 1em;
+            font-size: inherit;
+        }
+
+        ::content > * {
+            display: inline;
+            font-size: inherit;
+            color: black;
+        }
+
+        ::content > h4 {
+            font-weight: bold;
+        }
+
+        ::content > h4 + p {
+            margin-left: 0.4em;
+        }
+    </style>
+
+    <div>
+        <content></content>
+    </div>
+</template>
+
+<script>
+    (function (window, document) {
+        var elemName = 'card-property';
+        var mainDoc = document;
+        var importDoc = document.currentScript.ownerDocument;
+
+        var proto = Object.create(HTMLElement.prototype);
+        proto.createdCallback = function () {
+            var template = importDoc.getElementById(elemName);
+            var clone = mainDoc.importNode(template.content, true);
+            var root = this.createShadowRoot();
+            root.appendChild(clone);
+        }
+
+        mainDoc.registerElement(elemName, { prototype: proto });
+
+    })(window, document);
+</script>
+
+
