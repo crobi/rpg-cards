@@ -16,7 +16,6 @@
 
         ::content > h1 {
             flex: 1;
-            font-size: 13pt;
             font-family: inherit;
             display: block;
             margin: 0;
@@ -28,12 +27,17 @@
             font-family: inherit;
             display: block;
             margin: 0;
+            margin-right: 2px;
         }
 
         ::content > card-icon {
-            height: 100%;
+            height: 28px;
         }
 
+    </style>
+
+    <style id="font-size">
+        ::content > h1 {font-size: 13pt;}
     </style>
 
     <content></content>
@@ -47,11 +51,28 @@
         var importDoc = document.currentScript.ownerDocument;
 
         var proto = Object.create(HTMLElement.prototype);
+        Object.defineProperty(proto, "size", {
+            get: function () {
+                return "";
+            },
+            set: function (value) {
+                var root = this.shadowRoot;
+                var style = root.getElementById("font-size");
+                style.innerHTML = "::content > h1 {font-size: " + value + "pt;}";
+            }
+        });
         proto.createdCallback = function () {
             var template = importDoc.getElementById(elemName);
             var clone = mainDoc.importNode(template.content, true);
             var root = this.createShadowRoot();
             root.appendChild(clone);
+
+            this.size = this.getAttribute('size') || "13";
+        }
+        proto.attributeChangedCallback = function (name, oldValue, newValue) {
+            switch (name) {
+                case "size": this.size = newValue;
+            }
         }
 
         mainDoc.registerElement(elemName, { prototype: proto });
