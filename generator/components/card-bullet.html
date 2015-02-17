@@ -1,43 +1,45 @@
 
-<template id="card-property">
+<template id="card-bullet">
     <style>
         :host {
-            /* Indenting everything EXCEPT the first line. */
-            text-indent: -1em;
-            margin-left: 1em;
-            font-size: inherit;
+
         }
 
-        ::content > * {
-            display: inline;
-            font-size: inherit;
-        }
-
-        ::content > p {
+        ul {
             color: black;
+            font-size: inherit;
+            color: black;
+            padding: 0;
+            padding-left: 0px;
+            margin: 0;
         }
 
-        ::content > h4 {
-            font-weight: bold;
-            color: inherit;
+        li {
+            margin-bottom: 0;
+            margin-top: 0;
+            font-size: inherit;
+            list-style-position: inside;
         }
 
-        ::content > h4 + p {
-            margin-left: 0.4em;
+        ::content {
+
         }
     </style>
 
-    <content></content>
-
+    <ul>
+        <li>
+            <content></content>
+        </li>
+    </ul>
 </template>
 
 <script>
     (function (window, document) {
-        var elemName = 'card-property';
+        var elemName = 'card-bullet';
         var mainDoc = document;
         var importDoc = document.currentScript.ownerDocument;
 
-        var proto = Object.create(HTMLElement.prototype);
+        var proto = Object.create(HTMLUListElement.prototype);
         proto.createdCallback = function () {
             var template = importDoc.getElementById(elemName);
             var clone = mainDoc.importNode(template.content, true);
