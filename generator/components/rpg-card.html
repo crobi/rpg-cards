@@ -3,9 +3,6 @@
 <template id="rpg-card">
     <style type='text/css'>
         :host {
-            /* Fill the whole area of the shadow root */
-            width: 100%;
-            height: 100%;
             /* Border */
             padding: 6px;
             border-radius: 4px;
@@ -31,6 +28,10 @@
     </style>
 
     <style type='text/css' id="color-style">
+    </style>
+
+    <style type='text/css' id="card-size">
+        :host{width: 2.5in;height: 3.5in;}
     </style>
 
     <content></content>
@@ -72,6 +73,24 @@
                 ";
             }
         });
+        Object.defineProperty(proto, "size", {
+            get: function () {
+                return "";
+            },
+            set: function (value) {
+                var root = this.shadowRoot;
+                var style = root.getElementById("card-size");
+                switch (value) {
+                    case "full": style.innerHTML = ":host{width:100%;height:100%;}"; break;
+                    case "25x35": style.innerHTML = ":host{width: 2.5in;height: 3.5in;}"; break;
+                    case "225x35": style.innerHTML = ":host{width: 2.25in;height: 3.5in;}"; break;
+                    case "25x50": style.innerHTML = ":host{width: 2.5in;height: 5.0in;}"; break;
+                    case "35x50": style.innerHTML = ":host{width: 3.5in;height: 5.0in;}"; break;
+                    case "75x50": style.innerHTML = ":host{width: 7.5in;height: 5.0in;}"; break;
+                }
+                
+            }
+        });
         proto.createdCallback = function () {
             var template = importDoc.getElementById(elemName);
             var clone = mainDoc.importNode(template.content, true);
@@ -79,10 +98,12 @@
             root.appendChild(clone);
 
             this.color = this.getAttribute('color') || "black";
+            this.size = this.getAttribute('size') || "25x35";
         }
         proto.attributeChangedCallback = function (name, oldValue, newValue) {
             switch (name) {
                 case "color": this.color = newValue; break;
+                case "size": this.size = newValue; break;
             }
         }
 

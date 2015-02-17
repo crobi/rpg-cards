@@ -153,7 +153,7 @@ function card_element_dndstats(params, card_data, options) {
     result += ' int="' + (parseInt(params[3], 10) || "") + '"';
     result += ' wis="' + (parseInt(params[4], 10) || "") + '"';
     result += ' cha="' + (parseInt(params[5], 10) || "") + '"';
-    result += '><card-dndstats>';
+    result += '></card-dndstats>';
     return result;
 }
 
@@ -230,7 +230,7 @@ function card_generate_front(data, options) {
     var color = card_data_color_front(data, options);
 
     var result = "";
-    result += '<rpg-card color="' + color + '" class="card-size-' + options.card_size + '">';
+    result += '<rpg-card color="' + color + '" size="' + options.card_size + '">';
     result += card_element_title(data, options);
     result += card_generate_contents(data.contents, data, options);
     result += '</rpg-card>';
@@ -242,7 +242,7 @@ function card_generate_back(data, options) {
     var icon = card_data_icon_back(data, options) + ".svg";
 
     var result = "";
-    result += '<rpg-card color="' + color + '">';
+    result += '<rpg-card color="' + color + '" size="' + options.card_size + '">';
     result += '   <card-back>';
     result += '       <card-icon src="/icons/' + icon + '"></card-icon>';
     result += '   </card-back>';
@@ -254,7 +254,7 @@ function card_generate_empty(count, options) {
     var style_color = card_generate_color_style("white");
 
     var result = "";
-    result += '<rpg-card color="' + color + '">';
+    result += '<rpg-card color="' + color + '" size="' + options.card_size + '">';
     result += '</rpg-card>';
     return card_repeat(result, count);
 }
