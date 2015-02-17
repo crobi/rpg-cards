@@ -70,6 +70,9 @@
                 ::content card-rule /deep/ svg {\
                     fill: " + value + ";\
                 }\
+                ::content card-boxes /deep/ svg rect {\
+                    stroke: " + value + ";\
+                }\
                 ";
             }
         });
@@ -83,7 +86,7 @@
         }
         proto.attributeChangedCallback = function (name, oldValue, newValue) {
             switch (name) {
-                case "color": this.color = newValue;
+                case "color": this.color = newValue; break;
             }
         }
 
