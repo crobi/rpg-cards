@@ -1,0 +1,12 @@
+{
+  "repository": "https://github.com/crobi/rpg-cards",
+  "name": "rpg-cards",
+  "version": "0.0.0",
+  "description": "",
+  "author": "crobi",
+  "dependencies": {
+    "mv": "*",
+    "walk": "*"
+  },
+  "license": "MIT"
+}
