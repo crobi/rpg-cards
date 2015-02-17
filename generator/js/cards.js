@@ -84,145 +84,97 @@ function card_data_split_params(value) {
 
 function card_element_title(card_data, options) {
     var title = card_data.title || "";
-    var title_size = card_data.title_size || options.default_title_size || 'normal';
+    var title_size = card_data.title_size || options.default_title_size || '13';
+    var icon = card_data_icon_front(card_data, options) + ".svg";
+
+    var result = "";
+    result += '<card-title size="' + title_size + '">';
+    result += '   <h1>' + title + '</h1>';
+    result += '   <h2>' + "" + '</h2>';
+    result += '   <card-icon src="/icons/' + icon + '"></card-icon>';
+    result += '</card-title>';
+    return result;
+
     return '<div class="card-title card-title-' + title_size + '">' + title + '</div>';
 }
 
-function card_element_icon(card_data, options) {
-    var icon = card_data_icon_front(card_data, options);
-    var classname = "icon";
-    if (options.icon_inline) {
-        classname = "inlineicon";
-    }
-
-    var result = "";
-    result += '<div class="card-title-' + classname + '-container">';
-    result += '    <div class="card-title-' + classname + ' icon-' + icon + '">';
-    result += '    </div>';
-    result += '</div>';
-    return result;
-}
-
 function card_element_subtitle(params, card_data, options) {
-    var subtitle = params[0] || "";
-    return '<div class="card-element card-subtitle">' + subtitle + '</div>';
+    var text = params[0] || "";
+    return '<card-subtitle>' + text + '</card-subtitle>';
 }
 
 function card_element_ruler(params, card_data, options) {
-    var color = card_data_color_front(card_data, options);
-    var fill = 'fill="' + color + '"';
-    var stroke = 'stroke="' + color + '"';
-
-    var result = "";
-    result += '<svg class="card-ruler" height="1" width="100" viewbox="0 0 100 1" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">';
-    result += '    <polyline points="0,0 100,0.5 0,1" ' + fill + '></polyline>';
-    result += '</svg>';
-    return result;
+    return '<card-rule></card-rule>';
 }
 
 function card_element_boxes(params, card_data, options) {
-    var color = card_data_color_front(card_data, options);
-    var fill = ' fill="none"';
-    var stroke = ' stroke="' + color + '"';
     var count = params[0] || 1;
     var size = params[1] || 3;
-    var style = 'style="width:' + size + 'em;height:' + size + 'em"';
-
-    var result = "";
-    result += '<div class="card-element card-description-line">';
-    for (var i = 0; i < count; ++i) {
-        result += '<svg class="card-box" height="100" width="100" viewbox="0 0 100 100" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg" ' + style + '>';
-        result += '    <rect x="5" y="5" width="90" height="90" ' + fill + stroke + ' style="stroke-width:10">';
-        result += '</svg>';
-    }
-    result += '</div>';
-    return result;
+    return '<card-boxes size="' + size + '" count="' + count + '"></card-boxes>';
 }
 
 function card_element_property(params, card_data, options) {
+    var header = params[0] || "";
+    var text = params[1] || "";
     var result = "";
-    result += '<div class="card-element card-property-line">';
-    result += '   <h4 class="card-property-name">' + params[0] + '</h4>';
-    result += '   <p class="card-p card-property-text">' + params[1] + '</p>';
-    result += '</div>';
+    result += '<card-property>';
+    result += '   <h4>' + header + '</h4>';
+    result += '   <p>' + text + '</p>';
+    result += '</card-property>';
     return result;
 }
 
 function card_element_description(params, card_data, options) {
+    var header = params[0] || "";
+    var text = params[1] || "";
     var result = "";
-    result += '<div class="card-element card-description-line">';
-    result += '   <h4 class="card-description-name">' + params[0] + '</h4>';
-    result += '   <p class="card-p card-description-text">' + params[1] + '</p>';
-    result += '</div>';
+    result += '<card-description>';
+    result += '   <h4>' + header + '</h4>';
+    result += '   <p>' + text + '</p>';
+    result += '</card-description>';
     return result;
 }
 
 function card_element_text(params, card_data, options) {
+    var text = params[0] || "";
     var result = "";
-    result += '<div class="card-element card-description-line">';
-    result += '   <p class="card-p card-description-text">' + params[0] + '</p>';
-    result += '</div>';
+    result += '<card-description>';
+    result += '   <p>' + text + '</p>';
+    result += '</card-description>';
     return result;
 }
 
 function card_element_dndstats(params, card_data, options) {
-    var stats = [10, 10, 10, 10, 10, 10];
-    var mods = [0,0,0,0,0,0];
-    for (var i = 0; i < 6; ++i) {
-        stats[i] = parseInt(params[i], 10) || 0;
-        var mod = Math.floor(((stats[i] - 10) / 2));
-        if (mod >= 0) {
-            mod = "+" + mod;
-        } else {
-            mod = "" + mod;
-        }
-        mods[i] = "&nbsp;(" + mod + ")";
-    }
-
     var result = "";
-    result += '<table class="card-stats">';
-    result += '    <tbody><tr>';
-    result += '      <th class="card-stats-header">STR</th>';
-    result += '      <th class="card-stats-header">DEX</th>';
-    result += '      <th class="card-stats-header">CON</th>';
-    result += '      <th class="card-stats-header">INT</th>';
-    result += '      <th class="card-stats-header">WIS</th>';
-    result += '      <th class="card-stats-header">CHA</th>';
-    result += '    </tr>';
-    result += '    <tr>';
-    result += '      <td class="card-stats-cell">' + stats[0] + mods[0] + '</td>';
-    result += '      <td class="card-stats-cell">' + stats[1] + mods[1] + '</td>';
-    result += '      <td class="card-stats-cell">' + stats[2] + mods[2] + '</td>';
-    result += '      <td class="card-stats-cell">' + stats[3] + mods[3] + '</td>';
-    result += '      <td class="card-stats-cell">' + stats[4] + mods[4] + '</td>';
-    result += '      <td class="card-stats-cell">' + stats[5] + mods[5] + '</td>';
-    result += '    </tr>';
-    result += '  </tbody>';
-    result += '</table>';
+    result += '<card-dndstats';
+    result += ' str="' + (parseInt(params[0], 10) || "") + '"';
+    result += ' dex="' + (parseInt(params[1], 10) || "") + '"';
+    result += ' con="' + (parseInt(params[2], 10) || "") + '"';
+    result += ' int="' + (parseInt(params[3], 10) || "") + '"';
+    result += ' wis="' + (parseInt(params[4], 10) || "") + '"';
+    result += ' cha="' + (parseInt(params[5], 10) || "") + '"';
+    result += '><card-dndstats>';
     return result;
 }
 
 function card_element_bullet(params, card_data, options) {
-    var result = "";
-    result += '<ul class="card-element card-bullet-line">';
-    result += '   <li class="card-bullet">' + params[0] + '</li>';
-    result += '</ul>';
-    return result;
+    var text = params[0] || "";
+    return '<card-bullet>' + text + '</card-bullet>';
 }
 
 function card_element_section(params, card_data, options) {
-    var color = card_data_color_front(card_data, options);
-    var section = params[0] || "";
-    return '<h3 class="card-section" style="color:' + color + '">' + section + '</h3>';
+    var text = params[0] || "";
+    return '<card-section>' + text + '</card-section>';
 }
 
 function card_element_fill(params, card_data, options) {
-    var flex = params[0] || "1";
-    return '<span class="card-fill" style="flex:' + flex + '"></span>';
+    var size = params[0] || "1";
+    return '<card-fill size="' + size + '"></card-fill>';
 }
 
 function card_element_unknown(params, card_data, options) {
-    return '<div>Unknown element: ' + params.join('<br />') + '</div>';
+    var text = params.join('|');
+    return '<card-description><p>' + text + '</p></card-description>';
 }
 
 function card_element_empty(params, card_data, options) {
@@ -250,7 +202,7 @@ var card_element_generators = {
 
 function card_generate_contents(contents, card_data, options) {
     var result = "";
-    result += '<div class="card-content-container">';
+    result += '<card-contents>';
     result += contents.map(function (value) {
         var parts = card_data_split_params(value);
         var element_name = parts[0];
@@ -262,7 +214,7 @@ function card_generate_contents(contents, card_data, options) {
             return card_element_unknown(element_params, card_data, options);
         }
     }).join("\n");
-    result += '</div>';
+    result += '</card-contents>';
     return result;
 }
 
@@ -274,43 +226,27 @@ function card_repeat(card, count) {
     return result;
 }
 
-function card_generate_color_style(color, options) {
-    return 'style="color:' + color + '; border-color:' + color + '; background-color:' + color + '"';
-}
-
-function card_generate_color_gradient_style(color, options) {
-    return 'style="background: radial-gradient(ellipse at center, white 20%, ' + color + ' 120%)"';
-}
-
 function card_generate_front(data, options) {
     var color = card_data_color_front(data, options);
-    var style_color = card_generate_color_style(color, options);
 
     var result = "";
-    result += '<div class="card card-size-' + options.card_size + '" ' + style_color + '>';
-    result += card_element_icon(data, options);
+    result += '<rpg-card color="' + color + '" class="card-size-' + options.card_size + '">';
     result += card_element_title(data, options);
     result += card_generate_contents(data.contents, data, options);
-    result += '</div>';
-
+    result += '</rpg-card>';
     return result;
 }
 
 function card_generate_back(data, options) {
     var color = card_data_color_back(data, options)
-    var style_color = card_generate_color_style(color, options);
-    var style_gradient = card_generate_color_gradient_style(color, options);
-    var icon = card_data_icon_back(data, options);
+    var icon = card_data_icon_back(data, options) + ".svg";
 
     var result = "";
-    result += '<div class="card card-size-' + options.card_size + '" ' + style_color + '>';
-    result += '  <div class="card-back" ' + style_gradient + '>';
-    result += '    <div class="card-back-inner">';
-    result += '      <div class="card-back-icon icon-' + icon + '" ' + style_color + '></div>';
-    result += '    </div>';
-    result += '  </div>';
-    result += '</div>';
-
+    result += '<rpg-card color="' + color + '">';
+    result += '   <card-back>';
+    result += '       <card-icon src="/icons/' + icon + '"></card-icon>';
+    result += '   </card-back>';
+    result += '</rpg-card>';
     return result;
 }
 
@@ -318,9 +254,8 @@ function card_generate_empty(count, options) {
     var style_color = card_generate_color_style("white");
 
     var result = "";
-    result += '<div class="card card-size-' + options.card_size + '" ' + style_color + '>';
-    result += '</div>';
-
+    result += '<rpg-card color="' + color + '">';
+    result += '</rpg-card>';
     return card_repeat(result, count);
 }
 
