@@ -1,4 +1,4 @@
-module rpgcards {
+module RpgCards {
 
     function normalizeTag(tag: string): string {
         return tag.trim().toLowerCase();
@@ -53,6 +53,8 @@ module rpgcards {
         contents: string[];
         tags: string[];
 
+        userData: any;
+
         constructor() {
             this.count = 1;
             this.title = "New card";
@@ -65,6 +67,7 @@ module rpgcards {
             this.icon_back = null;
             this.contents = [];
             this.tags = [];
+            this.userData = null;
         }
 
         static fromJSON(json: any): Card {
@@ -100,7 +103,9 @@ module rpgcards {
         }
 
         public duplicate(): Card {
-            return Card.fromJSON(this.toJSON());
+            var result = Card.fromJSON(this.toJSON());
+            result.title += " (Copy)";
+            return result;
         }
 
         public hasTag(tag: string): boolean {
@@ -140,6 +145,79 @@ module rpgcards {
             return this.icon_back || this.icon || options.default_icon || "ace";
         }
     };
+
+    interface CardAction {
+        fn: string;
+        card: Card;
+        ref: Card;
+    }
+
+    export class CardDeck {
+        cards: Card[];
+        private _actions: CardAction[];
+
+        constructor() {
+            this.cards = [];
+            this._actions = [];
+        }
+
+        public toJSON(): any {
+            return this.cards.map((card) => card.toJSON());
+        }
+
+        public static fromJSON(data: any): CardDeck {
+            if (Array.isArray(data)) {
+                var result = new CardDeck;
+                for (var i = 0; i < data.length; ++i) {
+                    result.cards.push(Card.fromJSON(data[i]));
+                }
+                return result;
+            } else {
+                throw new Error("Invalid data");
+            }
+        }
+
+        public addCards(cards: Card[]): void {
+            cards.forEach((card) => {
+                this._actions.push({fn:"add", card: card, ref: null});
+            });
+        }
+
+        public addNewCard(): Card {
+            var newCard = new Card();
+            this._actions.push({ fn: "add", card: newCard, ref: null });
+            return newCard;
+        }
+
+        public duplicateCard(card: Card): Card {
+            var newCard = card.duplicate();
+            this._actions.push({ fn: "add", card: new Card(), ref: card });
+            return newCard;
+        }
+
+        public deleteCard(card: Card): void {
+            this._actions.push({ fn: "del", card: card, ref: null });
+        }
+
+        public commit() {
+            for (var i = 0; i < this._actions.length; ++i) {
+                var action = this._actions[i];
+                if (action.fn === "add") {
+                    var index = this.cards.indexOf(action.ref);
+                    if (index > -1) {
+                        this.cards.splice(index + 1, 0, action.card);
+                    } else {
+                        this.cards.push(action.card);
+                    }
+                } else if (action.fn === "del") {
+                    var index = this.cards.indexOf(action.card);
+                    if (index > -1) {
+                        this.cards.splice(index, 1);
+                    }
+                }
+            }
+        }
+    }
 
     type ContentGeneratorFunction = (params: string[], card: Card, options: Options, ind: string, ind0: string) => string;
     type CardGeneratorFunction = (card: Card, options: Options, ind: string, ind0: string) => string;
@@ -238,7 +316,7 @@ module rpgcards {
         private  _contents(contents: string[], card: Card, options: Options, ind: string, ind0: string): string {
             var result = "";
             result += ind + '<card-contents>\n';
-            result += contents.map(function (value) {
+            result += contents.map((value) => {
                 var parts = splitParams(value);
                 var name = parts[0];
                 var params = parts.splice(1);
@@ -452,7 +530,7 @@ module rpgcards {
             Adds new pages if necessary.
         */
         public addCards(card: T, count: number): void {
-            for (let i = 0; i < count; ++i) {
+            for (var i = 0; i < count; ++i) {
                 this.addCard(card);
             }
         }
@@ -508,7 +586,7 @@ module rpgcards {
             var empty = generator.card_empty(options, this.indent);
 
             // Fill pages with cards
-            for (let i = 0; i < cards.length; ++i) {
+            for (var i = 0; i < cards.length; ++i) {
                 var card = cards[i];
                 var front = generator.card_front(card, options, this.indent);
                 var back = generator.card_back(card, options, this.indent);
@@ -532,7 +610,7 @@ module rpgcards {
             var empty = generator.card_empty(options, this.indent);
 
             // Fill pages with cards
-            for (let i = 0; i < cards.length; ++i) {
+            for (var i = 0; i < cards.length; ++i) {
                 var card = cards[i];
                 var front = generator.card_front(card, options, this.indent);
                 pages.addCards(front, card.count);
@@ -549,7 +627,7 @@ module rpgcards {
             var empty = generator.card_empty(options, this.indent);
 
             // Fill pages with cards (two at a time)
-            for (let i = 0; i < cards.length; ++i) {
+            for (var i = 0; i < cards.length; ++i) {
                 var card = cards[i];
                 var front = generator.card_front(card, options, this.indent);
                 var back = generator.card_back(card, options, this.indent);
