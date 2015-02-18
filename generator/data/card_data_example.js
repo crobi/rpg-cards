@@ -3,7 +3,7 @@ var card_data_example = [
         "count": 1,
         "color": "maroon",
         "title": "Burning Hands",
-        "icon": "white-book-1",
+        "icon": "book-cover",
         "icon_back": "robe",
         "contents": [
             "subtitle | 1st level evocation",
