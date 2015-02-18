@@ -282,7 +282,7 @@ module RpgCards {
             var result = "";
             result += ind + '<card-dndstats';
             for (var i = 0; i < stats.length; ++i) {
-                var value = parseInt(params[i], 10) || "";
+                var value = params[i] || "";
                 var stat = stats[i];
                 result += ' ' + stat + '="' + value + '"';
             }
