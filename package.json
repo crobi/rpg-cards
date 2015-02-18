@@ -6,7 +6,9 @@
   "author": "crobi",
   "dependencies": {
     "mv": "*",
-    "walk": "*"
+    "walk": "*",
+    "typescript": "*",
+    "http-server": "*"
   },
   "license": "MIT"
 }
