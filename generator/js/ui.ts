@@ -494,6 +494,7 @@ module RpgCardsUI {
 
         $("#card-title").change(on_change_card_title);
         $("#card-title-size").change(on_change_card_property);
+        $("#card-title-icon-text").change(on_change_card_property);
         $("#card-icon").change(on_change_card_property);
         $("#card-count").change(on_change_card_property);
         $("#card-icon-back").change(on_change_card_property);

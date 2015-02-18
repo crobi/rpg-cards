@@ -44,6 +44,7 @@ module RpgCards {
         count: number;
         title: string;
         title_size: string;
+        title_icon_text: string;
         color: string;
         color_front: string;
         color_back: string;
@@ -59,6 +60,7 @@ module RpgCards {
             this.count = 1;
             this.title = "New card";
             this.title_size = null;
+            this.title_icon_text = null;
             this.color = null;
             this.color_front = null;
             this.color_back = null;
@@ -75,6 +77,7 @@ module RpgCards {
             result.count = json.count || 1;
             result.title = json.title || "";
             result.title_size = json.title_size || null;
+            result.title_icon_text = json.title_icon_text || null;
             result.color = json.color || null;
             result.color_front = json.color_front || null;
             result.color_back = json.color_back || null;
@@ -91,6 +94,7 @@ module RpgCards {
                 count: this.count,
                 title: this.title,
                 title_size: this.title_size,
+                title_icon_text: this.title_icon_text,
                 color: this.color,
                 color_front: this.color_front,
                 color_back: this.color_back,
@@ -131,6 +135,9 @@ module RpgCards {
         }
         public getTitleSize(options: Options): string {
             return this.title_size || options.default_title_size || "13";
+        }
+        public getTitleIconText(options: Options): string {
+            return this.title_icon_text || "";
         }
         public getColorFront(options: Options): string {
             return this.color_front || this.color || options.default_color || "black";
@@ -347,12 +354,13 @@ module RpgCards {
 
         private  _title(card: Card, options: Options, ind: string, ind0: string): string {
             var title = card.getTitle(options);
-            var title_size = card.getTitleSize(options)
+            var title_size = card.getTitleSize(options);
+            var title_icon_text = card.getTitleIconText(options);
             var icon = card.getIconFront(options);
             var result = "";
             result += ind + '<card-title size="' + title_size + '">\n';
             result += ind + ind0 + '<h1>' + title + '</h1>\n';
-            result += ind + ind0 + '<h2>' + "" + '</h2>\n';
+            result += ind + ind0 + '<h2>' + title_icon_text + '</h2>\n';
             result += this._icon(icon, ind + ind0, ind0);
             result += ind + '</card-title>\n';
             return result;
