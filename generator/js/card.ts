@@ -26,10 +26,10 @@ module RpgCards {
         constructor() {
             this.foreground_color = "white";
             this.background_color = "white";
-            this.empty_color = "white";
+            this.empty_color = "black";
             this.default_color = "black";
             this.default_icon = "ace";
-            this.default_title_size = "13pt";
+            this.default_title_size = "13";
             this.page_size = "A4";
             this.page_rows = 3;
             this.page_columns = 3;
@@ -130,7 +130,7 @@ module RpgCards {
             return this.title || "";
         }
         public getTitleSize(options: Options): string {
-            return this.title_size || options.default_title_size || "13pt";
+            return this.title_size || options.default_title_size || "13";
         }
         public getColorFront(options: Options): string {
             return this.color_front || this.color || options.default_color || "black";
@@ -191,7 +191,7 @@ module RpgCards {
 
         public duplicateCard(card: Card): Card {
             var newCard = card.duplicate();
-            this._actions.push({ fn: "add", card: new Card(), ref: card });
+            this._actions.push({ fn: "add", card: newCard, ref: card });
             return newCard;
         }
 
@@ -216,6 +216,7 @@ module RpgCards {
                     }
                 }
             }
+            this._actions = [];
         }
     }
 
@@ -281,7 +282,7 @@ module RpgCards {
             var result = "";
             result += ind + '<card-dndstats';
             for (var i = 0; i < stats.length; ++i) {
-                var value = parseInt(params[0], 10) || "";
+                var value = parseInt(params[i], 10) || "";
                 var stat = stats[i];
                 result += ' ' + stat + '="' + value + '"';
             }
@@ -374,7 +375,10 @@ module RpgCards {
         }
 
         private  _card_empty(options: Options, ind: string, ind0: string): string {
-            return '';
+            var result = "";
+            result += ind + '<card-contents>\n';
+            result += ind + '</card-contents>\n';
+            return result;
         }
 
         private  _card(options: Options, ind: string, ind0: string, content: string, color: string): string {
@@ -461,7 +465,7 @@ module RpgCards {
 
         /** Empty slots on the page */
         public capacity(): number {
-            return this.cards.length - this.rows * this.cols;
+            return this.rows * this.cols - this.cards.length;
         }
 
         /** Empty slots on the current line */
@@ -475,10 +479,10 @@ module RpgCards {
                 throw new Error("Cannot perform this operation while the page is not full");
             }
 
-            for (var r = 0; r < Math.floor(this.rows / 2); ++r) {
-                for (var c = 0; c < this.cols; ++c) {
+            for (var r = 0; r < this.rows; ++r) {
+                for (var c = 0; c < Math.floor(this.cols / 2); ++c) {
                     var indexL = this._posToIndex(r, c);
-                    var indexR = this._posToIndex(this.rows - r - 1, c);
+                    var indexR = this._posToIndex(r, this.cols - c - 1);
                     var cardL = this.cards[indexL];
                     var cardR = this.cards[indexR];
                     this.cards[indexL] = cardR;
@@ -616,6 +620,9 @@ module RpgCards {
                 pages.addCards(front, card.count);
             }
 
+            // Fill empty slots
+            pages.forEach((page) => page.fillPage(empty));
+
             return pages;
         }
 
@@ -631,12 +638,18 @@ module RpgCards {
                 var card = cards[i];
                 var front = generator.card_front(card, options, this.indent);
                 var back = generator.card_back(card, options, this.indent);
-                if (pages.lastPage().capacityRow() < 2) {
-                    pages.lastPage().fillRow(empty);
+
+                for (var j = 0; j < card.count; ++j) {
+                    if (pages.pages.length > 0 && pages.lastPage().capacityRow() < 2) {
+                        pages.lastPage().fillRow(empty);
+                    }
+                    pages.addCard(front);
+                    pages.addCard(back);
                 }
-                pages.addCards(front, card.count);
-                pages.addCards(back, card.count);
             }
+
+            // Fill empty slots
+            pages.forEach((page) => page.fillPage(empty));
 
             return pages;
         }

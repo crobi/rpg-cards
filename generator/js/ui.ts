@@ -32,7 +32,7 @@ module RpgCardsUI {
         if (index > -1) {
             $("#selected-card").val("" + index);
         } else {
-            $("#selected-card").val("0");
+            $("#selected-card").val("" + (deck.cards.length - 1));
         }
         update_selected_card();
     }
@@ -402,14 +402,15 @@ module RpgCardsUI {
     }
 
     function duplicate_card() {
+        var newCard = null;
         if (deck.cards.length > 0) {
             var old_card = selected_card();
-            var new_card = deck.duplicateCard(old_card);
+            newCard = deck.duplicateCard(old_card);
         } else {
-            deck.addNewCard();
+            newCard = deck.addNewCard();
         }
         update_card_list();
-        select_card_by_index(deck.cards.length - 1);
+        select_card_by_card(newCard);
     }
 
     function delete_card() {
