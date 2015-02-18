@@ -9,6 +9,12 @@ if (process.argv[2]) {
 }
 console.log("Working in " + workingdir);
 
+var outputname = "files.txt";
+if (process.argv[3]) {
+    outputname = process.argv[3];
+}
+console.log("Working in " + workingdir);
+
 var options = {};
 var walker = walk.walk(workingdir, options);
 
@@ -29,11 +35,11 @@ walker.on("end", function () {
 
     files.sort();
     var endOfLine = require('os').EOL;
-    fs.writeFile(path.resolve(workingdir, "files.txt"), files.join(endOfLine), function (err) {
+    fs.writeFile(path.resolve(workingdir, outputname), files.join(endOfLine), function (err) {
         if (err) {
             console.log(err);
         } else {
-            console.log("File list saved as files.txt.");
+            console.log("File list saved as " + outputname);
         }
     });
 });
