@@ -564,6 +564,35 @@ module RpgCards {
         }
     }
 
+    class BoxSize {
+        page: string;
+        width: string;
+        height: string;
+        width_px: number;
+        height_px: number;
+
+        constructor(p: string, w: string, h: string, wpx: number, hpx: number) {
+            this.page = p;
+            this.width = w;
+            this.height = h;
+            this.width_px = Math.floor(wpx);
+            this.height_px = Math.floor(hpx);
+        }
+    }
+
+    var boxSizes: { [id: string]: BoxSize } = {};
+    boxSizes["auto"] = new BoxSize("auto", "auto", "auto", Infinity, Infinity);
+    boxSizes["A2"] = new BoxSize("A2 portrait", "420mm", "594mm", 1587.401575, 2245.03937);
+    boxSizes["A3"] = new BoxSize("A3 portrait", "297mm", "420mm", 1118.740158, 1587.401575);
+    boxSizes["A4"] = new BoxSize("A4 portrait", "210mm", "297mm", 793.700787, 1118.740158);
+    boxSizes["A5"] = new BoxSize("A5 portrait", "148mm", "210mm", 559.370079, 793.700787);
+    boxSizes["Letter"] = new BoxSize("Letter portrait", "8.5in", "11in", 816, 1056);
+    boxSizes["225x35"] = new BoxSize("2.25in 3.5in", "2.25in", "3.5in", 216, 336);
+    boxSizes["25x35"] = new BoxSize("2.5in 3.5in", "2.5in", "3.5in", 240, 336);
+    boxSizes["35x50"] = new BoxSize("3.5in 5.0in", "3.5in", "5.0in", 336, 480);
+    boxSizes["50x70"] = new BoxSize("5.0in 7.0in", "5.0in", "7.0in", 480, 672);
+    
+
     export class PageHtmlGenerator {
         indent: string;
 
@@ -580,14 +609,13 @@ module RpgCards {
         }
 
         private _wrap(pageSet: CardPageSet<string>, options: Options) {
-            var size = options.page_size || "A4";
             var result = "";
             for (var i = 0; i < pageSet.pages.length; ++i) {
                 var page = pageSet.pages[i];
-                var style = 'style="background-color:' + this._pageColor(i, options) + '"';
-                result += '<page class="page page-preview" size="' + size + '" ' + style + '>\n';
+                var style = ' style="background-color:' + this._pageColor(i, options) + '"';
+                result += '<card-page' + style + '>\n';
                 result += page.cards.join("");
-                result += '</page>\n';
+                result += '</card-page>\n';
             }
             return result;
         }
@@ -672,24 +700,34 @@ module RpgCards {
         }
 
         private _generateStyle(options) {
-            var size = "a4";
-            switch (options.page_size) {
-                case "A3": size = "A3 portrait"; break;
-                case "A4": size = "210mm 297mm"; break;
-                case "A5": size = "A5 portrait"; break;
-                case "Letter": size = "letter portrait"; break;
-                case "25x35": size = "2.5in 3.5in"; break;
-                default: size = "auto";
-            }
+            var page_box = boxSizes[options.page_size] || boxSizes["auto"];
 
-            var result = "";
-            result += "<style>\n";
-            result += "@page {\n";
-            result += "    margin: 0;\n";
-            result += "    size:" + size + ";\n";
-            result += "    -webkit-print-color-adjust: exact;\n";
-            result += "}\n";
-            result += "</style>\n";
+            var result = '';
+            result += '<style type="text/css">\n';
+            result += 'body {\n';
+            result += '    display: block;\n';
+            result += '    background: rgb(204, 204, 204);\n';
+            result += '}\n';
+            result += 'card-page {\n';
+            result += '    width: ' + (page_box.width_px - 2) + 'px;\n';
+            result += '    height: ' + (page_box.height_px - 2) + 'px;\n';
+            result += '}\n';
+            result += '@media print {\n';
+            result += '   html, body {\n';
+            result += '       width: ' + page_box.width_px + 'px;\n';
+            result += '   }\n';
+            result += '   body {\n';
+            result += '       margin: 0;\n';
+            result += '       padding: 0;\n';
+            result += '       border: 0;\n';
+            result += '    }\n';
+            result += '}\n';
+            result += '@page {\n';
+            result += '    margin: 0;\n';
+            result += '    size:' + page_box.width_px + 'px ' + page_box.height_px + 'px;\n';
+            result += '    -webkit-print-color-adjust: exact;\n';
+            result += '}\n';
+            result += '</style>\n';
             return result;
         }
 

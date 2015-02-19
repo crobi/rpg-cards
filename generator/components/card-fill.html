@@ -11,7 +11,7 @@
         var mainDoc = document;
         var importDoc = document.currentScript.ownerDocument;
 
-        var proto = Object.create(HTMLElement.prototype);
+        var proto = Object.create(HTMLDivElement.prototype);
         Object.defineProperty(proto, "size", {
             get: function() {
                 return "";
