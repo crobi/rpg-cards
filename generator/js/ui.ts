@@ -61,6 +61,7 @@ module RpgCardsUI {
         if (card) {
             $("#card-title").val(card.title);
             $("#card-title-size").val(card.title_size);
+            $("#card-title-icon-text").val(card.title_icon_text);
             $("#card-count").val(""+card.count);
             $("#card-icon").val(card.icon);
             $("#card-icon-back").val(card.icon_back);
@@ -70,6 +71,7 @@ module RpgCardsUI {
         } else {
             $("#card-title").val("");
             $("#card-title-size").val("");
+            $("#card-title-icon-text").val("");
             $("#card-count").val("1");
             $("#card-icon").val("");
             $("#card-icon-back").val("");
@@ -317,13 +319,12 @@ module RpgCardsUI {
         hideModal("#filter-modal");
 
         var fn_code = $("#filter-function").val();
-        var fn = new Function("card", fn_code);
+        var fn = new Function("card", "deck", fn_code);
 
-        deck.cards = deck.cards.filter(function (card) {
-            var result = fn(card);
-            if (result === undefined) return true;
-            else return result;
+        deck.cards.forEach((card) => {
+            fn(card, deck);
         });
+        deck.commit();
 
         update_card_list();
     }

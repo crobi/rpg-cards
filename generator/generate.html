@@ -19,7 +19,6 @@
     <script type="text/javascript" defer src="js/ui.js"></script>
     <!-- CSS -->
     <link href="css/ui.css" rel="stylesheet" />
-    <link href="css/card-size.css" rel="stylesheet" />
     <!-- Components -->
     <link rel="import" href="components/card.html">
 </head>
@@ -428,13 +427,19 @@ else {
                     </p>
                     <textarea class="form-control" rows="10" id="filter-function" wrap="off">
 // Color all spell cards yellow
-if (card_has_tag(card, "spell")) {
+if (card.hasTag("spell")) {
     card.color = "yellow";
 }
 
 // Remove all creature cards
-if (card_has_tag(card, "creature")) {
-    return false;
+if (card.hasTag("creature")) {
+    deck.deleteCard(card);
+}
+
+// Duplicate all consumable item cards
+if (card.hasTag("item") && card.hasTag("consumable")) {
+    var newCard = deck.duplicateCard(card);
+    newCard.color = "pink";
 }
                     </textarea>
                 </div>
