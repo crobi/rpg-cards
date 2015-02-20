@@ -1,5 +1,6 @@
 /resources/game-icons.net
 /node_modules
 /generator/js/*.map
-/generator/js/*.d.ts
+/generator/js/ui.d.ts
+/generator/js/card.d.ts
 /generator/js/*.js

@@ -3,6 +3,7 @@
 /// <reference path="./icons.ts" />
 /// <reference path="./example_data.ts" />
 /// <reference path="./jquery.d.ts" />
+/// <reference path="./ace.d.ts" />
 
 module RpgCardsUI {
 
@@ -10,6 +11,7 @@ module RpgCardsUI {
     var options: RpgCards.Options = null;
     var cardGenerator: RpgCards.CardHtmlGenerator = null;
     var pageGenerator: RpgCards.PageHtmlGenerator = null;
+    var editor: AceAjax.Editor;
 
     // ============================================================================
     // Seleted card
@@ -65,7 +67,8 @@ module RpgCardsUI {
             $("#card-count").val(""+card.count);
             $("#card-icon").val(card.icon);
             $("#card-icon-back").val(card.icon_back);
-            $("#card-contents").val(card.contents.join("\n"));
+            //$("#card-contents").val(card.contents.join("\n"));
+            editor.setValue(card.contents.join("\n"), -1);
             $("#card-tags").val(card.tags.join(", "));
             $("#card-color").val(card.color).change();
         } else {
@@ -75,7 +78,8 @@ module RpgCardsUI {
             $("#card-count").val("1");
             $("#card-icon").val("");
             $("#card-icon-back").val("");
-            $("#card-contents").val("");
+            //$("#card-contents").val("");
+            editor.setValue("");
             $("#card-tags").val("");
             $("#card-color").val("").change();
         }
@@ -208,7 +212,8 @@ module RpgCardsUI {
     }
 
     function on_change_card_contents() {
-        var value = $(this).val();
+        // var value = $(this).val();
+        var value = editor.getValue();
 
         var card = selected_card();
         if (card) {
@@ -457,7 +462,19 @@ module RpgCardsUI {
         // Use a delay to give the new window time to set up a message listener
         setTimeout(function () { tab.postMessage(card_html, '*') }, 500);
     }
-    
+
+    export function collapse_menu() {
+        $("#menu-column").hide();
+        $("#card-column").removeClass("col-lg-5");
+        $("#card-column").addClass("col-lg-8");
+    }
+
+    export function uncollapse_menu() {
+        $("#menu-column").show();
+        $("#card-column").removeClass("col-lg-8");
+        $("#card-column").addClass("col-lg-5");
+    }
+
     // ============================================================================
     // Initialization
     // ============================================================================
@@ -467,6 +484,13 @@ module RpgCardsUI {
         options = new RpgCards.Options();
         cardGenerator = new RpgCards.CardHtmlGenerator;
         pageGenerator = new RpgCards.PageHtmlGenerator;
+
+        editor = ace.edit("card-contents");
+        editor.setShowInvisibles(true);
+        editor.renderer.setShowGutter(false);
+        (<any>editor).setOption("wrap", "free");
+        editor.setTheme("ace/theme/chrome");
+        editor.getSession().setMode("ace/mode/rpgcard");
 
         setup_color_selector();
         (<any>$('.icon-list')).typeahead({ source: icon_names });
@@ -500,7 +524,8 @@ module RpgCardsUI {
         $("#card-count").change(on_change_card_property);
         $("#card-icon-back").change(on_change_card_property);
         $("#card-color").change(on_change_card_color);
-        $("#card-contents").change(on_change_card_contents);
+        editor.getSession().on('change', on_change_card_contents);
+        //$("#card-contents").change(on_change_card_contents);
         $("#card-tags").change(on_change_card_tags);
 
         // Global options

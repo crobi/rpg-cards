@@ -14,6 +14,9 @@
     <!-- Library: Color picker -->
     <link href="lib/colorpicker/css/bootstrap-colorselector.css" rel="stylesheet" />
     <script type="text/javascript" src="lib/colorpicker/js/bootstrap-colorselector.js" charset="utf-8"></script>
+    <!-- Library: Ace editor -->
+    <script src="lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/ace/mode-rpgcard.js" type="text/javascript" charset="utf-8"></script>
     <!-- Javascript -->
     <script type="text/javascript" src="js/card.js"></script>
     <script type="text/javascript" defer src="js/ui.js"></script>
@@ -33,7 +36,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12 col-lg-3">
+            <div class="col-md-12 col-lg-3" id="menu-column">
                 <!--<h3>Menu</h3>-->
                 <form style="display:none" id="file-load-form">
                     <input type="file" id="file-load" name="files[]" multiple class="form-control" style="display:none" />
@@ -202,7 +205,7 @@
                     </div>
                 </form>
             </div>
-            <div class="col-md-12 col-lg-5">
+            <div class="col-md-12 col-lg-5" id="card-column">
                 <!--<h3>Card</h3>-->
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
@@ -302,12 +305,13 @@
                     <div class="form-group">
                         <label for="card-contents" class="col-sm-2 control-label">Contents</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" rows="14" id="card-contents" wrap="off"></textarea>
+                            <!--<textarea class="form-control" rows="14" id="card-contents" wrap="soft"></textarea>-->
+                            <div class="form-control" id="card-contents"></div>
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="col-md-12 col-lg-4">
+            <div class="col-md-12 col-lg-4" id="preview-column">
                 <!--<h3>Preview</h3>-->
                 <div id="preview-container" class="preview-container">
                 </div>
@@ -449,5 +453,6 @@ if (card.hasTag("item") && card.hasTag("consumable")) {
             </div>
         </div>
     </div>
+
 </body>
 </html>

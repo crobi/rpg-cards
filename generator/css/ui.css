@@ -6,6 +6,10 @@
     align-items: center;
 }
 
+#card-contents {
+    height: 240px;
+}
+
 /* Small screen (preview fills all columns) */
 @media (max-width : 1199px) {
     .preview-container {
