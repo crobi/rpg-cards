@@ -1,6 +1,6 @@
 <template id="card-fill">
     <style id="style">
-        :host {flex: 1;}
+        :host {width:100%; flex: 1;}
     </style>
 
 </template>
@@ -21,7 +21,7 @@
 
                 var root = this.shadowRoot;
                 var style = root.getElementById("style");
-                style.innerHTML = ":host{flex:"+value+"}"
+                style.innerHTML = ":host{width:100%;flex:"+value+"}"
             }
         });
         proto.createdCallback = function () {

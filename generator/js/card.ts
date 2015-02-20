@@ -709,8 +709,8 @@ module RpgCards {
             result += '    background: rgb(204, 204, 204);\n';
             result += '}\n';
             result += 'card-page {\n';
-            result += '    width: ' + (page_box.width_px - 2) + 'px;\n';
-            result += '    height: ' + (page_box.height_px - 2) + 'px;\n';
+            result += '    width: ' + (page_box.width_px) + 'px;\n';
+            result += '    height: ' + (page_box.height_px) + 'px;\n';
             result += '}\n';
             result += '@media print {\n';
             result += '   html, body {\n';
