@@ -4,6 +4,7 @@
 /// <reference path="./example_data.ts" />
 /// <reference path="./jquery.d.ts" />
 /// <reference path="./ace.d.ts" />
+/// <reference path="./shortcut.d.ts" />
 
 module RpgCardsUI {
 
@@ -31,12 +32,31 @@ module RpgCardsUI {
     }
 
     function select_card_by_index(index: number) {
-        if (index > -1) {
-            $("#selected-card").val("" + index);
+        var size = deck.cards.length;
+        if (size === 0) {
+            $("#selected-card").val("");
         } else {
-            $("#selected-card").val("" + (deck.cards.length - 1));
+            index = Math.min(size - 1, index);
+            index = Math.max(0, index);
+            $("#selected-card").val("" + index);
         }
         update_selected_card();
+    }
+
+    function select_first_card() {
+        select_card_by_index(0);
+    }
+
+    function select_last_card() {
+        select_card_by_index(deck.cards.length - 1);
+    }
+
+    function select_next_card() {
+        select_card_by_index(selected_card_index() + 1);
+    }
+
+    function select_prev_card() {
+        select_card_by_index(selected_card_index() - 1);
     }
 
     function select_card_by_card(card: RpgCards.Card) {
@@ -89,7 +109,7 @@ module RpgCardsUI {
 
     function update_card_list() {
         deck.commit();
-        $("#total_card_count").text("Deck contains " + deck.cards.length + " unique cards.");
+        $("#total_card_count").text("This deck contains " + deck.cards.length + " unique cards.");
 
         $('#selected-card').empty();
         for (var i = 0; i < deck.cards.length; ++i) {
@@ -496,7 +516,6 @@ module RpgCardsUI {
         setup_color_selector();
         (<any>$('.icon-list')).typeahead({ source: icon_names });
 
-
         // Menu
         $("#sort-execute").click(sort_execute);
         $("#filter-execute").click(filter_execute);
@@ -542,6 +561,18 @@ module RpgCardsUI {
         $("#small-icons").change(on_change_default_icon_size);
 
         $(".icon-select-button").click(select_icon);
+
+        // Shortcuts
+        var shortcut_options = { disable_in_input: true };
+        shortcut.add("ctrl+n", add_new_card, shortcut_options);
+        shortcut.add("ctrl+d", duplicate_card, shortcut_options);
+        shortcut.add("delete", delete_card, shortcut_options);
+        shortcut.add("down", select_next_card, shortcut_options);
+        shortcut.add("page_down", select_next_card, shortcut_options);
+        shortcut.add("up", select_prev_card, shortcut_options);
+        shortcut.add("page_up", select_prev_card, shortcut_options);
+        shortcut.add("home", select_first_card, shortcut_options);
+        shortcut.add("end", select_last_card, shortcut_options);
 
         update_card_list();
     }

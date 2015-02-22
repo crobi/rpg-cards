@@ -146,10 +146,10 @@ module RpgCards {
             return this.color_back || this.color || options.default_color || "black";
         }
         public getIconFront(options: Options): string {
-            return this.icon_front || this.icon || options.default_icon || "ace";
+            return this.icon_front || this.icon || options.default_icon || "";
         }
         public getIconBack(options: Options): string {
-            return this.icon_back || this.icon || options.default_icon || "ace";
+            return this.icon_back || this.icon || options.default_icon || "";
         }
     };
 
@@ -234,8 +234,12 @@ module RpgCards {
         constructor() {
         }
 
-        private  _icon(src: string, ind: string, ind0: string): string {
-            return ind + '<card-icon src="/icons/' + src + '.svg"></card-icon>\n';
+        private _icon(src: string, ind: string, ind0: string): string {
+            if (src.length > 0) {
+                return ind + '<card-icon src="/icons/' + src + '.svg"></card-icon>\n';
+            } else {
+                return "";
+            }
         }
 
         private  _subtitle(params: string[], card: Card, options: Options, ind: string, ind0: string): string {
