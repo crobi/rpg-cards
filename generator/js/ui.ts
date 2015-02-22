@@ -564,6 +564,7 @@ module RpgCardsUI {
 
         // Shortcuts
         var shortcut_options = { disable_in_input: true };
+        shortcut.add("ctrl+m", toggle_menu, shortcut_options);
         shortcut.add("ctrl+n", add_new_card, shortcut_options);
         shortcut.add("ctrl+d", duplicate_card, shortcut_options);
         shortcut.add("delete", delete_card, shortcut_options);
