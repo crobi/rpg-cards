@@ -483,16 +483,26 @@ module RpgCardsUI {
         setTimeout(function () { tab.postMessage(card_html, '*') }, 500);
     }
 
-    export function collapse_menu() {
+    function collapse_menu() {
         $("#menu-column").hide();
         $("#card-column").removeClass("col-lg-5");
         $("#card-column").addClass("col-lg-8");
+        editor.resize();
     }
 
-    export function uncollapse_menu() {
+    function uncollapse_menu() {
         $("#menu-column").show();
         $("#card-column").removeClass("col-lg-8");
         $("#card-column").addClass("col-lg-5");
+        editor.resize();
+    }
+
+    export function toggle_menu() {
+        if ($("#menu-column").is(":visible")) {
+            collapse_menu();
+        } else {
+            uncollapse_menu();
+        }
     }
 
     // ============================================================================
@@ -511,7 +521,7 @@ module RpgCardsUI {
         (<any>editor).setOption("wrap", "free");
         editor.setTheme("ace/theme/chrome");
         editor.getSession().setMode("ace/mode/rpgcard");
-        editor.$blockScrolling = Infinity;
+        (<any>editor).$blockScrolling = Infinity;
 
         setup_color_selector();
         (<any>$('.icon-list')).typeahead({ source: icon_names });
