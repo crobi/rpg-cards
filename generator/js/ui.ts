@@ -491,6 +491,7 @@ module RpgCardsUI {
         (<any>editor).setOption("wrap", "free");
         editor.setTheme("ace/theme/chrome");
         editor.getSession().setMode("ace/mode/rpgcard");
+        editor.$blockScrolling = Infinity;
 
         setup_color_selector();
         (<any>$('.icon-list')).typeahead({ source: icon_names });
