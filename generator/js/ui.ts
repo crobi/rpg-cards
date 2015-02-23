@@ -13,6 +13,7 @@ module RpgCardsUI {
     var cardGenerator: RpgCards.CardHtmlGenerator = null;
     var pageGenerator: RpgCards.PageHtmlGenerator = null;
     var editor: AceAjax.Editor;
+    var update_in_progress: boolean = false;
 
     // ============================================================================
     // Seleted card
@@ -35,12 +36,16 @@ module RpgCardsUI {
         var size = deck.cards.length;
         if (size === 0) {
             $("#selected-card").val("");
+            update_selected_card();
         } else {
+
             index = Math.min(size - 1, index);
             index = Math.max(0, index);
-            $("#selected-card").val("" + index);
+            if (index != selected_card_index()) {
+                $("#selected-card").val("" + index);
+                update_selected_card();
+            }
         }
-        update_selected_card();
     }
 
     function select_first_card() {
@@ -69,6 +74,10 @@ module RpgCardsUI {
     // ============================================================================
 
     function render_selected_card() {
+        if (update_in_progress) {
+            return;
+        }
+
         var card = selected_card();
         $('#preview-container').empty();
         if (card) {
@@ -79,6 +88,7 @@ module RpgCardsUI {
     }
 
     function update_selected_card() {
+        update_in_progress = true;
         var card = selected_card();
         if (card) {
             $("#card-title").val(card.title);
@@ -103,6 +113,7 @@ module RpgCardsUI {
             $("#card-tags").val("");
             $("#card-color").val("").change();
         }
+        update_in_progress = false;
 
         render_selected_card();
     }
@@ -232,7 +243,6 @@ module RpgCardsUI {
     }
 
     function on_change_card_contents() {
-        // var value = $(this).val();
         var value = editor.getValue();
 
         var card = selected_card();
