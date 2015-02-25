@@ -282,7 +282,7 @@ module RpgCards {
 
         private _icon(src: string, ind: string, ind0: string): string {
             if (src.length > 0) {
-                return ind + '<card-icon src="/icons/' + src + '.svg"></card-icon>\n';
+                return ind + '<card-icon src="./icons/' + src + '.svg"></card-icon>\n';
             } else {
                 return "";
             }
