@@ -13,6 +13,8 @@ module RpgCardsUI {
     var cardGenerator: RpgCards.CardHtmlGenerator = null;
     var pageGenerator: RpgCards.PageHtmlGenerator = null;
     var editor: AceAjax.Editor;
+    var editorFilter: AceAjax.Editor;
+    var editorSort: AceAjax.Editor;
     var update_in_progress: boolean = false;
 
     // ============================================================================
@@ -335,7 +337,7 @@ module RpgCardsUI {
     function sort_execute() {
         hideModal("#sort-modal");
 
-        var fn_code = $("#sort-function").val();
+        var fn_code = editorSort.getValue();
         var fn = new Function("card_a", "card_b", fn_code);
 
         deck.cards = deck.cards.sort(function (card_a, card_b) {
@@ -353,7 +355,7 @@ module RpgCardsUI {
     function filter_execute() {
         hideModal("#filter-modal");
 
-        var fn_code = $("#filter-function").val();
+        var fn_code = editorFilter.getValue();
         var fn = new Function("card", "deck", fn_code);
 
         deck.cards.forEach((card) => {
@@ -532,6 +534,16 @@ module RpgCardsUI {
         editor.setTheme("ace/theme/chrome");
         editor.getSession().setMode("ace/mode/rpgcard");
         (<any>editor).$blockScrolling = Infinity;
+
+        editorFilter = ace.edit("filter-function");
+        editorFilter.setShowInvisibles(true);
+        editorFilter.setTheme("ace/theme/chrome");
+        editorFilter.getSession().setMode("ace/mode/javascript");
+
+        editorSort = ace.edit("sort-function");
+        editorSort.setShowInvisibles(true);
+        editorSort.setTheme("ace/theme/chrome");
+        editorSort.getSession().setMode("ace/mode/javascript");
 
         setup_color_selector();
         (<any>$('.icon-list')).typeahead({ source: icon_names });

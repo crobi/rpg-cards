@@ -10,6 +10,10 @@
     height: 240px;
 }
 
+#filter-function, #sort-function {
+    height: 300px;
+}
+
 /* Small screen (preview fills all columns) */
 @media (max-width : 1199px) {
     .preview-container {

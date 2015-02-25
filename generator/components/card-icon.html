@@ -40,7 +40,7 @@
             }
         }
         function loadSvg(src) {
-            console.log("Loading " + src);
+            // console.log("Loading " + src);
             return new Promise(function(resolve, reject) {
 
                 var httpRequest = new XMLHttpRequest();
@@ -111,7 +111,7 @@
                 return "";
             },
             set: function (value) {
-                console.log("Property src=" + value);
+                // console.log("Property src=" + value);
                 this.setAttribute('src', value);
 
                 var element = this;

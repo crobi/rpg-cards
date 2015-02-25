@@ -28,7 +28,7 @@ module RpgCards {
             this.background_color = "white";
             this.empty_color = "black";
             this.default_color = "black";
-            this.default_icon = "ace";
+            this.default_icon = "";
             this.default_title_size = "13";
             this.page_size = "A4";
             this.page_rows = 3;
@@ -128,6 +128,52 @@ module RpgCards {
             this.tags = this.tags.filter(function (t) {
                 return ntag != t;
             });
+        }
+
+        public findTag(pattern: string, flags?: string): string[]{
+            var f = flags || "g";
+            var regexp = new RegExp(pattern, f);
+            var s = this.tags.join("\n");
+            return regexp.exec(s);
+        }
+
+        public replaceTag(pattern: string, substitution: string, flags?: string): void {
+            var f = flags || "g";
+            var regexp = new RegExp(pattern, f);
+            this.tags = this.tags.map((s) => s.replace(regexp, substitution));
+        }
+
+        public findContent(pattern: string, flags?: string): string[] {
+            var f = flags || "g";
+            var regexp = new RegExp(pattern, f);
+            var s = this.contents.join("\n");
+            return regexp.exec(s);
+        }
+
+        public replaceContent(pattern: string, substitution: string, flags?: string): void {
+            var f = flags || "g";
+            var regexp = new RegExp(pattern, f);
+            this.contents = this.contents.map((s) => s.replace(regexp, substitution));
+        }
+
+        public findTitle(pattern: string, flags?: string): string[] {
+            var f = flags || "g";
+            var regexp = new RegExp(pattern, f);
+            var s = this.title;
+            return regexp.exec(s);
+        }
+
+        public findTitleAny(patterns: string[], flags?: string): string[] {
+            for (var i = 0; i < patterns.length; ++i) {
+                var f = flags || "g";
+                var regexp = new RegExp(patterns[i], f);
+                var s = this.title;
+                var result = regexp.exec(s);
+                if (result) {
+                    return result;
+                }
+            }
+            return null;
         }
 
         public getTitle(options: Options): string {
@@ -316,6 +362,11 @@ module RpgCards {
             return ind + '<card-fill size="' + size + '"></card-fill>\n';
         }
 
+        private _vspace(params: string[], card: Card, options: Options, ind: string, ind0: string): string {
+            var size = params[0] || "1em";
+            return ind + '<card-vspace size="' + size + '"></card-vspace>\n';
+        }
+
         private  _unknown(params: string[], card: Card, options: Options, ind: string, ind0: string): string {
             var text = params.join(' | ');
             return ind + '<card-description><p>' + text + '</p></card-description>\n';
@@ -344,6 +395,7 @@ module RpgCards {
                     case "text": generator = this._text; break;
                     case "bullet": generator = this._bullet; break;
                     case "fill": generator = this._fill; break;
+                    case "vspace": generator = this._vspace; break;
                     case "section": generator = this._section; break;
                     case "disabled": generator = this._empty; break;
                     case "": generator = this._empty; break;

@@ -7,7 +7,7 @@ ace.define("ace/mode/rpgcard_highlight_rules", ["require", "exports", "module", 
     var RpgCardHighlightRules = function () {
 
         var keywords = (
-            "subtitle|rule|ruler|text|property|description|dndstats|fill|section|bullet|boxes"
+            "subtitle|rule|ruler|text|property|description|dndstats|fill|vspace|section|bullet|boxes"
         );
 
         var builtinConstants = (
