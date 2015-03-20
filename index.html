@@ -57,20 +57,22 @@
 
 <pre><code>{
     "count": 1,
-    "color": "dimgray",
-    "title": "Full Plate",
-    "icon": "custom-armor-heavy",
+    "color": "maroon",
+    "title": "Burning Hands",
+    "icon": "book-cover",
     "contents": [
-        "subtitle | Heavy armor (1500gp)",
+        "subtitle | 1st level evocation",
         "rule",
-        "property | AC | 18",
-        "property | Strength required | 15",
-        "property | Stealth | Disadvantage",
+        "property | Casting time | 1 action",
+        "property | Range | Self (15ft cone)",
+        "property | Components | V, S",
         "rule",
-        "fill | 2",
-        "description | Heavy | Your speed is reduced by 10 feet.",
-        "description | Stealth | You have disadvantage on Stealth.",
-        "fill | 3"
+        "fill | 1",
+        "text | Each creature in a 15-foot cone takes <b>3d6 fire</b> damage.",
+        "text | The fire ignites any flammable objects in the area.",
+        "fill | 3",
+        "section | At higher levels",
+        "text | +1d6 damage for each slot above 1st"
     ]
 }
 </code></pre>
@@ -216,7 +218,16 @@ This is not a complete documentation, but some information that should help you 
       </footer>
     </div>
 
-    
+    <!-- GOOGLE ANALYTICS  -->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-61016456-1', 'auto');
+        ga('send', 'pageview');
+    </script>
 
   </body>
 </html>
