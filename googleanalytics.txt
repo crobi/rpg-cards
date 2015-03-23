@@ -1,12 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>RPG cards</title>
-    <!-- Javascript -->
-    <script type="text/javascript" src="js/output.js"></script>
-    <!-- Components -->
-    <link rel="import" href="components/card.html">
-
     <!-- GOOGLE ANALYTICS (only for online preview, your local version won't have this) -->
     <script>
         (function (i, s, o, g, r, a, m) {
@@ -19,7 +10,3 @@
         ga('create', 'UA-61016456-1', 'auto');
         ga('send', 'pageview');
     </script>
-</head>
-<body>
-</body>
-</html>
