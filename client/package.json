@@ -1,0 +1,25 @@
+{
+  "name": "rpg-cards",
+  "version": "0.0.0",
+  "description": "Card creation tool",
+  "repository": "https://github.com/crobi/rpg-cards",
+  "main": "js/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "crobi",
+  "dependencies": {
+    "flux": "^2.0.1",
+    "react": "^0.12.0"
+  },
+  "devDependencies": {
+    "babel": "*",
+    "typescript": "1.5.x",
+    "gulp": "*",
+    "gulp-typescript": "*",
+    "gulp-sourcemaps": "*",
+    "gulp-babel": "*",
+    "gulp-rev": "*"
+  },
+  "license": "BSD-2-Clause"
+}

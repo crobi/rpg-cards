@@ -1,0 +1,36 @@
+{
+    "version": "1.5.0-alpha",
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "declaration": false,
+        "noImplicitAny": true,
+        "removeComments": true,
+        "noLib": false,
+        "preserveConstEnums": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "out": "./js/app.js"
+    },
+    "filesGlob": [
+        "./**/*.ts",
+        "!./node_modules/**/*.ts"
+    ],
+    "files": [
+        "./src/actions/actions.ts",
+        "./src/app.ts",
+        "./src/dispatcher/dispatcher.ts",
+        "./src/dispatcher/invariant.ts",
+        "./src/external/react/react-addons.d.ts",
+        "./src/external/react/react.d.ts",
+        "./src/stores/asyncT.ts",
+        "./src/stores/card.ts",
+        "./src/stores/deck.ts",
+        "./src/stores/entity.ts",
+        "./src/stores/eventEmitter.ts",
+        "./src/stores/id.ts",
+        "./src/stores/store.ts",
+        "./src/stores/template.ts",
+        "./src/views/decks.ts",
+        "./src/views/header.ts"
+    ]
+}

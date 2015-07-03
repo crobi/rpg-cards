@@ -1,0 +1,52 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial;
+}
+
+/* ---------------------------------------------------------------------------*/
+/* Header */
+/* ---------------------------------------------------------------------------*/
+.navbar {
+    display: flex;
+    flex-direction: row;
+    height: 3rem;
+    background-color: rgb(126, 120, 3);
+    color: rgb(228, 228, 238);
+    font-size: 1.8rem;
+    line-height: 3rem;
+}
+.navbar-item, .plain-navbar-item {
+    padding: 0 .5rem;
+}
+.navbar-item:hover {
+    cursor: pointer;
+    background-color: #999;
+}
+.flex-navbar-item {
+    flex: 1;
+}
+.navbar-item.account-id {
+    display: flex;
+    flex-direction: column;
+    margin-right: 1rem;
+}
+.navbar-item.account-id .heading {
+    font-size: 0.8rem;
+    line-height: 0.9rem;
+    color: rgb(217, 216, 219);
+    text-align: center;
+    text-transform: uppercase;
+    margin-top: 0.4rem;
+}
+.navbar-item.account-id .value {
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+}
+.navbar-item.account-id:hover {
+    cursor: initial;
+    background-color: inherit;
+}
