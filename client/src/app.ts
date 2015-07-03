@@ -5,9 +5,9 @@
 
 module rpgcards {
 
-    export var appDispatcher: Dispatcher = null;
-    export var appActions: Actions = null;
-    export var appStore: Store = null;
+    var appDispatcher: Dispatcher = null;
+    var appActions: Actions = null;
+    var appStore: Store = null;
 
     export function bootstrap() {
         appDispatcher = new Dispatcher();
