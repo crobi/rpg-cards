@@ -30,7 +30,9 @@ module rpgcards {
             this._selectedDeck = "";
 
             dispatcher.register((action) => {
-                if(action instanceof ActionNewDeck) {
+                if(action instanceof ActionReset) {
+                    this._reset()
+                } else if(action instanceof ActionNewDeck) {
                     this._newDeck()
                 } else if (action instanceof ActionDeleteDeck) {
                     this._deleteDeck(action.id);
@@ -86,6 +88,12 @@ module rpgcards {
         // ---------------------------------------------------------------------
         // Methods for changing the state
         // ---------------------------------------------------------------------
+        private _reset(): void {
+            this._decks = [];
+            this._cards = [];
+            this._selectDeck = null;
+            this._selectCard = null;
+        }
         private _newDeck(): void {
             this._decks.push(new Deck(randomID()));
         }

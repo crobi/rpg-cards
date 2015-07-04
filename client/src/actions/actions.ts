@@ -1,6 +1,10 @@
 /// <reference path="../dispatcher/dispatcher.ts"/>
 
 module rpgcards {
+    /* State actions */
+    export class ActionReset implements Action {
+        constructor() {}
+    }
 
     /* Deck actions */
     export class ActionNewDeck implements Action {
@@ -37,6 +41,9 @@ module rpgcards {
 
     export class Actions  {
         constructor(private _dispatcher: Dispatcher) {
+        }
+        public reset(): void {
+            this._dispatcher.dispatch(new ActionReset());
         }
         public newDeck(): void {
             this._dispatcher.dispatch(new ActionNewDeck());
