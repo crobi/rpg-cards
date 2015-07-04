@@ -36,6 +36,12 @@ module rpgcards {
                     this._newDeck()
                 } else if (action instanceof ActionDeleteDeck) {
                     this._deleteDeck(action.id);
+                } else if (action instanceof ActionSetDeckName) {
+                    this._modifyDeck(action.id, (deck)=>{
+                        deck.name = action.name});
+                } else if (action instanceof ActionSetDeckDescription) {
+                    this._modifyDeck(action.id, (deck)=>{
+                        deck.description = action.desc});
                 } else if (action instanceof ActionSelectDeck) {
                     this._selectDeck(action.id);
                 } else if (action instanceof ActionNewCard) {
@@ -104,6 +110,10 @@ module rpgcards {
 
         private _selectDeck(id: string): void {
             this._selectedDeck = id;
+        }
+
+        private _modifyDeck(id: string, fn: (deck: Deck)=>void): void {
+            this.getDeck(id).lift(deck => fn(deck));
         }
 
         private _newCard(deckId: string): void {

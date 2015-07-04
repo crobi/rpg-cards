@@ -10,6 +10,16 @@ module rpgcards {
     export class ActionNewDeck implements Action {
         constructor() {}
     }
+    export class ActionSetDeckName implements Action {
+        constructor(private _id: string, private _name:string) {}
+        get id(): string {return this._id}
+        get name(): string {return this._name}
+    }
+    export class ActionSetDeckDescription implements Action {
+        constructor(private _id: string, private _desc:string) {}
+        get id(): string {return this._id}
+        get desc(): string {return this._desc}
+    }
     export class ActionDeleteDeck implements Action {
         constructor(private _id: string) {}
         get id(): string {return this._id}
@@ -47,6 +57,12 @@ module rpgcards {
         }
         public newDeck(): void {
             this._dispatcher.dispatch(new ActionNewDeck());
+        }
+        public setDeckName(id:string, name:string): void {
+            this._dispatcher.dispatch(new ActionSetDeckName(id, name));
+        }
+        public setDeckDesc(id:string, desc:string): void {
+            this._dispatcher.dispatch(new ActionSetDeckDescription(id, desc));
         }
         public deleteDeck(id: string): void {
             this._dispatcher.dispatch(new ActionDeleteDeck(id));

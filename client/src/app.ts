@@ -53,13 +53,32 @@ module rpgcards {
             + " and then triggers a series of hardcoded user actions,"
             + " in order to set up some application state that can be used"
             + " for testing");
+        var withDeckId = (i: number, fn: (deckId: string)=>void) => {
+            appStore.getDeckList().lift(ids => fn(ids[i]));
+        }
         appActions.reset();
+
+        // Deck 1
         appActions.newDeck();
-        appStore.getDeckList().lift(deckIds => appActions.newCard(deckIds[0]));
-        appStore.getDeckList().lift(deckIds => appActions.newCard(deckIds[0]));
+        withDeckId(0, id=>appActions.setDeckName(id, "Spells"));
+        withDeckId(0, id=>appActions.setDeckDesc(id, "This deck contains"
+            + " basic spells."));
+        withDeckId(0, id=>appActions.newCard(id));
+        withDeckId(0, id=>appActions.newCard(id));
+        withDeckId(0, id=>appActions.newCard(id));
+
+        // Deck 2
         appActions.newDeck();
+        withDeckId(1, id=>appActions.setDeckName(id, "Items"));
+        withDeckId(1, id=>appActions.setDeckDesc(id, "This deck contains"
+            + " mundane and magic items."));
         appStore.getDeckList().lift(deckIds => appActions.newCard(deckIds[1]));
+
+        // Deck 3
         appActions.newDeck();
+        withDeckId(2, id=>appActions.setDeckName(id, "Creatures"));
+        withDeckId(2, id=>appActions.setDeckDesc(id, "This deck contains"
+            + " creatures."));
     }
 
 }
