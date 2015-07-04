@@ -3,10 +3,12 @@
 module rpgcards {
     export class Deck extends Entity{
         public cards: string[];
+        public description: string;
 
         constructor(id:string) {
             super(id);
             this.cards = [];
+            this.description = "";
         }
 
     }
