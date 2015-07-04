@@ -27,8 +27,13 @@ module rpgcards {
         appDispatcher = new Dispatcher();
         appActions = new Actions(appDispatcher);
         appStore = new Store(appDispatcher);
-        appStore.addChangeListener(refresh);
 
+        // Set up some initial state for debugging
+        // Remove this line once development is finished
+        setupTestState();
+
+        // Start react rendering
+        appStore.addChangeListener(refresh);
         refresh();
     }
 
