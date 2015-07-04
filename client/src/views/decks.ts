@@ -9,8 +9,12 @@ module rpgcards {
             let cards = store.getCardsForDeck(id);
 
             return AsyncT.liftA2(deck, cards, (deck, cards) => {
-                return React.DOM.div({key:deck.id},
-                    "Deck " + deck.id + ": " + cards.length + " cards")
+                return <React.ReactElement<any>> DeckTile({
+                    key : deck.id,
+                    id  : deck.id,
+                    desc: deck.description,
+                    name: deck.name,
+                    cards: cards.length });
             }).caseOf({
                 just: (t) => t,
                 nothing: (e) => React.DOM.div({}, "error: " + e.message),

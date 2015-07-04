@@ -14,8 +14,8 @@ body {
     display: flex;
     flex-direction: row;
     height: 3rem;
-    background-color: rgb(126, 120, 3);
-    color: rgb(228, 228, 238);
+    background-color: #4CAF50;
+    color: #FFF;
     font-size: 1.8rem;
     line-height: 3rem;
 }
@@ -49,4 +49,73 @@ body {
 .navbar-item.account-id:hover {
     cursor: initial;
     background-color: inherit;
+}
+
+/* ---------------------------------------------------------------------------*/
+/* List of decks */
+/* ---------------------------------------------------------------------------*/
+.decks {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.deck-tile {
+    margin: .5rem;
+    width: 20rem;
+    height: 12rem;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: rgb(255, 255, 255);
+
+    page-break-inside: avoid;
+    border-radius: 4px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);
+}
+.deck-tile-header {
+    background-color: #F44336;
+    color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: row;
+    padding: 0.5rem;
+    border-radius: 4px 4px 0 0;
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+.deck-tile-header:hover {
+    background-color: rgb(96, 104, 126);
+    cursor: pointer;
+}
+.deck-tile-header-name {
+    flex: 1;
+}
+.deck-tile-header-id {
+
+}
+.deck-tile-body {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.deck-tile-body-item {
+    /* Vertical centering */
+    /*
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    */
+    width: 100%;
+    padding: 0 1rem;
+    flex: 1;
+}
+.deck-tile-footer {
+    padding: 0.5rem;
+    border-radius: 0 0 4px 4px;
+    color: #a8a8a8;
+    background: #eaeaea;
 }

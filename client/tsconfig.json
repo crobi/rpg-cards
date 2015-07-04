@@ -30,6 +30,7 @@
         "./src/stores/id.ts",
         "./src/stores/store.ts",
         "./src/stores/template.ts",
+        "./src/views/components/deck.ts",
         "./src/views/decks.ts",
         "./src/views/header.ts"
     ]
