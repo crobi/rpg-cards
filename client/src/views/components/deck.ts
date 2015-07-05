@@ -17,23 +17,23 @@ module rpgcards {
     interface DeckTileState {
     }
 
-    export function tileHeader(id: string, name: string) {
+    export function tileHeader(props: DeckTileProps) {
         return React.DOM.div
             ( { className: 'deck-tile-header', onClick: null }
-            , React.DOM.div({ className: 'deck-tile-header-name' }, name)
-            , React.DOM.div({ className: 'deck-tile-header-id' }, id.substring(0, 5))
+            , React.DOM.div({ className: 'deck-tile-header-name' }, props.name)
+            , React.DOM.div({ className: 'deck-tile-header-id' }, props.id)
             );
     }
 
-    export function tileBody(description: string) {
+    export function tileBody(props: DeckTileProps) {
         return React.DOM.div
             ( { className: 'deck-tile-body', onClick: null }
-            , description
+            , props.desc
             );
     }
 
-    export function tileFooter(cards: number) {
-        let cardsText = "This deck contains " + cards + " cards.";
+    export function tileFooter(props: DeckTileProps) {
+        let cardsText = props.cards + " cards";
         return React.DOM.div
             ( { className: 'deck-tile-footer', onClick: null }
             , cardsText
@@ -61,16 +61,12 @@ module rpgcards {
         }
 
         render() {
-            let deckId = this.props.id;
-            let deckName = this.props.name;
-            let deckDesc = this.props.desc;
-            let deckCards = this.props.cards;
 
             return React.DOM.div
                 ( { className: 'deck-tile' }
-                , tileHeader(deckId, deckName)
-                , tileBody(deckDesc)
-                , tileFooter(deckCards)
+                , tileHeader(this.props)
+                , tileBody(this.props)
+                , tileFooter(this.props)
                 );
         }
     }
