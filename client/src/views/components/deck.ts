@@ -1,6 +1,6 @@
 module rpgcards {
 
-    export interface DeckTileProps {
+    export interface DeckTileProps extends React.Props<any> {
         key      : string; //< Unique key for react
         id       : string;
         name     : string;
