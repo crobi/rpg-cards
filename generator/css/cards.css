@@ -4,7 +4,9 @@
     box-sizing: border-box;
     position: relative;
     display: flex;
+    display: -webkit-flex;
     flex-direction: column;
+    -webkit-flex-direction: column;
     font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
     font-size: 8pt;
 }
@@ -17,8 +19,11 @@
     background-color: white;
     border-color: inherit;
     display: flex;
+    display: -webkit-flex;
     flex-direction: column;
+    -webkit-flex-direction: column;
     flex: 1;
+    -webkit-flex: 1;
     font-size: inherit;
 }
 
@@ -28,7 +33,9 @@
     border-color: inherit;
     margin: 3mm;
     flex: 1;
+    -webkit-flex: 1;
     display: flex;
+    display: -webkit-flex;
 }
 
 .card-back-inner {
@@ -37,11 +44,17 @@
     border-color: inherit;
     border-radius: 4mm;
     flex: 1;
+    -webkit-flex: 1;
     display: flex;
+    display: -webkit-flex;
     flex-direction: row;
+    -webkit-flex-direction: row;
     flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
     justify-content: center;
+    -webkit-justify-content: center;
     align-items: center;
+    -webkit-align-items: center;
 }
 
 .card-back-icon {
@@ -169,7 +182,7 @@
 
 }
 
-.card-fill {flex:1;}
+.card-fill {flex:1;-webkit-flex:1}
 
 .card-description-line {
     margin-top: 0.5em;

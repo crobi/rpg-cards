@@ -2,14 +2,18 @@
     margin: 10px;
     background-color: white;
     display: flex;
+    display: -webkit-flex;
     justify-content: space-around;
+    -webkit-justify-content: space-around;
     align-items: center;
+    -webkit-align-items: center;
 }
 
 /* Small screen (preview fills all columns) */
 @media (max-width : 1199px) {
     .preview-container {
         flex-direction: row;
+        -webkit-flex-direction: row;
     }
     .card {
         margin-right: 10px;
@@ -19,6 +23,7 @@
 @media (min-width: 1200px) and (max-width : 1599px) {
     .preview-container {
         flex-direction: column;
+        -webkit-flex-direction: column;
     }
     .card {
         margin-bottom: 10px;
@@ -28,6 +33,7 @@
 @media (min-width : 1600px) {
     .preview-container {
         flex-direction: row;
+        -webkit-flex-direction: row;
     }
     .card {
         margin-right: 10px;
