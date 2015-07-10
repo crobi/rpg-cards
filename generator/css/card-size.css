@@ -15,11 +15,15 @@
 
 /* Center all content within a page */
 .page {
+    display: -webkit-flex;
     display: flex;
     align-content: center;
     justify-content: center;
+    -webkit-justify-content: center;
     flex-direction: row;
+    -webkit-flex-direction: row;
     flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
     page-break-after: always;
     padding: 0;
 }
