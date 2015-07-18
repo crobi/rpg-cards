@@ -24,6 +24,7 @@
         "./src/external/react/react.d.ts",
         "./src/stores/asyncT.ts",
         "./src/stores/card.ts",
+        "./src/stores/dataset.ts",
         "./src/stores/deck.ts",
         "./src/stores/entity.ts",
         "./src/stores/eventEmitter.ts",

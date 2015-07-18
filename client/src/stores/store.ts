@@ -18,40 +18,82 @@ module rpgcards {
 
     export class Store extends ChangeEventEmitter {
         private _decks: Deck[];
-        private _cards: Card[];
-        private _selectedDeck: string;
-        private _selectedCard: string;
+        private _datasets: CardDataSet[];
+        private _records: CardData[];
+        private _templates: CardTemplate[];
 
         constructor(dispatcher: Dispatcher) {
             super();
             this._decks = [];
-            this._cards = [];
-            this._selectedCard = "";
-            this._selectedDeck = "";
+            this._datasets = [];
+            this._records = [];
+            this._templates = [];
 
             dispatcher.register((action) => {
+                /* Generic */
                 if(action instanceof ActionReset) {
                     this._reset()
-                } else if(action instanceof ActionNewDeck) {
+                }
+                /* Deck */
+                else if(action instanceof ActionNewDeck) {
                     this._newDeck()
-                } else if (action instanceof ActionDeleteDeck) {
+                }
+                else if (action instanceof ActionDeleteDeck) {
                     this._deleteDeck(action.id);
-                } else if (action instanceof ActionSetDeckName) {
+                }
+                else if (action instanceof ActionSetDeckName) {
                     this._modifyDeck(action.id, (deck)=>{
                         deck.name = action.name});
-                } else if (action instanceof ActionSetDeckDescription) {
-                    this._modifyDeck(action.id, (deck)=>{
-                        deck.description = action.desc});
-                } else if (action instanceof ActionSelectDeck) {
-                    this._selectDeck(action.id);
-                } else if (action instanceof ActionNewCard) {
-                    this._newCard(action.deck_id);
-                } else if (action instanceof ActionDeleteCard) {
-                    this._deleteCard(action.id);
-                } else if (action instanceof ActionSelectCard) {
-                    this._selectCard(action.id);
-                } else {
-                    console.log("Unknown action received");
+                }
+                else if (action instanceof ActionSetDeckDescription) {
+                    this._modifyDeck(action.id, deck=>{
+                        deck.description = action.desc;
+                    });
+                }
+                else if (action instanceof ActionSetDeckTemplate) {
+                    this._modifyDeck(action.deck_id, deck=>{
+                        deck.templateId = action.template_id;
+                    });
+                }
+                else if (action instanceof ActionDeckAddDataset) {
+                    this._modifyDeck(action.deck_id, deck=>{
+                        deck.datasetIds.push(action.dataset_id);
+                    });
+                }
+                else if (action instanceof ActionDeckRemoveDataset) {
+                    this._modifyDeck(action.deck_id, deck=>{
+                        deck.datasetIds.filter(id=>id!=action.dataset_id);
+                    });
+                }
+                /* Dataset */
+                else if (action instanceof ActionNewDataset) {
+                    this._newDataset();                
+                }
+                else if (action instanceof ActionDeleteDataset) {
+                    this._deleteDataset(action.id);                
+                }
+                else if (action instanceof ActionSetDatasetName) {
+                    this._modifyDataset(action.id, dataset=>{
+                        dataset.name = action.name;
+                    });                
+                }
+                /* Record */
+                else if (action instanceof ActionNewRecord) {
+                    this._newRecord(action.dataset_id);
+                }
+                else if (action instanceof ActionDeleteRecord) {
+                    this._deleteRecord(action.id);
+                }
+                /* Template */
+                else if (action instanceof ActionNewTemplate) {
+                    this._newTemplate();
+                }
+                else if (action instanceof ActionDeleteTemplate) {
+                    this._deleteTemplate(action.id);
+                }
+                /* Unknown */
+                else {
+                    throw new Error("Unknown action received");
                 }
                 this.emitChange();
             });
@@ -61,45 +103,50 @@ module rpgcards {
         // Accessing data
         // ---------------------------------------------------------------------
 
+        getDatasetList(): AsyncT<string[]> {
+            return AsyncT.just(
+                this._datasets.map(ds => ds.id)
+                );
+        }
+          
+        getDataset(id: EntityId): AsyncT<CardDataSet> {
+            return findEntity(this._datasets, id);
+        }
+              
         getDeckList(): AsyncT<string[]> {
             return AsyncT.just(
                 this._decks.map(deck => deck.id)
                 );
         }
 
-        getDeck(id: string): AsyncT<Deck> {
+        getDeck(id: EntityId): AsyncT<Deck> {
             return findEntity(this._decks, id);
         }
 
-        getCard(id: string): AsyncT<Card> {
-            return findEntity(this._cards, id);
+        getRecord(id: EntityId): AsyncT<CardData> {
+            return findEntity(this._records, id);
         }
-
-        getCardsForDeck(id: string): AsyncT<string[]> {
-            return this.getDeck(id).lift(deck => deck.cards);
+        
+        getTemplateList(): AsyncT<string[]> {
+            return AsyncT.just(
+                this._templates.map(ds => ds.id)
+                );
         }
-
-        getDecksForCard(id: string): AsyncT<string[]> {
-            return AsyncT.just(this._decks
-                .filter(deck => deck.cards.indexOf(id) !== -1)
-                .map(deck => deck.id));
+        
+        getTemplate(id: EntityId): AsyncT<CardTemplate> {
+            return findEntity(this._templates, id);
         }
-
-        // ---------------------------------------------------------------------
-        // Pseudo-routes
-        // ---------------------------------------------------------------------
-        get selectedDeck(): string {return this._selectedDeck}
-        get selectedCard(): string {return this._selectedCard}
 
         // ---------------------------------------------------------------------
         // Methods for changing the state
         // ---------------------------------------------------------------------
         private _reset(): void {
             this._decks = [];
-            this._cards = [];
-            this._selectDeck = null;
-            this._selectCard = null;
+            this._datasets = [];
+            this._records = [];
+            this._templates = [];
         }
+        
         private _newDeck(): void {
             this._decks.push(new Deck(randomID()));
         }
@@ -108,29 +155,41 @@ module rpgcards {
             this._decks.filter(deck => deck.id !== id);
         }
 
-        private _selectDeck(id: string): void {
-            this._selectedDeck = id;
-        }
-
-        private _modifyDeck(id: string, fn: (deck: Deck)=>void): void {
+        private _modifyDeck(id: EntityId, fn: (deck: Deck)=>void): void {
             this.getDeck(id).lift(deck => fn(deck));
         }
+        
+        private _newDataset(): void {
+            this._datasets.push(new CardDataSet(randomID()));
+        }
 
-        private _newCard(deckId: string): void {
-            this.getDeck(deckId)
-                .lift(deck => {
+        private _deleteDataset(id: EntityId): void {
+            this._datasets.filter(Dataset => Dataset.id !== id);
+        }
+
+        private _modifyDataset(id: EntityId, fn: (dataset: CardDataSet)=>void): void {
+            this.getDataset(id).lift(Dataset => fn(Dataset));
+        }
+
+        private _newRecord(datasetId: EntityId): void {
+            this.getDataset(datasetId)
+                .lift(ds => {
                     var cardId = randomID();
-                    this._cards.push(new Card(cardId));
-                    deck.cards.push(cardId);
+                    this._records.push(new CardData(cardId));
+                    ds.recordIds.push(cardId);
                 });
         }
 
-        private _selectCard(id: string): void {
-            this.selectedCard = id;
+        private _deleteRecord(id: EntityId): void {
+            this._records.filter(card => card.id !== id);
         }
-
-        private _deleteCard(id: string): void {
-            this._cards.filter(card => card.id !== id);
+        
+        private _newTemplate(): void {
+            this._templates.push(new CardTemplate(randomID()));
+        }
+        
+        private _deleteTemplate(id: EntityId): void {
+            this._templates.filter(t => t.id !== id);
         }
     }
 }

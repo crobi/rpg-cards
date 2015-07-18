@@ -65,38 +65,40 @@ body {
     margin: .5rem;
     width: 20rem;
     height: 12rem;
+    border: 1px solid gray;
 
     display: flex;
     flex-direction: column;
 
-    background-color: rgb(255, 255, 255);
+    page-break-inside: avoid;
+}
+.deck-tile :hover {
+    background-color: rgb(200, 200, 255);
+}
+.deck-tile-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+
+    background-color: white;
 
     page-break-inside: avoid;
-    border-radius: 4px;
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);
 }
 .deck-tile-header {
-    background-color: #F44336;
-    color: rgb(255, 255, 255);
-    display: flex;
-    flex-direction: row;
-    padding: 0.5rem;
-    border-radius: 4px 4px 0 0;
-    font-size: 1.2rem;
-    font-weight: 400;
+    font-weight: 700;
+    padding: 1rem;
+    font-size: 1.28571429em;
+    line-height: 1.2857em;
+    background-color: #3F51B5;
+    color: white;
 }
-.deck-tile-header:hover {
-    background-color: rgb(96, 104, 126);
-    cursor: pointer;
-}
-.deck-tile-header-name {
-    flex: 1;
-}
-.deck-tile-header-id {
-
-}
+.deck-tile-meta {
+    font-size: 1em;
+    color: rgba(0,0,0,.4);
+ }
 .deck-tile-body {
     flex: 1;
+    padding: 1rem;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -115,7 +117,6 @@ body {
 }
 .deck-tile-footer {
     padding: 0.5rem;
-    border-radius: 0 0 4px 4px;
     color: #a8a8a8;
     background: #eaeaea;
 }

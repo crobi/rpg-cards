@@ -61,29 +61,75 @@ module rpgcards {
         var withDeckId = (i: number, fn: (deckId: string)=>void) => {
             appStore.getDeckList().lift(ids => fn(ids[i]));
         }
+        var withDatasetId = (i: number, fn: (datasetId: string)=>void) => {
+            appStore.getDatasetList().lift(ids => fn(ids[i]));
+        }
+        var withTemplateId = (i: number, fn: (datasetId: string)=>void) => {
+            appStore.getTemplateList().lift(ids => fn(ids[i]));
+        }
         appActions.reset();
+        
+        // Dataset 1
+        appActions.newDataset();
+        withDatasetId(0, id=> {
+            appActions.setDatasetName(id, "Player's Basic Rules spells");
+            appActions.newRecord(id);
+            appActions.newRecord(id);
+            appActions.newRecord(id);
+        });
+
+        // Dataset 2
+        appActions.newDataset();
+        withDatasetId(1, id=> {
+            appActions.setDatasetName(id, "Elemental Evil spells");
+            appActions.newRecord(id);
+            appActions.newRecord(id);
+            appActions.newRecord(id);
+        });
+        
+        // Dataset 3
+        appActions.newDataset();
+        withDatasetId(2, id=> {
+            appActions.setDatasetName(id, "DM's Basic Rules creatures");
+            appActions.newRecord(id);
+            appActions.newRecord(id);
+            appActions.newRecord(id);
+        });
+        
+        // Template 1
+        appActions.newTemplate();
+        
+        // Template 2
+        appActions.newTemplate();
 
         // Deck 1
         appActions.newDeck();
-        withDeckId(0, id=>appActions.setDeckName(id, "Spells"));
-        withDeckId(0, id=>appActions.setDeckDesc(id, "This deck contains"
-            + " basic spells."));
-        withDeckId(0, id=>appActions.newCard(id));
-        withDeckId(0, id=>appActions.newCard(id));
-        withDeckId(0, id=>appActions.newCard(id));
+        withDeckId(0, id=>{
+            appActions.setDeckName(id, "Wizard spells");
+            appActions.setDeckDesc(id, "This deck contains wizard and sorcerer spells.");
+            withTemplateId(0, id2=>appActions.setDeckTemplate(id, id2));
+            withDatasetId(0, id2=>appActions.addDeckDataset(id, id2));
+            withDatasetId(1, id2=>appActions.addDeckDataset(id, id2));
+        });
 
         // Deck 2
         appActions.newDeck();
-        withDeckId(1, id=>appActions.setDeckName(id, "Items"));
-        withDeckId(1, id=>appActions.setDeckDesc(id, "This deck contains"
-            + " mundane and magic items."));
-        appStore.getDeckList().lift(deckIds => appActions.newCard(deckIds[1]));
+        withDeckId(1, id=>{
+            appActions.setDeckName(id, "Cleric spells");
+            appActions.setDeckDesc(id, "This deck contains cleric spells.");
+            withTemplateId(0, id2=>appActions.setDeckTemplate(id, id2));
+            withDatasetId(0, id2=>appActions.addDeckDataset(id, id2));
+            withDatasetId(1, id2=>appActions.addDeckDataset(id, id2));
+        });
 
         // Deck 3
         appActions.newDeck();
-        withDeckId(2, id=>appActions.setDeckName(id, "Creatures"));
-        withDeckId(2, id=>appActions.setDeckDesc(id, "This deck contains"
-            + " creatures."));
+        withDeckId(2, id=>{
+            appActions.setDeckName(id, "Creatures");
+            appActions.setDeckDesc(id, "This deck contains creatures.");
+            withTemplateId(1, id2=>appActions.setDeckTemplate(id, id2));
+            withDatasetId(2, id2=>appActions.addDeckDataset(id, id2));
+        });
     }
 
 }

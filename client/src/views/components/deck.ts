@@ -5,39 +5,32 @@ module rpgcards {
         id       : string;
         name     : string;
         desc     : string;
-        cards    : number;
     }
     function DeckTilePropsEqual(a:DeckTileProps, b:DeckTileProps) {
         return a.id === b.id &&
             a.name === b.name &&
-            a.desc === b.desc &&
-            a.cards === b.cards;
+            a.desc === b.desc;
     }
 
     interface DeckTileState {
     }
 
-    export function tileHeader(props: DeckTileProps) {
+    export function tileHeader(props: DeckTileProps): React.ReactElement<any> {
         return React.DOM.div
             ( { className: 'deck-tile-header', onClick: null }
-            , React.DOM.div({ className: 'deck-tile-header-name' }, props.name)
-            , React.DOM.div({ className: 'deck-tile-header-id' }, props.id)
+            , props.name
             );
     }
 
-    export function tileBody(props: DeckTileProps) {
+    export function tileBody(props: DeckTileProps): React.ReactElement<any> {
         return React.DOM.div
             ( { className: 'deck-tile-body', onClick: null }
-            , props.desc
+            , React.DOM.p(null, props.desc)
             );
     }
 
-    export function tileFooter(props: DeckTileProps) {
-        let cardsText = props.cards + " cards";
-        return React.DOM.div
-            ( { className: 'deck-tile-footer', onClick: null }
-            , cardsText
-            );
+    export function tileFooter(props: DeckTileProps): React.ReactElement<any> {
+        return null;
     }
 
     export class DeckTileSpec extends React.Component<DeckTileProps, DeckTileState> {
@@ -62,12 +55,12 @@ module rpgcards {
 
         render() {
 
-            return React.DOM.div
-                ( { className: 'deck-tile' }
-                , tileHeader(this.props)
-                , tileBody(this.props)
-                , tileFooter(this.props)
-                );
+            return React.DOM.div( { className: 'deck-tile' }
+                , React.DOM.div( { className: 'deck-tile-content' }
+                    , tileHeader(this.props)
+                    , tileBody(this.props)
+                    , tileFooter(this.props)
+                ));
         }
     }
 

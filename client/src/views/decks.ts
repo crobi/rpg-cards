@@ -51,15 +51,13 @@ module rpgcards {
     export function renderDecks(store: Store): React.ReactElement<any> {
         var decks = store.getDeckList().fmap(deckIds => deckIds.map(id => {
             let deck = store.getDeck(id);
-            let cards = store.getCardsForDeck(id);
 
-            return AsyncT.liftA2(deck, cards, (deck, cards) => {
+            return deck.lift(deck => {
                 return <React.ReactElement<any>> DeckTile({
                     key : deck.id,
                     id  : deck.id,
                     desc: deck.description,
-                    name: deck.name,
-                    cards: cards.length });
+                    name: deck.name});
             }).caseOf({
                 just: (t) => t,
                 nothing: (e) => errorTile(id, e),

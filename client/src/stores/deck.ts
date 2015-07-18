@@ -2,16 +2,16 @@
 
 module rpgcards {
     export class Deck extends Entity{
-        public cards: string[];
+        public datasetIds: EntityId[];
+        public templateId: EntityId;
         public description: string;
 
-        constructor(id:string) {
+        constructor(id:EntityId) {
             super(id);
-            this.cards = [];
+            this.datasetIds = [];
+            this.templateId = null;
             this.description = "";
         }
 
     }
-
-    export type DeckList = Deck[];
 }
