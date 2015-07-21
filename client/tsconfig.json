@@ -16,12 +16,14 @@
         "!./node_modules/**/*.ts"
     ],
     "files": [
-        "./src/actions/actions.ts",
         "./src/app.ts",
+        "./src/mock.ts",
+        "./src/actions/actions.ts",
         "./src/dispatcher/dispatcher.ts",
         "./src/dispatcher/invariant.ts",
         "./src/external/react/react-addons.d.ts",
         "./src/external/react/react.d.ts",
+        "./src/external/page/page.d.ts",
         "./src/stores/asyncT.ts",
         "./src/stores/card.ts",
         "./src/stores/dataset.ts",
@@ -33,6 +35,7 @@
         "./src/stores/template.ts",
         "./src/views/components/deck.ts",
         "./src/views/decks.ts",
-        "./src/views/header.ts"
+        "./src/views/header.ts",
+        "./src/views/view.ts"
     ]
 }
