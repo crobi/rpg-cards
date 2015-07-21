@@ -157,8 +157,8 @@ module rpgcards {
             this._datasets = [];
             this._records = [];
             this._templates = [];
-            this._view = ViewState.MainMenu;
-            this._viewParams = [];
+            //this._view = ViewState.MainMenu;
+            //this._viewParams = [];
         }
         
         private _newDeck(): void {
