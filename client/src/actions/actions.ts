@@ -5,6 +5,13 @@ module rpgcards {
     export class ActionReset implements Action {
         constructor() {}
     }
+    
+    /* View actions */
+   export class ActionSetView implements Action {
+        constructor(private _view: ViewState, private _params: EntityId[]) {}
+        get view(): ViewState {return this._view}
+        get params(): EntityId[] {return this._params}
+    }
 
     /* Deck actions */
     export class ActionNewDeck implements Action {
@@ -85,6 +92,9 @@ module rpgcards {
         }
         public reset(): void {
             this._dispatcher.dispatch(new ActionReset());
+        }
+        public setView(view:ViewState, params:EntityId[]): void {
+            this._dispatcher.dispatch(new ActionSetView(view, params));
         }
         public newDeck(): void {
             this._dispatcher.dispatch(new ActionNewDeck());

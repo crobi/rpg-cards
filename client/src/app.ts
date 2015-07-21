@@ -1,10 +1,11 @@
 /// <reference path="./dispatcher/dispatcher.ts"/>
 /// <reference path="./stores/store.ts"/>
 /// <reference path="./actions/actions.ts"/>
-/// <reference path="./views/header.ts"/>
 /// <reference path="./views/view.ts"/>
+/// <reference path="./views/ui.ts"/>
 /// <reference path="./external/page/page.d.ts"/>
 
+/// <reference path="./routes.ts"/>
 /// <reference path="./mock.ts"/>
 
 module rpgcards {
@@ -33,16 +34,14 @@ module rpgcards {
             this.dispatcher = new Dispatcher();
             this.actions = new Actions(this.dispatcher);
             this.store = new Store(this.dispatcher);
+            this.view = renderUI;
             this.container = ()=>document.body;
-            
-            // Map URLs to views
-            this.setupRoutes();
-    
+
             // Each state change triggers a re-render
             this.store.addChangeListener(() => this.refresh());
-            
-            // Trigger an initial action
-            this.actions.reset();
+             
+            // Map URLs to views (triggers an initial action)
+            setupRoutes(this.actions);
         }
         
         // Refresh
@@ -50,21 +49,6 @@ module rpgcards {
             // In this project, views are pure functions that map
             // the application state (Store) to React elements
             React.render(this.view(this.store), this.container());
-        }
-        
-        // Routing
-        setupRoutes() {
-            page('/', () => {
-                this.view = renderDecks;
-            });
-            page('/decks', () => {
-                this.view = renderDecks;
-            });
-            page('*', () => {
-                this.view = renderDecks;
-            });
-            
-            page();
         }
     }
     

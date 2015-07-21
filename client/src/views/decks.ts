@@ -1,4 +1,5 @@
 /// <reference path="../external/react/react.d.ts"/>
+/// <reference path="./header.ts"/>
 
 module rpgcards {
 
@@ -69,9 +70,11 @@ module rpgcards {
             pending: () => [React.DOM.div({}, "loading...")]
         });
 
-        return React.DOM.div({ className: 'decks' },
-            decks,
-            newDeckTile()
-        );
+        return React.DOM.div({}
+            , renderHeader(store)
+            , React.DOM.div({ className: 'decks' }
+                , decks
+                , newDeckTile()
+            ));
     }
 }

@@ -1,5 +1,6 @@
 /// <reference path="./card.ts"/>
 /// <reference path="./deck.ts"/>
+/// <reference path="./viewState.ts"/>
 /// <reference path="./eventEmitter.ts"/>
 /// <reference path="./asyncT.ts"/>
 /// <reference path="../dispatcher/dispatcher.ts"/>
@@ -21,18 +22,21 @@ module rpgcards {
         private _datasets: CardDataSet[];
         private _records: CardData[];
         private _templates: CardTemplate[];
+        private _view: ViewState;
+        private _viewParams: EntityId[];
 
         constructor(dispatcher: Dispatcher) {
             super();
-            this._decks = [];
-            this._datasets = [];
-            this._records = [];
-            this._templates = [];
+            this._reset();
 
             dispatcher.register((action) => {
                 /* Generic */
                 if(action instanceof ActionReset) {
                     this._reset()
+                }
+                else if(action instanceof ActionSetView) {
+                    this._view = action.view;
+                    this._viewParams = action.params;
                 }
                 /* Deck */
                 else if(action instanceof ActionNewDeck) {
@@ -102,6 +106,14 @@ module rpgcards {
         // ---------------------------------------------------------------------
         // Accessing data
         // ---------------------------------------------------------------------
+        
+        getViewState(): ViewState {
+            return this._view;
+        }
+        
+        getViewParams(): EntityId[] {
+            return this._viewParams;
+        }
 
         getDatasetList(): AsyncT<string[]> {
             return AsyncT.just(
@@ -145,6 +157,8 @@ module rpgcards {
             this._datasets = [];
             this._records = [];
             this._templates = [];
+            this._view = ViewState.MainMenu;
+            this._viewParams = [];
         }
         
         private _newDeck(): void {

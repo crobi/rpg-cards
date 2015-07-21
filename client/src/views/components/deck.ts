@@ -1,3 +1,5 @@
+/// <reference path="../../external/react/react.d.ts"/>
+
 module rpgcards {
 
     export interface DeckTileProps extends React.Props<any> {

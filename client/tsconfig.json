@@ -18,6 +18,7 @@
     "files": [
         "./src/app.ts",
         "./src/mock.ts",
+        "./src/routes.ts",
         "./src/actions/actions.ts",
         "./src/dispatcher/dispatcher.ts",
         "./src/dispatcher/invariant.ts",
@@ -33,9 +34,11 @@
         "./src/stores/id.ts",
         "./src/stores/store.ts",
         "./src/stores/template.ts",
+        "./src/stores/viewState.ts",
         "./src/views/components/deck.ts",
+        "./src/views/view.ts",
         "./src/views/decks.ts",
         "./src/views/header.ts",
-        "./src/views/view.ts"
+        "./src/views/ui.ts"
     ]
 }
