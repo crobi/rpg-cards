@@ -39,6 +39,7 @@
         "./src/views/view.ts",
         "./src/views/decks.ts",
         "./src/views/header.ts",
+        "./src/views/notfound.ts",
         "./src/views/ui.ts"
     ]
 }

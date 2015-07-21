@@ -14,7 +14,7 @@ var tsProject = ts.createProject({
       out: 'app.js'
   });
 
-  var tsProject2 = ts.createProject('tsconfig.json');
+var tsProject2 = ts.createProject('tsconfig.json');
 
 gulp.task('default', function() {
     return tsProject2.src()
