@@ -12,7 +12,7 @@ module rpgcards {
             actions.setView(ViewState.DeckList, []);
         });
         page('*', () => {
-            actions.setView(ViewState.MainMenu, []);
+            actions.setView(ViewState.Unknown, []);
         });
         
         page();
