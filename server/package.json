@@ -1,0 +1,16 @@
+{
+  "name": "rpg-cards-server",
+  "version": "0.0.0",
+  "description": "Card creation tool (server part)",
+  "repository": "https://github.com/crobi/rpg-cards",
+  "main": "js/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./node_modules/http-server/bin/http-server ../client -o"
+  },
+  "author": "crobi",
+  "dependencies": {
+    "http-server": "*"
+  },
+  "license": "BSD-2-Clause"
+}
