@@ -6,11 +6,19 @@
   "main": "js/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./node_modules/http-server/bin/http-server ../client -o"
+    "start": "node ./server.js"
   },
   "author": "crobi",
   "dependencies": {
     "http-server": "*"
+  },
+  "devDependencies": {
+    "typescript": "1.5.x",
+    "gulp": "*",
+    "gulp-typescript": "*",
+    "connect": "3.x",
+    "serve-static": "*",
+    "morgan": "*"
   },
   "license": "BSD-2-Clause"
 }
