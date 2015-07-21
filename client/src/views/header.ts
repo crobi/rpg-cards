@@ -19,21 +19,21 @@ module rpgcards {
         );
        
     function breadCrumb(name: string, link: string): React.ReactElement<any> {
-        return  React.DOM.div( { className: 'flex-item', onClick: ()=>page(link) }
+        return  React.DOM.div( { className: 'navbar-item', onClick: ()=>page(link) }
             , name
         );
     }
     
     var breadCrumbSeparator = React.DOM.div
         ( { className: 'navbar-item'}
-        , '>'
+        , ' > '
         );
     
     function breadCrumbs(viewState: ViewState, ids: EntityId[]): React.ReactElement<any>[]{
         switch(viewState) {
             case ViewState.MainMenu: return null;
             case ViewState.DeckList: return null;
-            case ViewState.DeckEdit: return [breadCrumb("Decks", "/decks")];
+            case ViewState.DeckEdit: return [breadCrumbSeparator, breadCrumb("Decks", "/decks")];
         }
     }
 
