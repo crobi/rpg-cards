@@ -5,13 +5,16 @@
 module rpgcards {
     
     export function setupRoutes(actions: Actions) {
-        page('/', () => {
+        page('/', (ctx) => {
             actions.setView(ViewState.MainMenu, []);
         });
-        page('/decks', () => {
+        page('/decks/:deckid', (ctx) => {
+            actions.setView(ViewState.DeckEdit, [ctx.params.deckid]);
+        });
+        page('/decks', (ctx) => {
             actions.setView(ViewState.DeckList, []);
         });
-        page('*', () => {
+        page('*', (ctx) => {
             actions.setView(ViewState.Unknown, []);
         });
         
