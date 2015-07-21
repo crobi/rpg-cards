@@ -1,4 +1,5 @@
 /// <reference path="../external/react/react.d.ts"/>
+/// <reference path="../stores/store.ts"/>
 /// <reference path="./header.ts"/>
 
 module rpgcards {
