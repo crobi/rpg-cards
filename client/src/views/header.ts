@@ -4,7 +4,7 @@ module rpgcards {
 
 
     var homeItem = React.DOM.div
-        ( { className: 'navbar-item', onClick: null }
+        ( { className: 'navbar-item', onClick: (e)=>page("/") }
         , React.DOM.i({ className: 'server icon' })
         , 'Home'
         );
@@ -17,6 +17,25 @@ module rpgcards {
     var flexItem = React.DOM.div
         ( { className: 'flex-navbar-item' }
         );
+       
+    function breadCrumb(name: string, link: string): React.ReactElement<any> {
+        return  React.DOM.div( { className: 'flex-item', onClick: ()=>page(link) }
+            , name
+        );
+    }
+    
+    var breadCrumbSeparator = React.DOM.div
+        ( { className: 'navbar-item'}
+        , '>'
+        );
+    
+    function breadCrumbs(viewState: ViewState, ids: EntityId[]): React.ReactElement<any>[]{
+        switch(viewState) {
+            case ViewState.MainMenu: return null;
+            case ViewState.DeckList: return null;
+            case ViewState.DeckEdit: return [breadCrumb("Decks", "/decks")];
+        }
+    }
 
     function accountIdItem() {
         return React.DOM.div
@@ -27,11 +46,12 @@ module rpgcards {
     }
 
     export function renderHeader(store: Store): React.ReactElement<any> {
-        return React.DOM.div({ className: 'navbar' },
-            homeItem,
-            flexItem,
-            accountIdItem(),
-            signOutItem
+        return React.DOM.div({ className: 'navbar' }
+            , homeItem
+            , breadCrumbs(store.getViewState(), store.getViewParams())
+            , flexItem
+            , accountIdItem()
+            , signOutItem
         );
     }
 }
