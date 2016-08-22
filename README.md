@@ -3,6 +3,11 @@ rpg-cards
 
 RPG spell/item/monster card generator
 
+status of the project
+=====================
+
+I won't have time to work on this project in the forseeable future.
+PR's are still welcome, so feel free to implement new awesome features!
 
 license
 =======
