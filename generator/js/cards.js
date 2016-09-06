@@ -183,6 +183,14 @@ function card_element_text(params, card_data, options) {
     return result;
 }
 
+function card_element_html(params, card_data, options) {
+    var result = "";
+    result += '<div class="card-element card-description-line">';
+    result += '   ' + params[0];
+    result += '</div>';
+    return result;
+}
+
 function card_element_dndstats(params, card_data, options) {
     var stats = [10, 10, 10, 10, 10, 10];
     var mods = [0,0,0,0,0,0];
@@ -257,6 +265,7 @@ var card_element_generators = {
     description: card_element_description,
     dndstats: card_element_dndstats,
     text: card_element_text,
+    html: card_element_html,
     bullet: card_element_bullet,
     fill: card_element_fill,
     section: card_element_section,
