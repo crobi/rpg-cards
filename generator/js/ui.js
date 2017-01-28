@@ -192,7 +192,6 @@ function ui_update_selected_card() {
         $("#card-color").val("").change();
     }
 
-    local_store_save();
     ui_render_selected_card();
 }
 
@@ -204,6 +203,7 @@ function ui_render_selected_card() {
         var back = card_generate_back(card, card_options);
         $('#preview-container').html(front + "\n" + back);
     }
+    local_store_save()
 }
 
 function ui_open_help() {
@@ -346,6 +346,14 @@ function ui_change_card_contents() {
     }
 }
 
+function ui_change_card_contents_keyup () {
+    clearTimeout(ui_change_card_contents_keyup.timeout)
+    ui_change_card_contents_keyup.timeout = setTimeout(function () {
+        $('#card-contents').trigger('change')
+    }, 200)
+}
+ui_change_card_contents_keyup.timeout = null
+
 function ui_change_card_tags() {
     var value = $(this).val();
 
@@ -456,7 +464,27 @@ function local_store_load() {
 $(document).ready(function () {
     local_store_load();
     ui_setup_color_selector();
-    $('.icon-list').typeahead({source:icon_names});
+    $('.icon-list').typeahead({
+        source:icon_names,
+        items: 'all',
+        render: function (items) {
+          var that = this;
+
+          items = $(items).map(function (i, item) {
+            i = $(that.options.item).data('value', item);
+            i.find('a').html(that.highlighter(item));
+            var classname = 'icon-' + item.split(' ').join('-').toLowerCase()
+            i.find('a').append('<span class="' + classname + '"></span>')
+            return i[0];
+          });
+
+          if (this.autoSelect) {
+            items.first().addClass('active');
+          }
+          this.$menu.html(items);
+          return this;
+        }
+    });
 
     $("#button-generate").click(ui_generate);
     $("#button-load").click(function () { $("#file-load").click(); });
@@ -485,6 +513,9 @@ $(document).ready(function () {
 	$("#card-color").change(ui_change_card_color);
     $("#card-contents").change(ui_change_card_contents);
     $("#card-tags").change(ui_change_card_tags);
+
+    $("#card-contents").keyup(ui_change_card_contents_keyup);
+
 
     $("#page-size").change(ui_change_option);
     $("#page-rows").change(ui_change_option);
