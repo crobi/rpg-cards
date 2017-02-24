@@ -8,6 +8,7 @@ function card_default_options() {
         default_color: "black",
         default_icon: "ace",
         default_title_size: "13",
+        default_body_text_size: "8",
         page_size: "A4",
         page_rows: 3,
         page_columns: 3,
@@ -74,6 +75,18 @@ function card_data_icon_back(card_data, options) {
     return card_data.icon_back || card_data.icon || options.default_icon || "ace";
 }
 
+function card_data_body_text_font(card_data, options) {
+    return card_data.body_text_size || options.default_body_text_size || "8";
+}
+
+function card_data_subtitle_text_font(card_data, options) {
+    return (parseInt(card_data_body_text_font(card_data, options), 10) + 2).toString();
+}
+
+function card_data_section_text_font(card_data, options) {
+    return (parseInt(card_data_body_text_font(card_data, options), 10) + 2).toString();
+}
+
 function card_data_split_params(value) {
     return value.split("|").map(function (str) { return str.trim(); });
 }
@@ -104,8 +117,9 @@ function card_element_icon(card_data, options) {
 }
 
 function card_element_subtitle(params, card_data, options) {
+    var subtitle_text_font = card_data_subtitle_text_font(card_data, options);
     var subtitle = params[0] || "";
-    return '<div class="card-element card-subtitle">' + subtitle + '</div>';
+    return '<div class="card-element card-subtitle" style="font-size:' + subtitle_text_font +'pt">' + subtitle + '</div>';
 }
 
 function card_element_picture(params, card_data, options) {
@@ -240,9 +254,10 @@ function card_element_bullet(params, card_data, options) {
 }
 
 function card_element_section(params, card_data, options) {
+    var section_text_font = card_data_section_text_font(card_data, options);
     var color = card_data_color_front(card_data, options);
     var section = params[0] || "";
-    return '<h3 class="card-section" style="color:' + color + '">' + section + '</h3>';
+    return '<h3 class="card-section" style="color:' + color + '"; font-size:' + section_text_font +'pt">' + section + '</h3>';
 }
 
 function card_element_fill(params, card_data, options) {
@@ -307,7 +322,7 @@ function card_repeat(card, count) {
 }
 
 function card_generate_color_style(color, options) {
-    return 'style="color:' + color + '; border-color:' + color + '; background-color:' + color + '"';
+    return 'color:' + color + '; border-color:' + color + '; background-color:' + color;
 }
 
 function card_generate_color_gradient_style(color, options) {
@@ -317,9 +332,10 @@ function card_generate_color_gradient_style(color, options) {
 function card_generate_front(data, options) {
     var color = card_data_color_front(data, options);
     var style_color = card_generate_color_style(color, options);
+    var body_text_font = card_data_body_text_font(data, options);
 
     var result = "";
-    result += '<div class="card card-size-' + options.card_size + '" ' + style_color + '>';
+    result += '<div class="card card-size-' + options.card_size + '" style="' + style_color + '; font-size:' + body_text_font +'pt">';
     result += card_element_icon(data, options);
     result += card_element_title(data, options);
     result += card_generate_contents(data.contents, data, options);
@@ -337,19 +353,19 @@ function card_generate_back(data, options) {
 	{
 		background_style = 'style = "background-image: url(&quot;' + url + '&quot;); background-size: contain; background-position: center; background-repeat: no-repeat;"'
 	}
-	else 
+	else
 	{
 		background_style = card_generate_color_gradient_style(color, options);
     }
 	var icon = card_data_icon_back(data, options);
 
     var result = "";
-    result += '<div class="card card-size-' + options.card_size + '" ' + style_color + '>';
+    result += '<div class="card card-size-' + options.card_size + '" style="' + style_color + '">';
     result += '  <div class="card-back" ' + background_style + '>';
 	if (!url)
 	{
 		result += '    <div class="card-back-inner">';
-		result += '      <div class="card-back-icon icon-' + icon + '" ' + style_color + '></div>';
+		result += '      <div class="card-back-icon icon-' + icon + '" style="' + style_color + '"></div>';
 		result += '    </div>';
 	}
     result += '  </div>';
@@ -362,7 +378,7 @@ function card_generate_empty(count, options) {
     var style_color = card_generate_color_style("white");
 
     var result = "";
-    result += '<div class="card card-size-' + options.card_size + '" ' + style_color + '>';
+    result += '<div class="card card-size-' + options.card_size + '" style="' + style_color + '">';
     result += '</div>';
 
     return card_repeat(result, count);

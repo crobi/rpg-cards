@@ -6,7 +6,6 @@
     display: flex;
     flex-direction: column;
     font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
-    font-size: 8pt;
 }
 
 .card-content-container {
@@ -132,7 +131,6 @@
     margin-bottom: 0.0em;
     line-height: 18px;
     font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
-    font-size: 10pt;
     font-style: italic;
 }
 .card-picture {
@@ -157,7 +155,6 @@
 
 .card-section {
     border-bottom: 1px solid;
-    font-size: 10pt;
     font-variant: small-caps;
     font-weight: normal;
     letter-spacing: 1px;

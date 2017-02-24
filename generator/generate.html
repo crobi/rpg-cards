@@ -195,13 +195,27 @@
                             </select>
                         </div>
                     </div>
+                     <div class="form-group">
+                        <label for="default-body-text-size" class="col-sm-2 control-label">Body Text</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="default-body-text-size">
+                                <option value="11">11pt font</option>
+                                <option value="10">10pt font</option>
+                                <option value="9">9pt font</option>
+                                <option value="8" selected>8pt font</option>
+                                <option value="7">7pt font</option>
+                                <option value="6">6pt font</option>
+                                <option value="5">5pt font</option>
+                            </select>
+                        </div>
+                    </div>
                     <h3>Apply defaults to all cards</h3>
                     <div class="form-group">
                         <div class="col-sm-6">
                             <button type="button" class="btn btn-primary btn-block" id="button-apply-color">Apply color</button>
                         </div>
                         <div class="col-sm-6">
-                            <button type="button" class="btn btn-primary btn-block" id="button-apply-font">Apply title font</button>
+                            <button type="button" class="btn btn-primary btn-block" id="button-apply-title-font">Apply title font</button>
                         </div>
                     </div>
                     <div class="form-group">
@@ -210,6 +224,11 @@
                         </div>
                         <div class="col-sm-6">
                             <button type="button" class="btn btn-primary btn-block" id="button-apply-icon-back">Apply back icon</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <button type="button" class="btn btn-primary btn-block" id="button-apply-body-text-font">Apply body font</button>
                         </div>
                     </div>
                 </form>
@@ -259,6 +278,21 @@
                                 <option value="12">12pt font</option>
                                 <option value="11">11pt font</option>
                                 <option value="10">10pt font</option>
+                            </select>
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label for="card-body-text-size" class="col-sm-2 control-label">Body Text</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="card-body-text-size" data-property="body_text_size">
+                                <option value="" selected>default font</option>
+                                <option value="11">11pt font</option>
+                                <option value="10">10pt font</option>
+                                <option value="9">9pt font</option>
+                                <option value="8">8pt font</option>
+                                <option value="7">7pt font</option>
+                                <option value="6">6pt font</option>
+                                <option value="5">5pt font</option>
                             </select>
                         </div>
                     </div>
