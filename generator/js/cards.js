@@ -257,7 +257,7 @@ function card_element_section(params, card_data, options) {
     var section_text_font = card_data_section_text_font(card_data, options);
     var color = card_data_color_front(card_data, options);
     var section = params[0] || "";
-    return '<h3 class="card-section" style="color:' + color + '"; font-size:' + section_text_font +'pt">' + section + '</h3>';
+    return '<h3 class="card-section" style="color:' + color + '; font-size:' + section_text_font +'pt">' + section + '</h3>';
 }
 
 function card_element_fill(params, card_data, options) {
