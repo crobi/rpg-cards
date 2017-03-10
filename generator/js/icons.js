@@ -737,6 +737,7 @@ var icon_names = [
     "gas-pump",
     "gate",
     "gauls-helm",
+    "gauntlet",
     "gavel",
     "gaze",
     "gear-hammer",
