@@ -1,0 +1,8 @@
+.dropdown-colorselector .dropdown-menu {
+	max-width: 97% !important;
+}
+
+.color-label {
+	float: left;
+	margin-right: 5px;
+}
