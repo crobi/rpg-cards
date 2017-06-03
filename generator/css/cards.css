@@ -216,6 +216,11 @@
 .card-description-text {
     display: inline;
 }
+.card-spelllist-text {
+	display: inline;
+	font-size: inherit;
+	font-style: italic;
+}
 
 .card-ruler {
     width: 100%;
