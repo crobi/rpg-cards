@@ -216,6 +216,10 @@
 .card-description-text {
     display: inline;
 }
+.card-spell-text {
+	display: inline;
+	font-size: .8em;
+}
 
 .card-ruler {
     width: 100%;
