@@ -80,11 +80,11 @@ function card_data_body_text_font(card_data, options) {
 }
 
 function card_data_subtitle_text_font(card_data, options) {
-    return (parseInt(card_data_body_text_font(card_data, options), 10) + 2).toString();
+    return (parseFloat(card_data_body_text_font(card_data, options)) + 2).toString();
 }
 
 function card_data_section_text_font(card_data, options) {
-    return (parseInt(card_data_body_text_font(card_data, options), 10) + 2).toString();
+    return (parseFloat(card_data_body_text_font(card_data, options)) + 2).toString();
 }
 
 function card_data_split_params(value) {
@@ -465,6 +465,7 @@ function card_pages_generate_style(options) {
     switch (options.page_size) {
         case "A3": size = "A3 portrait"; break;
         case "A4": size = "210mm 297mm"; break;
+        case "A4-landscape": size = "297mm 210mm"; break;
         case "A5": size = "A5 portrait"; break;
         case "Letter": size = "letter portrait"; break;
         case "25x35": size = "2.5in 3.5in"; break;
