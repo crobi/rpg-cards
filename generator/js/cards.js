@@ -15,7 +15,9 @@ function card_default_options() {
         card_size: "25x35",
         card_count: null,
         icon_inline: true,
-        rounded_corners: true
+        rounded_corners: true,
+        left_to_right: true,
+        
     };
 }
 
@@ -97,7 +99,7 @@ function card_element_icon(card_data, options) {
     }
 
     var result = "";
-    result += '<div class="card-title-' + classname + '-container">';
+    result += '<div class="card-title-' + classname + '-container ' + (options.left_to_right? "absolute-position-right" : "absolute-position-left") + '">';
     result += '    <div class="card-title-' + classname + ' icon-' + icon + '">';
     result += '    </div>';
     result += '</div>';
@@ -292,7 +294,8 @@ var card_element_generators = {
 
 function card_generate_contents(contents, card_data, options) {
     var result = "";
-    result += '<div class="card-content-container">';
+    result += '<div class="card-content-container" '
+    + '>';
     result += contents.map(function (value) {
         var parts = card_data_split_params(value);
         var element_name = parts[0];
@@ -329,7 +332,13 @@ function card_generate_front(data, options) {
     var style_color = card_generate_color_style(color, options);
 
     var result = "";
-    result += '<div class="card card-size-' + options.card_size + ' ' + (options.rounded_corners ? 'rounded-corners' : '') + '" ' + style_color + '>';
+    result += '<div class="card card-size-' + options.card_size + ' ' 
+    + (options.rounded_corners ? 'rounded-corners' : '')
+    + ' ' 
+    + (options.left_to_right ? 'left-to-right' : 'right-to-left') 
+    + '" ' 
+    + style_color 
+    + '>';
     result += card_element_icon(data, options);
     result += card_element_title(data, options);
     result += card_generate_contents(data.contents, data, options);

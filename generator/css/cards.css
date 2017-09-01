@@ -26,6 +26,14 @@
     font-size: inherit;
 }
 
+.left-to-right {
+    direction: ltr;
+}
+
+.right-to-left {
+    direction: rtl;
+}
+
 .card-back {
 /*     background-color: white; */
     border-radius: 4mm;
@@ -86,12 +94,18 @@
 }
 .card-title-inlineicon-container {
     position: absolute;
-    right: -1mm;
     top: -1mm;
     border: 1mm solid;
     border-radius: 1mm;
     background-color: inherit;
     border-color: inherit;
+}
+.absolute-position-right {
+    right: -1mm;
+}
+
+.absolute-position-left {
+    left: -1mm;
 }
 
 .card-title {
