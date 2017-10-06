@@ -1980,18 +1980,18 @@ var icon_names = [
 ];
 
 var class_icon_names = [
-    "class-barbarian",
-    "class-bard",
-    "class-cleric",
-    "class-druid",
-    "class-fighter",
-    "class-monk",
-    "class-paladin",
-    "class-ranger",
-    "class-rogue",
-    "class-sorcerer",
-    "class-warlock",
-    "class-wizard"
+	"class-barbarian",
+	"class-bard",
+	"class-cleric",
+	"class-druid",
+	"class-fighter",
+	"class-monk",
+	"class-paladin",
+	"class-ranger",
+	"class-rogue",
+	"class-sorcerer",
+	"class-warlock",
+	"class-wizard"
 ];
 
 icon_names = icon_names.concat(class_icon_names);
