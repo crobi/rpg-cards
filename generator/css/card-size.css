@@ -90,12 +90,43 @@ page[size="25x35"] {
 }
 
 /* Card sizes that fill out the entire sheet of paper (minimal margins) */
-.page[size="A4"] .card-size-full3x3 {
+
+.page[size="A4"] .card-size-fill3x3 {
     width:69mm;
     height:98mm;
 }
 
-.page[size="Letter"] .card-size-full3x3 {
+.page[size="A4"] .card-size-fill2x2 {
+    width:103.5mm;
+    height:147mm;
+}
+
+.page[size="A4"] .card-size-fill1x2 {
+    width:207mm;
+    height:147mm;
+}
+
+.page[size="A4"] .card-size-fill1x1 {
+    width:207mm;
+    height:294mm;
+}
+
+.page[size="Letter"] .card-size-fill3x3 {
     width:71mm;
     height:92mm;
+}
+
+.page[size="Letter"] .card-size-fill2x2 {
+    width:106.5mm;
+    height:138mm;
+}
+
+.page[size="Letter"] .card-size-fill1x2 {
+    width:213mm;
+    height:138mm;
+}
+
+.page[size="Letter"] .card-size-fill1x1 {
+    width:213mm;
+    height:276mm;
 }
