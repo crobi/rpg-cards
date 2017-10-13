@@ -31,6 +31,11 @@ page[size="A4"] {
     height: 296mm; /* full: 297.0mm */
 }
 
+page[size="A4-landscape"] {
+    width:  296mm; /* full: 297.0mm */
+    height: 210mm; /* full: 210.0mm */
+}
+
 /* US letter area */
 page[size="Letter"] {
     width:  8.5in;
@@ -89,13 +94,50 @@ page[size="25x35"] {
     height: 2in;
 }
 
+/* Card size fitting 66x91mm sleeves */
+.card-size-62x86sleeve {
+    width: 62mm;
+    height: 86mm;
+}
+
 /* Card sizes that fill out the entire sheet of paper (minimal margins) */
-.page[size="A4"] .card-size-full3x3 {
+
+.page[size="A4"] .card-size-fill3x3 {
     width:69mm;
     height:98mm;
 }
 
-.page[size="Letter"] .card-size-full3x3 {
+.page[size="A4"] .card-size-fill2x2 {
+    width:103.5mm;
+    height:147mm;
+}
+
+.page[size="A4"] .card-size-fill1x2 {
+    width:207mm;
+    height:147mm;
+}
+
+.page[size="A4"] .card-size-fill1x1 {
+    width:207mm;
+    height:294mm;
+}
+
+.page[size="Letter"] .card-size-fill3x3 {
     width:71mm;
     height:92mm;
+}
+
+.page[size="Letter"] .card-size-fill2x2 {
+    width:106.5mm;
+    height:138mm;
+}
+
+.page[size="Letter"] .card-size-fill1x2 {
+    width:213mm;
+    height:138mm;
+}
+
+.page[size="Letter"] .card-size-fill1x1 {
+    width:213mm;
+    height:276mm;
 }
