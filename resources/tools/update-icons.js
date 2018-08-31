@@ -1,14 +1,14 @@
 const mv = require('mv');
 const fs = require('fs');
 const fse = require('fs-extra');
-const http = require('http');
+const http = require('https');
 const path = require('path');
 const walk = require('walk');
 const unzip = require('unzip');
 const child_process = require('child_process');
 const ncp = require('ncp');
 
-const gameIconsUrl = "http://game-icons.net/archives/png/zip/ffffff/000000/game-icons.net.png.zip";
+const gameIconsUrl = "https://game-icons.net/archives/png/zip/ffffff/000000/game-icons.net.png.zip";
 const tempFilePath = "./temp.zip";
 const tempDir = "./temp";
 const imgDir = "./generator/img";
@@ -176,4 +176,4 @@ fse.emptyDir(tempDir)
 .then(() => generateCSS(imgDir, cssPath))
 .then(() => generateJS(imgDir, jsPath))
 .then(() => console.log("Done."))
-.catch(err => cosole.log("Error", err));
+.catch(err => console.log("Error", err));
