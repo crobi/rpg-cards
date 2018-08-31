@@ -120,7 +120,12 @@ function card_element_inline_icon(params, card_data, options) {
 function card_element_picture(params, card_data, options) {
     var url = params[0] || "";
     var height = params[1] || "";
-    return '<div class="card-element card-picture" style ="background-image: url(&quot;' + url + '&quot;); background-size: contain; background-position: center;background-repeat: no-repeat; height:' + height + 'px"></div>';
+    var invert = params[2] || "";
+    if (invert === "true")
+    {
+        invert = "-webkit-filter: invert(100%); filter: invert(100%);";
+    }
+    return '<div class="card-element card-picture" style ="background-image: url(&quot;' + url + '&quot;); background-size: contain; background-position: center;background-repeat: no-repeat; height:' + height + 'px;' + invert + '"></div>';
 }
 
 function card_element_ruler(params, card_data, options) {
