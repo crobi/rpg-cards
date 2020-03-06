@@ -1,7 +1,8 @@
 const mv = require('mv');
 const fs = require('fs');
 const fse = require('fs-extra');
-const http = require('https');
+//const http = require('https');
+const { https: http } = require('follow-redirects');
 const path = require('path');
 const walk = require('walk');
 const unzip = require('unzip');
@@ -15,7 +16,7 @@ const imgDir = "./generator/img";
 const customIconDir = "./resources/custom-icons";
 const cssPath = "./generator/css/icons.css";
 const jsPath = "./generator/js/icons.js";
-//const processIconsCmd = "mogrify -background white -alpha shape *.png";
+const processIconsCmd_old = "mogrify -background white -alpha shape *.png";
 const processIconsCmd = `mogrify -alpha copy -channel-fx "red=100%, blue=100%, green=100%" *.png`
 
 
@@ -31,7 +32,7 @@ function downloadFile(url, dest) {
             file.on('close', resolve);
             file.on('error', reject);
         })
-        .on('error', reject);
+            .on('error', reject);
     });
 }
 
@@ -42,20 +43,20 @@ function unzipAll(src, dest) {
     console.log("Unzipping...");
     return new Promise((resolve, reject) => {
         fs.createReadStream(tempFilePath)
-        .pipe(unzip.Parse())
-        .on('entry', entry => {
-            const fileName = entry.path;
-            const baseName = path.basename(fileName);
-            const type = entry.type;
-            if (type === "File") {
-                entry.pipe(fs.createWriteStream(path.join(dest, baseName)));
-            }
-            else {
-                entry.autodrain();
-            }
-        })
-        .on('close', resolve)
-        .on('error', reject);
+            .pipe(unzip.Parse())
+            .on('entry', entry => {
+                const fileName = entry.path;
+                const baseName = path.basename(fileName);
+                const type = entry.type;
+                if (type === "File") {
+                    entry.pipe(fs.createWriteStream(path.join(dest, baseName)));
+                }
+                else {
+                    entry.autodrain();
+                }
+            })
+            .on('close', resolve)
+            .on('error', reject);
     });
 }
 
@@ -65,9 +66,14 @@ function unzipAll(src, dest) {
 function processAll(path) {
     console.log("Processing (this will take a while)...");
     return new Promise((resolve, reject) => {
-        child_process.exec(processIconsCmd, {cwd: path}, (error, stdout, stderr) => {
+        child_process.exec(processIconsCmd, { cwd: path }, (error, stdout, stderr) => {
             if (error) {
-                reject(error);
+                child_process.exec(processIconsCmd_old, { cwd: path }, (error, stdout, stderr) => {
+                    if (error)
+                        reject(error);
+                    else
+                        resolve();
+                })
             }
             else {
                 resolve();
@@ -117,7 +123,7 @@ function generateJS(src, dest) {
                 const content = "var icon_names = [\n" + files
                     .map(name => `    "${name.replace(".png", "")}"`)
                     .join(",\n") +
-`
+                    `
 ];
 
 var class_icon_names = [
@@ -168,12 +174,16 @@ function copyAll(src, dest) {
 }
 
 fse.emptyDir(tempDir)
-.then(() => downloadFile(gameIconsUrl, tempFilePath))
-.then(() => unzipAll(tempFilePath, tempDir))
-.then(() => copyAll(tempDir, imgDir))
-.then(() => copyAll(customIconDir, imgDir))
-.then(() => processAll(imgDir))
-.then(() => generateCSS(imgDir, cssPath))
-.then(() => generateJS(imgDir, jsPath))
-.then(() => console.log("Done."))
-.catch(err => console.log("Error", err));
+    .then(() => downloadFile(gameIconsUrl, tempFilePath))
+    .then(() => unzipAll(tempFilePath, tempDir))
+    .then(() => copyAll(tempDir, imgDir))
+    .then(() => copyAll(customIconDir, imgDir))
+    .then(() => processAll(imgDir))
+    .then(() => generateCSS(imgDir, cssPath))
+    .then(() => generateJS(imgDir, jsPath))
+    .then(() => {
+        console.log("Done.");
+    })
+    .catch(err => {
+        console.error("Error", err);
+    });
