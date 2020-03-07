@@ -39,7 +39,7 @@ To download these new icons:
 - Install Imagemagick
 - Run the following commands from the root of the project:
   - `npm install`
-  - `node ./resources/tools/update-icons.js`
+  - `npm run update-icons`
 
 
 license
