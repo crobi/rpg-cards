@@ -8,11 +8,14 @@ preview
 
 Click [here](https://crobi.github.io/rpg-cards/generator/generate.html) for a live preview of this generator.
 
-status of the project
-=====================
-
-I won't have time to work on this project in the forseeable future.
-PR's are still welcome, so feel free to implement new awesome features!
+fork
+====
+This is a fork from the [original work](https://github.com/crobi/rpg-cards). Making small fixes and changes on the print output. Also planning to:
+- use metric systems (later )
+- print output changes:
+  - add gap between cards
+  - implement some css fixes for print layout 
+- add all SRD material to the built-in selections (starting with 5E)
 
 FAQ
 =====================
