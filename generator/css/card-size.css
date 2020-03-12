@@ -124,3 +124,12 @@ page[size="25x35"] {
     width:71mm;
     height:92mm;
 }
+
+.card-size-full-2x2-a4 {
+    width:102mm;
+    height:145mm;
+}
+.card-size-full-2x2-a4 .card-back-icon {
+    width: 1.5in;
+    height: 1.5in;
+}
