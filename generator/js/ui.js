@@ -35,7 +35,7 @@ function merge(left, right, compare) {
 
 var ui_generate_modal_shown = false;
 function ui_generate() {
-    if (card_data.length == 0) {
+    if (card_data.length === 0) {
         alert("Your deck is empty. Please define some cards first, or load the sample deck.");
         return;
     }
@@ -47,14 +47,14 @@ function ui_generate() {
     // Use a separate window to avoid CSS conflicts
     var tab = window.open("output.html", 'rpg-cards-output');
 
-    if (ui_generate_modal_shown == false) {
+    if (ui_generate_modal_shown === false) {
         $("#print-modal").modal('show');
         ui_generate_modal_shown = true;
     }
 
     // Send the generated HTML to the new window
     // Use a delay to give the new window time to set up a message listener
-    setTimeout(function () { tab.postMessage(card_html, '*') }, 500);
+    setTimeout(function () { tab.postMessage(card_html, '*'); }, 500);
 }
 
 function ui_load_sample() {
@@ -162,11 +162,15 @@ function ui_save_file() {
 
     var a = $("#file-save-link")[0];
     a.href = url;
-    a.download = "rpg_cards.json";
-    a.click();
+    a.download = prompt("Filename:", ui_save_file.filename);
+    if (a.download) {
+        ui_save_file.filename = a.download;
+        a.click();
+    }
 
     setTimeout(function () { URL.revokeObjectURL(url); }, 500);
 }
+ui_save_file.filename = 'rpg_cards.json';
 
 function ui_update_selected_card() {
     var card = ui_selected_card();
@@ -188,7 +192,7 @@ function ui_update_selected_card() {
         $("#card-count").val(1);
         $("#card-icon").val("");
         $("#card-icon-back").val("");
-		$("#card-background").val("")
+		$("#card-background").val("");
         $("#card-contents").val("");
         $("#card-tags").val("");
         $("#card-color").val("").change();
@@ -205,7 +209,7 @@ function ui_render_selected_card() {
         var back = card_generate_back(card, card_options);
         $('#preview-container').html(front + "\n" + back);
     }
-    local_store_save()
+    local_store_save();
 }
 
 function ui_open_help() {
@@ -271,10 +275,15 @@ function ui_set_background_color(color) {
 
 function ui_change_option() {
     var property = $(this).attr("data-option");
-    var value = $(this).val();
+    var value;
+    if ($(this).attr('type') === 'checkbox') {
+        value = $(this).is(':checked');
+    }
+    else {
+        value = $(this).val();
+    }
     card_options[property] = value;
     ui_render_selected_card();
-
 }
 
 function ui_change_card_title() {
@@ -349,19 +358,19 @@ function ui_change_card_contents() {
 }
 
 function ui_change_card_contents_keyup () {
-    clearTimeout(ui_change_card_contents_keyup.timeout)
+    clearTimeout(ui_change_card_contents_keyup.timeout);
     ui_change_card_contents_keyup.timeout = setTimeout(function () {
-        $('#card-contents').trigger('change')
-    }, 200)
+        $('#card-contents').trigger('change');
+    }, 200);
 }
-ui_change_card_contents_keyup.timeout = null
+ui_change_card_contents_keyup.timeout = null;
 
 function ui_change_card_tags() {
     var value = $(this).val();
 
     var card = ui_selected_card();
     if (card) {
-        if (value.trim().length == 0) {
+        if (value.trim().length === 0) {
             card.tags = [];
         } else {
             card.tags = value.split(",").map(function (val) {
@@ -485,7 +494,7 @@ $(document).ready(function () {
     local_store_load();
     ui_setup_color_selector();
     $('.icon-list').typeahead({
-        source:icon_names,
+        source: icon_names,
         items: 'all',
         render: function (items) {
           var that = this;
@@ -493,8 +502,8 @@ $(document).ready(function () {
           items = $(items).map(function (i, item) {
             i = $(that.options.item).data('value', item);
             i.find('a').html(that.highlighter(item));
-            var classname = 'icon-' + item.split(' ').join('-').toLowerCase()
-            i.find('a').append('<span class="' + classname + '"></span>')
+            var classname = 'icon-' + item.split(' ').join('-').toLowerCase();
+            i.find('a').append('<span class="' + classname + '"></span>');
             return i[0];
           });
 
@@ -546,6 +555,7 @@ $(document).ready(function () {
     $("#card-arrangement").change(ui_change_option);
     $("#card-size").change(ui_change_option);
     $("#background-color").change(ui_change_option);
+    $("#rounded-corners").change(ui_change_option);
 
     $("#default-color").change(ui_change_default_color);
     $("#default-icon").change(ui_change_default_icon);
@@ -560,6 +570,3 @@ $(document).ready(function () {
 
     ui_update_card_list();
 });
-
-
-

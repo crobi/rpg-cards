@@ -15,8 +15,9 @@ function card_default_options() {
         card_arrangement: "doublesided",
         card_size: "25x35",
         card_count: null,
-        icon_inline: true
-    }
+        icon_inline: true,
+        rounded_corners: true
+    };
 }
 
 function card_default_data() {
@@ -25,7 +26,7 @@ function card_default_data() {
         title: "New card",
         contents: [],
         tags: []
-    }
+    };
 }
 
 function card_init(card) {
@@ -43,7 +44,7 @@ function card_has_tag(card, tag) {
 function card_add_tag(card, tag) {
     tag = tag.trim().toLowerCase();
     var index = card.tags.indexOf(tag);
-    if (index == -1) {
+    if (index === -1) {
         card.tags.push(tag);
     }
 }
@@ -51,7 +52,7 @@ function card_add_tag(card, tag) {
 function card_remove_tag(card, tag) {
     tag = tag.trim().toLowerCase();
     card.tags = card.tags.filter(function (t) {
-        return tag != t;
+        return tag !== t;
     });
 }
 
@@ -122,9 +123,17 @@ function card_element_subtitle(params, card_data, options) {
     return '<div class="card-element card-subtitle" style="font-size:' + subtitle_text_font +'pt">' + subtitle + '</div>';
 }
 
+function card_element_inline_icon(params, card_data, options) {
+    var icon = params[0] || "";
+    var size = params[1] || "40";
+    var align = params[2] || "center";
+    var color = card_data_color_front(card_data, options);
+    return '<div class="card-element card-inline-icon align-' + align + ' icon-' + icon + '" style ="height:' + size + 'px;min-height:' + size + 'px;width: ' + size + 'px;background-color: ' + color + '"></div>';
+}
+
 function card_element_picture(params, card_data, options) {
     var url = params[0] || "";
-	var height = params[1] || "";
+    var height = params[1] || "";
     return '<div class="card-element card-picture" style ="background-image: url(&quot;' + url + '&quot;); background-size: contain; background-position: center;background-repeat: no-repeat; height:' + height + 'px"></div>';
 }
 
@@ -288,7 +297,8 @@ var card_element_generators = {
     fill: card_element_fill,
     section: card_element_section,
     disabled: card_element_empty,
-	picture: card_element_picture
+    picture: card_element_picture,
+    icon: card_element_inline_icon
 };
 
 // ============================================================================
@@ -336,6 +346,7 @@ function card_generate_front(data, options) {
 
     var result = "";
     result += '<div class="card card-size-' + options.card_size + '" style="' + style_color + '; font-size:' + body_text_font +'pt">';
+    result += '<div class="card card-size-' + options.card_size + ' ' + (options.rounded_corners ? 'rounded-corners' : '') + '" style="' + style_color + '; font-size:' + body_text_font +'pt">';
     result += card_element_icon(data, options);
     result += card_element_title(data, options);
     result += card_generate_contents(data.contents, data, options);
@@ -345,13 +356,13 @@ function card_generate_front(data, options) {
 }
 
 function card_generate_back(data, options) {
-    var color = card_data_color_back(data, options)
+    var color = card_data_color_back(data, options);
     var style_color = card_generate_color_style(color, options);
 	var url = data.background_image;
 	var background_style = "";
 	if (url)
 	{
-		background_style = 'style = "background-image: url(&quot;' + url + '&quot;); background-size: contain; background-position: center; background-repeat: no-repeat;"'
+		background_style = 'style = "background-image: url(&quot;' + url + '&quot;); background-size: contain; background-position: center; background-repeat: no-repeat;"';
 	}
 	else
 	{
@@ -360,7 +371,8 @@ function card_generate_back(data, options) {
 	var icon = card_data_icon_back(data, options);
 
     var result = "";
-    result += '<div class="card card-size-' + options.card_size + '" style="' + style_color + '">';
+    console.log('options.rounded_corners', options.rounded_corners);
+    result += '<div class="card card-size-' + options.card_size + ' ' + (options.rounded_corners ? 'rounded-corners' : '') + '" style="' + style_color + '">';
     result += '  <div class="card-back" ' + background_style + '>';
 	if (!url)
 	{
@@ -448,7 +460,7 @@ function card_pages_wrap(pages, options) {
     var result = "";
     for (var i = 0; i < pages.length; ++i) {
         var style = "";
-        if ((options.card_arrangement == "doublesided") &&  (i % 2 == 1)) {
+        if ((options.card_arrangement === "doublesided") &&  (i % 2 === 1)) {
             style += 'style="background-color:' + options.background_color + '"';
         } else {
             style += 'style="background-color:' + options.foreground_color + '"';
@@ -500,7 +512,7 @@ function card_pages_generate_html(card_data, options) {
     });
 
     var pages = [];
-    if (options.card_arrangement == "doublesided") {
+    if (options.card_arrangement === "doublesided") {
         // Add padding cards so that the last page is full of cards
         front_cards = card_pages_add_padding(front_cards, options);
         back_cards = card_pages_add_padding(back_cards, options);
@@ -516,10 +528,10 @@ function card_pages_generate_html(card_data, options) {
 
         // Interleave front and back pages so that we can print double-sided
         pages = card_pages_merge(front_pages, back_pages);
-    } else if (options.card_arrangement == "front_only") {
+    } else if (options.card_arrangement === "front_only") {
         var cards = card_pages_add_padding(front_cards, options);
         pages = card_pages_split(cards, rows, cols);
-    } else if (options.card_arrangement == "side_by_side") {
+    } else if (options.card_arrangement === "side_by_side") {
         var cards = card_pages_interleave_cards(front_cards, back_cards, options);
         cards = card_pages_add_padding(cards, options);
         pages = card_pages_split(cards, rows, cols);
