@@ -1,1 +1,0 @@
-dir /a-h /b > filelist.txt
