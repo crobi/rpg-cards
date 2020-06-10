@@ -1,10 +1,10 @@
 const mv = require('mv');
 const fs = require('fs');
 const fse = require('fs-extra');
-const http = require('https');
+const request = require('request');
 const path = require('path');
 const walk = require('walk');
-const unzip = require('unzip');
+const yauzl = require("yauzl");
 const child_process = require('child_process');
 const ncp = require('ncp');
 
@@ -16,7 +16,7 @@ const customIconDir = "./resources/custom-icons";
 const cssPath = "./generator/css/icons.css";
 const jsPath = "./generator/js/icons.js";
 //const processIconsCmd = "mogrify -background white -alpha shape *.png";
-const processIconsCmd = `mogrify -alpha copy -channel-fx "red=100%, blue=100%, green=100%" *.png`
+const processIconsCmd = `mogrify -alpha copy -fx "red=100%, blue=100%, green=100%" *.png`;
 
 
 // ----------------------------------------------------------------------------
@@ -25,13 +25,10 @@ const processIconsCmd = `mogrify -alpha copy -channel-fx "red=100%, blue=100%, g
 function downloadFile(url, dest) {
     console.log("Downloading...");
     return new Promise((resolve, reject) => {
-        http.get(url, response => {
-            const file = fs.createWriteStream(dest);
-            response.pipe(file);
-            file.on('close', resolve);
-            file.on('error', reject);
-        })
-        .on('error', reject);
+        request(url)
+            .pipe(fs.createWriteStream(dest))
+            .on("close", resolve)
+            .on("error", reject);
     });
 }
 
@@ -41,21 +38,46 @@ function downloadFile(url, dest) {
 function unzipAll(src, dest) {
     console.log("Unzipping...");
     return new Promise((resolve, reject) => {
-        fs.createReadStream(tempFilePath)
-        .pipe(unzip.Parse())
-        .on('entry', entry => {
-            const fileName = entry.path;
-            const baseName = path.basename(fileName);
-            const type = entry.type;
-            if (type === "File") {
-                entry.pipe(fs.createWriteStream(path.join(dest, baseName)));
+        yauzl.open(src, {lazyEntries: true}, function(err, zipfile) {
+            if (err) {
+                reject(err);
+                return;
             }
-            else {
-                entry.autodrain();
-            }
-        })
-        .on('close', resolve)
-        .on('error', reject);
+            zipfile.readEntry();
+            zipfile.on("entry", function(entry) {
+                if (/\/$/.test(entry.fileName)) {
+                    // Directory file names end with '/'. Note that entries for
+                    // directories themselves are optional. An entry's fileName
+                    // implicitly requires its parent directories to exist.
+                    zipfile.readEntry();
+                } else {
+                    var entryPath = path.parse(entry.fileName);
+                    var fileName = entryPath.base;
+                    var targetFile = path.join(dest, fileName);
+                    var i = 2;
+                    while (true) {
+                        if (!fs.existsSync(targetFile)) {
+                            break;
+                        }
+                        fileName = entryPath.name + "-" + i++ + entryPath.ext;
+                        targetFile = path.join(dest, fileName);
+                    }
+                    zipfile.openReadStream(entry, function(err, readStream) {
+                        if (err) {
+                            reject(err);
+                            return;
+                        }
+                        readStream
+                            .on("end", function() {
+                                zipfile.readEntry();
+                            }).pipe(
+                                fs.createWriteStream(targetFile)
+                                    .on("error", reject)
+                            ).on("error", reject);
+                    });
+                }
+            }).on("close", resolve);
+        });
     });
 }
 
@@ -88,7 +110,9 @@ function generateCSS(src, dest) {
             }
             else {
                 const content = files
-                    .map(name => `.icon-${name.replace(".png", "")} { background-image: url(../img/${name});}\n`)
+                    .filter(function (fileName) {
+                        return path.extname(fileName) === ".png";
+                    }).map(name => `.icon-${name.replace(".png", "")} { background-image: url(../img/${name});}\n`)
                     .join("");
                 fs.writeFile(dest, content, err => {
                     if (err) {
@@ -115,7 +139,9 @@ function generateJS(src, dest) {
             }
             else {
                 const content = "var icon_names = [\n" + files
-                    .map(name => `    "${name.replace(".png", "")}"`)
+                    .filter(function (fileName) {
+                        return path.extname(fileName) === ".png";
+                    }).map(name => `    "${name.replace(".png", "")}"`)
                     .join(",\n") +
 `
 ];
