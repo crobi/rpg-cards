@@ -5,18 +5,15 @@ const request = require('request');
 const path = require('path');
 const walk = require('walk');
 const yauzl = require("yauzl");
-const child_process = require('child_process');
 const ncp = require('ncp');
 
-const gameIconsUrl = "https://game-icons.net/archives/png/zip/ffffff/000000/game-icons.net.png.zip";
+const gameIconsUrl = "https://game-icons.net/archives/svg/zip/ffffff/transparent/game-icons.net.svg.zip";
 const tempFilePath = "./temp.zip";
 const tempDir = "./temp";
 const imgDir = "./generator/img";
 const customIconDir = "./resources/custom-icons";
 const cssPath = "./generator/css/icons.css";
 const jsPath = "./generator/js/icons.js";
-//const processIconsCmd = "mogrify -background white -alpha shape *.png";
-const processIconsCmd = `mogrify -alpha copy -fx "red=100%, blue=100%, green=100%" *.png`;
 
 
 // ----------------------------------------------------------------------------
@@ -82,23 +79,6 @@ function unzipAll(src, dest) {
 }
 
 // ----------------------------------------------------------------------------
-// Process icons
-// ----------------------------------------------------------------------------
-function processAll(path) {
-    console.log("Processing (this will take a while)...");
-    return new Promise((resolve, reject) => {
-        child_process.exec(processIconsCmd, {cwd: path}, (error, stdout, stderr) => {
-            if (error) {
-                reject(error);
-            }
-            else {
-                resolve();
-            }
-        });
-    });
-}
-
-// ----------------------------------------------------------------------------
 // Generate CSS
 // ----------------------------------------------------------------------------
 function generateCSS(src, dest) {
@@ -111,8 +91,8 @@ function generateCSS(src, dest) {
             else {
                 const content = files
                     .filter(function (fileName) {
-                        return path.extname(fileName) === ".png";
-                    }).map(name => `.icon-${name.replace(".png", "")} { background-image: url(../img/${name});}\n`)
+                        return path.extname(fileName) === ".svg";
+                    }).map(name => `.icon-${name.replace(".svg", "")} { background-image: url(../img/${name});}\n`)
                     .join("");
                 fs.writeFile(dest, content, err => {
                     if (err) {
@@ -140,8 +120,8 @@ function generateJS(src, dest) {
             else {
                 const content = "var icon_names = [\n" + files
                     .filter(function (fileName) {
-                        return path.extname(fileName) === ".png";
-                    }).map(name => `    "${name.replace(".png", "")}"`)
+                        return path.extname(fileName) === ".svg";
+                    }).map(name => `    "${name.replace(".svg", "")}"`)
                     .join(",\n") +
 `
 ];
@@ -198,7 +178,6 @@ fse.emptyDir(tempDir)
 .then(() => unzipAll(tempFilePath, tempDir))
 .then(() => copyAll(tempDir, imgDir))
 .then(() => copyAll(customIconDir, imgDir))
-.then(() => processAll(imgDir))
 .then(() => generateCSS(imgDir, cssPath))
 .then(() => generateJS(imgDir, jsPath))
 .then(() => console.log("Done."))

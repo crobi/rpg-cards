@@ -1,5 +1,11 @@
-/node_modules
-/generator/js/*.map
+/generator/css/icons.css
+/generator/img/*.png
+/generator/img/*.svg
+/generator/img/license.txt
 /generator/js/*.d.ts
-/temp
+/generator/js/*.map
+/generator/js/icons.js
+/node_modules/
+/package-lock.json
 /temp.zip
+/temp/
