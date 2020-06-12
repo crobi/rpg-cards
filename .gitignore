@@ -1,7 +1,5 @@
 /generator/css/icons.css
-/generator/img/*.png
-/generator/img/*.svg
-/generator/img/license.txt
+/generator/icons/
 /generator/js/*.d.ts
 /generator/js/*.map
 /generator/js/icons.js
