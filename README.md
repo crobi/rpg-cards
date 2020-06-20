@@ -29,11 +29,10 @@ FAQ
 updating icons
 ==============
 
-This project includes a copy of icons from the [game-icons](http://game-icons.net) project,
+This project uses icons from the [game-icons](http://game-icons.net) project,
 which regularly publishes new icons.
 To download these new icons:
 
-- Install Imagemagick
 - Run the following commands from the root of the project:
   - `npm install`
   - `node ./resources/tools/update-icons.js`
