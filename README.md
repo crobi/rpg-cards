@@ -6,7 +6,7 @@ RPG spell/item/monster card generator
 Preview
 =======
 
-Click [here](https://crobi.github.io/rpg-cards/generator/generate.html) for a live preview of this generator.
+Click [here](https://rpg-cards.vercel.app) for a live preview of this generator.
 
 Status of the project
 =====================
@@ -37,7 +37,7 @@ To build this project:
 1. Check out this repository
 2. Run `npm install`
 3. Run `npm run build`
-4. Open `./generator/generate.html` in your browser (or deploy the content of the `./generator` folder to your server)
+4. Open `./generator/index.html` in your browser (or deploy the content of the `./generator` folder to your server)
 
 
 License
