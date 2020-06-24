@@ -36,7 +36,7 @@ To build this project:
 
 1. Check out this repository
 2. Run `npm install`
-3. Run `node ./resources/tools/update-icons.js`
+3. Run `npm run build`
 4. Open `./generator/generate.html` in your browser (or deploy the content of the `./generator` folder to your server)
 
 
