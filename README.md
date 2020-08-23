@@ -35,9 +35,10 @@ The only exception are icons, which are copied from the [game-icons](http://game
 To build this project:
 
 1. Check out this repository
-2. Run `npm install`
-3. Run `npm run build`
-4. Open `./generator/index.html` in your browser (or deploy the content of the `./generator` folder to your server)
+2. Make sure you have [Node](https://nodejs.org/) installed
+3. Run `npm install`
+4. Run `npm run build`
+5. Open `./generator/index.html` in your browser (or deploy the content of the `./generator` folder to your server)
 
 
 License
