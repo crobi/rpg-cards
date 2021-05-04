@@ -469,6 +469,11 @@ function card_pages_wrap(pages, options) {
     var pageHeight = options.page_height;
     var parsedPageWidth = parseNumberAndUnit(pageWidth || "210mm");
     var parsedPageHeight = parseNumberAndUnit(pageHeight || "297mm");
+    /* Chrome has problems with page sizes given in metric units. Make the paper area slightly smaller to work around this. */
+    if (parsedPageWidth.mu == 'mm')  parsedPageWidth.number  -= 1;
+    if (parsedPageHeight.mu == 'mm') parsedPageHeight.number -= 1;
+    if (parsedPageWidth.mu == 'cm')  parsedPageWidth.number  -= 0.1;
+    if (parsedPageHeight.mu == 'cm') parsedPageHeight.number -= 0.1;
 
     var result = "";
     for (var i = 0; i < pages.length; ++i) {
@@ -478,11 +483,10 @@ function card_pages_wrap(pages, options) {
         } else {
             style += 'background-color:' + options.foreground_color + ';';
         }
-        style += 'padding-left: calc( (' + (parsedPageWidth.number - 1 + parsedPageWidth.mu) + ' - ' + options.card_width + ' * ' + options.page_columns + ' ) / 2);';
-        style += 'padding-right: calc( (' + (parsedPageWidth.number - 1 + parsedPageWidth.mu) + ' - ' + options.card_width + ' * ' + options.page_columns + ' ) / 2);';
+        style += 'padding-left: calc( (' + (parsedPageWidth.number + parsedPageWidth.mu) + ' - ' + options.card_width + ' * ' + options.page_columns + ' ) / 2);';
+        style += 'padding-right: calc( (' + (parsedPageWidth.number + parsedPageWidth.mu) + ' - ' + options.card_width + ' * ' + options.page_columns + ' ) / 2);';
         style += '"';
-        /* Chrome has problems with page sizes given in metric units. Make the paper area slightly smaller to work around this. */
-        style = add_size_to_style(style, parsedPageWidth.number - 1 + parsedPageWidth.mu, parsedPageHeight.number - 1 + parsedPageHeight.mu);
+        style = add_size_to_style(style, parsedPageWidth.number + parsedPageWidth.mu, parsedPageHeight.number + parsedPageHeight.mu);
         result += '<page class="page page-preview ' + orientation + '" ' + style + '>\n';
         result += pages[i].join("\n");
         result += '</page>\n';
