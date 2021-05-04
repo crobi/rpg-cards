@@ -6,7 +6,7 @@ RPG spell/item/monster card generator
 Preview
 =======
 
-Click [here](https://mephitrpg.github.io/rpg-cards/generator) for a live preview of this generator.
+Click [here](http://rpg-cards.mephit.it) for a live preview of this generator.
 
 Status of the project
 =====================
