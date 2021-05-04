@@ -324,12 +324,19 @@ function card_generate_color_gradient_style(color, options) {
     return 'style="background: radial-gradient(ellipse at center, white 20%, ' + color + ' 120%)"';
 }
 
+function add_size_to_style(style, width, height) {
+    // style string example ----> `style="color:red;"`
+    style = style.slice(0, -1) + ";" + "width:" + width + ";" + "height:" + height + ";" + style.slice(-1);
+    return style;
+}
+
 function card_generate_front(data, options) {
     var color = card_data_color_front(data, options);
     var style_color = card_generate_color_style(color, options);
+    var card_style = add_size_to_style(style_color, options.card_width, options.card_height);
 
     var result = "";
-    result += '<div class="card card-size-' + options.card_size + ' ' + (options.rounded_corners ? 'rounded-corners' : '') + '" ' + style_color + '>';
+    result += '<div class="card ' + (options.rounded_corners ? 'rounded-corners' : '') + '" ' + card_style + '>';
     result += card_element_icon(data, options);
     result += card_element_title(data, options);
     result += card_generate_contents(data.contents, data, options);
@@ -341,6 +348,24 @@ function card_generate_front(data, options) {
 function card_generate_back(data, options) {
     var color = card_data_color_back(data, options);
     var style_color = card_generate_color_style(color, options);
+
+    var width = options.card_width;
+    var height = options.card_height;
+
+    var card_style = add_size_to_style(style_color, width, height);
+
+    var $tmpCardContainer = $('<div style="position:absolute;visibility:hidden;pointer-events:none;"></div>');
+    var $tmpCard = $('<div class="card" ' + card_style + '><div class="card-back"><div class="card-back-inner"><div class="card-back-icon"></div></div></div></div>');
+    $('#preview-container').append($tmpCardContainer.append($tmpCard));
+    
+    var $tmpCardInner = $tmpCard.find('.card-back-inner');
+    var innerWidth = $tmpCardInner.width();
+    var innerHeight = $tmpCardInner.height();
+    var iconSize = Math.min(innerWidth, innerHeight) / 2 + 'px';
+    $tmpCard.remove();
+
+    var icon_style = add_size_to_style(style_color, iconSize, iconSize);
+
 	var url = data.background_image;
 	var background_style = "";
 	if (url)
@@ -354,13 +379,12 @@ function card_generate_back(data, options) {
 	var icon = card_data_icon_back(data, options);
 
     var result = "";
-    console.log('options.rounded_corners', options.rounded_corners);
-    result += '<div class="card card-size-' + options.card_size + ' ' + (options.rounded_corners ? 'rounded-corners' : '') + '" ' + style_color + '>';
+    result += '<div class="card' + ' ' + (options.rounded_corners ? 'rounded-corners' : '') + '" ' + card_style + '>';
     result += '  <div class="card-back" ' + background_style + '>';
 	if (!url)
 	{
 		result += '    <div class="card-back-inner">';
-		result += '      <div class="card-back-icon icon-' + icon + '" ' + style_color + '></div>';
+		result += '      <div class="card-back-icon icon-' + icon + '" ' + icon_style + '></div>';
 		result += '    </div>';
 	}
     result += '  </div>';
@@ -371,9 +395,10 @@ function card_generate_back(data, options) {
 
 function card_generate_empty(count, options) {
     var style_color = card_generate_color_style("white");
+    var card_style = add_size_to_style(style_color, options.card_width, options.card_height);
 
     var result = "";
-    result += '<div class="card card-size-' + options.card_size + '" ' + style_color + '>';
+    result += '<div class="card' + '" ' + card_style + '>';
     result += '</div>';
 
     return card_repeat(result, count);
@@ -438,17 +463,27 @@ function card_pages_interleave_cards(front_cards, back_cards, options) {
 }
 
 function card_pages_wrap(pages, options) {
-    var size = options.page_size || "A4";
+    // force portrait layout then rotate if landscape
+    var orientation = getOrientation(options.page_width, options.page_height);
+    var pageWidth = options.page_width;
+    var pageHeight = options.page_height;
+    var parsedPageWidth = parseNumberAndUnit(pageWidth || "210mm");
+    var parsedPageHeight = parseNumberAndUnit(pageHeight || "297mm");
 
     var result = "";
     for (var i = 0; i < pages.length; ++i) {
-        var style = "";
+        var style = 'style="';
         if ((options.card_arrangement === "doublesided") &&  (i % 2 === 1)) {
-            style += 'style="background-color:' + options.background_color + '"';
+            style += 'background-color:' + options.background_color + ';';
         } else {
-            style += 'style="background-color:' + options.foreground_color + '"';
+            style += 'background-color:' + options.foreground_color + ';';
         }
-        result += '<page class="page page-preview" size="' + size + '" ' + style + '>\n';
+        style += 'padding-left: calc( (' + (parsedPageWidth.number - 1 + parsedPageWidth.mu) + ' - ' + options.card_width + ' * ' + options.page_columns + ' ) / 2);';
+        style += 'padding-right: calc( (' + (parsedPageWidth.number - 1 + parsedPageWidth.mu) + ' - ' + options.card_width + ' * ' + options.page_columns + ' ) / 2);';
+        style += '"';
+        /* Chrome has problems with page sizes given in metric units. Make the paper area slightly smaller to work around this. */
+        style = add_size_to_style(style, parsedPageWidth.number - 1 + parsedPageWidth.mu, parsedPageHeight.number - 1 + parsedPageHeight.mu);
+        result += '<page class="page page-preview ' + orientation + '" ' + style + '>\n';
         result += pages[i].join("\n");
         result += '</page>\n';
     }

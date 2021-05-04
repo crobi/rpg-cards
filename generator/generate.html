@@ -17,6 +17,7 @@
     <!-- Data -->
     <script type="text/javascript" src="data/card_data_example.js"></script>
     <!-- Javascript -->
+    <script type="text/javascript" src="js/common.js"></script>
     <script type="text/javascript" src="js/cards.js"></script>
     <script type="text/javascript" src="js/colors.js"></script>
     <script type="text/javascript" src="js/icons.js"></script>
@@ -90,33 +91,70 @@
                         <label for="page-size" class="col-sm-4 control-label">Page Size</label>
                         <div class="col-sm-8">
                             <select class="form-control" id="page-size" data-option="page_size">
-                                <option value="A4" selected>A4</option>
-                                <option value="Letter">US letter</option>
-                                <option value="25x35">2.5&quot; x 3.5&quot;</option>
+                                <option value="210mm,297mm" selected>A4</option>
+                                <option value="210mm,280mm">PA4</option>
+                                <option value="8.5in,11in">US letter</option>
+                                <option value="2.5in,3.5in">2.5&quot; x 3.5&quot;</option>
+                                <option value="">Custom</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <div class="text-right text-muted">
+                                <i id="page-orientation"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" id="page-width" class="form-control" data-option="page_width" value="">
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="text-center"><button class="btn btn-secondary" id="page-rotate">&times;</button></div>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" id="page-height" class="form-control" data-option="page_height" value="">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="card-size" class="col-sm-4 control-label">Card Size</label>
                         <div class="col-sm-8">
                             <select class="form-control" id="card-size" data-option="card_size">
-                                <option value="225x35">2.25&quot; x 3.5&quot; (Bridge)</option>
-                                <option value="25x35" selected>2.5&quot; x 3.5&quot; (Poker)</option>
-                                <option value="35x50">3.5&quot; x 5.0&quot;</option>
-                                <option value="75x50">7.5&quot; x 5.0&quot;</option>
+                                <option value="2.5in,3.5in">Poker - 2.5” x 3.5”</option>
+                                <option value="2.25in,3.5in">Bridge - 2.25” x 3.5”</option>
+                                <option value="3.5in,2in">Business - 3.5” x 2”</option>
+                                <option value="1.75in,2.5in">Mini - 1.75” x 2.5”</option>
+                                <option value="3in,2in">Standard Small - 3” x 2”</option>
+                                <option value="3.5in,5in">Standard Large - 3.5” x 5”</option>
+                                <option value="3.5in,5.5in">Standard Jumbo - 3.5” x 5.5”</option>
+                                <option value="2.75in,4.75in">Tarot - 2.75” x 4.75”</option>
+                                <option value="3.5in,6in">Tarot Large - 3.5” x 6”</option>
+                                <option value="1.75in,3.5in">Domino - 1.75” x 3.5”</option>
+                                <option value="3in,4.5in">Index Small - 3” x 4.5”</option>
+                                <option value="3in,5in">Index Regular - 3” x 5”</option>
+                                <option value="3in,5.5in">Index Large - 3” x 5.5”</option>
+                                <option value="4.75in,7in">Index Giant - 4.75” x 7”</option>
+                                <option value="3in,3in">Square Small - 3” x 3”</option>
+                                <option value="3.5in,3.5in">Square Regular - 3.5” x 3.5”</option>
+                                <option value="4.75in,4.75in">Square Large - 4.75” x 4.75”</option>
+                                <option value="7.5in,5.0in">7.5&quot; x 5.0&quot;</option>
+                                <option value="">Custom</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="card-size" class="col-sm-4 control-label">Cards/page</label>
+                        <div class="col-sm-4">
+                            <div class="text-right text-muted">
+                                <i id="card-orientation"></i>
+                            </div>
+                        </div>
                         <div class="col-sm-3">
-                            <input type="text" id="page-rows" class="form-control" data-option="page_rows" value="3">
+                            <input type="text" id="card-width" class="form-control" data-option="card_width" value="">
                         </div>
                         <div class="col-sm-2">
-                            <p class="form-control-static">x</p>
+                            <div class="text-center"><button class="btn btn-secondary" id="card-rotate">&times;</button></div>
                         </div>
                         <div class="col-sm-3">
-                            <input type="text" id="page-columns" class="form-control" data-option="page_columns" value="3">
+                            <input type="text" id="card-height" class="form-control" data-option="card_height" value="">
                         </div>
                     </div>
                     <div class="form-group">
@@ -127,6 +165,18 @@
                                 <option value="front_only">Front side only</option>
                                 <option value="side_by_side">Side by side</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="page-rows" class="col-sm-4 control-label">Cards/page</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="page-rows" class="form-control" data-option="page_rows" value="3">
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="text-center"><button class="btn btn-secondary" id="grid-rotate">&times;</button></div>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" id="page-columns" class="form-control" data-option="page_columns" value="3">
                         </div>
                     </div>
                     <div class="form-group">

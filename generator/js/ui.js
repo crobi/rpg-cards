@@ -271,6 +271,36 @@ function ui_set_background_color(color) {
     card_options.background_color = color;
 }
 
+function ui_page_rotate($event) {
+    $event.preventDefault();
+    var $width = $('#page-width');
+    var $height = $('#page-height');
+    var width = $width.val();
+    var height = $height.val();
+    $width.val(height).trigger('input');
+    $height.val(width).trigger('input');
+}
+
+function ui_card_rotate($event) {
+    $event.preventDefault();
+    var $width = $('#card-width');
+    var $height = $('#card-height');
+    var width = $width.val();
+    var height = $height.val();
+    $width.val(height).trigger('input');
+    $height.val(width).trigger('input');
+}
+
+function ui_grid_rotate($event) {
+    $event.preventDefault();
+    var $width = $('#page-rows');
+    var $height = $('#page-columns');
+    var width = $width.val();
+    var height = $height.val();
+    $width.val(height);
+    $height.val(width);
+}
+
 function ui_change_option() {
     var property = $(this).attr("data-option");
     var value;
@@ -280,8 +310,85 @@ function ui_change_option() {
     else {
         value = $(this).val();
     }
-    card_options[property] = value;
+    // console.log("ui_change_option()", property, value)
+    switch (property) {
+        case 'card_size': {
+            var size = value.split(',');
+            var w = size[0], h = size[1];
+            var width = 0, height = 0;
+            var landscape = isLandscape(card_options['card_width'], card_options['card_height']);
+            if (landscape) {
+                width = h;  height = w;
+            } else {
+                width = w;  height = h;
+            }
+            card_options['card_width'] = width;
+            card_options['card_height'] = height;
+            $('#card-width').val(width).trigger("input");
+            $('#card-height').val(height).trigger("input");
+            break;
+        }
+        case 'page_size': {
+            var size = value.split(',');
+            var w = size[0], h = size[1];
+            var width = 0, height = 0;
+            var landscape = isLandscape(card_options['page_width'], card_options['page_height']);
+            if (landscape) {
+                width = h;  height = w;
+            } else {
+                width = w;  height = h;
+            }
+            card_options['page_width'] = width;
+            card_options['page_height'] = height;
+            $('#page-width').val(width).trigger("input");
+            $('#page-height').val(height).trigger("input");
+        break;
+        }
+        case 'card_width':
+        case 'card_height': {
+            card_options[property] = value;
+            var width = card_options['card_width'];
+            var height = card_options['card_height'];
+            ui_match_format(document.getElementById('card-size'), width, height);
+            ui_set_card_custom_size(width, height);
+            ui_set_orientation(document.getElementById('card-orientation'), width, height);
+            break;
+        }
+        case 'page_width':
+        case 'page_height': {
+            card_options[property] = value;
+            var width = card_options['page_width'];
+            var height = card_options['page_height'];
+            ui_match_format(document.getElementById('page-size'), width, height);
+            ui_set_page_custom_size(width, height);
+            ui_set_orientation(document.getElementById('page-orientation'), width, height);
+            break;
+        }
+        default: {
+            card_options[property] = value;
+            break;
+        }
+    }
     ui_render_selected_card();
+}
+
+function ui_match_format(selector, width, height) {
+    var len = selector.length;
+    var portrait = "", landscape = "", format = "", o = null;
+    for(var i = 0; i < len; i++) {
+        o = selector.options[i];
+        portrait = [width, height].join(',');
+        if (o.value === portrait) { format = portrait; break; }
+        landscape = [height, width].join(',');
+        if (o.value === landscape) { format = landscape; break; }
+    }
+    selector.value = format;
+}
+
+function ui_set_orientation(outputElement, cssWidth, cssHeight) {
+    var orientation = getOrientation(cssWidth, cssHeight);
+    outputElement.textContent = orientation;
+    return orientation;
 }
 
 function ui_change_card_title() {
@@ -309,6 +416,23 @@ function ui_set_card_color(value) {
     if (card) {
         card.color = value;
         ui_render_selected_card();
+    }
+}
+
+function ui_set_card_custom_size(width, height) {
+    var card = ui_selected_card();
+    if (card) {
+        card.card_width = width;
+        card.card_height = height;
+        ui_render_selected_card();
+    }
+}
+
+function ui_set_page_custom_size(width, height) {
+    var card = ui_selected_card();
+    if (card) {
+        card.page_width = width;
+        card.page_height = height;
     }
 }
 
@@ -526,11 +650,18 @@ $(document).ready(function () {
     $("#card-contents").keyup(ui_change_card_contents_keyup);
 
 
-    $("#page-size").change(ui_change_option);
+    $("#page-width").on("input", ui_change_option);
+    $("#page-height").on("input", ui_change_option);
+    $("#page-size").change(ui_change_option).trigger("change");
+    $("#page-rotate").click(ui_page_rotate);
     $("#page-rows").change(ui_change_option);
     $("#page-columns").change(ui_change_option);
+    $("#grid-rotate").click(ui_grid_rotate);
     $("#card-arrangement").change(ui_change_option);
-    $("#card-size").change(ui_change_option);
+    $("#card-width").on("input", ui_change_option);
+    $("#card-height").on("input", ui_change_option);
+    $("#card-size").change(ui_change_option).trigger("change");
+    $("#card-rotate").click(ui_card_rotate);
     $("#background-color").change(ui_change_option);
     $("#rounded-corners").change(ui_change_option);
 
