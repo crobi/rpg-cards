@@ -8,8 +8,6 @@ preview
 
 Click [here](https://mephitrpg.github.io/rpg-cards/generator/generate.html) for a live preview of this generator.
 
-Clich [here](https://crobi.github.io/rpg-cards/generator/generate.html) for a live preview of the original unmantained generator.
-
 status of the project
 =====================
 
