@@ -1,6 +1,10 @@
-/node_modules
-/.vscode
-/generator/js/*.map
+/.vscode/
+/generator/css/icons.css
+/generator/icons/
 /generator/js/*.d.ts
-/temp
+/generator/js/*.map
+/generator/js/icons.js
+/node_modules/
+/package-lock.json
 /temp.zip
+/temp/

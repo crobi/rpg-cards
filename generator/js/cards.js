@@ -372,7 +372,7 @@ function card_generate_back(data, options) {
 	{
 		background_style = 'style = "background-image: url(&quot;' + url + '&quot;); background-size: contain; background-position: center; background-repeat: no-repeat;"';
 	}
-	else 
+	else
 	{
 		background_style = card_generate_color_gradient_style(color, options);
     }
@@ -501,6 +501,7 @@ function card_pages_generate_style(options) {
         case "A4": size = "210mm 297mm"; break;
         case "A5": size = "A5 portrait"; break;
         case "Letter": size = "letter portrait"; break;
+        case "Letter - Landscape": size = "letter landscape"; break;
         case "25x35": size = "2.5in 3.5in"; break;
         default: size = "auto";
     }
