@@ -18,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/crobi/rpg-cards.git"
+    "url": "git+https://github.com/mephitrpg/rpg-cards.git"
   },
   "author": "Robert Autenrieth",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/crobi/rpg-cards/issues"
+    "url": "https://github.com/mephitrpg/rpg-cards/issues"
   },
-  "homepage": "https://github.com/crobi/rpg-cards#readme",
+  "homepage": "https://github.com/mephitrpg/rpg-cards#readme",
   "dependencies": {
     "rimraf": "^3.0.2"
   }
