@@ -58,9 +58,10 @@ function ui_generate() {
 }
 
 function ui_load_sample() {
-    card_data = card_data_example;
-    ui_init_cards(card_data);
-    ui_update_card_list();
+    // card_data = card_data_example;
+    // ui_init_cards(card_data);
+    // ui_update_card_list();
+    ui_add_cards(card_data_example);
 }
 
 function ui_clear_all() {
