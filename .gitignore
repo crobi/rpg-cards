@@ -1,5 +1,6 @@
 /.vscode/
 /generator/css/icons.css
+/generator/fonts/
 /generator/icons/
 /generator/js/*.d.ts
 /generator/js/*.map
