@@ -106,7 +106,14 @@ function card_element_icon(card_data, options) {
 
 function card_element_subtitle(params, card_data, options) {
     var subtitle = params[0] || "";
-    return '<div class="card-element card-subtitle">' + subtitle + '</div>';
+    var result = '<div class="card-element card-subtitle">';
+    if (params[1])
+	{
+		result += '<div style="float:right">' + params[1] + '</div>';
+	}
+    result += '<div>' + subtitle + '</div>';
+    result += '</div>';
+    return result;
 }
 
 function card_element_inline_icon(params, card_data, options) {
@@ -251,7 +258,16 @@ function card_element_bullet(params, card_data, options) {
 function card_element_section(params, card_data, options) {
     var color = card_data_color_front(card_data, options);
     var section = params[0] || "";
-    return '<h3 class="card-section" style="color:' + color + '">' + section + '</h3>';
+
+    var result = '<h3 class="card-section" style="color:' + color + '">';
+    if (params[1])
+	{
+		result += '<div style="float:right">' + params[1]+ '</div>';
+	}
+    result += '<div>' + section + '</div>';
+    result += '</h3>';
+
+    return result;
 }
 
 function card_element_fill(params, card_data, options) {
