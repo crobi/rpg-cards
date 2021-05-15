@@ -23,3 +23,14 @@ function isLandscape(cssWidth, cssHeight) {
     return getOrientation(cssWidth, cssHeight) === 'landscape';
 }
 
+function forEachMatch(regexp, str, func){
+
+    var m, i;
+
+    while ((m = regexp.exec(str)) !== null) {
+        i = m.index;
+        if (i === regexp.lastIndex) regexp.lastIndex++; // avoid infinite loops with zero-width matches
+        func(m, m.index);
+    }
+
+}

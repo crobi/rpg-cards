@@ -472,11 +472,10 @@ function ui_change_default_icon() {
 }
 
 function ui_change_card_contents() {
-    var value = $(this).val();
-
+    var html = $(this).val();
     var card = ui_selected_card();
     if (card) {
-        card.contents = value.split("\n");
+        card.contents = html.split("\n");
         ui_render_selected_card();
     }
 }

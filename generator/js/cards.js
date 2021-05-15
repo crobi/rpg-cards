@@ -292,8 +292,8 @@ var card_element_generators = {
 
 function card_generate_contents(contents, card_data, options) {
     var result = "";
-    result += '<div class="card-content-container">';
-    result += contents.map(function (value) {
+   
+    var html = contents.map(function (value) {
         var parts = card_data_split_params(value);
         var element_name = parts[0];
         var element_params = parts.splice(1);
@@ -304,6 +304,60 @@ function card_generate_contents(contents, card_data, options) {
             return card_element_unknown(element_params, card_data, options);
         }
     }).join("\n");
+
+    var tagNames = ['icon'];
+
+    tagNames.forEach(function(tagName){
+        var tagRegExp = new RegExp('<'+tagName+'[^>]*>', 'g');
+        var attrRegExp = new RegExp('([\\w-]+)="([^"]+)"', 'g')
+
+        var matches = [];
+        forEachMatch(tagRegExp, html, function(m){
+            matches.push(m);
+        });
+        if (!matches.length) return null;
+
+        var tagResults = new Array(matches.length);
+        matches.forEach(function(match, i){
+            if (tagName === 'icon') {
+                var attrs = {};
+                forEachMatch(attrRegExp, match[0], function(m,i){
+                    var attrName = m[1];
+                    var attrValue = m[2];
+                    if (attrName === 'name') {
+                        if(!attrs.class) attrs.class = '';
+                        attrs.class += 'game-icon game-icon-' + attrValue;
+                    }
+                    else if (attrName === 'size') {
+                        if(!attrs.style) attrs.style = '';
+                        attrs.style += 'font-size:' + attrValue + 'pt;';
+                    }
+                });
+                forEachMatch(attrRegExp, match[0], function(m,i){
+                    var attrName = m[1];
+                    var attrValue = m[2];
+                    if (attrName === 'style') {
+                        if(!attrs.style) attrs.style = '';
+                        attrs.style += attrValue;
+                    }
+                });
+                var tagResult = '<i';
+                Object.keys(attrs).forEach(function(k){
+                    tagResult += ' ' + k + '="' + attrs[k] + '"';
+                });
+                tagResult += '></i>';
+                tagResults[i] = tagResult;
+            }
+        });
+
+        html = html.replace(tagRegExp, function(){
+            return tagResults.shift();
+        });
+
+    });
+
+    result += '<div class="card-content-container">';
+    result += html;
     result += '</div>';
     return result;
 }
