@@ -8,10 +8,15 @@ Preview
 
 Click [here](https://mephitrpg.github.io/rpg-cards/generator/) for a live preview of this generator.
 
+Documentation
+=============
+
+Click [here](https://mephitrpg.github.io/rpg-cards/) to read the documentation.
+
 Status of the project
 =====================
 
-I won't have time to work on this project in the forseeable future.
+I'm supporting this fork of the unmantained [original project](https://github.com/crobi/rpg-cards) in my spare time.
 PR's are still welcome, so feel free to implement new awesome features!
 
 FAQ
