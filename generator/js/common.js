@@ -1,4 +1,4 @@
-function parseNumberAndUnit(value) {
+function parseNumberAndMeasureUnit(value) {
     var re = /\d+(\.\d{1,2})?/;
     var matches = String(value).match(re);
     if (!matches) return null;
@@ -9,8 +9,8 @@ function parseNumberAndUnit(value) {
 
 function getOrientation(cssWidth, cssHeight) {
     var orientation = "";
-    var widthMatches = parseNumberAndUnit(cssWidth);
-    var heightMatches = parseNumberAndUnit(cssHeight);
+    var widthMatches = parseNumberAndMeasureUnit(cssWidth);
+    var heightMatches = parseNumberAndMeasureUnit(cssHeight);
     if (widthMatches && heightMatches) {
         var width = widthMatches.number;
         var height = heightMatches.number;
@@ -19,18 +19,15 @@ function getOrientation(cssWidth, cssHeight) {
     return orientation;
 }
 
-function isLandscape(cssWidth, cssHeight) {
-    return getOrientation(cssWidth, cssHeight) === 'landscape';
+function isLandscape(width, height) {
+    return getOrientation(width, height) === 'landscape';
 }
 
 function forEachMatch(regexp, str, func){
-
-    var m, i;
-
+    var m = null, i = 0;
     while ((m = regexp.exec(str)) !== null) {
-        i = m.index;
-        if (i === regexp.lastIndex) regexp.lastIndex++; // avoid infinite loops with zero-width matches
-        func(m, m.index);
+        if (m.index === regexp.lastIndex) regexp.lastIndex++; // avoid infinite loops with zero-width matches
+        func(m, i);
+        i++;
     }
-
 }

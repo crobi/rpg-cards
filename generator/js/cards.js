@@ -537,8 +537,8 @@ function card_pages_wrap(pages, options) {
     var orientation = getOrientation(options.page_width, options.page_height);
     var pageWidth = options.page_width;
     var pageHeight = options.page_height;
-    var parsedPageWidth = parseNumberAndUnit(pageWidth || "210mm");
-    var parsedPageHeight = parseNumberAndUnit(pageHeight || "297mm");
+    var parsedPageWidth = parseNumberAndMeasureUnit(pageWidth || "210mm");
+    var parsedPageHeight = parseNumberAndMeasureUnit(pageHeight || "297mm");
     /* Chrome has problems with page sizes given in metric units. Make the paper area slightly smaller to work around this. */
     if (parsedPageWidth.mu == 'mm')  parsedPageWidth.number  -= 1;
     if (parsedPageHeight.mu == 'mm') parsedPageHeight.number -= 1;
