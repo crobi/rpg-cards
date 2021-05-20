@@ -58,6 +58,13 @@
     background-size: contain;
 }
 
+.card-header {
+    display: flex;
+}
+.card-header > * {
+    flex-grow: 1;
+}
+
 .card-title-icon {
     width: 12mm;
     height: 12mm;
@@ -67,29 +74,23 @@
     border-color: inherit;
 }
 .card-title-icon-container {
-    position: absolute;
-    right: -1mm;
-    top: -1mm;
-    border: 1mm solid;
     border-radius: 1mm;
     background-color: inherit;
     border-color: inherit;
 }
 
 .card-title-inlineicon {
-    width: 7mm;
-    height: 7mm;
+    width: auto;
+    height: 100%;
     background-repeat: no-repeat;
     background-size: contain;
     background-color: inherit;
     border-color: inherit;
+    margin: -1mm 0 0mm 1mm;
 }
 .card-title-inlineicon-container {
-    position: absolute;
-    right: -1mm;
-    top: -1mm;
-    border: 1mm solid;
-    border-radius: 1mm;
+    display: flex;
+    justify-content: flex-end;
     background-color: inherit;
     border-color: inherit;
 }

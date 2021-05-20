@@ -6,7 +6,7 @@ function card_default_options() {
         foreground_color: "white",
         background_color: "white",
         default_color: "black",
-        default_icon: "ace",
+        default_icon: "",
         default_title_size: "13",
         page_size: "A4",
         page_rows: 3,
@@ -68,11 +68,11 @@ function card_data_color_back(card_data, options) {
 }
 
 function card_data_icon_front(card_data, options) {
-    return card_data.icon_front || card_data.icon || options.default_icon || "ace";
+    return card_data.icon_front || card_data.icon || options.default_icon || "";
 }
 
 function card_data_icon_back(card_data, options) {
-    return card_data.icon_back || card_data.icon || options.default_icon || "ace";
+    return card_data.icon_back || card_data.icon || options.default_icon || "";
 }
 
 function card_data_split_params(value) {
@@ -90,7 +90,7 @@ function card_element_title(card_data, options) {
 }
 
 function card_element_icon(card_data, options) {
-    var icon = card_data_icon_front(card_data, options);
+    var icons = card_data_icon_front(card_data, options).split(/[\s\uFEFF\xA0]+/).filter(icon=>icon);
     var classname = "icon";
     if (options.icon_inline) {
         classname = "inlineicon";
@@ -98,8 +98,9 @@ function card_element_icon(card_data, options) {
 
     var result = "";
     result += '<div class="card-title-' + classname + '-container">';
-    result += '    <div class="card-title-' + classname + ' icon-' + icon + '">';
-    result += '    </div>';
+    icons.forEach(function(icon){
+        result += '    <img class="card-title-' + classname + ' icon-' + icon + '" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">';
+    });
     result += '</div>';
     return result;
 }
@@ -407,8 +408,10 @@ function card_generate_front(data, options) {
 
     var result = "";
     result += '<div class="card ' + (options.rounded_corners ? 'rounded-corners' : '') + '" ' + card_style + '>';
-    result += card_element_icon(data, options);
+    result += '<div class="card-header">';
     result += card_element_title(data, options);
+    result += card_element_icon(data, options);
+    result += '</div>';
     result += card_generate_contents(data.contents, data, options);
     result += '</div>';
 
