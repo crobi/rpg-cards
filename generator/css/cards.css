@@ -93,6 +93,7 @@
     justify-content: flex-end;
     background-color: inherit;
     border-color: inherit;
+    padding: 1mm 0 1mm 1mm;
 }
 
 .card-title {
