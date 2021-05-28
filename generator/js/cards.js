@@ -533,6 +533,27 @@ function card_pages_interleave_cards(front_cards, back_cards, options) {
         }
         ++i;
     }
+    console.log('nrm',result)
+    return result;
+}
+
+function card_pages_interleave_cards_alt(front_cards, back_cards, options) {
+    var result = [];
+    var i = 0;
+    while (i < front_cards.length) {
+        if (i % 2) {
+            result.push(back_cards[i]);
+            result.push(front_cards[i]);
+        } else {
+            result.push(front_cards[i]);
+            result.push(back_cards[i]);
+        }
+        if (options.page_columns > 2) {
+            result.push(card_generate_empty(options.page_columns - 2, options));
+        }
+        ++i;
+    }
+    console.log('alt',result)
     return result;
 }
 
@@ -638,6 +659,10 @@ function card_pages_generate_html(card_data, options) {
         pages = card_pages_split(cards, rows, cols);
     } else if (options.card_arrangement === "side_by_side") {
         var cards = card_pages_interleave_cards(front_cards, back_cards, options);
+        cards = card_pages_add_padding(cards, options);
+        pages = card_pages_split(cards, rows, cols);
+    } else if (options.card_arrangement === "side_by_side_alt") {
+        var cards = card_pages_interleave_cards_alt(front_cards, back_cards, options);
         cards = card_pages_add_padding(cards, options);
         pages = card_pages_split(cards, rows, cols);
     }
