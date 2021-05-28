@@ -533,7 +533,6 @@ function card_pages_interleave_cards(front_cards, back_cards, options) {
         }
         ++i;
     }
-    console.log('nrm',result)
     return result;
 }
 
@@ -553,7 +552,6 @@ function card_pages_interleave_cards_alt(front_cards, back_cards, options) {
         }
         ++i;
     }
-    console.log('alt',result)
     return result;
 }
 
