@@ -9,8 +9,9 @@ function card_default_options() {
         default_icon: "",
         default_title_size: "13",
         page_size: "A4",
-        page_rows: 3,
-        page_columns: 3,
+        page_rows: "3",
+        page_columns: "3",
+        page_zoom: "100",
         card_arrangement: "doublesided",
         card_size: "25x35",
         card_count: null,
@@ -560,8 +561,17 @@ function card_pages_wrap(pages, options) {
         // style += 'padding-right: calc( (' + (parsedPageWidth.number + parsedPageWidth.mu) + ' - ' + options.card_width + ' * ' + options.page_columns + ' ) / 2);';
         style += '"';
         style = add_size_to_style(style, parsedPageWidth.number + parsedPageWidth.mu, parsedPageHeight.number + parsedPageHeight.mu);
+        
+        var z = options.page_zoom / 100;
+        var zoomWidth = parsedPageWidth.number * z;
+        var zoomHeight = parsedPageHeight.number * z;
+        var zoomStyle = 'style="transform: scale(' + z + ');"';
+        zoomStyle = add_size_to_style(zoomStyle, parsedPageWidth.number + parsedPageWidth.mu, parsedPageHeight.number + parsedPageHeight.mu);
+
         result += '<page class="page page-preview ' + orientation + '" ' + style + '>\n';
+        result += '<div class="page-zoom page-zoom-preview" ' + zoomStyle + '>\n';
         result += pages[i].join("\n");
+        result += '</div>\n';
         result += '</page>\n';
     }
     return result;

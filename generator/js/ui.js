@@ -650,13 +650,13 @@ $(document).ready(function () {
 
     $("#card-contents").keyup(ui_change_card_contents_keyup);
 
-
     $("#page-width").on("input", ui_change_option);
     $("#page-height").on("input", ui_change_option);
     $("#page-size").change(ui_change_option).trigger("change");
     $("#page-rotate").click(ui_page_rotate);
     $("#page-rows").change(ui_change_option);
     $("#page-columns").change(ui_change_option);
+    $("#page-zoom").on("input", ui_change_option);
     $("#grid-rotate").click(ui_grid_rotate);
     $("#card-arrangement").change(ui_change_option);
     $("#card-width").on("input", ui_change_option);

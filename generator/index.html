@@ -107,7 +107,7 @@
                                         <button type="button" class="btn btn-primary btn-block" id="button-filter">Map/Filter</button>
                                     </div>
                                     <div class="col-sm-6">
-                                        <button type="button" class="btn btn-success btn-block" id="button-generate">Generate</button>
+                                        
                                     </div>
                                 </div>
                                 <!--<span class="help-block">Generated cards open in a new tab or window.</span>-->
@@ -123,7 +123,7 @@
                         <h4 class="panel-title">
                           <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                             <!-- PANEL TITLE -->
-                            Page settings
+                            Page
                             <!-- /PANEL TITLE -->
                           </a>
                         </h4>
@@ -144,19 +144,15 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="display: flex; align-items: center;">
                                     <div class="col-sm-4">
                                         <div class="text-right text-muted">
                                             <i id="page-orientation"></i>
                                         </div>
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-8" style="display: flex;">
                                         <input type="text" id="page-width" class="form-control" data-option="page_width" value="">
-                                    </div>
-                                    <div class="col-sm-2">
                                         <div class="text-center"><button class="btn btn-secondary" id="page-rotate">&times;</button></div>
-                                    </div>
-                                    <div class="col-sm-3">
                                         <input type="text" id="page-height" class="form-control" data-option="page_height" value="">
                                     </div>
                                 </div>
@@ -186,19 +182,15 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="display: flex; align-items: center;">
                                     <div class="col-sm-4">
                                         <div class="text-right text-muted">
                                             <i id="card-orientation"></i>
                                         </div>
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-8" style="display: flex;">
                                         <input type="text" id="card-width" class="form-control" data-option="card_width" value="">
-                                    </div>
-                                    <div class="col-sm-2">
                                         <div class="text-center"><button class="btn btn-secondary" id="card-rotate">&times;</button></div>
-                                    </div>
-                                    <div class="col-sm-3">
                                         <input type="text" id="card-height" class="form-control" data-option="card_height" value="">
                                     </div>
                                 </div>
@@ -214,14 +206,19 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="page-rows" class="col-sm-4 control-label">Cards/page</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" id="page-rows" class="form-control" data-option="page_rows" value="3">
-                                    </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-8" style="display: flex;">
+                                        <input type="number" id="page-rows" class="form-control" data-option="page_rows" value="3">
                                         <div class="text-center"><button class="btn btn-secondary" id="grid-rotate">&times;</button></div>
+                                        <input type="number" id="page-columns" class="form-control" data-option="page_columns" value="3">
                                     </div>
-                                    <div class="col-sm-3">
-                                        <input type="text" id="page-columns" class="form-control" data-option="page_columns" value="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="foreground-color" class="col-sm-4 control-label">Zoom</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <input type="number" id="page-zoom" class="form-control" data-option="page_zoom" value="100">
+                                            <div class="input-group-addon">%</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -253,6 +250,16 @@
                                     </div>
                                 </div>
                             </form>
+                            <form role="form" class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-6">
+                                        
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button type="button" class="btn btn-success btn-block" id="button-generate">Generate</button>
+                                    </div>
+                                </div>
+                            </form>
                             <!-- /PANEL BODY -->
                         </div>
                       </div>
@@ -264,7 +271,7 @@
                         <h4 class="panel-title">
                           <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                             <!-- PANEL TITLE -->
-                            Default values
+                            Default
                             <!-- /PANEL TITLE -->
                           </a>
                         </h4>

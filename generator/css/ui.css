@@ -7,6 +7,10 @@
     display: block;
 }
 
+.control-label {
+    white-space: nowrap;
+}
+
 #preview-container {
     margin: 10px;
     background-color: white;

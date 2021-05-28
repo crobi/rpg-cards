@@ -15,14 +15,18 @@
 
 /* Center all content within a page */
 .page {
+    display: block;
+    page-break-after: always;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.page-zoom {
     display: flex;
     align-content: center;
     justify-content: center;
     flex-direction: row;
     flex-wrap: wrap;
-    page-break-after: always;
-    padding: 0;
-    box-sizing: border-box;
 }
 
 @media print {
