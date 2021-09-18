@@ -37,6 +37,12 @@ page[size="Letter"] {
     height: 11.0in;
 }
 
+/* US letter area */
+page[size="Letter - Landscape"] {
+    width:  11.0in;
+    height: 8.5in;
+}
+
 page[size="25x35"] {
     width: 2.5in;
     height: 3.5in;
@@ -46,6 +52,16 @@ page[size="25x35"] {
 .card {
     width:2.5in;
     height:3.5in;
+}
+
+/* Business card size */
+.card-size-20x35 {
+    width:2.0in;
+    height:3.5in;
+}
+.card-size-20x35 .card-back-icon {
+    width: 0.8in;
+    height: 0.8in;
 }
 
 /* Bridge card size */

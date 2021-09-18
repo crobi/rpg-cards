@@ -3,10 +3,11 @@ rpg-cards
 
 RPG spell/item/monster card generator
 
-preview
+Preview
 =======
 
-Click [here](https://crobi.github.io/rpg-cards/generator/generate.html) for a live preview of this generator.
+Click [here](https://rpg-cards.vercel.app) for a live preview of this generator.
+
 
 fork
 ====
@@ -16,6 +17,7 @@ This is a fork from the [original work](https://github.com/crobi/rpg-cards). Mak
   - add gap between cards
   - implement some css fixes for print layout 
 - add all SRD material to the built-in selections (starting with 5E)
+
 
 FAQ
 =====================
@@ -29,20 +31,22 @@ FAQ
 - The layout of the cards is broken (e.g., cards are placed outside the page), what's wrong?
   - Check your page size, card size, and cards/page settings. If you ask the generator to place 4x4 poker-sized cards on a A4 paper, they won't fit and they will overflow the page.
 
-updating icons
-==============
+Building
+========
 
-This project includes a copy of icons from the [game-icons](http://game-icons.net) project,
-which regularly publishes new icons.
-To download these new icons:
+This project consists almost exclusively of static HTML/CSS/JavaScript files.
+The only exception are icons, which are copied from the [game-icons](http://game-icons.net) project.
 
-- Install Imagemagick
-- Run the following commands from the root of the project:
-  - `npm install`
-  - `npm run update-icons`
+To build this project:
+
+1. Check out this repository
+2. Make sure you have [Node](https://nodejs.org/) installed
+3. Run `npm install`
+4. Run `npm run build`
+5. Open `./generator/index.html` in your browser (or deploy the content of the `./generator` folder to your server)
 
 
-license
+License
 =======
 
 This generator is provided under the terms of the MIT License

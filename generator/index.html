@@ -1,6 +1,15 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-61016456-4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-61016456-4');
+    </script>
     <title>RPG cards</title>
     <meta charset="UTF-8">
     <!-- Library: jQuery -->
@@ -26,7 +35,6 @@
     <link href="css/cards.css" rel="stylesheet" />
     <link href="css/card-size.css" rel="stylesheet" />
     <link href="css/icons.css" rel="stylesheet" />
-    <link href="css/class-icons.css" rel="stylesheet" />
     <link href="css/custom-icons.css" rel="stylesheet" />
     <!-- Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -39,7 +47,8 @@
             <div class="alert alert-warning alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <strong>Note</strong>
-                Click on "Open help" to display some information about how to use this generator and what to do if you have a feature request or found a bug.
+                Click on "Open help" to display some information about how to use this generator.
+                However, if you find a bug or have a feature request, please note that <strong>this project is abandoned</strong>.
             </div>
         </div>
         <div class="row">
@@ -92,6 +101,7 @@
                             <select class="form-control" id="page-size" data-option="page_size">
                                 <option value="A4" selected>A4</option>
                                 <option value="Letter">US letter</option>
+                                <option value="Letter - Landscape">US letter (landscape)</option>
                                 <option value="25x35">2.5&quot; x 3.5&quot;</option>
                             </select>
                         </div>
@@ -102,6 +112,7 @@
                             <select class="form-control" id="card-size" data-option="card_size">
                                 <option value="225x35">2.25&quot; x 3.5&quot; (Bridge)</option>
                                 <option value="25x35" selected>2.5&quot; x 3.5&quot; (Poker)</option>
+                                <option value="20x35">2.0&quot; x 3.5&quot; (Business)</option>
                                 <option value="35x50">3.5&quot; x 5.0&quot;</option>
                                 <option value="75x50">7.5&quot; x 5.0&quot;</option>
                             </select>
@@ -369,14 +380,18 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="myModalLabel">RGP card generator</h4>
+                    <h4 class="modal-title" id="myModalLabel">RPG card generator</h4>
                 </div>
                 <div class="modal-body">
                     <ul>
-                        <li>Some RPG systems are protected by copyright. Even if some spell/item data is freely available, it does not mean you may redistribute cards containing such data.</li>
-                        <li>If you find a bug or have a feature request, post them at the <a href="https://github.com/crobi/rpg-cards/issues">Github project site</a>.</li>
                         <li>
-                            The user interface consists of three columns: 
+                            <strong>THIS PROJECT HAS BEEN ABANDONED.</strong>
+                            If you find a bug or have a feature request, you can post them at the <a href="https://github.com/crobi/rpg-cards/issues">Github project site</a> to maintain a record if you wish.
+                            However, they will not be reviewed.
+                        </li>
+                        <li>Some RPG systems are protected by copyright. Even if some spell/item data is freely available, it does not mean you may redistribute cards containing such data.</li>
+                        <li>
+                            The user interface consists of three columns:
                             <img alt="help" src="img/help/help.png" style="max-width:95%; display:block; padding: 5px; margin: 10px 0 10px 0; border: 1px solid #ebebeb; box-shadow: 0 0 5px #ebebeb;"/>
                             The left column contains the menu and global settings.
                             In the middle menu, you can select and edit individual cards.

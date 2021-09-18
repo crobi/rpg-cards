@@ -162,9 +162,10 @@ function ui_save_file() {
 
     var a = $("#file-save-link")[0];
     a.href = url;
-    a.download = prompt("Filename:", ui_save_file.filename);
-    if (a.download) {
-        ui_save_file.filename = a.download;
+    var filename = prompt("Filename:", ui_save_file.filename);
+    if (filename) {
+        a.download = filename 
+        ui_save_file.filename = filename;
         a.click();
     }
 

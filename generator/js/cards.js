@@ -240,6 +240,39 @@ function card_element_dndstats(params, card_data, options) {
     return result;
 }
 
+function card_element_swstats(params, card_data, options) {
+    var stats = [];
+    for (var i = 0; i < 9; ++i) {
+        stats[i] = params[i] || '-';
+    }
+
+    var result = "";
+    result += '<table class="card-stats">';
+    result += '    <tbody><tr>';
+    result += '      <th class="card-stats-header">Agility</th>';
+    result += '      <th class="card-stats-header">Smarts</th>';
+    result += '      <th class="card-stats-header">Spirit</th>';
+    result += '      <th class="card-stats-header">Strength</th>';
+    result += '      <th class="card-stats-header">Vigor</th>';
+    result += '    </tr>';
+    result += '    <tr>';
+    result += '      <td class="card-stats-cell">d' + stats[0] + '</td>';
+    result += '      <td class="card-stats-cell">d' + stats[1] + '</td>';
+    result += '      <td class="card-stats-cell">d' + stats[2] + '</td>';
+    result += '      <td class="card-stats-cell">d' + stats[3] + '</td>';
+    result += '      <td class="card-stats-cell">d' + stats[4] + '</td>';
+    result += '    </tr>';
+    result += '  </tbody>';
+    result += '</table>';
+    result += '<p class="card-stats-sw-derived">';
+    result += ' <b>Pace</b> ' + stats[5];
+    result += ' <b>Parry</b> ' + stats[6];
+    result += ' <b>Toughness</b> ' + stats[7];
+    result += stats[8] ? ' <b>Loot</b> ' + stats[8] : '';
+    result += '</p>';
+    return result;
+}
+
 function card_element_bullet(params, card_data, options) {
     var result = "";
     result += '<ul class="card-element card-bullet-line">';
@@ -275,6 +308,7 @@ var card_element_generators = {
     boxes: card_element_boxes,
     description: card_element_description,
     dndstats: card_element_dndstats,
+    swstats: card_element_swstats,
     text: card_element_text,
     center: card_element_center,
     justify: card_element_justify,
@@ -347,7 +381,7 @@ function card_generate_back(data, options) {
 	{
 		background_style = 'style = "background-image: url(&quot;' + url + '&quot;); background-size: contain; background-position: center; background-repeat: no-repeat;"';
 	}
-	else 
+	else
 	{
 		background_style = card_generate_color_gradient_style(color, options);
     }
@@ -462,6 +496,7 @@ function card_pages_generate_style(options) {
         case "A4": size = "210mm 297mm"; break;
         case "A5": size = "A5 portrait"; break;
         case "Letter": size = "letter portrait"; break;
+        case "Letter - Landscape": size = "letter landscape"; break;
         case "25x35": size = "2.5in 3.5in"; break;
         default: size = "auto";
     }
