@@ -62,3 +62,16 @@
     top: 50%;
     margin-top: -12px;
 }
+
+.pl-1 {
+    padding-left: 4px;
+}
+
+.pr-1 {
+    padding-right: 4px;
+}
+
+.px-1 {
+    padding-left: 4px;
+    padding-right: 4px;
+}
