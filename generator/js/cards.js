@@ -8,6 +8,7 @@ function card_default_options() {
         default_color: "black",
         default_icon: "ace",
         default_title_size: "13",
+        default_card_font_size: "inherit",
         page_size: "A4",
         page_rows: 3,
         page_columns: 3,
@@ -79,6 +80,16 @@ function card_data_split_params(value) {
     return value.split("|").map(function (str) { return str.trim(); });
 }
 
+function card_element_class(card_data, options) {    
+    var card_font_size_class = card_size_class(card_data, options);
+    return 'card-element card-description-line' + card_font_size_class;
+}
+
+function card_size_class(card_data, options) {    
+    var card_font_size = card_data.card_font_size || options.default_card_font_size || '';
+    return (card_font_size != '' && card_font_size != "inherit") ? ' card-font-size-' + card_font_size : '';
+}
+
 // ============================================================================
 // Card element generating functions
 // ============================================================================
@@ -127,9 +138,10 @@ function card_element_ruler(params, card_data, options) {
     var color = card_data_color_front(card_data, options);
     var fill = 'fill="' + color + '"';
     var stroke = 'stroke="' + color + '"';
+    var card_font_size_class = card_size_class(card_data, options);
 
     var result = "";
-    result += '<svg class="card-ruler" height="1" width="100" viewbox="0 0 100 1" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">';
+    result += '<svg class="card-ruler' + card_font_size_class + '" height="1" width="100" viewbox="0 0 100 1" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">';
     result += '    <polyline points="0,0 100,0.5 0,1" ' + fill + '></polyline>';
     result += '</svg>';
     return result;
@@ -143,9 +155,10 @@ function card_element_boxes(params, card_data, options) {
     var size = params[1] || 3;
     var additional_text = params[2] || "";
     var style = 'style="width:' + size + 'em;height:' + size + 'em"';
+    var element_class = card_element_class(card_data, options);
 
     var result = "";
-    result += '<div class="card-element card-description-line">';
+    result += '<div class="' + element_class + '">';
     for (var i = 0; i < count; ++i) {
         result += '<svg class="card-box" height="100" width="100" viewbox="0 0 100 100" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg" ' + style + '>';
         result += '    <rect x="5" y="5" width="90" height="90" ' + fill + stroke + ' style="stroke-width:10">';
@@ -156,8 +169,10 @@ function card_element_boxes(params, card_data, options) {
 }
 
 function card_element_property(params, card_data, options) {
+    var card_font_size_class = card_size_class(card_data, options);
+
     var result = "";
-    result += '<div class="card-element card-property-line">';
+    result += '<div class="card-element card-property-line' + card_font_size_class + '">';
     result += '   <h4 class="card-property-name">' + params[0] + '</h4>';
     result += '   <p class="card-p card-property-text">' + params[1] + '</p>';
 	if (params[2])
@@ -172,8 +187,10 @@ function card_element_property(params, card_data, options) {
 }
 
 function card_element_description(params, card_data, options) {
+    var element_class = card_element_class(card_data, options);
+
     var result = "";
-    result += '<div class="card-element card-description-line">';
+    result += '<div class="' + element_class + '">';
     result += '   <h4 class="card-description-name">' + params[0] + '</h4>';
     result += '   <p class="card-p card-description-text">' + params[1] + '</p>';
     result += '</div>';
@@ -181,24 +198,30 @@ function card_element_description(params, card_data, options) {
 }
 
 function card_element_text(params, card_data, options) {
+    var element_class = card_element_class(card_data, options);
+
     var result = "";
-    result += '<div class="card-element card-description-line">';
+    result += '<div class="' + element_class + '">';
     result += '   <p class="card-p card-description-text">' + params[0] + '</p>';
     result += '</div>';
     return result;
 }
 
 function card_element_center(params, card_data, options) {
+    var element_class = card_element_class(card_data, options);
+
     var result = "";
-    result += '<div class="card-element card-description-line" style="text-align: center">';
+    result += '<div class="' + element_class + '" style="text-align: center">';
     result += '   <p class="card-p card-description-text">' + params[0] + '</p>';
     result += '</div>';
     return result;
 }
 
 function card_element_justify(params, card_data, options) {
+    var element_class = card_element_class(card_data, options);
+
     var result = "";
-    result += '<div class="card-element card-description-line" style="text-align: justify; hyphens: auto">';
+    result += '<div class="' + element_class + '" style="text-align: justify; hyphens: auto">';
     result += '   <p class="card-p card-description-text">' + params[0] + '</p>';
     result += '</div>';
     return result;
@@ -217,9 +240,10 @@ function card_element_dndstats(params, card_data, options) {
         }
         mods[i] = "&nbsp;(" + mod + ")";
     }
+    var card_font_size_class = card_size_class(card_data, options);
 
     var result = "";
-    result += '<table class="card-stats">';
+    result += '<table class="card-stats' + card_font_size_class + '">';
     result += '    <tbody><tr>';
     result += '      <th class="card-stats-header">STR</th>';
     result += '      <th class="card-stats-header">DEX</th>';
@@ -246,9 +270,10 @@ function card_element_swstats(params, card_data, options) {
     for (var i = 0; i < 9; ++i) {
         stats[i] = params[i] || '-';
     }
+    var card_font_size_class = card_size_class(card_data, options);
 
     var result = "";
-    result += '<table class="card-stats">';
+    result += '<table class="card-stats' + card_font_size_class + '">';
     result += '    <tbody><tr>';
     result += '      <th class="card-stats-header">Agility</th>';
     result += '      <th class="card-stats-header">Smarts</th>';
@@ -275,8 +300,10 @@ function card_element_swstats(params, card_data, options) {
 }
 
 function card_element_bullet(params, card_data, options) {
+    var card_font_size_class = card_size_class(card_data, options);
+
     var result = "";
-    result += '<ul class="card-element card-bullet-line">';
+    result += '<ul class="card-element card-bullet-line' + card_font_size_class + '">';
     result += '   <li class="card-bullet">' + params[0] + '</li>';
     result += '</ul>';
     return result;
