@@ -95,6 +95,16 @@ page[size="25x35"] {
     height: 1.5in;
 }
 
+/* Landscape Index Card */
+.card-size-50x30 {
+    width:5.0in;
+    height:3.0in;
+}
+.card-size-50x30 .card-back-icon {
+    width: 1.5in;
+    height: 1.5in;
+}
+
 /* Landscape big card */
 .card-size-75x50 {
     width:7.5in;

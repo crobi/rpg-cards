@@ -141,6 +141,7 @@ function card_element_boxes(params, card_data, options) {
     var stroke = ' stroke="' + color + '"';
     var count = params[0] || 1;
     var size = params[1] || 3;
+    var additional_text = params[2] || "";
     var style = 'style="width:' + size + 'em;height:' + size + 'em"';
 
     var result = "";
@@ -150,7 +151,7 @@ function card_element_boxes(params, card_data, options) {
         result += '    <rect x="5" y="5" width="90" height="90" ' + fill + stroke + ' style="stroke-width:10">';
         result += '</svg>';
     }
-    result += '</div>';
+    result += additional_text + '</div>';
     return result;
 }
 
