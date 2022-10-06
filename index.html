@@ -148,77 +148,125 @@ This is not a complete documentation, but some information that should help you 
         <li>
             <code>subtitle</code>
             Slightly larger italic text.
-            Param1: the subtitle text.
+            <ul>
+                <li><em>Param1</em> - the subtitle text.</li>
+                <li><em>Param2</em> - right aligned additional content.</li>
+            </ul>
         </li>
         <li>
             <code>rule</code>
             A horizontal rule.
+            <ul>
+            </ul>
         </li>
         <li>
             <code>property</code>
             A property line. The property description is indented if it spans more than one line.
-            Param1: the property name (in bold).
-            Param2: the property description.
+            <ul>
+                <li><em>Param1</em> - the property name (in bold).</li>
+                <li><em>Param2</em> - the property description.</li>
+            </ul>
         </li>
         <li>
             <code>description</code>
             Same as <i>property</i>, but text is not indented.
+            <ul>
+            </ul>
         </li>
         <li>
             <code>text</code>
             A simple paragraph of text.
-            Param1: the text.
+            <ul>
+                <li><em>Param1</em> - the text.</li>
+            </ul>
         </li>
         <li>
             <code>section</code>
-            A section header, with a horizontal rule below the section name.
-            Param1: the section name.
+            A subsection header, with a horizontal rule below the subsection name.
+            <ul>
+                <li><em>Param1</em> - the subsection name.</li>
+                <li><em>Param2</em> - right aligned additional content.</li>
+            </ul>
         </li>
         <li>
             <code>boxes</code>
             A line full of empty boxes. Useful for items with charges and actions with limited use.
-            Param1: number of boxes.
-            Param2: size of a box (where 1.0 is the size of the letter 'e').
+            <ul>
+                <li><em>Param1</em> - number of boxes.</li>
+                <li><em>Param2</em> - size of a box (in "em" css unit, where 1.0 is the size of the letter 'e').</li>
+            </ul>
         </li>
         <li>
             <code>dndstats</code>
             A Dungeons&Dragons stat block.
-            Param1: Strength score.
-            Param2: Dexterity score.
-            Param3: Constitution score.
-            Param4: Intelligence score.
-            Param5: Wisdom score.
-            Param6: Charisma score.
+            <ul>
+                <li><em>Param1</em> - Strength score.</li>
+                <li><em>Param2</em> - Dexterity score.</li>
+                <li><em>Param3</em> - Constitution score.</li>
+                <li><em>Param4</em> - Intelligence score.</li>
+                <li><em>Param5</em> - Wisdom score.</li>
+                <li><em>Param6</em> - Charisma score.</li>
+            </ul>
         </li>
         <li>
             <code>swstats</code>
-            Savage Worlds stat and loot block.
-            Param1: Agility value.
-            Param2: Smarts value.
-            Param3: Spirit value.
-            Param4: Strength value.
-            Param5: Vigor value.
-            Param6: Pace value.
-            Param7: Parry value.
-            Param8: Toughness value.
-            Param9: Loot value.
+            A Savage Worlds stat block.
+            <ul>
+                <li><em>Param1</em> - Agility dice.</li>
+                <li><em>Param2</em> - Smarts dice.</li>
+                <li><em>Param3</em> - Spirit dice.</li>
+                <li><em>Param4</em> - Strength dice.</li>
+                <li><em>Param5</em> - Vigor dice.</li>
+                <li><em>Param6</em> - Pace score.</li>
+                <li><em>Param7</em> - Parry score.</li>
+                <li><em>Param8</em> - Toughness score.</li>
+                <li><em>Param9</em> - Loot value.</li>
+            </ul>
         </li>
         <li>
             <code>fill</code>
             A dynamically resized empty element that takes up a portion of unused space on the card.
             You can use this to vertically center text by adding one of these before and after the text you want to center.
-            Param1: the number of units of empty space to use.
+            <ul>
+                <li><em>Param1</em> - the number of units of empty space to use.</li>
+            </ul>
         </li>
         <li>
             <code>bullet</code>
             A bulleted text line.
-            Param1: the text
+            <ul>
+                <li><em>Param1</em> - the text.</li>
+            </ul>
         </li>
         <li>
             <code>picture</code>
             An inline picture.
-            Param1: URL of the picture.
-            Param2: Height in pixels.
+            <ul>
+                <li><em>Param1</em> - URL of the picture.</li>
+                <li><em>Param2</em> - Height in pixels.</li>
+            </ul>
+        </li>
+    </ul>
+</p>
+
+<h3>
+    <a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>
+    Special tags
+</h3>
+
+<p>
+    You can use special non-standard HTML tags created especially for this card editor:
+    <pre>&lt;tag param1="" param2="" ...&gt;</pre><br />
+
+    The following special HTML tags are available:
+
+    <ul>
+        <li>
+            <code>icon</code>
+            Prints a Game Icon using the <a href="https://github.com/seiyria/gameicons-font">gameicons-font</a>.<ul>
+                <li><em>name</em> - the name of the icon.</li>
+                <li><em>size</em> - size of the icon (in "pt" css unit).</li>
+            </ul>
         </li>
     </ul>
 </p>
