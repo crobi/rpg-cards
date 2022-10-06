@@ -8,12 +8,18 @@ Preview
 
 Click [here](https://rpg-cards.vercel.app) for a live preview of this generator.
 
+Documentation
+=============
+
+Click [here](http://crobi.github.io/rpg-cards/) to read the documentation.
+
 Support
 =======
 
 I (the original author) am not maintaining the project anymore, and will not be responding to issues or reviewing PRs.
 However, I have given write access to a few collaborators that are maintaining the project.
 Please reach out to me if you want to be included as collaborator, or if you want to take ownership of this project.
+
 
 FAQ
 =====================

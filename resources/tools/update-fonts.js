@@ -4,14 +4,14 @@ const request = require('request');
 const path = require('path');
 const yauzl = require("yauzl");
 
-const downloadUrl = "https://game-icons.net/archives/svg/zip/ffffff/transparent/game-icons.net.svg.zip";
+const downloadUrl = "https://github.com/seiyria/gameicons-font/archive/master.zip";
 const tempDir = "./temp";
 const tempFilePath = tempDir + "/temp" + Date.now() + ".zip";
-const iconDir = "./generator/icons";
-const customIconDir = "./resources/custom-icons";
-const cssPath = "./generator/css/icons.css";
-const jsPath = "./generator/js/icons.js";
-
+const cssFileName = "game-icons.css";
+const eotFileName = "game-icons.eot";
+const ttfFileName = "game-icons.ttf";
+const woffFileName = "game-icons.woff";
+const destDir = "./generator/fonts";
 
 // ----------------------------------------------------------------------------
 // Download
@@ -76,64 +76,6 @@ function unzipAll(src, dest) {
 }
 
 // ----------------------------------------------------------------------------
-// Generate CSS
-// ----------------------------------------------------------------------------
-function generateCSS(src, dest) {
-    console.log("  Generating CSS...");
-    return new Promise((resolve, reject) => {
-        fs.readdir(src, (err, files) => {
-            if (err) {
-                reject(err);
-            }
-            else {
-                const imageExtensions = [".svg", ".png"];
-                const content = files
-                    .filter(fileName => imageExtensions.find(ext => ext === path.extname(fileName)))
-                    .map(name => `.icon-${path.basename(name, path.extname(name))} { background-image: url(../icons/${name});}\n`)
-                    .join("");
-                fs.writeFile(dest, content, err => {
-                    if (err) {
-                        reject(err);
-                    }
-                    else {
-                        resolve();
-                    }
-                });
-            }
-        });
-    });
-}
-
-// ----------------------------------------------------------------------------
-// Generate JS
-// ----------------------------------------------------------------------------
-function generateJS(src, dest) {
-    console.log("  Generating JS...");
-    return new Promise((resolve, reject) => {
-        fs.readdir(src, (err, files) => {
-            if (err) {
-                reject(err);
-            }
-            else {
-                const imageExtensions = [".svg", ".png"];
-                const content = "var icon_names = [\n" + files
-                    .filter(fileName => imageExtensions.find(ext => ext === path.extname(fileName)))
-                    .map(name => `    "${path.basename(name, path.extname(name))}"`)
-                    .join(",\n") + "\n]";
-                fs.writeFile(dest, content, err => {
-                    if (err) {
-                        reject(err);
-                    }
-                    else {
-                        resolve();
-                    }
-                });
-            }
-        });
-    });
-}
-
-// ----------------------------------------------------------------------------
 // Copy
 // ----------------------------------------------------------------------------
 function cleanDirectory(src) {
@@ -143,6 +85,13 @@ function cleanDirectory(src) {
             if (err) { reject(); return; }
             resolve();
         });
+    }); 
+}
+
+function moveFile(src, dst) {
+    console.log("  Moving file...");
+    return new Promise((resolve, _) => {
+        fse.move(src, dst, () => resolve());
     }); 
 }
 
@@ -170,7 +119,7 @@ function copyAll(src, dest) {
 function moveAll(src, dest) {
     console.log("  Moving...");
     return new Promise((resolve, reject) => {
-        fse.copy(src, dest, err => {
+        fse.move(src, dest, err => {
             if (err) {
                 reject(err);
             }
@@ -182,16 +131,15 @@ function moveAll(src, dest) {
 }
 
 fse.emptyDir(tempDir)
-    .then(() => console.log("Icons: start"))
+    .then(() => console.log("Fonts: start"))
     .then(() => cleanDirectory(tempDir))
     .then(() => downloadFile(downloadUrl, tempFilePath))
     .then(() => unzipAll(tempFilePath, tempDir))
-    .then(() => removeFile(tempFilePath))
-    .then(() => cleanDirectory(iconDir))
-    .then(() => moveAll(tempDir, iconDir))
-    .then(() => copyAll(customIconDir, iconDir))
-    .then(() => generateCSS(iconDir, cssPath))
-    .then(() => generateJS(iconDir, jsPath))
+    .then(() => cleanDirectory(destDir))
+    .then(() => moveFile(tempDir+"/"+cssFileName, destDir+"/"+cssFileName))
+    .then(() => moveFile(tempDir+"/"+eotFileName, destDir+"/"+eotFileName))
+    .then(() => moveFile(tempDir+"/"+ttfFileName, destDir+"/"+ttfFileName))
+    .then(() => moveFile(tempDir+"/"+woffFileName, destDir+"/"+woffFileName))
     .then(() => cleanDirectory(tempDir))
-    .then(() => console.log("Icons: done"))
-    .catch(err => console.log("Icons: error", err));
+    .then(() => console.log("Fonts: done"))
+    .catch(err => console.log("Fonts: error", err));
