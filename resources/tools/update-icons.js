@@ -1,4 +1,3 @@
-const fs = require('fs');
 const fse = require('fs-extra');
 const request = require('request');
 const path = require('path');
@@ -20,7 +19,7 @@ function downloadFile(url, dest) {
     console.log("  Downloading...");
     return new Promise((resolve, reject) => {
         request(url)
-            .pipe(fs.createWriteStream(dest))
+            .pipe(fse.createWriteStream(dest))
             .on("close", resolve)
             .on("error", reject);
     });
@@ -50,7 +49,7 @@ function unzipAll(src, dest) {
                     var targetFile = path.join(dest, fileName);
                     var i = 2;
                     while (true) {
-                        if (!fs.existsSync(targetFile)) {
+                        if (!fse.existsSync(targetFile)) {
                             break;
                         }
                         fileName = entryPath.name + "-" + i++ + entryPath.ext;
@@ -65,7 +64,7 @@ function unzipAll(src, dest) {
                             .on("end", function() {
                                 zipfile.readEntry();
                             }).pipe(
-                                fs.createWriteStream(targetFile)
+                                fse.createWriteStream(targetFile)
                                     .on("error", reject)
                             ).on("error", reject);
                     });
@@ -81,7 +80,7 @@ function unzipAll(src, dest) {
 function generateCSS(src, dest) {
     console.log("  Generating CSS...");
     return new Promise((resolve, reject) => {
-        fs.readdir(src, (err, files) => {
+        fse.readdir(src, (err, files) => {
             if (err) {
                 reject(err);
             }
@@ -91,7 +90,7 @@ function generateCSS(src, dest) {
                     .filter(fileName => imageExtensions.find(ext => ext === path.extname(fileName)))
                     .map(name => `.icon-${path.basename(name, path.extname(name))} { background-image: url(../icons/${name});}\n`)
                     .join("");
-                fs.writeFile(dest, content, err => {
+                fse.writeFile(dest, content, err => {
                     if (err) {
                         reject(err);
                     }
@@ -110,7 +109,7 @@ function generateCSS(src, dest) {
 function generateJS(src, dest) {
     console.log("  Generating JS...");
     return new Promise((resolve, reject) => {
-        fs.readdir(src, (err, files) => {
+        fse.readdir(src, (err, files) => {
             if (err) {
                 reject(err);
             }
@@ -120,7 +119,7 @@ function generateJS(src, dest) {
                     .filter(fileName => imageExtensions.find(ext => ext === path.extname(fileName)))
                     .map(name => `    "${path.basename(name, path.extname(name))}"`)
                     .join(",\n") + "\n]";
-                fs.writeFile(dest, content, err => {
+                fse.writeFile(dest, content, err => {
                     if (err) {
                         reject(err);
                     }

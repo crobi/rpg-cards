@@ -1,4 +1,3 @@
-const fs = require('fs');
 const fse = require('fs-extra');
 const request = require('request');
 const path = require('path');
@@ -20,7 +19,7 @@ function downloadFile(url, dest) {
     console.log("  Downloading...");
     return new Promise((resolve, reject) => {
         request(url)
-            .pipe(fs.createWriteStream(dest))
+            .pipe(fse.createWriteStream(dest))
             .on("close", resolve)
             .on("error", reject);
     });
@@ -50,7 +49,7 @@ function unzipAll(src, dest) {
                     var targetFile = path.join(dest, fileName);
                     var i = 2;
                     while (true) {
-                        if (!fs.existsSync(targetFile)) {
+                        if (!fse.existsSync(targetFile)) {
                             break;
                         }
                         fileName = entryPath.name + "-" + i++ + entryPath.ext;
@@ -65,7 +64,7 @@ function unzipAll(src, dest) {
                             .on("end", function() {
                                 zipfile.readEntry();
                             }).pipe(
-                                fs.createWriteStream(targetFile)
+                                fse.createWriteStream(targetFile)
                                     .on("error", reject)
                             ).on("error", reject);
                     });
@@ -130,6 +129,43 @@ function moveAll(src, dest) {
     });
 }
 
+function fixCss() {
+    // fix gameicons-font issue https://github.com/seiyria/gameicons-font/issues/16
+    return new Promise((resolve, reject) => {
+        fse.readFile(destDir+"/"+cssFileName, (err, buffer) => {
+            if (err) {
+                reject(err);
+            } else {
+                let str = buffer.toString();
+                const regex = /"\\([0-9a-fA-F]+)"/gm;
+                let m, i = 0, fixNeeded = false;
+                while ((m = regex.exec(str)) !== null) {
+                    // This is necessary to avoid infinite loops with zero-width matches
+                    if (m.index === regex.lastIndex) {
+                        regex.lastIndex++;
+                    }
+                    // The result can be accessed through the `m`-variable.
+                    m.forEach((match, groupIndex) => {
+                        if (groupIndex !== 1) return;
+                        if (i === 0 && match.length === 5) fixNeeded = true;
+                        if (!fixNeeded) return;
+                        const matchFixed = match.slice(0,1) + match.slice(2);
+                        str = str.replace(`"\\${match}"`, `"\\${matchFixed}"`);
+                    });
+                    i++;
+                }
+                fse.writeFile(destDir+"/"+cssFileName, str, (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve();
+                    }
+                  });
+            }
+        })
+    });
+}
+
 fse.emptyDir(tempDir)
     .then(() => console.log("Fonts: start"))
     .then(() => cleanDirectory(tempDir))
@@ -140,6 +176,7 @@ fse.emptyDir(tempDir)
     .then(() => moveFile(tempDir+"/"+eotFileName, destDir+"/"+eotFileName))
     .then(() => moveFile(tempDir+"/"+ttfFileName, destDir+"/"+ttfFileName))
     .then(() => moveFile(tempDir+"/"+woffFileName, destDir+"/"+woffFileName))
+    .then(() => fixCss())
     .then(() => cleanDirectory(tempDir))
     .then(() => console.log("Fonts: done"))
     .catch(err => console.log("Fonts: error", err));
