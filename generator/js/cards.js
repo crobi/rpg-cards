@@ -6,12 +6,13 @@ function card_default_options() {
         foreground_color: "white",
         background_color: "white",
         default_color: "black",
-        default_icon: "ace",
+        default_icon: "",
         default_title_size: "13",
         default_card_font_size: "inherit",
         page_size: "A4",
-        page_rows: 3,
-        page_columns: 3,
+        page_rows: "3",
+        page_columns: "3",
+        page_zoom: "100",
         card_arrangement: "doublesided",
         card_size: "25x35",
         card_count: null,
@@ -69,11 +70,11 @@ function card_data_color_back(card_data, options) {
 }
 
 function card_data_icon_front(card_data, options) {
-    return card_data.icon_front || card_data.icon || options.default_icon || "ace";
+    return card_data.icon_front || card_data.icon || options.default_icon || "";
 }
 
 function card_data_icon_back(card_data, options) {
-    return card_data.icon_back || card_data.icon || options.default_icon || "ace";
+    return card_data.icon_back || card_data.icon || options.default_icon || "";
 }
 
 function card_data_split_params(value) {
@@ -101,7 +102,7 @@ function card_element_title(card_data, options) {
 }
 
 function card_element_icon(card_data, options) {
-    var icon = card_data_icon_front(card_data, options);
+    var icons = card_data_icon_front(card_data, options).split(/[\s\uFEFF\xA0]+/).filter(icon=>icon);
     var classname = "icon";
     if (options.icon_inline) {
         classname = "inlineicon";
@@ -109,15 +110,23 @@ function card_element_icon(card_data, options) {
 
     var result = "";
     result += '<div class="card-title-' + classname + '-container">';
-    result += '    <div class="card-title-' + classname + ' icon-' + icon + '">';
-    result += '    </div>';
+    icons.forEach(function(icon){
+        result += '    <img class="card-title-' + classname + ' icon-' + icon + '" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">';
+    });
     result += '</div>';
     return result;
 }
 
 function card_element_subtitle(params, card_data, options) {
     var subtitle = params[0] || "";
-    return '<div class="card-element card-subtitle">' + subtitle + '</div>';
+    var result = '<div class="card-element card-subtitle">';
+    if (params[1])
+	{
+		result += '<div style="float:right">' + params[1] + '</div>';
+	}
+    result += '<div>' + subtitle + '</div>';
+    result += '</div>';
+    return result;
 }
 
 function card_element_inline_icon(params, card_data, options) {
@@ -312,7 +321,16 @@ function card_element_bullet(params, card_data, options) {
 function card_element_section(params, card_data, options) {
     var color = card_data_color_front(card_data, options);
     var section = params[0] || "";
-    return '<h3 class="card-section" style="color:' + color + '">' + section + '</h3>';
+
+    var result = '<h3 class="card-section" style="color:' + color + '">';
+    if (params[1])
+	{
+		result += '<div style="float:right">' + params[1]+ '</div>';
+	}
+    result += '<div>' + section + '</div>';
+    result += '</h3>';
+
+    return result;
 }
 
 function card_element_fill(params, card_data, options) {
@@ -354,8 +372,8 @@ var card_element_generators = {
 
 function card_generate_contents(contents, card_data, options) {
     var result = "";
-    result += '<div class="card-content-container">';
-    result += contents.map(function (value) {
+   
+    var html = contents.map(function (value) {
         var parts = card_data_split_params(value);
         var element_name = parts[0];
         var element_params = parts.splice(1);
@@ -366,6 +384,60 @@ function card_generate_contents(contents, card_data, options) {
             return card_element_unknown(element_params, card_data, options);
         }
     }).join("\n");
+
+    var tagNames = ['icon'];
+
+    tagNames.forEach(function(tagName){
+        var tagRegExp = new RegExp('<'+tagName+'[^>]*>', 'g');
+        var attrRegExp = new RegExp('([\\w-]+)="([^"]+)"', 'g')
+
+        var matches = [];
+        forEachMatch(tagRegExp, html, function(m){
+            matches.push(m);
+        });
+        if (!matches.length) return null;
+
+        var tagResults = new Array(matches.length);
+        matches.forEach(function(match, i){
+            if (tagName === 'icon') {
+                var attrs = {};
+                forEachMatch(attrRegExp, match[0], function(m,i){
+                    var attrName = m[1];
+                    var attrValue = m[2];
+                    if (attrName === 'name') {
+                        if(!attrs.class) attrs.class = '';
+                        attrs.class += 'game-icon game-icon-' + attrValue;
+                    }
+                    else if (attrName === 'size') {
+                        if(!attrs.style) attrs.style = '';
+                        attrs.style += 'font-size:' + attrValue + 'pt;';
+                    }
+                });
+                forEachMatch(attrRegExp, match[0], function(m,i){
+                    var attrName = m[1];
+                    var attrValue = m[2];
+                    if (attrName === 'style') {
+                        if(!attrs.style) attrs.style = '';
+                        attrs.style += attrValue;
+                    }
+                });
+                var tagResult = '<i';
+                Object.keys(attrs).forEach(function(k){
+                    tagResult += ' ' + k + '="' + attrs[k] + '"';
+                });
+                tagResult += '></i>';
+                tagResults[i] = tagResult;
+            }
+        });
+
+        html = html.replace(tagRegExp, function(){
+            return tagResults.shift();
+        });
+
+    });
+
+    result += '<div class="card-content-container">';
+    result += html;
     result += '</div>';
     return result;
 }
@@ -386,14 +458,23 @@ function card_generate_color_gradient_style(color, options) {
     return 'style="background: radial-gradient(ellipse at center, white 20%, ' + color + ' 120%)"';
 }
 
+function add_size_to_style(style, width, height) {
+    // style string example ----> `style="color:red;"`
+    style = style.slice(0, -1) + ";" + "width:" + width + ";" + "height:" + height + ";" + style.slice(-1);
+    return style;
+}
+
 function card_generate_front(data, options) {
     var color = card_data_color_front(data, options);
     var style_color = card_generate_color_style(color, options);
+    var card_style = add_size_to_style(style_color, options.card_width, options.card_height);
 
     var result = "";
-    result += '<div class="card card-size-' + options.card_size + ' ' + (options.rounded_corners ? 'rounded-corners' : '') + '" ' + style_color + '>';
-    result += card_element_icon(data, options);
+    result += '<div class="card ' + (options.rounded_corners ? 'rounded-corners' : '') + '" ' + card_style + '>';
+    result += '<div class="card-header">';
     result += card_element_title(data, options);
+    result += card_element_icon(data, options);
+    result += '</div>';
     result += card_generate_contents(data.contents, data, options);
     result += '</div>';
 
@@ -403,6 +484,24 @@ function card_generate_front(data, options) {
 function card_generate_back(data, options) {
     var color = card_data_color_back(data, options);
     var style_color = card_generate_color_style(color, options);
+
+    var width = options.card_width;
+    var height = options.card_height;
+
+    var card_style = add_size_to_style(style_color, width, height);
+
+    var $tmpCardContainer = $('<div style="position:absolute;visibility:hidden;pointer-events:none;"></div>');
+    var $tmpCard = $('<div class="card" ' + card_style + '><div class="card-back"><div class="card-back-inner"><div class="card-back-icon"></div></div></div></div>');
+    $('#preview-container').append($tmpCardContainer.append($tmpCard));
+    
+    var $tmpCardInner = $tmpCard.find('.card-back-inner');
+    var innerWidth = $tmpCardInner.width();
+    var innerHeight = $tmpCardInner.height();
+    var iconSize = Math.min(innerWidth, innerHeight) / 2 + 'px';
+    $tmpCard.remove();
+
+    var icon_style = add_size_to_style(style_color, iconSize, iconSize);
+
 	var url = data.background_image;
 	var background_style = "";
 	if (url)
@@ -416,13 +515,12 @@ function card_generate_back(data, options) {
 	var icon = card_data_icon_back(data, options);
 
     var result = "";
-    console.log('options.rounded_corners', options.rounded_corners);
-    result += '<div class="card card-size-' + options.card_size + ' ' + (options.rounded_corners ? 'rounded-corners' : '') + '" ' + style_color + '>';
+    result += '<div class="card' + ' ' + (options.rounded_corners ? 'rounded-corners' : '') + '" ' + card_style + '>';
     result += '  <div class="card-back" ' + background_style + '>';
 	if (!url)
 	{
 		result += '    <div class="card-back-inner">';
-		result += '      <div class="card-back-icon icon-' + icon + '" ' + style_color + '></div>';
+		result += '      <div class="card-back-icon icon-' + icon + '" ' + icon_style + '></div>';
 		result += '    </div>';
 	}
     result += '  </div>';
@@ -433,9 +531,10 @@ function card_generate_back(data, options) {
 
 function card_generate_empty(count, options) {
     var style_color = card_generate_color_style("white");
+    var card_style = add_size_to_style(style_color, options.card_width, options.card_height);
 
     var result = "";
-    result += '<div class="card card-size-' + options.card_size + '" ' + style_color + '>';
+    result += '<div class="card' + '" ' + card_style + '>';
     result += '</div>';
 
     return card_repeat(result, count);
@@ -499,19 +598,61 @@ function card_pages_interleave_cards(front_cards, back_cards, options) {
     return result;
 }
 
+function card_pages_interleave_cards_alt(front_cards, back_cards, options) {
+    var result = [];
+    var i = 0;
+    while (i < front_cards.length) {
+        if (i % 2) {
+            result.push(back_cards[i]);
+            result.push(front_cards[i]);
+        } else {
+            result.push(front_cards[i]);
+            result.push(back_cards[i]);
+        }
+        if (options.page_columns > 2) {
+            result.push(card_generate_empty(options.page_columns - 2, options));
+        }
+        ++i;
+    }
+    return result;
+}
+
 function card_pages_wrap(pages, options) {
-    var size = options.page_size || "A4";
+    // force portrait layout then rotate if landscape
+    var orientation = getOrientation(options.page_width, options.page_height);
+    var pageWidth = options.page_width;
+    var pageHeight = options.page_height;
+    var parsedPageWidth = parseNumberAndMeasureUnit(pageWidth || "210mm");
+    var parsedPageHeight = parseNumberAndMeasureUnit(pageHeight || "297mm");
+    /* Chrome has problems with page sizes given in metric units. Make the paper area slightly smaller to work around this. */
+    if (parsedPageWidth.mu == 'mm')  parsedPageWidth.number  -= 1;
+    if (parsedPageHeight.mu == 'mm') parsedPageHeight.number -= 1;
+    if (parsedPageWidth.mu == 'cm')  parsedPageWidth.number  -= 0.1;
+    if (parsedPageHeight.mu == 'cm') parsedPageHeight.number -= 0.1;
 
     var result = "";
     for (var i = 0; i < pages.length; ++i) {
-        var style = "";
+        var style = 'style="';
         if ((options.card_arrangement === "doublesided") &&  (i % 2 === 1)) {
-            style += 'style="background-color:' + options.background_color + '"';
+            style += 'background-color:' + options.background_color + ';';
         } else {
-            style += 'style="background-color:' + options.foreground_color + '"';
+            style += 'background-color:' + options.foreground_color + ';';
         }
-        result += '<page class="page page-preview" size="' + size + '" ' + style + '>\n';
+        // style += 'padding-left: calc( (' + (parsedPageWidth.number + parsedPageWidth.mu) + ' - ' + options.card_width + ' * ' + options.page_columns + ' ) / 2);';
+        // style += 'padding-right: calc( (' + (parsedPageWidth.number + parsedPageWidth.mu) + ' - ' + options.card_width + ' * ' + options.page_columns + ' ) / 2);';
+        style += '"';
+        style = add_size_to_style(style, parsedPageWidth.number + parsedPageWidth.mu, parsedPageHeight.number + parsedPageHeight.mu);
+        
+        var z = options.page_zoom / 100;
+        var zoomWidth = parsedPageWidth.number * z;
+        var zoomHeight = parsedPageHeight.number * z;
+        var zoomStyle = 'style="transform: scale(' + z + ');"';
+        zoomStyle = add_size_to_style(zoomStyle, parsedPageWidth.number + parsedPageWidth.mu, parsedPageHeight.number + parsedPageHeight.mu);
+
+        result += '<page class="page page-preview ' + orientation + '" ' + style + '>\n';
+        result += '<div class="page-zoom page-zoom-preview" ' + zoomStyle + '>\n';
         result += pages[i].join("\n");
+        result += '</div>\n';
         result += '</page>\n';
     }
     return result;
@@ -578,6 +719,10 @@ function card_pages_generate_html(card_data, options) {
         pages = card_pages_split(cards, rows, cols);
     } else if (options.card_arrangement === "side_by_side") {
         var cards = card_pages_interleave_cards(front_cards, back_cards, options);
+        cards = card_pages_add_padding(cards, options);
+        pages = card_pages_split(cards, rows, cols);
+    } else if (options.card_arrangement === "side_by_side_alt") {
+        var cards = card_pages_interleave_cards_alt(front_cards, back_cards, options);
         cards = card_pages_add_padding(cards, options);
         pages = card_pages_split(cards, rows, cols);
     }

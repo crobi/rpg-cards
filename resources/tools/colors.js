@@ -195,8 +195,6 @@ function css_add_colors(arr) {
     result.forEach(function (value) {
         css_add_color(value);
     });
-
-    console.log(result.join("\n"));
 }
 
 css_add_colors(css_color_names);

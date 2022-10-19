@@ -159,24 +159,5 @@ var card_data_example = [
             "description | Scimitar | Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage"
         ],
         "tags": ["creature", "humanoid"]
-    },
-    {
-        "count": 1,
-        "color": "black",
-        "title": "Wolf",
-        "icon": "wolf-head",
-        "icon_back": "wolf-head",
-        "contents": [
-			"swstats| 8 | 6 | 4 | 6 | 8 | 8 | 5 | 6 | $2",
-			"rule",
-			"property | Skills: | Athletics d8, Fighting d8, Intimidation d8, Notice d6, Stealth d8",
-			"property | Edges: | Alertness",
-
-			"section | Special Abilities",
-			"property | Bite: | Str+d4.",
-			"property | Size −1: | The heads of these canines come to an average human’s waist, and they weigh about 60 pounds.",
-			"property | Speed: | d10 running die."
-        ],
-        "tags": ["creature"]
     }
 ]
