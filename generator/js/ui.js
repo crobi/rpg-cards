@@ -179,6 +179,7 @@ function ui_update_selected_card() {
     if (card) {
         $("#card-title").val(card.title);
         $("#card-title-size").val(card.title_size);
+        $("#card-font-size").val(card.font_size);
         $("#card-count").val(card.count);
         $("#card-icon").val(card.icon);
         $("#card-icon-back").val(card.icon_back);
@@ -189,6 +190,7 @@ function ui_update_selected_card() {
     } else {
         $("#card-title").val("");
         $("#card-title-size").val("");
+        $("#card-font-size").val("");
         $("#card-count").val(1);
         $("#card-icon").val("");
         $("#card-icon-back").val("");
@@ -514,6 +516,11 @@ function ui_change_default_icon_size() {
     ui_render_selected_card();
 }
 
+function ui_change_default_card_font_size() {
+    card_options.default_card_font_size = $(this).val();
+    ui_render_selected_card();
+}
+
 function ui_sort() {
     $("#sort-modal").modal('show');
 }
@@ -558,6 +565,20 @@ function ui_apply_default_color() {
     ui_render_selected_card();
 }
 
+function ui_apply_default_font() {
+    for (var i = 0; i < card_data.length; ++i) {
+        card_data[i].title_size = "";
+    }
+    ui_render_selected_card();
+}
+
+function ui_apply_default_card_font() {
+    for (var i = 0; i < card_data.length; ++i) {
+        card_data[i].card_font_size = "";
+    }
+    ui_render_selected_card();
+}
+
 function ui_apply_default_icon() {
     for (var i = 0; i < card_data.length; ++i) {
         card_data[i].icon = card_options.default_icon;
@@ -578,6 +599,7 @@ function local_store_save() {
     if(window.localStorage){
         try {
             localStorage.setItem("card_data", JSON.stringify(card_data));
+            localStorage.setItem("card_options", JSON.stringify(card_options));
         } catch (e){
             //if the local store save failed should we notify the user that the data is not being saved?
             console.log(e);
@@ -588,6 +610,7 @@ function local_store_load() {
     if(window.localStorage){
         try {
             card_data = JSON.parse(localStorage.getItem("card_data")) || card_data;
+            card_options = JSON.parse(localStorage.getItem("card_options")) || card_options;
         } catch (e){
             //if the local store load failed should we notify the user that the data load failed?
             console.log(e);
@@ -635,11 +658,14 @@ $(document).ready(function () {
     $("#button-apply-color").click(ui_apply_default_color);
     $("#button-apply-icon").click(ui_apply_default_icon);
     $("#button-apply-icon-back").click(ui_apply_default_icon_back);
+    $("#button-apply-font").click(ui_apply_default_font);
+    $("#button-apply-card-font").click(ui_apply_default_card_font);
 
     $("#selected-card").change(ui_update_selected_card);
 
     $("#card-title").change(ui_change_card_title);
     $("#card-title-size").change(ui_change_card_property);
+    $("#card-font-size").change(ui_change_card_property);
     $("#card-icon").change(ui_change_card_property);
     $("#card-count").change(ui_change_card_property);
     $("#card-icon-back").change(ui_change_card_property);
@@ -669,6 +695,7 @@ $(document).ready(function () {
     $("#default-color").change(ui_change_default_color);
     $("#default-icon").change(ui_change_default_icon);
     $("#default-title-size").change(ui_change_default_title_size);
+    $("#default-card-font-size").change(ui_change_default_card_font_size);
     $("#small-icons").change(ui_change_default_icon_size);
 
     $(".icon-select-button").click(ui_select_icon);
