@@ -11,7 +11,7 @@ Click [here](https://rpg-cards.vercel.app) for a live preview of this generator.
 Documentation
 =============
 
-Click [here](http://crobi.github.io/rpg-cards/) to read the documentation.
+Click [here](http://bitlogic-dev.github.io/rpg-cards/) to read the documentation.
 
 Support
 =======
