@@ -86,6 +86,11 @@ function card_element_class(card_data, options) {
     return 'card-element card-description-line' + card_font_size_class;
 }
 
+function card_action_element_class(card_data, options) {    
+    var card_font_size_class = card_size_class(card_data, options);
+    return 'card-element card-action-line' + card_font_size_class;
+}
+
 function card_size_class(card_data, options) {    
     var card_font_size = card_data.card_font_size || options.default_card_font_size || '';
     return (card_font_size != '' && card_font_size != "inherit") ? ' card-font-size-' + card_font_size : '';
@@ -206,6 +211,17 @@ function card_element_description(params, card_data, options) {
     return result;
 }
 
+function card_action_element(params, card_data, options) {
+    var action_element_class = card_action_element_class(card_data, options);
+
+    var result = "";
+    result += '<div class="' + action_element_class + '">';
+    result += '   <h4 class="card-action-name">' + params[0] + '</h4>';
+    result += '   <p class="card-p card-action-text">' + '<i>' + params[1] + '</i> ' + params[2] + '</p>';
+    result += '</div>';
+    return result;
+}
+
 function card_element_text(params, card_data, options) {
     var element_class = card_element_class(card_data, options);
 
@@ -271,6 +287,25 @@ function card_element_dndstats(params, card_data, options) {
     result += '    </tr>';
     result += '  </tbody>';
     result += '</table>';
+    return result;
+}
+
+function card_element_monsterstats(params, card_data, options) {
+    var element_class = card_element_class(card_data, options);
+
+    var result = "";
+    result += '<div class="' + element_class + '">';
+    result += '   <h4 class="card-description-name">AC</h4>';
+    result += '   <p class="card-p card-description-text">' + params[0] + '</p>';
+    result += '   <h4 class="card-description-name">HP</h4>';
+    result += '   <p class="card-p card-description-text">' + params[1] + '</p>';
+    result += '   <div style="float:right">'
+    result += '     <h4 class="card-description-name">Speed</h4>';
+    result += '     <p class="card-p card-description-text">' + params[2] + '</p>';
+    result += '     <h4 class="card-description-name">CR</h4>';
+    result += '     <p class="card-p card-description-text">' + params[3] + '</p>';
+    result += '   </div>'
+    result += '</div>';
     return result;
 }
 
@@ -353,7 +388,9 @@ var card_element_generators = {
     ruler: card_element_ruler,
     boxes: card_element_boxes,
     description: card_element_description,
+    action: card_action_element,
     dndstats: card_element_dndstats,
+    monsterstats: card_element_monsterstats,
     swstats: card_element_swstats,
     text: card_element_text,
     center: card_element_center,

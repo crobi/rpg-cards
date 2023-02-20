@@ -159,7 +159,7 @@
 }
 .card-subtitle {
     margin-bottom: 0.0em;
-    line-height: 18px;
+    line-height: 14px;
     font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
     font-size: 10pt;
     font-style: italic;
@@ -237,6 +237,20 @@
     content: ".";
 } */
 .card-description-text {
+    display: inline;
+}
+
+.card-action-line {
+    margin-top: 0.0em;
+    margin-bottom: 0.0em;
+    color: black;
+}
+.card-action-name {
+    display: inline;
+    font-size: inherit;
+    font-style: italic;
+}
+.card-action-text {
     display: inline;
 }
 
