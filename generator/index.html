@@ -460,19 +460,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="card-back-type" class="col-sm-2 control-label">Back Type</label>
-                        <div class="col-sm-10">
-                            <div class="form-check form-check-inline col-sm-5">
-                                <input class="form-check-input" type="radio" name="cardBackOptions" id="standard-back" value="standard">
-                                <label class="form-check-label" for="standard-back">Standard</label>
-                            </div>
-                            <div class="form-check form-check-inline col-sm-5">
-                                <input class="form-check-input" type="radio" name="cardBackOptions" id="descriptive-back" value="descriptive">
-                                <label class="form-check-label" for="descriptive-back">Descriptive</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label for="card-title" class="col-sm-2 control-label">Name</label>
                         <div class="col-sm-10">
                             <input type="text" id="card-title" class="form-control" placeholder="Title">
@@ -552,6 +539,17 @@
                                 <input type="text" id="card-color" class="form-control" placeholder="Default color"
                                     data-property="color">
                             </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="card-back-type" class="col-sm-2 control-label">Back Type</label>
+                        <div class="btn-group btn-group-toggle col-sm-10" id="card-back-type" data-toggle="buttons">
+                            <label class="btn btn-secondary active">
+                                <input type="radio" name="card-back-type" data-property="card_back_type" value="standard" autocomplete="off"> Standard
+                            </label>
+                            <label class="btn btn-secondary">
+                                <input type="radio" name="card-back-type" data-property="card_back_type" value="descriptive" autocomplete="off"> Descriptive
+                            </label>
                         </div>
                     </div>
                     <div class="form-group">

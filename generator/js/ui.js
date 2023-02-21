@@ -670,6 +670,18 @@ $(document).ready(function () {
     $("#card-count").change(ui_change_card_property);
     $("#card-icon-back").change(ui_change_card_property);
 	$("#card-background").change(ui_change_card_property);
+    $('input[name="card-back-type"]').on("change", function() {
+        var checked = $('input[name="card-back-type"]:checked');
+        if(checked) {
+            var property = checked.attr("data-property");
+            var value = checked.val();
+            var card = ui_selected_card();
+            if (card) {
+                card[property] = value;
+                ui_render_selected_card();
+            }
+        }
+    });
 	$("#card-color").change(ui_change_card_color);
     $("#card-contents").change(ui_change_card_contents);
     $("#card-tags").change(ui_change_card_tags);
