@@ -553,13 +553,24 @@ function card_generate_back(data, options) {
 
     var result = "";
     result += '<div class="card' + ' ' + (options.rounded_corners ? 'rounded-corners' : '') + '" ' + card_style + '>';
-    result += '  <div class="card-back" ' + background_style + '>';
-	if (!url)
-	{
-		result += '    <div class="card-back-inner">';
-		result += '      <div class="card-back-icon icon-' + icon + '" ' + icon_style + '></div>';
-		result += '    </div>';
-	}
+
+    if (data.card_back_type == "descriptive") 
+    {
+        result += '  <div class="card-back">';
+        result += '     <div class="card-back-portrait-container" ' + background_style + '></div>';
+        result += '     <div class="card-back-description-container"> Lorem Ipsum </div>';
+    }
+    else
+    {
+        result += '  <div class="card-back" ' + background_style + '>';
+        if (!url)
+        {
+            result += '    <div class="card-back-inner">';
+            result += '      <div class="card-back-icon icon-' + icon + '" ' + icon_style + '></div>';
+            result += '    </div>';
+        }
+    }
+    
     result += '  </div>';
     result += '</div>';
 
