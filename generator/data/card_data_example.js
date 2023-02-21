@@ -19,6 +19,7 @@ var card_data_example = [
             "section | At higher levels",
             "text | +1d6 damage for each slot above 1st"
         ],
+        "backDescription": [],
         "tags": ["spell", "mage"]
     },
     {
@@ -36,6 +37,7 @@ var card_data_example = [
             "section | Fast hands (Thief 3rd)",
             "text | You can also use the bonus action to make a Dexterity (<b>Sleight of Hand</b>) check, use your thieves' tools to <b>disarm a trap</b> or <b>open a lock</b>, or take the <b>Use an Object</b> action."
         ],
+        "backDescription": [],
         "tags": ["feature", "rogue"]
     },
     {
@@ -55,6 +57,7 @@ var card_data_example = [
             "description | Stealth | You have disadvantage on Dexterity (Stealth) checks.",
             "fill | 3"
         ],
+        "backDescription": [],
         "tags": ["item", "armor"]
     },
     {
@@ -75,6 +78,7 @@ var card_data_example = [
             "description | Thrown | You can throw the weapon to make a ranged attack with the given range.",
             "fill | 3"
         ],
+        "backDescription": [],
         "tags": ["item", "weapon"]
     },
     {
@@ -95,6 +99,7 @@ var card_data_example = [
             "description | Light | When you attack while dual wielding light weapons, you may use a bonus action to attack with your off hand.",
             "fill | 3"
         ],
+        "backDescription": [],
         "tags": ["item", "weapon", "magic"]
     },
     {
@@ -117,6 +122,7 @@ var card_data_example = [
             "fill | 3",
             "boxes | 7 | 2.5"
         ],
+        "backDescription": [],
         "tags": ["item", "wondrous-item", "magic"]
     },
     {
@@ -135,6 +141,7 @@ var card_data_example = [
             "text | Drinking or administering a potion takes 1 action.",
             "fill | 3"
         ],
+        "backDescription": [],
         "tags": ["item", "consumable"]
     },
     {
@@ -158,6 +165,7 @@ var card_data_example = [
             "section | Actions",
             "description | Scimitar | Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage"
         ],
+        "backDescription": [],
         "tags": ["creature", "humanoid"]
     }
 ]
