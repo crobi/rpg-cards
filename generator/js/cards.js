@@ -26,6 +26,7 @@ function card_default_data() {
         count: 1,
         title: "New card",
         contents: [],
+        backDescription: [],
         tags: []
     };
 }
@@ -33,6 +34,7 @@ function card_default_data() {
 function card_init(card) {
     card.title = card.title || "";
     card.contents = card.contents || [];
+    card.backDescription = card.backDescription || [];
     card.tags = card.tags || [];
 }
 
@@ -519,6 +521,70 @@ function card_generate_front(data, options) {
 }
 
 function card_generate_back(data, options) {
+
+    var html = data.backDescription.map(function (value) {
+        var parts = card_data_split_params(value);
+        var element_name = parts[0];
+        var element_params = parts.splice(1);
+        var element_generator = card_element_generators[element_name];
+        if (element_generator) {
+            return element_generator(element_params, card_data, options);
+        } else if (element_name.length > 0) {
+            return card_element_unknown(element_params, card_data, options);
+        }
+    }).join("\n");
+
+    var tagNames = ['icon'];
+
+    tagNames.forEach(function(tagName){
+        var tagRegExp = new RegExp('<'+tagName+'[^>]*>', 'g');
+        var attrRegExp = new RegExp('([\\w-]+)="([^"]+)"', 'g')
+
+        var matches = [];
+        forEachMatch(tagRegExp, html, function(m){
+            matches.push(m);
+        });
+        if (!matches.length) return null;
+
+        var tagResults = new Array(matches.length);
+        matches.forEach(function(match, i){
+            if (tagName === 'icon') {
+                var attrs = {};
+                forEachMatch(attrRegExp, match[0], function(m,i){
+                    var attrName = m[1];
+                    var attrValue = m[2];
+                    if (attrName === 'name') {
+                        if(!attrs.class) attrs.class = '';
+                        attrs.class += 'game-icon game-icon-' + attrValue;
+                    }
+                    else if (attrName === 'size') {
+                        if(!attrs.style) attrs.style = '';
+                        attrs.style += 'font-size:' + attrValue + 'pt;';
+                    }
+                });
+                forEachMatch(attrRegExp, match[0], function(m,i){
+                    var attrName = m[1];
+                    var attrValue = m[2];
+                    if (attrName === 'style') {
+                        if(!attrs.style) attrs.style = '';
+                        attrs.style += attrValue;
+                    }
+                });
+                var tagResult = '<i';
+                Object.keys(attrs).forEach(function(k){
+                    tagResult += ' ' + k + '="' + attrs[k] + '"';
+                });
+                tagResult += '></i>';
+                tagResults[i] = tagResult;
+            }
+        });
+
+        html = html.replace(tagRegExp, function(){
+            return tagResults.shift();
+        });
+
+    });
+
     var color = card_data_color_back(data, options);
     var style_color = card_generate_color_style(color, options);
 
@@ -558,7 +624,9 @@ function card_generate_back(data, options) {
     {
         result += '  <div class="card-back">';
         result += '     <div class="card-back-portrait-container" ' + background_style + '></div>';
-        result += '     <div class="card-back-description-container"> Lorem Ipsum </div>';
+        result += '     <div class="card-back-description-container">';
+        result +=           html;
+        result += '     </div>';
     }
     else
     {

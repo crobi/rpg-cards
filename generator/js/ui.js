@@ -185,6 +185,7 @@ function ui_update_selected_card() {
         $("#card-icon-back").val(card.icon_back);
 		$("#card-background").val(card.background_image);
         $("#card-contents").val(card.contents.join("\n"));
+        $("#card-back-description").val(card.backDescription.join("\n"));
         $("#card-tags").val(card.tags.join(", "));
         $("#card-color").val(card.color).change();
     } else {
@@ -196,6 +197,7 @@ function ui_update_selected_card() {
         $("#card-icon-back").val("");
 		$("#card-background").val("");
         $("#card-contents").val("");
+        $("#card-back-description").val("");
         $("#card-tags").val("");
         $("#card-color").val("").change();
     }
@@ -482,6 +484,15 @@ function ui_change_card_contents() {
     }
 }
 
+function ui_change_card_back_description() {
+    var html = $(this).val();
+    var card = ui_selected_card();
+    if (card) {
+        card.backDescription = html.split("\n");
+        ui_render_selected_card();
+    }
+}
+
 function ui_change_card_contents_keyup () {
     clearTimeout(ui_change_card_contents_keyup.timeout);
     ui_change_card_contents_keyup.timeout = setTimeout(function () {
@@ -489,6 +500,14 @@ function ui_change_card_contents_keyup () {
     }, 200);
 }
 ui_change_card_contents_keyup.timeout = null;
+
+function ui_change_card_back_description_keyup () {
+    clearTimeout(ui_change_card_back_description_keyup.timeout);
+    ui_change_card_back_description_keyup.timeout = setTimeout(function () {
+        $('#card-back-description').trigger('change');
+    }, 200);
+}
+ui_change_card_back_description_keyup.timeout = null;
 
 function ui_change_card_tags() {
     var value = $(this).val();
@@ -684,9 +703,11 @@ $(document).ready(function () {
     });
 	$("#card-color").change(ui_change_card_color);
     $("#card-contents").change(ui_change_card_contents);
+    $("#card-back-description").change(ui_change_card_back_description);
     $("#card-tags").change(ui_change_card_tags);
 
     $("#card-contents").keyup(ui_change_card_contents_keyup);
+    $("#card-back-description").keyup(ui_change_card_back_description_keyup);
 
     $("#page-width").on("input", ui_change_option);
     $("#page-height").on("input", ui_change_option);
