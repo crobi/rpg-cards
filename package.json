@@ -18,15 +18,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/crobi/rpg-cards.git"
+    "url": "git+https://github.com/bitlogic-dev/rpg-cards.git"
   },
   "author": "Robert Autenrieth",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/crobi/rpg-cards/issues"
+    "url": "https://github.com/bitlogic-dev/rpg-cards/issues"
   },
-  "homepage": "https://github.com/crobi/rpg-cards#readme",
+  "homepage": "https://github.com/bitlogic-dev/rpg-cards#readme",
   "dependencies": {
+    "jquery": "^3.6.3",
     "rimraf": "^3.0.2"
   }
 }
