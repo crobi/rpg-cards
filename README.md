@@ -16,7 +16,7 @@ Click [here](http://crobi.github.io/rpg-cards/) to read the documentation.
 Installation and Updating
 =========================
 
-This project consists almost exclusively of static HTML/CSS/JavaScript files, but it needs to be builded at least one time to work.
+This project consists almost exclusively of static HTML/CSS/JavaScript files, but it needs to be build at least one time to work.
 
 The build will update icons, which are copied from the [game-icons](http://game-icons.net) project, and fonts from the [gameicons-font](https://seiyria.com/gameicons-font) project.
 
