@@ -13,13 +13,27 @@ Documentation
 
 Click [here](http://crobi.github.io/rpg-cards/) to read the documentation.
 
+Installation and Updating
+=========================
+
+This project consists almost exclusively of static HTML/CSS/JavaScript files, but it needs to be builded at least one time to work.
+
+The build will update icons, which are copied from the [game-icons](http://game-icons.net) project, and fonts from the [gameicons-font](https://seiyria.com/gameicons-font) project.
+
+To build this project:
+
+1. Check out this repository
+2. Make sure you have [Node](https://nodejs.org/) installed
+3. Run `npm install`
+4. Run `npm run build`
+5. Open `./generator/index.html` in your browser (or deploy the content of the `./generator` folder to your server)
+
 Support
 =======
 
 I (the original author) am not maintaining the project anymore, and will not be responding to issues or reviewing PRs.
 However, I have given write access to a few collaborators that are maintaining the project.
 Please reach out to me if you want to be included as collaborator, or if you want to take ownership of this project.
-
 
 FAQ
 =====================
@@ -32,21 +46,6 @@ FAQ
   - See the section "updating icons" below.
 - The layout of the cards is broken (e.g., cards are placed outside the page), what's wrong?
   - Check your page size, card size, and cards/page settings. If you ask the generator to place 4x4 poker-sized cards on a A4 paper, they won't fit and they will overflow the page.
-
-Building
-========
-
-This project consists almost exclusively of static HTML/CSS/JavaScript files.
-The only exception are icons, which are copied from the [game-icons](http://game-icons.net) project.
-
-To build this project:
-
-1. Check out this repository
-2. Make sure you have [Node](https://nodejs.org/) installed
-3. Run `npm install`
-4. Run `npm run build`
-5. Open `./generator/index.html` in your browser (or deploy the content of the `./generator` folder to your server)
-
 
 License
 =======
