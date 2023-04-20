@@ -6,15 +6,18 @@ function card_default_options() {
         foreground_color: "white",
         background_color: "white",
         default_color: "black",
-        default_icon: "",
+        default_icon_front: "",
+        default_icon_back: "",
         default_title_size: "13",
         default_card_font_size: "inherit",
-        page_size: "A4",
+        page_size: "210mm,297mm",
         page_rows: "3",
         page_columns: "3",
         page_zoom: "100",
         card_arrangement: "doublesided",
-        card_size: "25x35",
+        card_size: "2.5in,3.5in",
+        card_width: "2.5in",
+        card_height: "3.5in",
         card_count: null,
         icon_inline: true,
         rounded_corners: true
@@ -70,11 +73,11 @@ function card_data_color_back(card_data, options) {
 }
 
 function card_data_icon_front(card_data, options) {
-    return card_data.icon_front || card_data.icon || options.default_icon || "";
+    return card_data.icon_front || card_data.icon || options.default_icon_front || "";
 }
 
 function card_data_icon_back(card_data, options) {
-    return card_data.icon_back || card_data.icon || options.default_icon || "";
+    return card_data.icon_back || card_data.icon || options.default_icon_back || "";
 }
 
 function card_data_split_params(value) {
@@ -86,7 +89,7 @@ function card_element_class(card_data, options) {
     return 'card-element card-description-line' + card_font_size_class;
 }
 
-function card_size_class(card_data, options) {    
+function card_size_class(card_data, options) {
     var card_font_size = card_data.card_font_size || options.default_card_font_size || '';
     return (card_font_size != '' && card_font_size != "inherit") ? ' card-font-size-' + card_font_size : '';
 }
@@ -659,22 +662,13 @@ function card_pages_wrap(pages, options) {
 }
 
 function card_pages_generate_style(options) {
-    var size = "a4";
-    switch (options.page_size) {
-        case "A3": size = "A3 portrait"; break;
-        case "A4": size = "210mm 297mm"; break;
-        case "A5": size = "A5 portrait"; break;
-        case "Letter": size = "letter portrait"; break;
-        case "Letter - Landscape": size = "letter landscape"; break;
-        case "25x35": size = "2.5in 3.5in"; break;
-        default: size = "auto";
-    }
-
+    const pw = options.page_width;
+    const ph = options.page_height;
     var result = "";
     result += "<style>\n";
     result += "@page {\n";
     result += "    margin: 0;\n";
-    result += "    size:" + size + ";\n";
+    result += "    size:" + pw + " " + ph + ";\n";
     result += "    -webkit-print-color-adjust: exact;\n";
     result += "}\n";
     result += "</style>\n";
