@@ -566,17 +566,6 @@ function card_pages_merge(front_pages, back_pages) {
     return result;
 }
 
-function cards_pages_flip_left_right(cards, rows, cols) {
-    var result = [];
-    for (var r = 0; r < rows; ++r) {
-        for (var c = 0; c < cols; ++c) {
-            var i = r*cols + (cols-1-c);
-            result.push(cards[i]);
-        }
-    }
-    return result;
-}
-
 function card_pages_add_padding(cards, options) {
     var cards_per_page = options.page_rows * options.page_columns;
     var last_page_cards = cards.length % cards_per_page;
@@ -649,7 +638,12 @@ function card_pages_wrap(pages, options) {
         var z = options.page_zoom / 100;
         var zoomWidth = parsedPageWidth.number * z;
         var zoomHeight = parsedPageHeight.number * z;
-        var zoomStyle = 'style="transform: scale(' + z + ');"';
+        var zoomStyle = 'style="';
+        zoomStyle += 'transform: scale(' + z + ');';
+        if ((options.card_arrangement === "doublesided") &&  (i % 2 === 1)) {
+            zoomStyle += 'flex-direction:' + 'row-reverse' + ';';
+        }
+        zoomStyle += '"';
         zoomStyle = add_size_to_style(zoomStyle, parsedPageWidth.number + parsedPageWidth.mu, parsedPageHeight.number + parsedPageHeight.mu);
 
         result += '<page class="page page-preview ' + orientation + '" ' + style + '>\n';
@@ -696,16 +690,9 @@ function card_pages_generate_html(card_data, options) {
         // Add padding cards so that the last page is full of cards
         front_cards = card_pages_add_padding(front_cards, options);
         back_cards = card_pages_add_padding(back_cards, options);
-
         // Split cards to pages
         var front_pages = card_pages_split(front_cards, rows, cols);
         var back_pages = card_pages_split(back_cards, rows, cols);
-
-        // Shuffle back cards so that they line up with their corresponding front cards
-        back_pages = back_pages.map(function (page) {
-            return cards_pages_flip_left_right(page, rows, cols);
-        });
-
         // Interleave front and back pages so that we can print double-sided
         pages = card_pages_merge(front_pages, back_pages);
     } else if (options.card_arrangement === "front_only") {
