@@ -286,3 +286,28 @@
     margin-top: 0;
     font-size: inherit;
 }
+
+.card-p2e-trait {
+    border-style: double;
+    border-width: 2px;
+    color: white;
+    font-style: normal;
+    font-variant: small-caps;
+    font-weight: bold;
+    padding-right: 5px;
+    padding-left: 5px;
+    text-align: left;
+    text-indent: 0em;
+    display: inline-block;
+    margin: 0.1em 0;
+}
+
+.card-p2e-trait-common {
+    border-color: #d8c483;
+    background-color: #522e2c;
+}
+
+.card-p2e-trait-uncommon {
+    background-color: #c45500;
+    border-color: #d8c483;
+}
