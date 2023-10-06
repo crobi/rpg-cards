@@ -159,5 +159,38 @@ var card_data_example = [
             "description | Scimitar | Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage"
         ],
         "tags": ["creature", "humanoid"]
+    },
+    {
+        "count": "1",
+        "title": "(P2e) Dazzling Flash",
+        "contents": [
+          "p2e_start_trait_section",
+          "p2e_trait | uncommon | Uncommon",
+          "p2e_trait | common | Cleric",
+          "p2e_trait | common | Evocation",
+          "p2e_trait | common | Light",
+          "p2e_trait | common | Visual",
+          "p2e_end_trait_section",
+          "ruler",
+          "property | Domain | Sun",
+          "property | Cast | material, verbal",
+          "property | Area | 15-foot cone",
+          "property | Saving Throw | Fortitude",
+          "ruler",
+          "text| You raise your religious symbol and create a blinding flash of light. Each creature in the area must attempt a Fortitude save.",
+          "fill | 1",
+          "property | Critical Success | The creature is unaffected.",
+          "property | Success | The creature is dazzled for 1 round.",
+          "property | Failure | The creature is blinded for 1 round and dazzled for 1 minute. The creature can spend an Interact action rubbing its eyes to end the blinded condition.",
+          "property | Critical Failure |  The creature is blinded for 1 round and dazzled for 1 hour.",
+          "ruler",
+          "property | Heightened (3rd) |  The area increases to a 30-foot cone."
+        ],
+        "tags": [],
+        "color": "Chocolate",
+        "icon": "p2e-2-actions",
+        "icon_back": "pope-crown",
+        "title_size": "13",
+        "card_font_size": "9"
     }
 ]
