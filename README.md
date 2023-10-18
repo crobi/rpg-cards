@@ -18,7 +18,11 @@ Installation and Updating
 
 This project consists almost exclusively of static HTML/CSS/JavaScript files, but it needs to be build at least one time to work.
 
-The build will update icons, which are copied from the [game-icons](http://game-icons.net) project, and fonts from the [gameicons-font](https://seiyria.com/gameicons-font) project.
+The build will update /generator/icons folder with content from:
+- The [game-icons](http://game-icons.net) project.
+- Fonts from the [gameicons-font](https://seiyria.com/gameicons-font) project.
+- And any files you have added to /resource/custom-icons and /resource/custom-icons-assets.
+
 
 To build this project:
 
@@ -42,8 +46,6 @@ FAQ
   - A modern browser (Chrome, Firefox, Edge, Safari). The generator has some issues on IE.
 - Cards are generated without icons and background colors, what's wrong?
   - Enable printing backround images in your browser print dialog
-- I can't find an icon that I've seen on [game-icons.net](http://game-icons.net), where is it?
-  - See the section "updating icons" below.
 - The layout of the cards is broken (e.g., cards are placed outside the page), what's wrong?
   - Check your page size, card size, and cards/page settings. If you ask the generator to place 4x4 poker-sized cards on a A4 paper, they won't fit and they will overflow the page.
 

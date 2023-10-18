@@ -277,6 +277,25 @@ function card_element_dndstats(params, card_data, options) {
     return result;
 }
 
+function card_element_start_p2e_trait() {
+    return '<div>';
+}
+
+function card_element_end_p2e_trait() {
+    return '</div>';
+}
+
+function card_element_p2e_trait(params, card_data, options) {
+    var card_font_size_class = card_size_class(card_data, options); // ?
+    var badge_rarity = ' card-p2e-trait-' + params[0];
+
+    var result = "";
+    result += '<span class="card-p2e-trait' + badge_rarity + card_font_size_class + '">';
+    result += params[1];
+    result += '</span>';
+    return result;
+}
+
 function card_element_swstats(params, card_data, options) {
     var stats = [];
     for (var i = 0; i < 9; ++i) {
@@ -357,6 +376,9 @@ var card_element_generators = {
     boxes: card_element_boxes,
     description: card_element_description,
     dndstats: card_element_dndstats,
+    p2e_start_trait_section: card_element_start_p2e_trait,
+    p2e_trait: card_element_p2e_trait,
+    p2e_end_trait_section: card_element_end_p2e_trait,
     swstats: card_element_swstats,
     text: card_element_text,
     center: card_element_center,
