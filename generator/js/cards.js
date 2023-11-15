@@ -286,11 +286,11 @@ function card_element_end_p2e_trait() {
 }
 
 function card_element_p2e_trait(params, card_data, options) {
-    var card_font_size_class = card_size_class(card_data, options); // ?
-    var badge_rarity = ' card-p2e-trait-' + params[0];
+    var card_font_size_class = card_size_class(card_data, options);
+    var badge_type = ' card-p2e-trait-' + params[0];
 
     var result = "";
-    result += '<span class="card-p2e-trait' + badge_rarity + card_font_size_class + '">';
+    result += '<span class="card-p2e-trait' + badge_type + card_font_size_class + '">';
     result += params[1];
     result += '</span>';
     return result;
