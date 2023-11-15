@@ -291,7 +291,7 @@ function card_element_dndstats(params, card_data, options) {
 }
 
 function card_element_start_p2e_trait() {
-    return '<div>';
+    return '<div class="card-p2e-trait-container">';
 }
 
 function card_element_end_p2e_trait() {

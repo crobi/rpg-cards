@@ -294,6 +294,13 @@
     font-size: inherit;
 }
 
+.card-p2e-trait-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
 .card-p2e-trait {
     border-style: double;
     border-width: 2px;
@@ -306,7 +313,7 @@
     text-align: left;
     text-indent: 0em;
     display: inline-block;
-    margin: 0.1em 0;
+    margin: 0;
 }
 
 .card-p2e-trait-common {
