@@ -192,5 +192,38 @@ var card_data_example = [
         "icon_back": "pope-crown",
         "title_size": "13",
         "card_font_size": "9"
+    },
+    {
+      "count": 1,
+      "title": "(P2e) Giant Rat (Creature-1)",
+      "contents": [
+        "p2e_start_trait_section",
+        "p2e_trait | alignment | N",
+        "p2e_trait | size | Small",
+        "p2e_trait | common | Animal",
+        "p2e_end_trait_section",
+        "property | Perception | +5; Low-light vision, scent (imprecise) 30 feet",
+        "property | Skills | Acrobatics +5, Atlethics +2 (+4 climb/swim), Stealth +5",
+        "p2e_stats | +1 | +3 | +2 | -4 | +1 | -3 | 15 | +6 | +7 | +3 | 8",
+        "p2e_ruler",
+        "p2e_activity | Stride | 1 | 30 feet, Climb 10 feet ",
+        "fill | 1",
+        "p2e_activity | Melee | 1 | Jaws +7 (agile, finesse). Damage 1d6+1 piercing plus filth fever",
+        "fill | 1",
+        "property | Filth Fever| (disease) The sickened and unconscious conditions from filth fever don’t improve on their own until the disease is cured. Saving Throw DC 14 Fortitude.",
+        "bullet | Stage 1: carrier with no ill effect (1d4 hours)",
+        "bullet | Stage 2 sickened 1 (1 day)",
+        "bullet | Stage 3 sickened 1 and slowed 1 (1 day)",
+        "bullet | Stage 4 unconscious (1 day)",
+        "bullet | Stage 5 dead",
+        "",
+        "fill | 1"
+      ],
+      "tags": [],
+      "color": "Crimson",
+      "icon_back": "monster-grasp",
+      "icon": "rat",
+      "card_font_size": "9",
+      "title_size": "11"
     }
 ]
