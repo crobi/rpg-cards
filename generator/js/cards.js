@@ -159,6 +159,19 @@ function card_element_ruler(params, card_data, options) {
     return result;
 }
 
+function card_element_p2e_ruler(params, card_data, options) {
+    var color = card_data_color_front(card_data, options);
+    var fill = 'fill="' + color + '"';
+    var stroke = 'stroke="' + color + '"';
+    var card_font_size_class = card_size_class(card_data, options);
+
+    var result = "";
+    result += '<svg class="card-p2e-ruler' + card_font_size_class + '" height="1" width="100" viewbox="0 0 100 5" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">';
+    result += '    <polyline points="0,0 100,0.5 0,1" ' + fill + '></polyline>';
+    result += '</svg>';
+    return result;
+}
+
 function card_element_boxes(params, card_data, options) {
     var color = card_data_color_front(card_data, options);
     var fill = ' fill="none"';
@@ -277,8 +290,27 @@ function card_element_dndstats(params, card_data, options) {
     return result;
 }
 
+function card_element_p2e_stats(params, card_data, options) {
+    var result = "";
+    result += '<div class="card-p2e-attribute-line">';
+    result += '   <p class="card-p2e-attributes-text">';
+    result += '       <b>Str</b> ' + params[0] + ', <b>Dex</b> ' + params[1] + ', <b>Con</b> ' + params[2] + ', <b>Int</b> ' + params[3] + ', <b>Wis</b> ' + params[4] + ', <b>Cha</b> ' + params[5]
+    result += '   </p>';
+    result += '</div>';
+    result += card_element_p2e_ruler(params, card_data, options)
+    result += '<div class="card-p2e-attribute-line">';
+    result += '   <p class="card-p2e-attributes-text">';
+    result += '       <b>AC </b> ' + params[6] + '; <b>Fort</b> ' + params[7] + '; <b>Ref</b> ' + params[8] + '; <b>Will</b> ' + params[9]
+    result += '   </p>';
+    result += '   <p class="card-p2e-attributes-text">';
+    result += '       <b>HP </b> ' + params[10]
+    result += '   </p>';
+    result += '</div>';
+    return result;
+}
+
 function card_element_start_p2e_trait() {
-    return '<div>';
+    return '<div class="card-p2e-trait-container">';
 }
 
 function card_element_end_p2e_trait() {
@@ -286,15 +318,42 @@ function card_element_end_p2e_trait() {
 }
 
 function card_element_p2e_trait(params, card_data, options) {
-    var card_font_size_class = card_size_class(card_data, options); // ?
-    var badge_rarity = ' card-p2e-trait-' + params[0];
+    var card_font_size_class = card_size_class(card_data, options);
+    var badge_type = ' card-p2e-trait-' + params[0];
 
     var result = "";
-    result += '<span class="card-p2e-trait' + badge_rarity + card_font_size_class + '">';
+    result += '<span class="card-p2e-trait' + badge_type + card_font_size_class + '">';
     result += params[1];
     result += '</span>';
     return result;
 }
+
+function card_element_p2e_activity(params, card_data, options) {
+    var card_font_size_class = card_size_class(card_data, options);
+    
+    var activity_icon;
+    if (params[1] == '0') {
+        activity_icon = 'icon-p2e-free-action';
+    } else if (params[1] == '1') {
+        activity_icon = 'icon-p2e-1-action';
+    } else if (params[1] == '2') {
+        activity_icon = 'icon-p2e-2-actions';
+    } else if (params[1] == '3') {
+        activity_icon = 'icon-p2e-3-actions';
+    } else if (params[1] == 'R') {
+        activity_icon = 'icon-p2e-reaction';
+    } 
+
+    var result = "";
+    result += '<div class="card-element card-property-line' + card_font_size_class + '">';
+    result += '   <h4 class="card-property-name">' + params[0] + '</h4>';
+    result += '   <div class="card-inline-icon ' + activity_icon + '" style="display: inline-block; vertical-align: middle; height: 10px; min-height: 10px; width: 10px; background-color: black;"></div>';
+    result += '   <p class="card-p card-property-text">' + params[2] + '</p>';
+    result += '</div>';
+    return result;
+}
+
+
 
 function card_element_swstats(params, card_data, options) {
     var stats = [];
@@ -373,12 +432,16 @@ var card_element_generators = {
     property: card_element_property,
     rule: card_element_ruler,
     ruler: card_element_ruler,
+    p2e_rule: card_element_p2e_ruler,
+    p2e_ruler: card_element_p2e_ruler,
     boxes: card_element_boxes,
     description: card_element_description,
     dndstats: card_element_dndstats,
+    p2e_stats: card_element_p2e_stats,
     p2e_start_trait_section: card_element_start_p2e_trait,
     p2e_trait: card_element_p2e_trait,
     p2e_end_trait_section: card_element_end_p2e_trait,
+    p2e_activity: card_element_p2e_activity,
     swstats: card_element_swstats,
     text: card_element_text,
     center: card_element_center,

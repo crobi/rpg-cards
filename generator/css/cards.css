@@ -247,6 +247,13 @@
     margin-bottom: 0.3em;
 }
 
+.card-p2e-ruler {
+    width: 100%;
+    height: 1.0mm;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 .card-box {
     display: inline;
     height: 10mm;
@@ -287,6 +294,13 @@
     font-size: inherit;
 }
 
+.card-p2e-trait-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
 .card-p2e-trait {
     border-style: double;
     border-width: 2px;
@@ -299,7 +313,7 @@
     text-align: left;
     text-indent: 0em;
     display: inline-block;
-    margin: 0.1em 0;
+    margin: 0;
 }
 
 .card-p2e-trait-common {
@@ -310,4 +324,23 @@
 .card-p2e-trait-uncommon {
     background-color: #c45500;
     border-color: #d8c483;
+}
+
+.card-p2e-trait-alignment {
+    background-color: #576294;
+    border-color: #d8c483;
+}
+
+.card-p2e-trait-size {
+    background-color: #3A7B58;
+    border-color: #d8c483;
+}
+
+.card-p2e-attribute-line {
+    color: black;
+}
+
+.card-p2e-attributes-text {
+    margin: 0;
+    font-size: 9.5px;
 }
