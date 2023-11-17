@@ -300,10 +300,10 @@ function card_element_p2e_stats(params, card_data, options) {
     result += card_element_p2e_ruler(params, card_data, options)
     result += '<div class="card-p2e-attribute-line">';
     result += '   <p class="card-p2e-attributes-text">';
-    result += '       <b>CA </b> ' + params[6] + '; <b>Fort</b> ' + params[7] + '; <b>Ref</b> ' + params[8] + '; <b>Vol</b> ' + params[9]
+    result += '       <b>AC </b> ' + params[6] + '; <b>Fort</b> ' + params[7] + '; <b>Ref</b> ' + params[8] + '; <b>Will</b> ' + params[9]
     result += '   </p>';
     result += '   <p class="card-p2e-attributes-text">';
-    result += '       <b>PG </b> ' + params[10]
+    result += '       <b>HP </b> ' + params[10]
     result += '   </p>';
     result += '</div>';
     return result;
