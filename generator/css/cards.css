@@ -335,3 +335,12 @@
     background-color: #3A7B58;
     border-color: #d8c483;
 }
+
+.card-p2e-attribute-line {
+    color: black;
+}
+
+.card-p2e-attributes-text {
+    margin: 0;
+    font-size: 9.5px;
+}
