@@ -12,13 +12,9 @@
 }
 
 #preview-container {
-    margin: 10px;
+    display: flex;
+    justify-content: space-evenly;
     background-color: white;
-}
-.preview-container > * {
-    float: left;
-    margin-right: 10px;
-    margin-bottom: 10px;
 }
 
 .row-eq-height {
