@@ -701,11 +701,6 @@ function card_pages_wrap(pages, options) {
     var pageHeight = options.page_height;
     var parsedPageWidth = parseNumberAndMeasureUnit(pageWidth || "210mm");
     var parsedPageHeight = parseNumberAndMeasureUnit(pageHeight || "297mm");
-    /* Chrome has problems with page sizes given in metric units. Make the paper area slightly smaller to work around this. */
-    if (parsedPageWidth.mu == 'mm')  parsedPageWidth.number  -= 1;
-    if (parsedPageHeight.mu == 'mm') parsedPageHeight.number -= 1;
-    if (parsedPageWidth.mu == 'cm')  parsedPageWidth.number  -= 0.1;
-    if (parsedPageHeight.mu == 'cm') parsedPageHeight.number -= 0.1;
 
     var result = "";
     for (var i = 0; i < pages.length; ++i) {
