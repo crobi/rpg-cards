@@ -181,7 +181,7 @@ function ui_update_selected_card() {
         $("#card-title-size").val(card.title_size);
         $("#card-font-size").val(card.card_font_size);
         $("#card-count").val(card.count);
-        $("#card-icon").val(card.icon_front);
+        $("#card-icon").val(card.icon);
         $("#card-icon-back").val(card.icon_back);
 		$("#card-background").val(card.background_image);
         $("#card-contents").val(card.contents.join("\n"));
