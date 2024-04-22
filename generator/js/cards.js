@@ -6,15 +6,18 @@ function card_default_options() {
         foreground_color: "white",
         background_color: "white",
         default_color: "black",
-        default_icon: "",
+        default_icon_front: "",
+        default_icon_back: "",
         default_title_size: "13",
         default_card_font_size: "inherit",
-        page_size: "A4",
+        page_size: "210mm,297mm",
         page_rows: "3",
         page_columns: "3",
         page_zoom: "100",
         card_arrangement: "doublesided",
-        card_size: "25x35",
+        card_size: "2.5in,3.5in",
+        card_width: "2.5in",
+        card_height: "3.5in",
         card_count: null,
         icon_inline: true,
         rounded_corners: true
@@ -70,11 +73,11 @@ function card_data_color_back(card_data, options) {
 }
 
 function card_data_icon_front(card_data, options) {
-    return card_data.icon_front || card_data.icon || options.default_icon || "";
+    return card_data.icon_front || card_data.icon || options.default_icon_front || "";
 }
 
 function card_data_icon_back(card_data, options) {
-    return card_data.icon_back || card_data.icon || options.default_icon || "";
+    return card_data.icon_back || card_data.icon || options.default_icon_back || "";
 }
 
 function card_data_split_params(value) {
@@ -86,7 +89,7 @@ function card_element_class(card_data, options) {
     return 'card-element card-description-line' + card_font_size_class;
 }
 
-function card_size_class(card_data, options) {    
+function card_size_class(card_data, options) {
     var card_font_size = card_data.card_font_size || options.default_card_font_size || '';
     return (card_font_size != '' && card_font_size != "inherit") ? ' card-font-size-' + card_font_size : '';
 }
@@ -151,6 +154,19 @@ function card_element_ruler(params, card_data, options) {
 
     var result = "";
     result += '<svg class="card-ruler' + card_font_size_class + '" height="1" width="100" viewbox="0 0 100 1" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">';
+    result += '    <polyline points="0,0 100,0.5 0,1" ' + fill + '></polyline>';
+    result += '</svg>';
+    return result;
+}
+
+function card_element_p2e_ruler(params, card_data, options) {
+    var color = card_data_color_front(card_data, options);
+    var fill = 'fill="' + color + '"';
+    var stroke = 'stroke="' + color + '"';
+    var card_font_size_class = card_size_class(card_data, options);
+
+    var result = "";
+    result += '<svg class="card-p2e-ruler' + card_font_size_class + '" height="1" width="100" viewbox="0 0 100 5" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">';
     result += '    <polyline points="0,0 100,0.5 0,1" ' + fill + '></polyline>';
     result += '</svg>';
     return result;
@@ -274,6 +290,71 @@ function card_element_dndstats(params, card_data, options) {
     return result;
 }
 
+function card_element_p2e_stats(params, card_data, options) {
+    var result = "";
+    result += '<div class="card-p2e-attribute-line">';
+    result += '   <p class="card-p2e-attributes-text">';
+    result += '       <b>Str</b> ' + params[0] + ', <b>Dex</b> ' + params[1] + ', <b>Con</b> ' + params[2] + ', <b>Int</b> ' + params[3] + ', <b>Wis</b> ' + params[4] + ', <b>Cha</b> ' + params[5]
+    result += '   </p>';
+    result += '</div>';
+    result += card_element_p2e_ruler(params, card_data, options)
+    result += '<div class="card-p2e-attribute-line">';
+    result += '   <p class="card-p2e-attributes-text">';
+    result += '       <b>AC </b> ' + params[6] + '; <b>Fort</b> ' + params[7] + '; <b>Ref</b> ' + params[8] + '; <b>Will</b> ' + params[9]
+    result += '   </p>';
+    result += '   <p class="card-p2e-attributes-text">';
+    result += '       <b>HP </b> ' + params[10]
+    result += '   </p>';
+    result += '</div>';
+    return result;
+}
+
+function card_element_start_p2e_trait() {
+    return '<div class="card-p2e-trait-container">';
+}
+
+function card_element_end_p2e_trait() {
+    return '</div>';
+}
+
+function card_element_p2e_trait(params, card_data, options) {
+    var card_font_size_class = card_size_class(card_data, options);
+    var badge_type = ' card-p2e-trait-' + params[0];
+
+    var result = "";
+    result += '<span class="card-p2e-trait' + badge_type + card_font_size_class + '">';
+    result += params[1];
+    result += '</span>';
+    return result;
+}
+
+function card_element_p2e_activity(params, card_data, options) {
+    var card_font_size_class = card_size_class(card_data, options);
+    
+    var activity_icon;
+    if (params[1] == '0') {
+        activity_icon = 'icon-p2e-free-action';
+    } else if (params[1] == '1') {
+        activity_icon = 'icon-p2e-1-action';
+    } else if (params[1] == '2') {
+        activity_icon = 'icon-p2e-2-actions';
+    } else if (params[1] == '3') {
+        activity_icon = 'icon-p2e-3-actions';
+    } else if (params[1] == 'R') {
+        activity_icon = 'icon-p2e-reaction';
+    } 
+
+    var result = "";
+    result += '<div class="card-element card-property-line' + card_font_size_class + '">';
+    result += '   <h4 class="card-property-name">' + params[0] + '</h4>';
+    result += '   <div class="card-inline-icon ' + activity_icon + '" style="display: inline-block; vertical-align: middle; height: 10px; min-height: 10px; width: 10px; background-color: black;"></div>';
+    result += '   <p class="card-p card-property-text">' + params[2] + '</p>';
+    result += '</div>';
+    return result;
+}
+
+
+
 function card_element_swstats(params, card_data, options) {
     var stats = [];
     for (var i = 0; i < 9; ++i) {
@@ -351,9 +432,16 @@ var card_element_generators = {
     property: card_element_property,
     rule: card_element_ruler,
     ruler: card_element_ruler,
+    p2e_rule: card_element_p2e_ruler,
+    p2e_ruler: card_element_p2e_ruler,
     boxes: card_element_boxes,
     description: card_element_description,
     dndstats: card_element_dndstats,
+    p2e_stats: card_element_p2e_stats,
+    p2e_start_trait_section: card_element_start_p2e_trait,
+    p2e_trait: card_element_p2e_trait,
+    p2e_end_trait_section: card_element_end_p2e_trait,
+    p2e_activity: card_element_p2e_activity,
     swstats: card_element_swstats,
     text: card_element_text,
     center: card_element_center,
@@ -563,17 +651,6 @@ function card_pages_merge(front_pages, back_pages) {
     return result;
 }
 
-function cards_pages_flip_left_right(cards, rows, cols) {
-    var result = [];
-    for (var r = 0; r < rows; ++r) {
-        for (var c = 0; c < cols; ++c) {
-            var i = r*cols + (cols-1-c);
-            result.push(cards[i]);
-        }
-    }
-    return result;
-}
-
 function card_pages_add_padding(cards, options) {
     var cards_per_page = options.page_rows * options.page_columns;
     var last_page_cards = cards.length % cards_per_page;
@@ -646,7 +723,12 @@ function card_pages_wrap(pages, options) {
         var z = options.page_zoom / 100;
         var zoomWidth = parsedPageWidth.number * z;
         var zoomHeight = parsedPageHeight.number * z;
-        var zoomStyle = 'style="transform: scale(' + z + ');"';
+        var zoomStyle = 'style="';
+        zoomStyle += 'transform: scale(' + z + ');';
+        if ((options.card_arrangement === "doublesided") &&  (i % 2 === 1)) {
+            zoomStyle += 'flex-direction:' + 'row-reverse' + ';';
+        }
+        zoomStyle += '"';
         zoomStyle = add_size_to_style(zoomStyle, parsedPageWidth.number + parsedPageWidth.mu, parsedPageHeight.number + parsedPageHeight.mu);
 
         result += '<page class="page page-preview ' + orientation + '" ' + style + '>\n';
@@ -659,22 +741,13 @@ function card_pages_wrap(pages, options) {
 }
 
 function card_pages_generate_style(options) {
-    var size = "a4";
-    switch (options.page_size) {
-        case "A3": size = "A3 portrait"; break;
-        case "A4": size = "210mm 297mm"; break;
-        case "A5": size = "A5 portrait"; break;
-        case "Letter": size = "letter portrait"; break;
-        case "Letter - Landscape": size = "letter landscape"; break;
-        case "25x35": size = "2.5in 3.5in"; break;
-        default: size = "auto";
-    }
-
+    const pw = options.page_width;
+    const ph = options.page_height;
     var result = "";
     result += "<style>\n";
     result += "@page {\n";
     result += "    margin: 0;\n";
-    result += "    size:" + size + ";\n";
+    result += "    size:" + pw + " " + ph + ";\n";
     result += "    -webkit-print-color-adjust: exact;\n";
     result += "}\n";
     result += "</style>\n";
@@ -702,16 +775,9 @@ function card_pages_generate_html(card_data, options) {
         // Add padding cards so that the last page is full of cards
         front_cards = card_pages_add_padding(front_cards, options);
         back_cards = card_pages_add_padding(back_cards, options);
-
         // Split cards to pages
         var front_pages = card_pages_split(front_cards, rows, cols);
         var back_pages = card_pages_split(back_cards, rows, cols);
-
-        // Shuffle back cards so that they line up with their corresponding front cards
-        back_pages = back_pages.map(function (page) {
-            return cards_pages_flip_left_right(page, rows, cols);
-        });
-
         // Interleave front and back pages so that we can print double-sided
         pages = card_pages_merge(front_pages, back_pages);
     } else if (options.card_arrangement === "front_only") {

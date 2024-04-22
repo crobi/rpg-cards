@@ -179,9 +179,9 @@ function ui_update_selected_card() {
     if (card) {
         $("#card-title").val(card.title);
         $("#card-title-size").val(card.title_size);
-        $("#card-font-size").val(card.font_size);
+        $("#card-font-size").val(card.card_font_size);
         $("#card-count").val(card.count);
-        $("#card-icon").val(card.icon);
+        $("#card-icon").val(card.icon_front);
         $("#card-icon-back").val(card.icon_back);
 		$("#card-background").val(card.background_image);
         $("#card-contents").val(card.contents.join("\n"));
@@ -314,9 +314,9 @@ function ui_change_option() {
     else {
         value = $(this).val();
     }
-    // console.log("ui_change_option()", property, value)
     switch (property) {
         case 'card_size': {
+            card_options[property] = value;
             var size = value.split(',');
             var w = size[0], h = size[1];
             var width = 0, height = 0;
@@ -333,6 +333,7 @@ function ui_change_option() {
             break;
         }
         case 'page_size': {
+            card_options[property] = value;
             var size = value.split(',');
             var w = size[0], h = size[1];
             var width = 0, height = 0;
@@ -467,9 +468,15 @@ function ui_change_default_color() {
     ui_set_default_color(color);
 }
 
-function ui_change_default_icon() {
+function ui_change_default_icon_front() {
     var value = $(this).val();
-    card_options.default_icon = value;
+    card_options.default_icon_front = value;
+    ui_render_selected_card();
+}
+
+function ui_change_default_icon_back() {
+    var value = $(this).val();
+    card_options.default_icon_back = value;
     ui_render_selected_card();
 }
 
@@ -565,34 +572,35 @@ function ui_apply_default_color() {
     ui_render_selected_card();
 }
 
-function ui_apply_default_font() {
+function ui_apply_default_font_title() {
     for (var i = 0; i < card_data.length; ++i) {
-        card_data[i].title_size = "";
+        card_data[i].title_size = card_options.default_title_size;
     }
+    $('#card-title-size').val(card_options.default_title_size);
     ui_render_selected_card();
 }
 
-function ui_apply_default_card_font() {
+function ui_apply_default_font_card() {
     for (var i = 0; i < card_data.length; ++i) {
-        card_data[i].card_font_size = "";
+        card_data[i].card_font_size = card_options.default_card_font_size;
     }
+    $('#card-font-size').val(card_options.default_card_font_size);
     ui_render_selected_card();
 }
 
-function ui_apply_default_icon() {
+function ui_apply_default_icon_front() {
     for (var i = 0; i < card_data.length; ++i) {
-        card_data[i].icon = card_options.default_icon;
+        card_data[i].icon_front = card_options.default_icon_front;
     }
     ui_render_selected_card();
 }
 
 function ui_apply_default_icon_back() {
     for (var i = 0; i < card_data.length; ++i) {
-        card_data[i].icon_back = card_options.default_icon;
+        card_data[i].icon_back = card_options.default_icon_back;
     }
     ui_render_selected_card();
 }
-
 
 //Adding support for local store
 function local_store_save() {
@@ -655,11 +663,11 @@ $(document).ready(function () {
     $("#button-duplicate-card").click(ui_duplicate_card);
     $("#button-delete-card").click(ui_delete_card);
     $("#button-help").click(ui_open_help);
-    $("#button-apply-color").click(ui_apply_default_color);
-    $("#button-apply-icon").click(ui_apply_default_icon);
-    $("#button-apply-icon-back").click(ui_apply_default_icon_back);
-    $("#button-apply-font").click(ui_apply_default_font);
-    $("#button-apply-card-font").click(ui_apply_default_card_font);
+    $("#button-apply-default-color").click(ui_apply_default_color);
+    $("#button-apply-default-font-title").click(ui_apply_default_font_title);
+    $("#button-apply-default-font-card").click(ui_apply_default_font_card);
+    $("#button-apply-default-icon-front").click(ui_apply_default_icon_front);
+    $("#button-apply-default-icon-back").click(ui_apply_default_icon_back);
 
     $("#selected-card").change(ui_update_selected_card);
 
@@ -693,7 +701,8 @@ $(document).ready(function () {
     $("#rounded-corners").change(ui_change_option);
 
     $("#default-color").change(ui_change_default_color);
-    $("#default-icon").change(ui_change_default_icon);
+    $("#default-icon-front").change(ui_change_default_icon_front);
+    $("#default-icon-back").change(ui_change_default_icon_back);
     $("#default-title-size").change(ui_change_default_title_size);
     $("#default-card-font-size").change(ui_change_default_card_font_size);
     $("#small-icons").change(ui_change_default_icon_size);
