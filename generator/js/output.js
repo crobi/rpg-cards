@@ -34,4 +34,4 @@ setTimeout(function(){
         const btn = document.getElementById('close-button');
         if (btn) btn.style.display = 'block';
     }
-}, 1000);
+}, 2000);
