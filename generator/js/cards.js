@@ -736,8 +736,10 @@ function card_pages_wrap(pages, options) {
 }
 
 function card_pages_generate_style(options) {
-    const pw = options.page_width;
-    const ph = options.page_height;
+    const page_width = options.page_width;
+    const page_height = options.page_height;
+    const pw = page_width < page_height ? page_width : page_height;
+    const ph = page_width < page_height ? page_height : page_width;
     var result = "";
     result += "<style>\n";
     result += "@page {\n";
