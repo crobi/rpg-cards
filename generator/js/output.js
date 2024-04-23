@@ -1,9 +1,11 @@
 var showCloseButton = true;
 
 function receiveMessage(event) {
-    showCloseButton = false;
     var html = event.data;
-    if (typeof html === 'string') insertCards(html);
+    if (typeof html === 'string') {
+        showCloseButton = false;
+        insertCards(html);
+    }
 }
 
 function insertCards(html) {
