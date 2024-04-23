@@ -1,12 +1,14 @@
+var showCloseButton = true;
+
 function receiveMessage(event) {
+    showCloseButton = false;
     var html = event.data;
-    insertCards(html);
+    if (typeof html === 'string') insertCards(html);
 }
 
 function insertCards(html) {
     // Remove all previous content
     (function waitForBody() {
-        console.log(document.body);
         if (!document.body){
             requestAnimationFrame(waitForBody);
             return;
@@ -27,3 +29,9 @@ function insertCards(html) {
 }
 
 window.addEventListener("message", receiveMessage, false);
+setTimeout(function(){
+    if (showCloseButton) {
+        const btn = document.getElementById('close-button');
+        if (btn) btn.style.display = 'block';
+    }
+}, 1000);
