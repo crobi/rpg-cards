@@ -716,8 +716,8 @@ function card_pages_wrap(pages, options) {
         style = add_size_to_style(style, parsedPageWidth.number + parsedPageWidth.mu, parsedPageHeight.number + parsedPageHeight.mu);
         
         var z = options.page_zoom / 100;
-        var zoomWidth = parsedPageWidth.number * z;
-        var zoomHeight = parsedPageHeight.number * z;
+        // var zoomWidth = parsedPageWidth.number * z;
+        // var zoomHeight = parsedPageHeight.number * z;
         var zoomStyle = 'style="';
         zoomStyle += 'transform: scale(' + z + ');';
         if ((options.card_arrangement === "doublesided") &&  (i % 2 === 1)) {
@@ -738,8 +738,9 @@ function card_pages_wrap(pages, options) {
 function card_pages_generate_style(options) {
     const page_width = options.page_width;
     const page_height = options.page_height;
-    const pw = page_width < page_height ? page_width : page_height;
-    const ph = page_width < page_height ? page_height : page_width;
+    const portrait = parseFloat(page_width) < parseFloat(page_height);
+    const pw = portrait ? page_width : page_height;
+    const ph = portrait ? page_height : page_width;
     var result = "";
     result += "<style>\n";
     result += "@page {\n";

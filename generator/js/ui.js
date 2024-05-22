@@ -126,7 +126,7 @@ function ui_select_card_by_index(index) {
 }
 
 function ui_selected_card_index() {
-    return parseInt($("#selected-card").val(), 10);
+    return document.getElementById('selected-card').options.selectedIndex;
 }
 
 function ui_selected_card() {
