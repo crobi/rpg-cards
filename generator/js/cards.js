@@ -20,7 +20,10 @@ function card_default_options() {
         card_height: "3.5in",
         card_count: null,
         icon_inline: true,
-        rounded_corners: true
+        rounded_corners: true,
+        back_bleed: "2mm,2mm",
+        back_bleed_width: "2mm",
+        back_bleed_height: "2mm",
     };
 }
 
@@ -552,10 +555,17 @@ function add_size_to_style(style, width, height) {
     return style;
 }
 
+function add_margin_to_style(style, options) {
+    // style string example ----> `style="color:red;"`
+    style = style.slice(0, -1) + 'margin: -webkit-calc(' + options.back_bleed_height + ' / 2) -webkit-calc(' + options.back_bleed_width + ' / 2);' + style.slice(-1);
+    return style;
+}
+
 function card_generate_front(data, options) {
     var color = card_data_color_front(data, options);
     var style_color = card_generate_color_style(color, options);
-    var card_style = add_size_to_style(style_color, options.card_width, options.card_height);
+    var card_size_style = add_size_to_style(style_color, options.card_width, options.card_height);
+    var card_style = add_margin_to_style(card_size_style, options);
 
     var result = "";
     result += '<div class="card ' + (options.rounded_corners ? 'rounded-corners' : '') + '" ' + card_style + '>';
@@ -575,8 +585,13 @@ function card_generate_back(data, options) {
 
     var width = options.card_width;
     var height = options.card_height;
+    var back_bleed_width = options.back_bleed_width;
+    var back_bleed_height = options.back_bleed_height;
 
-    var card_style = add_size_to_style(style_color, width, height);
+    var card_width = "-webkit-calc(" + width + " + " + back_bleed_width + ")";
+    var card_height = "-webkit-calc(" + height + " + " + back_bleed_height + ")";
+
+    var card_style = add_size_to_style(style_color, card_width, card_height);
 
     var $tmpCardContainer = $('<div style="position:absolute;visibility:hidden;pointer-events:none;"></div>');
     var $tmpCard = $('<div class="card" ' + card_style + '><div class="card-back"><div class="card-back-inner"><div class="card-back-icon"></div></div></div></div>');

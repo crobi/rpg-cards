@@ -699,6 +699,8 @@ $(document).ready(function () {
     $("#card-rotate").click(ui_card_rotate);
     $("#background-color").change(ui_change_option);
     $("#rounded-corners").change(ui_change_option);
+    $("#back-bleed-width").on("input", ui_change_option);
+    $("#back-bleed-height").on("input", ui_change_option);
 
     $("#default-color").change(ui_change_default_color);
     $("#default-icon-front").change(ui_change_default_icon_front);
