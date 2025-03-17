@@ -68,19 +68,19 @@ function card_remove_tag(card, tag) {
 // ============================================================================
 
 function card_data_color_front(card_data, options) {
-    return card_data.color_front || card_data.color || options.default_color || "black";
+    return card_data.color_front || options.default_color || "black";
 }
 
 function card_data_color_back(card_data, options) {
-    return card_data.color_back || card_data.color || options.default_color || "black";
+    return card_data.color_back || options.default_color || "black";
 }
 
 function card_data_icon_front(card_data, options) {
-    return card_data.icon_front || card_data.icon || options.default_icon_front || "";
+    return card_data.icon_front || options.default_icon_front || "";
 }
 
 function card_data_icon_back(card_data, options) {
-    return card_data.icon_back || card_data.icon || options.default_icon_back || "";
+    return card_data.icon_back || options.default_icon_back || "";
 }
 
 function card_data_split_params(value) {

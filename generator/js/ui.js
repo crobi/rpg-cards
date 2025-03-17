@@ -233,13 +233,13 @@ function ui_setup_color_selector() {
     });
     
     // Callbacks for when the user picks a color
-    $('#default_color_selector').colorselector({
+    $('#default-color-selector').colorselector({
         callback: function (value, color, title) {
             $("#default-color").val(title);
             ui_set_default_color(title);
         }
     });
-    $('#card_color_selector').colorselector({
+    $('#card-color-selector').colorselector({
         callback: function (value, color, title) {
             $("#card-color").val(title);
             ui_set_card_color(value);
@@ -456,7 +456,7 @@ function ui_change_card_color() {
     var input = $(this);
     var color = input.val();
 
-    ui_update_card_color_selector(color, input, "#card_color_selector");
+    ui_update_card_color_selector(color, input, "#card-color-selector");
     ui_set_card_color(color);
 }
 
@@ -464,7 +464,7 @@ function ui_change_default_color() {
     var input = $(this);
     var color = input.val();
 
-    ui_update_card_color_selector(color, input, "#default_color_selector");
+    ui_update_card_color_selector(color, input, "#default-color-selector");
     ui_set_default_color(color);
 }
 
@@ -619,6 +619,18 @@ function local_store_load() {
         try {
             card_data = JSON.parse(localStorage.getItem("card_data")) || card_data;
             card_options = JSON.parse(localStorage.getItem("card_options")) || card_options;
+            // legacy
+            card_data?.forEach(card => {
+                if (card.icon !== undefined) {
+                    card.icon_front = card.icon;
+                    delete card.icon;
+                }
+                if (card.color !== undefined) {
+                    card.color_front = card.color;
+                    card.color_back = card.color;
+                    delete card.color;
+                }
+            });                
         } catch (e){
             //if the local store load failed should we notify the user that the data load failed?
             console.log(e);
