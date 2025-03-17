@@ -21,7 +21,7 @@ This project consists almost exclusively of static HTML/CSS/JavaScript files, bu
 The build will update /generator/icons folder with content from:
 - The [game-icons](http://game-icons.net) project.
 - Fonts from the [gameicons-font](https://seiyria.com/gameicons-font) project.
-- And any .png or .svg files you have added to ./resource/custom-icons (you must build the project and refresh the page in the browser in order to use them).
+- And any .png or .svg files you have added to ./resources/custom-icons (you must build the project and refresh the page in the browser in order to use them).
 
 
 To build this project:
