@@ -641,6 +641,12 @@ function local_store_load() {
 $(document).ready(function () {
     local_store_load();
     ui_setup_color_selector();
+
+    $('#default-icon-front').val(card_options.default_icon_front);
+    $('#default-icon-back').val(card_options.default_icon_back);
+    $('#default-title-size').val(card_options.default_title_size);
+    $('#default-card-font-size').val(card_options.default_card_font_size);
+
     $('.icon-list').typeahead({
         source: icon_names,
         items: 'all',
