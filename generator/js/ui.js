@@ -131,13 +131,35 @@ function ui_copy_card() {
     }
 }
 
+function ui_copy_all_cards() {
+    navigator.clipboard.writeText(JSON.stringify(card_data, null, 2)).then(function() {
+        alert('All cards were copied to the clipboard');
+    }, function() {
+        alert('Failure to copy: Check permissions for clipboard or try with another browser');
+    });
+}
+
 function ui_paste_card() {
     navigator.clipboard.readText().then(function(s) {
-        var new_card = JSON.parse(s);
-        card_data.push(new_card);
-        new_card.title = new_card.title + " (Copy)";
-        ui_update_card_list();
-        ui_select_card_by_index(card_data.length - 1);
+        try {
+            const pasted_content = JSON.parse(s);
+            if (Array.isArray(pasted_content)) {
+                if (pasted_content.length > 0) {
+                    const prev_data_length = card_data.length;
+                    pasted_content.forEach(c => card_data.push(c));
+                    ui_update_card_list();
+                    ui_select_card_by_index(prev_data_length);
+                }
+            } else {
+                const new_card = pasted_content;
+                card_data.push(new_card);
+                new_card.title = new_card.title + " (Pasted)";
+                ui_update_card_list();
+                ui_select_card_by_index(card_data.length - 1);
+            }
+        } catch (e) {
+            alert('Could not paste clipboard as card or list of cards.\n' + e);
+        }
     }, function() {
         alert('Failure to paste: Check permissions for clipboard or try with another browser')
     })
@@ -704,6 +726,7 @@ $(document).ready(function () {
     $("#button-duplicate-card").click(ui_duplicate_card);
     $("#button-delete-card").click(ui_delete_card);
     $("#button-copy-card").click(ui_copy_card);
+    $("#button-copy-all").click(ui_copy_all_cards);
     $("#button-paste-card").click(ui_paste_card);
     $("#button-help").click(ui_open_help);
     $("#button-apply-default-color").click(ui_apply_default_color);
