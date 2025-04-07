@@ -68,11 +68,11 @@ function card_remove_tag(card, tag) {
 // ============================================================================
 
 function card_data_color_front(card_data, options) {
-    return card_data.color_front || options.default_color || "black";
+    return card_data.color_front || card_data.color || options.default_color || "black";
 }
 
 function card_data_color_back(card_data, options) {
-    return card_data.color_back || options.default_color || "black";
+    return card_data.color_back || card_data.color || options.default_color || "black";
 }
 
 function card_data_icon_front(card_data, options) {
