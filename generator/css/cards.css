@@ -96,6 +96,20 @@
     padding: 1mm 0 1mm 1mm;
 }
 
+.card-type  {
+    display: flex;
+    justify-content: flex-end;
+    background-color: inherit;
+    color: white;
+    height: 8mm;
+    width: 100%;
+    font-family: Lora, 'Calisto MT', 'Bookman Old Style', Bookman, 'Goudy Old Style', Garamond, 'Hoefler Text', 'Bitstream Charter', Georgia, serif;
+    font-variant: small-caps;
+    font-weight: bold;
+    font-size: 10pt;
+    line-height: 7.5mm;
+}
+
 .card-title {
     height: 8mm;
     padding-left: 2mm;
