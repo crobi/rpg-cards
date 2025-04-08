@@ -110,7 +110,7 @@ function card_element_title(card_data, options) {
 
 function card_element_type(card_data, options) {
     var type = card_data.card_type || "";
-    return type ? '<div class="card-type">' + type + '</div>' : '';
+    return type ? '<div class="card-type card-title card-title-10">' + type + '</div>' : '';
 }
 
 function card_element_icon(card_data, options) {

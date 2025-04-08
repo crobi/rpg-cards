@@ -99,15 +99,9 @@
 .card-type  {
     display: flex;
     justify-content: flex-end;
-    background-color: inherit;
-    color: white;
-    height: 8mm;
     width: 100%;
-    font-family: Lora, 'Calisto MT', 'Bookman Old Style', Bookman, 'Goudy Old Style', Garamond, 'Hoefler Text', 'Bitstream Charter', Georgia, serif;
-    font-variant: small-caps;
-    font-weight: bold;
-    font-size: 10pt;
-    line-height: 7.5mm;
+    padding-left: 0 !important;
+    margin-left: -20mm; /* allow some overlapping */
 }
 
 .card-title {
