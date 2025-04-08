@@ -96,6 +96,14 @@
     padding: 1mm 0 1mm 1mm;
 }
 
+.card-type  {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    padding-left: 0 !important;
+    margin-left: -20mm; /* allow some overlapping */
+}
+
 .card-title {
     height: 8mm;
     padding-left: 2mm;
@@ -104,6 +112,7 @@
     font-weight: bold;
     background-color: inherit;
     color: white;
+    white-space: nowrap;
 }
 .card-title-16 {
     font-size: 16pt;
