@@ -143,6 +143,12 @@ function card_element_inline_icon(params, card_data, options) {
     return '<div class="card-element card-inline-icon align-' + align + ' icon-' + icon + '" style ="height:' + size + 'px;min-height:' + size + 'px;width: ' + size + 'px;background-color: ' + color + '"></div>';
 }
 
+function card_element_footer(params, card_data, options) {
+    var footer_text = params[0] || "";
+    var color = card_data_color_front(card_data, options);
+    return '<div class="card-footer" style="background-color: ' + color + ';"><p class="card-footer-text">' + footer_text + '</p></div>';
+}
+
 function card_element_picture(params, card_data, options) {
     var url = params[0] || "";
     var height = params[1] || "";
@@ -454,7 +460,8 @@ var card_element_generators = {
     section: card_element_section,
     disabled: card_element_empty,
     picture: card_element_picture,
-    icon: card_element_inline_icon
+    icon: card_element_inline_icon,
+    footer: card_element_footer
 };
 
 // ============================================================================

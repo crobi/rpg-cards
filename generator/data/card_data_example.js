@@ -3,7 +3,7 @@ var card_data_example = [
         "count": 1,
         "color": "maroon",
         "title": "Burning Hands",
-        "icon": "white-book-1",
+        "icon_front": "white-book-1",
         "icon_back": "robe",
         "contents": [
             "subtitle | 1st level evocation",
@@ -25,7 +25,7 @@ var card_data_example = [
         "count": 1,
         "color": "indigo",
         "title": "Cunning Action",
-        "icon": "white-book",
+        "icon_front": "white-book",
         "icon_back": "cloak-dagger",
         "contents": [
             "subtitle | Rogue feature",
@@ -42,7 +42,7 @@ var card_data_example = [
         "count": 1,
         "color": "dimgray",
         "title": "Full Plate",
-        "icon": "breastplate",
+        "icon_front": "breastplate",
         "contents": [
             "subtitle | Heavy armor (1500gp)",
             "rule",
@@ -61,7 +61,7 @@ var card_data_example = [
         "count": 1,
         "color": "dimgray",
         "title": "Dagger",
-        "icon": "mixed-swords",
+        "icon_front": "mixed-swords",
         "contents": [
             "subtitle | Simple melee weapon (2gp)",
             "rule",
@@ -82,7 +82,7 @@ var card_data_example = [
         "color": "dimgray",
         "title": "Shortsword of Very Long Names",
         "title_size": "10",
-        "icon": "crossed-swords",
+        "icon_front": "crossed-swords",
         "contents": [
             "subtitle | Simple melee weapon (10gp)",
             "rule",
@@ -101,7 +101,7 @@ var card_data_example = [
         "count": 1,
         "color": "dimgray",
         "title": "Wand of Magic Missiles",
-        "icon": "crystal-wand",
+        "icon_front": "crystal-wand",
         "contents": [
             "subtitle | Wondrous item",
             "rule",
@@ -123,7 +123,7 @@ var card_data_example = [
         "count": 2,
         "color": "dimgray",
         "title": "Potion of Healing",
-        "icon": "drink-me",
+        "icon_front": "drink-me",
         "contents": [
             "subtitle | Potion (50gp)",
             "rule",
@@ -141,7 +141,7 @@ var card_data_example = [
         "count": 1,
         "color": "black",
         "title": "Goblin",
-        "icon": "imp-laugh",
+        "icon_front": "imp-laugh",
         "contents": [
             "subtitle | Small humanoid (goblinoid)",
             "rule",
@@ -188,7 +188,7 @@ var card_data_example = [
         ],
         "tags": [],
         "color": "Chocolate",
-        "icon": "p2e-2-actions",
+        "icon_front": "p2e-2-actions",
         "icon_back": "pope-crown",
         "title_size": "13",
         "card_font_size": "9"
@@ -222,7 +222,7 @@ var card_data_example = [
       "tags": [],
       "color": "Crimson",
       "icon_back": "monster-grasp",
-      "icon": "rat",
+      "icon_front": "rat",
       "card_font_size": "9",
       "title_size": "11"
     }
