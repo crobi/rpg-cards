@@ -311,6 +311,17 @@
     font-size: 8px;
 }
 
+.footer-part {
+    display: inline-block;
+    margin: 0 2px;
+}
+
+.footer-separator {
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 1px;
+    font-weight: bold;
+}
+
 
 .card-p2e-trait-container {
     display: flex;

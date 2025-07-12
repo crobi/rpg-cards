@@ -146,6 +146,18 @@ function card_element_inline_icon(params, card_data, options) {
 function card_element_footer(params, card_data, options) {
     var footer_text = params[0] || "";
     var color = card_data_color_front(card_data, options);
+    // If there are multiple parameters, join them with separators
+    if (params.length > 1) {
+        var footer_parts = [];
+        for (var i = 0; i < params.length; i++) {
+            const oppositeLength = params.length - i -1
+            const fontWeight = 200 + (oppositeLength * 200)
+            if (params[i] && params[i].trim() !== "") {
+                footer_parts.push('<span class="footer-part" style="font-weight: ' + fontWeight + ';">' + params[i].trim() + '</span>');
+            }
+        }
+        footer_text = footer_parts.join('<span class="footer-separator"> ▹ </span>');
+    }
     return '<div class="card-footer" style="background-color: ' + color + ';"><p class="card-footer-text">' + footer_text + '</p></div>';
 }
 
