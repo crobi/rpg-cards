@@ -123,6 +123,32 @@ function card_element_icon(card_data, options) {
     return result;
 }
 
+function card_element_table_start(params, card_data, options) {
+    return '<!-- table_start --><table class="card-stats"><tbody>';
+}
+
+function card_element_table_head(params, card_data, options) {
+    var result = '<!-- table_head --><tr>';
+    for (var i = 0; i < params.length; ++i) {
+        result += '<th class="card-stats-header">' + params[i] + '</th>';
+    }
+    result += '</tr>';
+    return result;
+}
+
+function card_element_table_row(params, card_data, options) {
+    var result = '<!-- table_row --><tr>';
+    for (var i = 0; i < params.length; ++i) {
+        result += '<td class="card-stats-cell">' + params[i] + '</td>';
+    }
+    result += '</tr>';
+    return result;
+}
+
+function card_element_table_end(params, card_data, options) {
+    return '<!-- table_end --></tbody></table>';
+}
+
 function card_element_rawhtml(params, card_data, options) {
     var element_class = card_element_class(card_data, options);
 
@@ -483,6 +509,10 @@ var card_element_generators = {
     p2e_trait: card_element_p2e_trait,
     p2e_end_trait_section: card_element_end_p2e_trait,
     p2e_activity: card_element_p2e_activity,
+    table_start: card_element_table_start,
+    table_head: card_element_table_head,
+    table_row: card_element_table_row,
+    table_end: card_element_table_end,
     swstats: card_element_swstats,
     sr6spell: card_element_sr6spell,
     text: card_element_text,
