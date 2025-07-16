@@ -201,6 +201,13 @@ function ui_update_selected_card() {
     }
 
     ui_render_selected_card();
+    ui_update_card_actions();
+}
+
+function ui_update_card_actions() {
+    var actions = Object.keys(card_element_generators);
+    var html = actions.join(', ');
+    $('#card-actions').html(html);
 }
 
 function ui_render_selected_card() {
