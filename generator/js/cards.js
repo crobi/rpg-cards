@@ -494,16 +494,7 @@ function card_element_empty(params, card_data, options) {
     return '';
 }
 
-function card_element_actions(params, card_data, options) {
-    var result = "";
-    result += '<div class="card-element card-actions">';
-    result += Object.keys(card_element_generators).join(', ');
-    result += '</div>';
-    return result;
-}
-
 var card_element_generators = {
-    actions: card_element_actions,
     subtitle: card_element_subtitle,
     property: card_element_property,
     rule: card_element_ruler,
