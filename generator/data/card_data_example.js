@@ -225,5 +225,18 @@ var card_data_example = [
       "icon": "rat",
       "card_font_size": "9",
       "title_size": "11"
+    },
+    {
+        "count": 1,
+        "color": "darkgreen",
+        "title": "Manabolt",
+        "icon": "magic-swirl",
+        "contents": [
+            "subtitle | Direct Spell, Combat",
+            "sr6spell | LOS | P | I | F-3 | P",
+            "rule",
+            "text |This spell transforms mana into a focused bolt of energy that you can hurl at a target. The target resists with Willpower. The bolt inflicts Physical damage. The spell can be learned only by magicians and mystic adepts."
+        ],
+        "tags": ["spell", "combat"]
     }
 ]
