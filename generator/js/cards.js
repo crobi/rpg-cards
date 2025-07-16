@@ -612,7 +612,7 @@ function card_repeat(card, count) {
 }
 
 function card_generate_color_style(color, options) {
-    return 'style="color:' + color + '; border-color:' + color + '; background-color:' + color + '"';
+    return 'style="margin:-webkit-calc(2mm / 2) -webkit-calc(2mm / 2);color:' + color + '; border-color:' + color + '; background-color:' + color + '"';
 }
 
 function card_generate_color_gradient_style(color, options) {
@@ -705,7 +705,6 @@ function card_generate_back(data, options) {
 function card_generate_empty(count, options) {
     var style_color = card_generate_color_style("white");
     var card_style = add_size_to_style(style_color, options.card_width, options.card_height);
-
     var result = "";
     result += '<div class="card' + '" ' + card_style + '>';
     result += '</div>';
