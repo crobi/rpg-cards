@@ -293,6 +293,34 @@ function card_element_dndstats(params, card_data, options) {
     return result;
 }
 
+function card_element_sr6spell(params, card_data, options) {
+    var stats = [];
+    for (var i = 0; i < 5; ++i) {
+        stats[i] = params[i] || '';
+    }
+    var card_font_size_class = card_size_class(card_data, options);
+
+    var result = "";
+    result += '<table class="card-stats' + card_font_size_class + '">';
+    result += '    <tbody><tr>';
+    result += '      <th class="card-stats-header">Range</th>';
+    result += '      <th class="card-stats-header">Type</th>';
+    result += '      <th class="card-stats-header">Duration</th>';
+    result += '      <th class="card-stats-header">Drain</th>';
+    result += '      <th class="card-stats-header">Damage</th>';
+    result += '    </tr>';
+    result += '    <tr>';
+    result += '      <td class="card-stats-cell">' + stats[0] + '</td>';
+    result += '      <td class="card-stats-cell">' + stats[1] + '</td>';
+    result += '      <td class="card-stats-cell">' + stats[2] + '</td>';
+    result += '      <td class="card-stats-cell">' + stats[3] + '</td>';
+    result += '      <td class="card-stats-cell">' + stats[4] + '</td>';
+    result += '    </tr>';
+    result += '  </tbody>';
+    result += '</table>';
+    return result;
+}
+
 function card_element_p2e_stats(params, card_data, options) {
     var result = "";
     result += '<div class="card-p2e-attribute-line">';
@@ -446,6 +474,7 @@ var card_element_generators = {
     p2e_end_trait_section: card_element_end_p2e_trait,
     p2e_activity: card_element_p2e_activity,
     swstats: card_element_swstats,
+    sr6spell: card_element_sr6spell,
     text: card_element_text,
     center: card_element_center,
     justify: card_element_justify,
