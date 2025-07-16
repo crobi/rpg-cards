@@ -205,9 +205,35 @@ function ui_update_selected_card() {
 }
 
 function ui_update_card_actions() {
-    var actions = Object.keys(card_element_generators);
-    var html = actions.join(', ');
-    $('#card-actions').append(html);
+    var action_groups = {
+        "Basic": ["subtitle", "property", "text", "center", "justify", "bullet", "section", "rawhtml"],
+        "Layout": ["rule", "ruler", "fill", "picture", "icon", "boxes"],
+        "Pathfinder 2e": ["p2e_rule", "p2e_ruler", "p2e_stats", "p2e_start_trait_section", "p2e_trait", "p2e_end_trait_section", "p2e_activity"],
+        "DnD": ["dndstats"],
+        "Savage Worlds": ["swstats"],
+        "Shadowrun 6e": ["sr6spell"],
+        "Table": ["table_start", "table_head", "table_row", "table_end"]
+    };
+
+    var parent = $('#card-actions');
+    parent.empty();
+
+    for (var group_name in action_groups) {
+        var group_div = $('<div class="action-group"></div>');
+        group_div.append($('<h4>' + group_name + '</h4>'));
+        var actions = action_groups[group_name];
+        for (var i = 0; i < actions.length; ++i) {
+            var action_name = actions[i];
+            var button = $('<button class="btn btn-default btn-sm action-button">' + action_name + '</button>');
+            button.click(function () {
+                var contents = $('#card-contents');
+                contents.val(contents.val() + $(this).text() + "\n");
+                contents.trigger("change");
+            });
+            group_div.append(button);
+        }
+        parent.append(group_div);
+    }
 }
 
 function ui_render_selected_card() {
