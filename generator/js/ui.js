@@ -227,7 +227,7 @@ function ui_update_card_actions() {
             var button = $('<button class="btn btn-default btn-sm action-button">' + action_name + '</button>');
             button.click(function () {
                 var contents = $('#card-contents');
-                contents.val(contents.val() + $(this).text() + "\n");
+                contents.val(contents.val() + $(this).text() + " ");
                 contents.trigger("change");
             });
             group_div.append(button);
