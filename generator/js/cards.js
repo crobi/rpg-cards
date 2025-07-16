@@ -123,7 +123,7 @@ function card_element_icon(card_data, options) {
     return result;
 }
 
-function card_element_html(params, card_data, options) {
+function card_element_rawhtml(params, card_data, options) {
     var element_class = card_element_class(card_data, options);
 
     var result = "";
@@ -486,7 +486,7 @@ var card_element_generators = {
     swstats: card_element_swstats,
     sr6spell: card_element_sr6spell,
     text: card_element_text,
-    html: card_element_html,
+    rawhtml: card_element_rawhtml,
     center: card_element_center,
     justify: card_element_justify,
     bullet: card_element_bullet,
