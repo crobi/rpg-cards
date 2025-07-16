@@ -207,7 +207,7 @@ function ui_update_selected_card() {
 function ui_update_card_actions() {
     var actions = Object.keys(card_element_generators);
     var html = actions.join(', ');
-    $('#card-actions').html(html);
+    $('#card-actions').append(html);
 }
 
 function ui_render_selected_card() {
