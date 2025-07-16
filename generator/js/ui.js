@@ -224,7 +224,7 @@ function ui_update_card_actions() {
         var actions = action_groups[group_name];
         for (var i = 0; i < actions.length; ++i) {
             var action_name = actions[i];
-            var button = $('<button class="btn btn-default btn-sm action-button">' + action_name + '</button>');
+            var button = $('<button type="button" class="btn btn-default btn-sm action-button">' + action_name + '</button>');
             button.click(function () {
                 var contents = $('#card-contents');
                 contents.val(contents.val() + $(this).text() + " ");
