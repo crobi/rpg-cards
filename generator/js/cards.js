@@ -880,11 +880,22 @@ function card_generate_back(data, options) {
     return result;
 }
 
-function card_generate_empty(count, options) {
+function card_generate_empty(count, options, is_back) {
     var style_color = card_generate_color_style("white");
-    var card_style = add_size_to_style(style_color, options.card_width, options.card_height);
+    var card_width = options.card_width;
+    var card_height = options.card_height;
+
+    if (is_back) {
+        var back_bleed_width = options.back_bleed_width;
+        var back_bleed_height = options.back_bleed_height;
+        card_width = "-webkit-calc(" + card_width + " + " + back_bleed_width + ")";
+        card_height = "-webkit-calc(" + card_height + " + " + back_bleed_height + ")";
+    }
+
+    var card_style = add_size_to_style(style_color, card_width, card_height);
     var result = "";
-    result += '<div class="card' + '" ' + card_style + '>';
+    var back_front_class = is_back ? "back" : "front";
+    result += '<div class="card empty ' + back_front_class + '" ' + card_style + '>';
     result += '</div>';
 
     return card_repeat(result, count);
@@ -913,11 +924,11 @@ function card_pages_merge(front_pages, back_pages) {
     return result;
 }
 
-function card_pages_add_padding(cards, options) {
+function card_pages_add_padding(cards, options, is_back) {
     var cards_per_page = options.page_rows * options.page_columns;
     var last_page_cards = cards.length % cards_per_page;
     if (last_page_cards !== 0) {
-        return cards.concat(card_generate_empty(cards_per_page - last_page_cards, options));
+        return cards.concat(card_generate_empty(cards_per_page - last_page_cards, options, is_back));
     } else {
         return cards;
     }
@@ -930,7 +941,7 @@ function card_pages_interleave_cards(front_cards, back_cards, options) {
         result.push(front_cards[i]);
         result.push(back_cards[i]);
         if (options.page_columns > 2) {
-            result.push(card_generate_empty(options.page_columns - 2, options));
+            result.push(card_generate_empty(options.page_columns - 2, options, false));
         }
         ++i;
     }
@@ -949,7 +960,7 @@ function card_pages_interleave_cards_alt(front_cards, back_cards, options) {
             result.push(back_cards[i]);
         }
         if (options.page_columns > 2) {
-            result.push(card_generate_empty(options.page_columns - 2, options));
+            result.push(card_generate_empty(options.page_columns - 2, options, false));
         }
         ++i;
     }
@@ -1033,23 +1044,23 @@ function card_pages_generate_html(card_data, options) {
     var pages = [];
     if (options.card_arrangement === "doublesided") {
         // Add padding cards so that the last page is full of cards
-        front_cards = card_pages_add_padding(front_cards, options);
-        back_cards = card_pages_add_padding(back_cards, options);
+        front_cards = card_pages_add_padding(front_cards, options, false);
+        back_cards = card_pages_add_padding(back_cards, options, true);
         // Split cards to pages
         var front_pages = card_pages_split(front_cards, rows, cols);
         var back_pages = card_pages_split(back_cards, rows, cols);
         // Interleave front and back pages so that we can print double-sided
         pages = card_pages_merge(front_pages, back_pages);
     } else if (options.card_arrangement === "front_only") {
-        var cards = card_pages_add_padding(front_cards, options);
+        var cards = card_pages_add_padding(front_cards, options, false);
         pages = card_pages_split(cards, rows, cols);
     } else if (options.card_arrangement === "side_by_side") {
         var cards = card_pages_interleave_cards(front_cards, back_cards, options);
-        cards = card_pages_add_padding(cards, options);
+        cards = card_pages_add_padding(cards, options, false);
         pages = card_pages_split(cards, rows, cols);
     } else if (options.card_arrangement === "side_by_side_alt") {
         var cards = card_pages_interleave_cards_alt(front_cards, back_cards, options);
-        cards = card_pages_add_padding(cards, options);
+        cards = card_pages_add_padding(cards, options, false);
         pages = card_pages_split(cards, rows, cols);
     }
 
