@@ -130,7 +130,7 @@ function card_element_icon(card_data, options) {
  * @category Pills
  */
 function card_element_pills_start() {
-    return '<ul class="nav nav-pills">';
+    return '<div class="card-pills">';
 }
 
 /**
@@ -140,7 +140,7 @@ function card_element_pills_start() {
  * @category Pills
  */
 function card_element_pills_end() {
-    return '</ul>';
+    return '</div>';
 }
 
 /**
@@ -155,9 +155,9 @@ function card_element_pill(params, card_data, options) {
     var text = params[1];
 
     var result = "";
-    result += '<li><span class="card-pill ' + card_font_size_class + '" style="background-color:' + color + '">';
+    result += '<span class="badge badge-pill ' + card_font_size_class + '" style="background-color:' + color + '">';
     result += text;
-    result += '</span></li>';
+    result += '</span>';
     return result;
 }
 
