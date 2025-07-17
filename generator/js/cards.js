@@ -124,6 +124,44 @@ function card_element_icon(card_data, options) {
 }
 
 /**
+ * @summary Starts a pill section.
+ * @description Starts a pill section. Must be closed with `pills_end`.
+ * @example pills_start
+ * @category Pills
+ */
+function card_element_pills_start() {
+    return '<div class="card-pills-container">';
+}
+
+/**
+ * @summary Ends a pill section.
+ * @description Ends a pill section.
+ * @example pills_end
+ * @category Pills
+ */
+function card_element_pills_end() {
+    return '</div>';
+}
+
+/**
+ * @summary A pill.
+ * @description Displays a pill.
+ * @example pill | html-color | text
+ * @category Pills
+ */
+function card_element_pill(params, card_data, options) {
+    var card_font_size_class = card_size_class(card_data, options);
+    var color = params[0];
+    var text = params[1];
+
+    var result = "";
+    result += '<span class="card-pill ' + card_font_size_class + '" style="background-color:' + color + '">';
+    result += text;
+    result += '</span>';
+    return result;
+}
+
+/**
  * @summary A paragraph of italic text.
  * @description Creates a paragraph of italic text.
  * @example italic | text
@@ -686,6 +724,9 @@ var card_element_generators = {
     p2e_trait: card_element_p2e_trait,
     p2e_end_trait_section: card_element_end_p2e_trait,
     p2e_activity: card_element_p2e_activity,
+    pills_start: card_element_pills_start,
+    pill: card_element_pill,
+    pills_end: card_element_pills_end,
     table_start: card_element_table_start,
     table_head: card_element_table_head,
     table_row: card_element_table_row,

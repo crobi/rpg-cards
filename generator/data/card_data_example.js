@@ -383,5 +383,19 @@ var card_data_example = [
             "disabled | This is a disabled line and should not appear."
         ],
         "tags": ["table", "loot"]
+    },
+    {
+        "count": 1,
+        "color": "darkslategrey",
+        "title": "Pills",
+        "icon": "chest",
+        "contents": [
+            "subtitle | Pills example",
+            "pills_start",
+            "pill | red | Red pill",
+            "pill | blue | Blue pill",
+            "pills_end"
+        ],
+        "tags": ["pills"]
     }
 ]
