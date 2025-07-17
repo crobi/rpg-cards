@@ -1,15 +1,6 @@
 var card_data_example = [
     {
         "count": 1,
-        "color": "goldenrod",
-        "title": "Italic Test",
-        "icon": "white-book",
-        "contents": [
-            "italic | This is italic text."
-        ]
-    },
-    {
-        "count": 1,
         "color": "maroon",
         "title": "Burning Hands",
         "icon": "white-book-1",
@@ -28,7 +19,7 @@ var card_data_example = [
             "section | At higher levels",
             "text | +1d6 damage for each slot above 1st"
         ],
-        "tags": ["spell", "mage"]
+        "tags": ["spell", "mage", "dnd"]
     },
     {
         "count": 1,
@@ -45,7 +36,7 @@ var card_data_example = [
             "section | Fast hands (Thief 3rd)",
             "text | You can also use the bonus action to make a Dexterity (<b>Sleight of Hand</b>) check, use your thieves' tools to <b>disarm a trap</b> or <b>open a lock</b>, or take the <b>Use an Object</b> action."
         ],
-        "tags": ["feature", "rogue"]
+        "tags": ["feature", "rogue", "dnd"]
     },
     {
         "count": 1,
@@ -64,7 +55,7 @@ var card_data_example = [
             "description | Stealth | You have disadvantage on Dexterity (Stealth) checks.",
             "fill | 3"
         ],
-        "tags": ["item", "armor"]
+        "tags": ["item", "armor", "dnd"]
     },
     {
         "count": 1,
@@ -84,27 +75,7 @@ var card_data_example = [
             "description | Thrown | You can throw the weapon to make a ranged attack with the given range.",
             "fill | 3"
         ],
-        "tags": ["item", "weapon"]
-    },
-    {
-        "count": 1,
-        "color": "dimgray",
-        "title": "Shortsword of Very Long Names",
-        "title_size": "10",
-        "icon": "crossed-swords",
-        "contents": [
-            "subtitle | Simple melee weapon (10gp)",
-            "rule",
-            "property | Damage | 1d6 piercing",
-            "property | Modifier | Strength or Dexterity",
-            "property | Properties | Light, Finesse",
-            "rule",
-            "fill | 2",
-            "description | Finesse | Use your choice of Strength or Dexterity modifier for attack and damage.",
-            "description | Light | When you attack while dual wielding light weapons, you may use a bonus action to attack with your off hand.",
-            "fill | 3"
-        ],
-        "tags": ["item", "weapon", "magic"]
+        "tags": ["item", "weapon", "dnd"]
     },
     {
         "count": 1,
@@ -126,25 +97,7 @@ var card_data_example = [
             "fill | 3",
             "boxes | 7 | 2.5"
         ],
-        "tags": ["item", "wondrous-item", "magic"]
-    },
-    {
-        "count": 2,
-        "color": "dimgray",
-        "title": "Potion of Healing",
-        "icon": "drink-me",
-        "contents": [
-            "subtitle | Potion (50gp)",
-            "rule",
-            "property | Use time | 1 action",
-            "property | Hit points restored | 2d4+2",
-            "rule",
-            "fill | 2",
-            "text | When you drink this potion, you regain 2d4+2 hitpoints.",
-            "text | Drinking or administering a potion takes 1 action.",
-            "fill | 3"
-        ],
-        "tags": ["item", "consumable"]
+        "tags": ["item", "wondrous-item", "magic", "dnd"]
     },
     {
         "count": 1,
@@ -167,11 +120,11 @@ var card_data_example = [
             "section | Actions",
             "description | Scimitar | Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage"
         ],
-        "tags": ["creature", "humanoid"]
+        "tags": ["creature", "humanoid", "dnd"]
     },
     {
         "count": "1",
-        "title": "(P2e) Dazzling Flash",
+        "title": "Dazzling Flash",
         "contents": [
           "p2e_start_trait_section",
           "p2e_trait | uncommon | Uncommon",
@@ -180,22 +133,22 @@ var card_data_example = [
           "p2e_trait | common | Light",
           "p2e_trait | common | Visual",
           "p2e_end_trait_section",
-          "ruler",
+          "p2e_ruler",
           "property | Domain | Sun",
           "property | Cast | material, verbal",
           "property | Area | 15-foot cone",
           "property | Saving Throw | Fortitude",
-          "ruler",
+          "p2e_ruler",
           "text| You raise your religious symbol and create a blinding flash of light. Each creature in the area must attempt a Fortitude save.",
           "fill | 1",
           "property | Critical Success | The creature is unaffected.",
           "property | Success | The creature is dazzled for 1 round.",
           "property | Failure | The creature is blinded for 1 round and dazzled for 1 minute. The creature can spend an Interact action rubbing its eyes to end the blinded condition.",
           "property | Critical Failure |  The creature is blinded for 1 round and dazzled for 1 hour.",
-          "ruler",
+          "p2e_ruler",
           "property | Heightened (3rd) |  The area increases to a 30-foot cone."
         ],
-        "tags": [],
+        "tags": ["spell", "cleric", "p2e"],
         "color": "Chocolate",
         "icon": "p2e-2-actions",
         "icon_back": "pope-crown",
@@ -204,7 +157,7 @@ var card_data_example = [
     },
     {
       "count": 1,
-      "title": "(P2e) Giant Rat (Creature-1)",
+      "title": "Giant Rat",
       "contents": [
         "p2e_start_trait_section",
         "p2e_trait | alignment | N",
@@ -228,7 +181,7 @@ var card_data_example = [
         "",
         "fill | 1"
       ],
-      "tags": [],
+      "tags": ["creature", "animal", "p2e"],
       "color": "Crimson",
       "icon_back": "monster-grasp",
       "icon": "rat",
@@ -246,6 +199,189 @@ var card_data_example = [
             "rule",
             "text |This spell transforms mana into a focused bolt of energy that you can hurl at a target. The target resists with Willpower. The bolt inflicts Physical damage. The spell can be learned only by magicians and mystic adepts."
         ],
-        "tags": ["spell", "combat"]
+        "tags": ["spell", "combat", "shadowrun"]
+    },
+    {
+        "count": 1,
+        "color": "black",
+        "title": "Whispers from the Void",
+        "icon": "white-book-9",
+        "icon_back": "tentacle-heart",
+        "contents": [
+            "subtitle | Forbidden Knowledge",
+            "rule",
+            "text | You gain insight into the terrifying truths of the cosmos, knowledge that can shatter a lesser mind.",
+            "section | Madness",
+            "text | At the start of each day, roll a d20. On a 1, you gain a random madness.",
+            "fill | 2",
+            "section | Powers",
+            "bullet | You can cast 'Dissonant Whispers' once per day.",
+            "bullet | You have advantage on saving throws against being frightened.",
+            "fill | 3",
+            "boxes | 3 | 1.5"
+        ],
+        "tags": ["eldritch", "boon", "cosmic-horror"]
+    },
+    {
+        "count": 1,
+        "color": "darkslateblue",
+        "title": "Gaze of the Abyss",
+        "icon": "one-eyed",
+        "contents": [
+            "subtitle | Eldritch Invocation",
+            "rule",
+            "property | Prerequisite | 15th level, Great Old One patron",
+            "rule",
+            "text | You can open your mind to the void, unleashing a torrent of psychic energy.",
+            "description | Action | As an action, you can target one creature you can see within 60 feet. The target must make a Wisdom saving throw. On a failed save, the creature takes 8d10 psychic damage and is stunned until the end of your next turn. On a successful save, the creature takes half damage and is not stunned.",
+            "fill | 2",
+            "text | Once you use this feature, you can't use it again until you finish a long rest."
+        ],
+        "tags": ["warlock", "invocation", "cosmic-horror"]
+    },
+    {
+        "count": 1,
+        "color": "purple",
+        "title": "Unspeakable Vessel",
+        "icon": "imp-laugh",
+        "contents": [
+            "subtitle | Large aberration",
+            "rule",
+            "property | Armor class | 17 (natural armor)",
+            "property | Hit points | 157 (15d10 + 75)",
+            "rule",
+            "dndstats | 20 | 12 | 20 | 18 | 16 | 6",
+            "rule",
+            "property | Saving Throws | Con +10, Wis +8",
+            "property | Skills | Perception +8",
+            "property | Damage Resistances | psychic",
+            "property | Condition Immunities | charmed, frightened",
+            "property | Senses | truesight 120 ft., passive Perception 18",
+            "property | Languages | understands all languages but can't speak, telepathy 120 ft.",
+            "property | Challenge | 10 (5,900 XP)",
+            "rule",
+            "section | Actions",
+            "description | Tentacle Slam | Melee Weapon Attack: +10 to hit, reach 10 ft., one target. Hit: 18 (3d8 + 5) bludgeoning damage, and the target is grappled (escape DC 15).",
+            "description | Maddening Gaze | The vessel targets one creature it can see within 60 feet. The target must succeed on a DC 16 Wisdom saving throw or be affected by the 'confusion' spell for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+        ],
+        "tags": ["creature", "aberration", "cosmic-horror"]
+    },
+    {
+        "count": "1",
+        "title": "Blood for the Star-Gods",
+        "contents": [
+          "p2e_start_trait_section",
+          "p2e_trait | rare | Rare",
+          "p2e_trait | common | Ritual",
+          "p2e_trait | common | Necromancy",
+          "p2e_end_trait_section",
+          "ruler",
+          "property | Cast | 1 hour; Cost 1,000gp of fresh humanoid blood",
+          "property | Secondary Casters | 4",
+          "property | Primary Check | Religion (Expert)",
+          "property | Secondary Checks | Occultism",
+          "ruler",
+          "text| You and the secondary casters conduct a horrific ritual to appease the entities that dwell between the stars.",
+          "fill | 1",
+          "property | Critical Success | You gain the favor of a star-god, granting you a powerful boon for 1 month.",
+          "property | Success | You gain a minor boon for 1 week.",
+          "property | Failure | The ritual fails and you attract the attention of a malevolent entity.",
+          "property | Critical Failure | A portal to a horrifying dimension opens, unleashing an unspeakable horror.",
+          "ruler",
+          "property | Heightened (10th) | The boons are permanent."
+        ],
+        "tags": ["ritual", "necromancy", "cosmic-horror", "p2e"],
+        "color": "darkred",
+        "icon": "p2e-3-actions",
+        "icon_back": "cultist",
+        "title_size": "12",
+        "card_font_size": "9"
+    },
+    {
+      "count": 1,
+      "title": "Servant of the Outer Gods",
+      "contents": [
+        "p2e_start_trait_section",
+        "p2e_trait | alignment | CE",
+        "p2e_trait | size | Medium",
+        "p2e_trait | common | Humanoid",
+        "p2e_end_trait_section",
+        "property | Perception | +15; darkvision",
+        "property | Languages | Aklo, Common",
+        "property | Skills | Deception +17, Occultism +20, Religion +18, Stealth +15",
+        "p2e_stats | +3 | +5 | +4 | +6 | +7 | +5 | 30 | +16 | +18 | +15 | 150",
+        "p2e_ruler",
+        "p2e_activity | Stride | 1 | 25 feet",
+        "fill | 1",
+        "p2e_activity | Melee | 1 | Ceremonial Dagger +18 (agile, finesse, magical). Damage 2d4+5 piercing plus 1d6 mental.",
+        "p2e_activity | Ranged | 1 | Eldritch Blast +18 (range 120 feet). Damage 3d10+5 force.",
+        "p2e_activity | Reaction | R | Maddening Defense: When targeted by an attack, the servant can force the attacker to make a DC 30 Will save. On a failure, the attacker is frightened 2.",
+        "fill | 1",
+        "property | Forbidden Lore| The servant has access to forbidden knowledge, granting it a +2 bonus to all saving throws against divine magic.",
+        "bullet | Stage 1: carrier with no ill effect (1d4 hours)",
+        "bullet | Stage 2 sickened 1 (1 day)",
+        "bullet | Stage 3 sickened 1 and slowed 1 (1 day)",
+        "bullet | Stage 4 unconscious (1 day)",
+        "bullet | Stage 5 dead",
+        "",
+        "fill | 1"
+      ],
+      "tags": ["creature", "humanoid", "cosmic-horror", "p2e"],
+      "color": "indigo",
+      "icon_back": "monster-grasp",
+      "icon": "p2e-reaction",
+      "card_font_size": "9",
+      "title_size": "11"
+    },
+    {
+        "count": 1,
+        "color": "darkgreen",
+        "title": "Mind Lash",
+        "icon": "magic-swirl",
+        "contents": [
+            "subtitle | Direct Spell, Combat",
+            "sr6spell | LOS | P | I | F-2 | S",
+            "rule",
+            "text | This spell allows the caster to manifest their will as a psychic whip, lashing out at the target's mind. The target resists with Willpower + Firewall. The whip inflicts Stun damage. The spell can be learned by any magic user with a connection to the astral plane."
+        ],
+        "tags": ["spell", "combat", "shadowrun", "cosmic-horror"]
+    },
+    {
+        "count": 1,
+        "color": "saddlebrown",
+        "title": "Zombie",
+        "icon": "zombie-hand",
+        "contents": [
+            "subtitle | Undead",
+            "swstats | 6 | 4 | 6 | 4 | 6 | 4 | 4 | 7",
+            "rule",
+            "center | This is centered text.",
+            "justify | This is justified text. It should spread out to fill the whole line. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.",
+            "italic | This is italic text.",
+            "rawhtml | <p style=\"color:red\">This is raw HTML.</p>",
+            "picture | https://i.imgur.com/8i2nJso.png | 100",
+            "icon | zombie-hand | 50 | center"
+        ],
+        "tags": ["creature", "undead", "savage-worlds"]
+    },
+    {
+        "count": 1,
+        "color": "darkslategrey",
+        "title": "Loot Table",
+        "icon": "chest",
+        "contents": [
+            "subtitle | Random loot",
+            "table_start",
+            "table_head | d6 | Item",
+            "table_row | 1 | 10 gold pieces",
+            "table_row | 2 | Potion of Healing",
+            "table_row | 3 | Dagger",
+            "table_row | 4 | 2d6 gold pieces",
+            "table_row | 5 | A mysterious note",
+            "table_row | 6 | Nothing",
+            "table_end",
+            "disabled | This is a disabled line and should not appear."
+        ],
+        "tags": ["table", "loot"]
     }
 ]
