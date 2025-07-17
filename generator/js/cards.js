@@ -146,13 +146,13 @@ function card_element_pills_end() {
 /**
  * @summary A pill.
  * @description Displays a pill.
- * @example pill | html-color | text
+ * @example pill | text | html-color
  * @category Pills
  */
 function card_element_pill(params, card_data, options) {
     var card_font_size_class = card_size_class(card_data, options);
-    var color = params[0];
-    var text = params[1];
+    var text = params[0];
+    var color = params[1] || options.default_color;
 
     var result = "";
     result += '<a href="#" class="label label-as-badge ' + card_font_size_class + '" style="background-color:' + color + '; border-radius: 1em;">';
