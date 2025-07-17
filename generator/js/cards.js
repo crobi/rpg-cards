@@ -155,7 +155,7 @@ function card_element_pill(params, card_data, options) {
     var text = params[1];
 
     var result = "";
-    result += '<a href="#" class="badge ' + card_font_size_class + '" style="background-color:' + color + '; border-radius: 1em;">';
+    result += '<a href="#" class="label label-as-badge ' + card_font_size_class + '" style="background-color:' + color + '; border-radius: 1em;">';
     result += text;
     result += '</a>';
     return result;
