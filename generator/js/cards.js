@@ -123,10 +123,18 @@ function card_element_icon(card_data, options) {
     return result;
 }
 
+/**
+ * @summary Start a new table finish with table_end
+ * @example table_start
+ */
 function card_element_table_start(params, card_data, options) {
     return '<!-- table_start --><table class="card-stats"><tbody>';
 }
 
+/**
+ * @summary Add a table heading row
+ * @example table_head | heading1 | heading2 | heading3 | … | headingN
+ */
 function card_element_table_head(params, card_data, options) {
     var result = '<!-- table_head --><tr>';
     for (var i = 0; i < params.length; ++i) {
@@ -136,6 +144,10 @@ function card_element_table_head(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary Add a table row
+ * @example table_row | value1 | value2 | value3 | … | valueN
+ */
 function card_element_table_row(params, card_data, options) {
     var result = '<!-- table_row --><tr>';
     for (var i = 0; i < params.length; ++i) {
@@ -145,10 +157,18 @@ function card_element_table_row(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary End a table started with table_start
+ * @example table_end
+ */
 function card_element_table_end(params, card_data, options) {
     return '<!-- table_end --></tbody></table>';
 }
 
+/**
+ * @summary Input raw HTML unaffected by extra formatting
+ * @example rawhtml | html
+ */
 function card_element_rawhtml(params, card_data, options) {
     var element_class = card_element_class(card_data, options);
 
