@@ -205,15 +205,16 @@ function ui_update_selected_card() {
 }
 
 function ui_update_card_actions() {
-    var action_groups = {
-        "Basic": ["subtitle", "property", "text", "center", "justify", "bullet", "section", "rawhtml"],
-        "Layout": ["rule", "ruler", "fill", "picture", "icon", "boxes"],
-        "Pathfinder 2e": ["p2e_rule", "p2e_ruler", "p2e_stats", "p2e_start_trait_section", "p2e_trait", "p2e_end_trait_section", "p2e_activity"],
-        "DnD": ["dndstats"],
-        "Savage Worlds": ["swstats"],
-        "Shadowrun 6e": ["sr6spell"],
-        "Table": ["table_start", "table_head", "table_row", "table_end"]
-    };
+    var action_groups = {};
+
+    // Group actions by category
+    for (var function_name in card_action_info) {
+        var info = card_action_info[function_name];
+        if (!action_groups[info.category]) {
+            action_groups[info.category] = [];
+        }
+        action_groups[info.category].push(function_name);
+    }
 
     var parent = $('#card-actions');
     parent.empty();
@@ -223,22 +224,23 @@ function ui_update_card_actions() {
         group_div.append($('<h4>' + group_name + '</h4>'));
         var actions = action_groups[group_name];
         for (var i = 0; i < actions.length; ++i) {
-            var action_name = actions[i];
-            var generator = card_element_generators[action_name];
-            var function_name = generator.name.replace(/^card_element_/, '');
-
-            var info = card_action_info[function_name] || {
-                summary: 'Missing summary',
-                example: action_name
-            };
+            var function_name = actions[i];
+            var info = card_action_info[function_name];
+            var action_name = info.example.split(" ")[0];
 
             var button = $('<button type="button" class="btn btn-default btn-sm action-button">' + action_name + '</button>');
             button.attr('title', info.summary);
             button.click(function () {
                 var contents = $('#card-contents');
                 var action_name = $(this).text();
-                var generator = card_element_generators[action_name];
-                var function_name = generator.name.replace(/^card_element_/, '');
+                var function_name = "";
+                for(var fn in card_action_info) {
+                    if(card_action_info[fn].example.startsWith(action_name)) {
+                        function_name = fn;
+                        break;
+                    }
+                }
+
                 var info = card_action_info[function_name] || {
                     summary: 'Missing summary',
                     example: action_name
