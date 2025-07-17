@@ -155,7 +155,7 @@ function card_element_pill(params, card_data, options) {
     var text = params[1];
 
     var result = "";
-    result += '<span class="card-pill ' + card_font_size_class + '" style="background-color:' + color + '">';
+    result += '<span class="card-pill pill bg-primary text-white ' + card_font_size_class + '" style="background-color:' + color + '">';
     result += text;
     result += '</span>';
     return result;
