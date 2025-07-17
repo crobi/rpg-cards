@@ -224,10 +224,21 @@ function ui_update_card_actions() {
         var actions = action_groups[group_name];
         for (var i = 0; i < actions.length; ++i) {
             var action_name = actions[i];
+            var info = card_action_info[action_name] || {
+                summary: 'Missing summary',
+                example: action_name
+            };
+
             var button = $('<button type="button" class="btn btn-default btn-sm action-button">' + action_name + '</button>');
+            button.attr('title', info.summary);
             button.click(function () {
                 var contents = $('#card-contents');
-                contents.val(contents.val() + $(this).text() + " ");
+                var action_name = $(this).text();
+                var info = card_action_info[action_name] || {
+                    summary: 'Missing summary',
+                    example: action_name
+                };
+                contents.val(contents.val() + info.example + "\n");
                 contents.trigger("change");
             });
             group_div.append(button);
@@ -672,8 +683,9 @@ function local_store_load() {
 }
 
 $(document).ready(function () {
-    local_store_load();
-    ui_setup_color_selector();
+    parse_card_actions().then(function () {
+        local_store_load();
+        ui_setup_color_selector();
 
     $('#default-icon-front').val(card_options.default_icon_front);
     $('#default-icon-back').val(card_options.default_icon_back);
@@ -766,4 +778,5 @@ $(document).ready(function () {
     $("#filter-execute").click(ui_filter_execute);
 
     ui_update_card_list();
+    });
 });
