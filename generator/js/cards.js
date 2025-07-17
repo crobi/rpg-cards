@@ -159,6 +159,10 @@ function card_element_rawhtml(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A subtitle.
+ * @example subtitle | text | right-aligned-text
+ */
 function card_element_subtitle(params, card_data, options) {
     var subtitle = params[0] || "";
     var result = '<div class="card-element card-subtitle">';
@@ -171,6 +175,10 @@ function card_element_subtitle(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary An inline icon.
+ * @example icon | icon-name | size | alignment
+ */
 function card_element_inline_icon(params, card_data, options) {
     var icon = params[0] || "";
     var size = params[1] || "40";
@@ -179,12 +187,20 @@ function card_element_inline_icon(params, card_data, options) {
     return '<div class="card-element card-inline-icon align-' + align + ' icon-' + icon + '" style ="height:' + size + 'px;min-height:' + size + 'px;width: ' + size + 'px;background-color: ' + color + '"></div>';
 }
 
+/**
+ * @summary An inline picture.
+ * @example picture | url | height
+ */
 function card_element_picture(params, card_data, options) {
     var url = params[0] || "";
     var height = params[1] || "";
     return '<div class="card-element card-picture" style ="background-image: url(&quot;' + url + '&quot;); background-size: contain; background-position: center;background-repeat: no-repeat; height:' + height + 'px"></div>';
 }
 
+/**
+ * @summary A horizontal ruler.
+ * @example ruler
+ */
 function card_element_ruler(params, card_data, options) {
     var color = card_data_color_front(card_data, options);
     var fill = 'fill="' + color + '"';
@@ -198,6 +214,10 @@ function card_element_ruler(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A Pathfinder 2nd Edition horizontal ruler.
+ * @example p2e_ruler
+ */
 function card_element_p2e_ruler(params, card_data, options) {
     var color = card_data_color_front(card_data, options);
     var fill = 'fill="' + color + '"';
@@ -211,6 +231,10 @@ function card_element_p2e_ruler(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A line of empty boxes.
+ * @example boxes | number | size | text
+ */
 function card_element_boxes(params, card_data, options) {
     var color = card_data_color_front(card_data, options);
     var fill = ' fill="none"';
@@ -232,6 +256,10 @@ function card_element_boxes(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A property line.
+ * @example property | name | value
+ */
 function card_element_property(params, card_data, options) {
     var card_font_size_class = card_size_class(card_data, options);
 
@@ -250,6 +278,10 @@ function card_element_property(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A description line.
+ * @example description | name | value
+ */
 function card_element_description(params, card_data, options) {
     var element_class = card_element_class(card_data, options);
 
@@ -261,6 +293,10 @@ function card_element_description(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A paragraph of text.
+ * @example text | text
+ */
 function card_element_text(params, card_data, options) {
     var element_class = card_element_class(card_data, options);
 
@@ -271,6 +307,10 @@ function card_element_text(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A centered paragraph of text.
+ * @example center | text
+ */
 function card_element_center(params, card_data, options) {
     var element_class = card_element_class(card_data, options);
 
@@ -281,6 +321,10 @@ function card_element_center(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A justified paragraph of text.
+ * @example justify | text
+ */
 function card_element_justify(params, card_data, options) {
     var element_class = card_element_class(card_data, options);
 
@@ -291,6 +335,10 @@ function card_element_justify(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A D&D stat block.
+ * @example dndstats | STR | DEX | CON | INT | WIS | CHA
+ */
 function card_element_dndstats(params, card_data, options) {
     var stats = [10, 10, 10, 10, 10, 10];
     var mods = [0,0,0,0,0,0];
@@ -329,6 +377,10 @@ function card_element_dndstats(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A Shadowrun 6th Edition spell block.
+ * @example sr6spell | Range | Type | Duration | Drain | Damage
+ */
 function card_element_sr6spell(params, card_data, options) {
     var stats = [];
     for (var i = 0; i < 5; ++i) {
@@ -357,6 +409,10 @@ function card_element_sr6spell(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A Pathfinder 2nd Edition stat block.
+ * @example p2e_stats | STR | DEX | CON | INT | WIS | CHA | AC | Fort | Ref | Will | HP
+ */
 function card_element_p2e_stats(params, card_data, options) {
     var result = "";
     result += '<div class="card-p2e-attribute-line">';
@@ -376,14 +432,26 @@ function card_element_p2e_stats(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary Starts a Pathfinder 2nd Edition trait section.
+ * @example p2e_start_trait_section
+ */
 function card_element_start_p2e_trait() {
     return '<div class="card-p2e-trait-container">';
 }
 
+/**
+ * @summary Ends a Pathfinder 2nd Edition trait section.
+ * @example p2e_end_trait_section
+ */
 function card_element_end_p2e_trait() {
     return '</div>';
 }
 
+/**
+ * @summary A Pathfinder 2nd Edition trait.
+ * @example p2e_trait | rarity | text
+ */
 function card_element_p2e_trait(params, card_data, options) {
     var card_font_size_class = card_size_class(card_data, options);
     var badge_type = ' card-p2e-trait-' + params[0];
@@ -395,6 +463,10 @@ function card_element_p2e_trait(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A Pathfinder 2nd Edition activity.
+ * @example p2e_activity | name | actions | description
+ */
 function card_element_p2e_activity(params, card_data, options) {
     var card_font_size_class = card_size_class(card_data, options);
     
@@ -422,6 +494,10 @@ function card_element_p2e_activity(params, card_data, options) {
 
 
 
+/**
+ * @summary A Savage Worlds stat block.
+ * @example swstats | Agility | Smarts | Spirit | Strength | Vigor | Pace | Parry | Toughness | Loot
+ */
 function card_element_swstats(params, card_data, options) {
     var stats = [];
     for (var i = 0; i < 9; ++i) {
@@ -456,6 +532,10 @@ function card_element_swstats(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A bulleted list item.
+ * @example bullet | text
+ */
 function card_element_bullet(params, card_data, options) {
     var card_font_size_class = card_size_class(card_data, options);
 
@@ -466,6 +546,10 @@ function card_element_bullet(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A section header.
+ * @example section | title | right-aligned-text
+ */
 function card_element_section(params, card_data, options) {
     var color = card_data_color_front(card_data, options);
     var section = params[0] || "";
@@ -481,6 +565,10 @@ function card_element_section(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A flexible vertical space.
+ * @example fill | flex-grow
+ */
 function card_element_fill(params, card_data, options) {
     var flex = params[0] || "1";
     return '<span class="card-fill" style="flex:' + flex + '"></span>';
