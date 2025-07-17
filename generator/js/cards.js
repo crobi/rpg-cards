@@ -125,6 +125,7 @@ function card_element_icon(card_data, options) {
 
 /**
  * @summary A paragraph of italic text.
+ * @description Creates a paragraph of italic text.
  * @example italic | text
  * @category Basic
  */
@@ -140,6 +141,7 @@ function card_element_italic(params, card_data, options) {
 
 /**
  * @summary Start a new table finish with table_end
+ * @description Starts a new table. Must be closed with `table_end`.
  * @example table_start
  * @category Table
  */
@@ -149,6 +151,7 @@ function card_element_table_start(params, card_data, options) {
 
 /**
  * @summary Add a table heading row
+ * @description Adds a header row to the table.
  * @example table_head | heading1 | heading2 | heading3 | … | headingN
  * @category Table
  */
@@ -163,6 +166,7 @@ function card_element_table_head(params, card_data, options) {
 
 /**
  * @summary Add a table row
+ * @description Adds a row to the table.
  * @example table_row | value1 | value2 | value3 | … | valueN
  * @category Table
  */
@@ -177,6 +181,7 @@ function card_element_table_row(params, card_data, options) {
 
 /**
  * @summary End a table started with table_start
+ * @description Ends a table started with `table_start`.
  * @example table_end
  * @category Table
  */
@@ -186,6 +191,7 @@ function card_element_table_end(params, card_data, options) {
 
 /**
  * @summary Input raw HTML unaffected by extra formatting
+ * @description Inserts raw HTML into the card.
  * @example rawhtml | html
  * @category Basic
  */
@@ -201,6 +207,7 @@ function card_element_rawhtml(params, card_data, options) {
 
 /**
  * @summary A subtitle.
+ * @description Adds a subtitle to the card. The second parameter is optional and will be right-aligned.
  * @example subtitle | text | right-aligned-text
  * @category Basic
  */
@@ -218,6 +225,7 @@ function card_element_subtitle(params, card_data, options) {
 
 /**
  * @summary An inline icon.
+ * @description Displays an icon. The size and alignment are optional.
  * @example icon | icon-name | size | alignment
  * @category Layout
  */
@@ -231,6 +239,7 @@ function card_element_inline_icon(params, card_data, options) {
 
 /**
  * @summary An inline picture.
+ * @description Displays a picture from a URL.
  * @example picture | url | height
  * @category Layout
  */
@@ -242,6 +251,7 @@ function card_element_picture(params, card_data, options) {
 
 /**
  * @summary A horizontal ruler.
+ * @description Displays a horizontal ruler.
  * @example ruler
  * @category Layout
  */
@@ -260,6 +270,7 @@ function card_element_ruler(params, card_data, options) {
 
 /**
  * @summary A Pathfinder 2nd Edition horizontal ruler.
+ * @description Displays a horizontal ruler with the Pathfinder 2nd Edition style.
  * @example p2e_ruler
  * @category Pathfinder 2e
  */
@@ -278,6 +289,7 @@ function card_element_p2e_ruler(params, card_data, options) {
 
 /**
  * @summary A line of empty boxes.
+ * @description Displays a number of empty boxes. The size and text are optional.
  * @example boxes | number | size | text
  * @category Layout
  */
@@ -304,6 +316,7 @@ function card_element_boxes(params, card_data, options) {
 
 /**
  * @summary A property line.
+ * @description Displays a property with a name and a value.
  * @example property | name | value
  * @category Basic
  */
@@ -327,6 +340,7 @@ function card_element_property(params, card_data, options) {
 
 /**
  * @summary A description line.
+ * @description Displays a description with a name and a value.
  * @example description | name | value
  */
 function card_element_description(params, card_data, options) {
@@ -342,6 +356,7 @@ function card_element_description(params, card_data, options) {
 
 /**
  * @summary A paragraph of text.
+ * @description Displays a paragraph of text.
  * @example text | text
  * @category Basic
  */
@@ -357,6 +372,7 @@ function card_element_text(params, card_data, options) {
 
 /**
  * @summary A centered paragraph of text.
+ * @description Displays a centered paragraph of text.
  * @example center | text
  * @category Basic
  */
@@ -372,6 +388,7 @@ function card_element_center(params, card_data, options) {
 
 /**
  * @summary A justified paragraph of text.
+ * @description Displays a justified paragraph of text.
  * @example justify | text
  * @category Basic
  */
@@ -387,6 +404,7 @@ function card_element_justify(params, card_data, options) {
 
 /**
  * @summary A D&D stat block.
+ * @description Displays a D&D 5e stat block.
  * @example dndstats | STR | DEX | CON | INT | WIS | CHA
  * @category DnD
  */
@@ -430,6 +448,7 @@ function card_element_dndstats(params, card_data, options) {
 
 /**
  * @summary A Shadowrun 6th Edition spell block.
+ * @description Displays a Shadowrun 6th Edition spell block.
  * @example sr6spell | Range | Type | Duration | Drain | Damage
  * @category Shadowrun 6e
  */
@@ -463,6 +482,7 @@ function card_element_sr6spell(params, card_data, options) {
 
 /**
  * @summary A Pathfinder 2nd Edition stat block.
+ * @description Displays a Pathfinder 2nd Edition stat block.
  * @example p2e_stats | STR | DEX | CON | INT | WIS | CHA | AC | Fort | Ref | Will | HP
  * @category Pathfinder 2e
  */
@@ -487,6 +507,7 @@ function card_element_p2e_stats(params, card_data, options) {
 
 /**
  * @summary Starts a Pathfinder 2nd Edition trait section.
+ * @description Starts a Pathfinder 2nd Edition trait section. Must be closed with `p2e_end_trait_section`.
  * @example p2e_start_trait_section
  * @category Pathfinder 2e
  */
@@ -496,6 +517,7 @@ function card_element_start_p2e_trait() {
 
 /**
  * @summary Ends a Pathfinder 2nd Edition trait section.
+ * @description Ends a Pathfinder 2nd Edition trait section.
  * @example p2e_end_trait_section
  * @category Pathfinder 2e
  */
@@ -505,6 +527,7 @@ function card_element_end_p2e_trait() {
 
 /**
  * @summary A Pathfinder 2nd Edition trait.
+ * @description Displays a Pathfinder 2nd Edition trait.
  * @example p2e_trait | rarity | text
  * @category Pathfinder 2e
  */
@@ -521,6 +544,7 @@ function card_element_p2e_trait(params, card_data, options) {
 
 /**
  * @summary A Pathfinder 2nd Edition activity.
+ * @description Displays a Pathfinder 2nd Edition activity.
  * @example p2e_activity | name | actions | description
  * @category Pathfinder 2e
  */
@@ -553,6 +577,7 @@ function card_element_p2e_activity(params, card_data, options) {
 
 /**
  * @summary A Savage Worlds stat block.
+ * @description Displays a Savage Worlds stat block.
  * @example swstats | Agility | Smarts | Spirit | Strength | Vigor | Pace | Parry | Toughness | Loot
  * @category Savage Worlds
  */
@@ -592,6 +617,7 @@ function card_element_swstats(params, card_data, options) {
 
 /**
  * @summary A bulleted list item.
+ * @description Displays a bulleted list item.
  * @example bullet | text
  * @category Basic
  */
@@ -607,6 +633,7 @@ function card_element_bullet(params, card_data, options) {
 
 /**
  * @summary A section header.
+ * @description Displays a section header. The second parameter is optional and will be right-aligned.
  * @example section | title | right-aligned-text
  * @category Basic
  */
@@ -627,6 +654,7 @@ function card_element_section(params, card_data, options) {
 
 /**
  * @summary A flexible vertical space.
+ * @description Adds a flexible vertical space that fills the available space.
  * @example fill | flex-grow
  * @category Layout
  */

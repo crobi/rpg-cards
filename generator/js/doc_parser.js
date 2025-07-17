@@ -1,6 +1,7 @@
 /**
  * @typedef {Object} ActionInfo
  * @property {string} summary - The summary of the action.
+ * @property {string} description - The description of the action.
  * @property {string} example - The example usage of the action.
  * @property {string} category - The category of the action.
  */
@@ -26,16 +27,19 @@ function parse_card_actions() {
                 const doc_comment = match[1];
 
                 const summary_regex = /@summary (.*)/;
+                const description_regex = /@description (.*)/;
                 const example_regex = /@example (.*)/;
                 const category_regex = /@category (.*)/;
 
                 const summary_match = doc_comment.match(summary_regex);
+                const description_match = doc_comment.match(description_regex);
                 const example_match = doc_comment.match(example_regex);
                 const category_match = doc_comment.match(category_regex);
 
                 if (summary_match && example_match) {
                     card_action_info[function_name] = {
                         summary: summary_match[1].trim(),
+                        description: description_match ? description_match[1].trim() : "",
                         example: example_match[1].trim(),
                         category: category_match ? category_match[1].trim() : "Basic"
                     };
