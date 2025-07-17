@@ -230,17 +230,10 @@ function ui_update_card_actions() {
 
             var button = $('<button type="button" class="btn btn-default btn-sm action-button">' + action_name + '</button>');
             button.attr('title', info.summary);
+            button.attr('data-function-name', function_name);
             button.click(function () {
                 var contents = $('#card-contents');
-                var action_name = $(this).text();
-                var function_name = "";
-                for(var fn in card_action_info) {
-                    if(card_action_info[fn].example.startsWith(action_name)) {
-                        function_name = fn;
-                        break;
-                    }
-                }
-
+                var function_name = $(this).attr('data-function-name');
                 var info = card_action_info[function_name] || {
                     summary: 'Missing summary',
                     example: action_name
