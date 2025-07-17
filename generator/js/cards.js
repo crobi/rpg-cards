@@ -124,6 +124,21 @@ function card_element_icon(card_data, options) {
 }
 
 /**
+ * @summary A paragraph of italic text.
+ * @example italic | text
+ * @category Basic
+ */
+function card_element_italic(params, card_data, options) {
+    var element_class = card_element_class(card_data, options);
+
+    var result = "";
+    result += '<div class="' + element_class + '">';
+    result += '   <p class="card-p card-description-text"><i>' + params[0] + '</i></p>';
+    result += '</div>';
+    return result;
+}
+
+/**
  * @summary Start a new table finish with table_end
  * @example table_start
  * @category Table
@@ -650,6 +665,7 @@ var card_element_generators = {
     swstats: card_element_swstats,
     sr6spell: card_element_sr6spell,
     text: card_element_text,
+    italic: card_element_italic,
     rawhtml: card_element_rawhtml,
     center: card_element_center,
     justify: card_element_justify,

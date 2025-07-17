@@ -1,6 +1,15 @@
 var card_data_example = [
     {
         "count": 1,
+        "color": "goldenrod",
+        "title": "Italic Test",
+        "icon": "white-book",
+        "contents": [
+            "italic | This is italic text."
+        ]
+    },
+    {
+        "count": 1,
         "color": "maroon",
         "title": "Burning Hands",
         "icon": "white-book-1",
