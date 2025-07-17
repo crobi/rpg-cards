@@ -941,7 +941,7 @@ function card_pages_interleave_cards(front_cards, back_cards, options) {
         result.push(front_cards[i]);
         result.push(back_cards[i]);
         if (options.page_columns > 2) {
-            result.push(card_generate_empty(options.page_columns - 2, options, i % 2 !== 0));
+            result.push(card_generate_empty(options.page_columns - 2, options, false));
         }
         ++i;
     }
@@ -960,7 +960,7 @@ function card_pages_interleave_cards_alt(front_cards, back_cards, options) {
             result.push(back_cards[i]);
         }
         if (options.page_columns > 2) {
-            result.push(card_generate_empty(options.page_columns - 2, options, i % 2 !== 0));
+            result.push(card_generate_empty(options.page_columns - 2, options, false));
         }
         ++i;
     }
