@@ -224,7 +224,10 @@ function ui_update_card_actions() {
         var actions = action_groups[group_name];
         for (var i = 0; i < actions.length; ++i) {
             var action_name = actions[i];
-            var info = card_action_info[action_name] || {
+            var generator = card_element_generators[action_name];
+            var function_name = generator.name.replace(/^card_element_/, '');
+
+            var info = card_action_info[function_name] || {
                 summary: 'Missing summary',
                 example: action_name
             };
@@ -234,7 +237,9 @@ function ui_update_card_actions() {
             button.click(function () {
                 var contents = $('#card-contents');
                 var action_name = $(this).text();
-                var info = card_action_info[action_name] || {
+                var generator = card_element_generators[action_name];
+                var function_name = generator.name.replace(/^card_element_/, '');
+                var info = card_action_info[function_name] || {
                     summary: 'Missing summary',
                     example: action_name
                 };
