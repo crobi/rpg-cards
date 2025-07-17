@@ -20,7 +20,7 @@ function parse_card_actions() {
     return fetch('js/cards.js')
         .then(response => response.text())
         .then(text => {
-            const regex = /\/\*\*([\s\S]*?)\*\/[\s\n]*function\s+card_element_(\w+)/g;
+            const regex = /\/\*\*([\s\S]*?)\*\/[\s\n]*function\s+(card_element_\w+)/g;
             let match;
             while ((match = regex.exec(text)) !== null) {
                 const function_name = match[2];
