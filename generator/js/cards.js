@@ -150,12 +150,11 @@ function card_element_pills_end() {
  * @category Pills
  */
 function card_element_pill(params, card_data, options) {
-    var card_font_size_class = card_size_class(card_data, options);
     var text = params[0];
-    var color = params[1] || options.default_color;
+    var color = params[1] || options.color;
 
     var result = "";
-    result += '<a href="#" class="label label-as-badge ' + card_font_size_class + '" style="background-color:' + color + '; border-radius: 1em;">';
+    result += '<a href="#" class="label label-default label-as-badge" style="background-color:' + color + ';">';
     result += text;
     result += '</a>';
     return result;
