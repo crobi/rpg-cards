@@ -237,7 +237,7 @@
     display: inline;
     font-size: inherit;
     font-style: italic;
-    front-weight: bold;
+    font-weight: bold;
 }
 /* .card-description-name::after {
     content: ".";
