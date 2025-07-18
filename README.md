@@ -6,12 +6,12 @@ RPG spell/item/monster card generator
 Preview
 =======
 
-Click [here](https://rpg-cards.vercel.app) for a live preview of this generator.
+Click [here](https://rpg-cards.bnm12.dk/) for a live preview of this generator.
 
 Documentation
 =============
 
-Click [here](http://crobi.github.io/rpg-cards/) to read the documentation.
+Click [here](https://rpg-cards.bnm12.dk/documentation.html) to read the documentation.
 
 Installation and Updating
 =========================

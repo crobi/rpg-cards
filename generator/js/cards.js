@@ -21,9 +21,8 @@ function card_default_options() {
         card_count: null,
         icon_inline: true,
         rounded_corners: true,
-        back_bleed: "2mm,2mm",
-        back_bleed_width: "2mm",
-        back_bleed_height: "2mm",
+        back_bleed_width: "0mm",
+        back_bleed_height: "0mm",
     };
 }
 
@@ -123,6 +122,131 @@ function card_element_icon(card_data, options) {
     return result;
 }
 
+/**
+ * @summary Starts a pill section.
+ * @description Starts a pill section. Must be closed with `pills_end`.
+ * @example pills_start
+ * @category Pills
+ */
+function card_element_pills_start() {
+    return '<div class="card-pills">';
+}
+
+/**
+ * @summary A pill.
+ * @description Displays a pill.
+ * @example pill | text | html-color
+ * @category Pills
+ */
+function card_element_pill(params, card_data, options) {
+    var text = params[0];
+    var color = params[1] || card_data_color_front(card_data, options);
+
+    var result = "";
+    result += '<span class="card-pill label label-default" style="background-color:' + color + ';">';
+    result += text;
+    result += '</span>';
+    return result;
+}
+
+/**
+ * @summary Ends a pill section.
+ * @description Ends a pill section.
+ * @example pills_end
+ * @category Pills
+ */
+function card_element_pills_end() {
+    return '</div>';
+}
+
+/**
+ * @summary A paragraph of italic text.
+ * @description Creates a paragraph of italic text.
+ * @example italic | text
+ * @category Basic
+ */
+function card_element_italic(params, card_data, options) {
+    var element_class = card_element_class(card_data, options);
+
+    var result = "";
+    result += '<div class="' + element_class + '">';
+    result += '   <p class="card-p card-description-text"><i>' + params[0] + '</i></p>';
+    result += '</div>';
+    return result;
+}
+
+/**
+ * @summary Start a new table finish with table_end
+ * @description Starts a new table. Must be closed with `table_end`.
+ * @example table_start
+ * @category Table
+ */
+function card_element_table_start(params, card_data, options) {
+    return '<!-- table_start --><table class="card-stats"><tbody>';
+}
+
+/**
+ * @summary Add a table heading row
+ * @description Adds a header row to the table.
+ * @example table_head | heading1 | heading2 | heading3 | … | headingN
+ * @category Table
+ */
+function card_element_table_head(params, card_data, options) {
+    var result = '<!-- table_head --><tr>';
+    for (var i = 0; i < params.length; ++i) {
+        result += '<th class="card-stats-header">' + params[i] + '</th>';
+    }
+    result += '</tr>';
+    return result;
+}
+
+/**
+ * @summary Add a table row
+ * @description Adds a row to the table.
+ * @example table_row | value1 | value2 | value3 | … | valueN
+ * @category Table
+ */
+function card_element_table_row(params, card_data, options) {
+    var result = '<!-- table_row --><tr>';
+    for (var i = 0; i < params.length; ++i) {
+        result += '<td class="card-stats-cell">' + params[i] + '</td>';
+    }
+    result += '</tr>';
+    return result;
+}
+
+/**
+ * @summary End a table started with table_start
+ * @description Ends a table started with `table_start`.
+ * @example table_end
+ * @category Table
+ */
+function card_element_table_end(params, card_data, options) {
+    return '<!-- table_end --></tbody></table>';
+}
+
+/**
+ * @summary Input raw HTML unaffected by extra formatting
+ * @description Inserts raw HTML into the card.
+ * @example rawhtml | html
+ * @category Basic
+ */
+function card_element_rawhtml(params, card_data, options) {
+    var element_class = card_element_class(card_data, options);
+
+    var result = "";
+    result += '<div class="' + element_class + '">';
+    result += params[0];
+    result += '</div>';
+    return result;
+}
+
+/**
+ * @summary A subtitle.
+ * @description Adds a subtitle to the card. The second parameter is optional and will be right-aligned.
+ * @example subtitle | text | right-aligned-text
+ * @category Basic
+ */
 function card_element_subtitle(params, card_data, options) {
     var subtitle = params[0] || "";
     var result = '<div class="card-element card-subtitle">';
@@ -135,6 +259,12 @@ function card_element_subtitle(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary An inline icon.
+ * @description Displays an icon. The size and alignment are optional.
+ * @example icon | icon-name | size | alignment
+ * @category Layout
+ */
 function card_element_inline_icon(params, card_data, options) {
     var icon = params[0] || "";
     var size = params[1] || "40";
@@ -143,12 +273,24 @@ function card_element_inline_icon(params, card_data, options) {
     return '<div class="card-element card-inline-icon align-' + align + ' icon-' + icon + '" style ="height:' + size + 'px;min-height:' + size + 'px;width: ' + size + 'px;background-color: ' + color + '"></div>';
 }
 
+/**
+ * @summary An inline picture.
+ * @description Displays a picture from a URL.
+ * @example picture | url | height
+ * @category Layout
+ */
 function card_element_picture(params, card_data, options) {
     var url = params[0] || "";
     var height = params[1] || "";
     return '<div class="card-element card-picture" style ="background-image: url(&quot;' + url + '&quot;); background-size: contain; background-position: center;background-repeat: no-repeat; height:' + height + 'px"></div>';
 }
 
+/**
+ * @summary A horizontal ruler.
+ * @description Displays a horizontal ruler.
+ * @example ruler
+ * @category Layout
+ */
 function card_element_ruler(params, card_data, options) {
     var color = card_data_color_front(card_data, options);
     var fill = 'fill="' + color + '"';
@@ -162,6 +304,12 @@ function card_element_ruler(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A Pathfinder 2nd Edition horizontal ruler.
+ * @description Displays a horizontal ruler with the Pathfinder 2nd Edition style.
+ * @example p2e_ruler
+ * @category Pathfinder 2e
+ */
 function card_element_p2e_ruler(params, card_data, options) {
     var color = card_data_color_front(card_data, options);
     var fill = 'fill="' + color + '"';
@@ -175,6 +323,12 @@ function card_element_p2e_ruler(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A line of empty boxes.
+ * @description Displays a number of empty boxes. The size and text are optional.
+ * @example boxes | number | size | text
+ * @category Layout
+ */
 function card_element_boxes(params, card_data, options) {
     var color = card_data_color_front(card_data, options);
     var fill = ' fill="none"';
@@ -196,6 +350,12 @@ function card_element_boxes(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A property line.
+ * @description Displays a property with a name and a value.
+ * @example property | name | value
+ * @category Basic
+ */
 function card_element_property(params, card_data, options) {
     var card_font_size_class = card_size_class(card_data, options);
 
@@ -214,6 +374,11 @@ function card_element_property(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A description line.
+ * @description Displays a description with a name and a value.
+ * @example description | name | value
+ */
 function card_element_description(params, card_data, options) {
     var element_class = card_element_class(card_data, options);
 
@@ -225,6 +390,12 @@ function card_element_description(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A paragraph of text.
+ * @description Displays a paragraph of text.
+ * @example text | text
+ * @category Basic
+ */
 function card_element_text(params, card_data, options) {
     var element_class = card_element_class(card_data, options);
 
@@ -235,6 +406,12 @@ function card_element_text(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A centered paragraph of text.
+ * @description Displays a centered paragraph of text.
+ * @example center | text
+ * @category Basic
+ */
 function card_element_center(params, card_data, options) {
     var element_class = card_element_class(card_data, options);
 
@@ -245,6 +422,12 @@ function card_element_center(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A justified paragraph of text.
+ * @description Displays a justified paragraph of text.
+ * @example justify | text
+ * @category Basic
+ */
 function card_element_justify(params, card_data, options) {
     var element_class = card_element_class(card_data, options);
 
@@ -255,6 +438,12 @@ function card_element_justify(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A D&D stat block.
+ * @description Displays a D&D 5e stat block.
+ * @example dndstats | STR | DEX | CON | INT | WIS | CHA
+ * @category DnD
+ */
 function card_element_dndstats(params, card_data, options) {
     var stats = [10, 10, 10, 10, 10, 10];
     var mods = [0,0,0,0,0,0];
@@ -293,6 +482,46 @@ function card_element_dndstats(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A Shadowrun 6th Edition spell block.
+ * @description Displays a Shadowrun 6th Edition spell block.
+ * @example sr6spell | Range | Type | Duration | Drain | Damage
+ * @category Shadowrun 6e
+ */
+function card_element_sr6spell(params, card_data, options) {
+    var stats = [];
+    for (var i = 0; i < 5; ++i) {
+        stats[i] = params[i] || '';
+    }
+    var card_font_size_class = card_size_class(card_data, options);
+
+    var result = "";
+    result += '<table class="card-stats' + card_font_size_class + '">';
+    result += '    <tbody><tr>';
+    result += '      <th class="card-stats-header">Range</th>';
+    result += '      <th class="card-stats-header">Type</th>';
+    result += '      <th class="card-stats-header">Duration</th>';
+    result += '      <th class="card-stats-header">Drain</th>';
+    result += '      <th class="card-stats-header">Damage</th>';
+    result += '    </tr>';
+    result += '    <tr>';
+    result += '      <td class="card-stats-cell">' + stats[0] + '</td>';
+    result += '      <td class="card-stats-cell">' + stats[1] + '</td>';
+    result += '      <td class="card-stats-cell">' + stats[2] + '</td>';
+    result += '      <td class="card-stats-cell">' + stats[3] + '</td>';
+    result += '      <td class="card-stats-cell">' + stats[4] + '</td>';
+    result += '    </tr>';
+    result += '  </tbody>';
+    result += '</table>';
+    return result;
+}
+
+/**
+ * @summary A Pathfinder 2nd Edition stat block.
+ * @description Displays a Pathfinder 2nd Edition stat block.
+ * @example p2e_stats | STR | DEX | CON | INT | WIS | CHA | AC | Fort | Ref | Will | HP
+ * @category Pathfinder 2e
+ */
 function card_element_p2e_stats(params, card_data, options) {
     var result = "";
     result += '<div class="card-p2e-attribute-line">';
@@ -312,14 +541,32 @@ function card_element_p2e_stats(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary Starts a Pathfinder 2nd Edition trait section.
+ * @description Starts a Pathfinder 2nd Edition trait section. Must be closed with `p2e_end_trait_section`.
+ * @example p2e_start_trait_section
+ * @category Pathfinder 2e
+ */
 function card_element_start_p2e_trait() {
     return '<div class="card-p2e-trait-container">';
 }
 
+/**
+ * @summary Ends a Pathfinder 2nd Edition trait section.
+ * @description Ends a Pathfinder 2nd Edition trait section.
+ * @example p2e_end_trait_section
+ * @category Pathfinder 2e
+ */
 function card_element_end_p2e_trait() {
     return '</div>';
 }
 
+/**
+ * @summary A Pathfinder 2nd Edition trait.
+ * @description Displays a Pathfinder 2nd Edition trait.
+ * @example p2e_trait | rarity | text
+ * @category Pathfinder 2e
+ */
 function card_element_p2e_trait(params, card_data, options) {
     var card_font_size_class = card_size_class(card_data, options);
     var badge_type = ' card-p2e-trait-' + params[0];
@@ -331,6 +578,12 @@ function card_element_p2e_trait(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A Pathfinder 2nd Edition activity.
+ * @description Displays a Pathfinder 2nd Edition activity.
+ * @example p2e_activity | name | actions | description
+ * @category Pathfinder 2e
+ */
 function card_element_p2e_activity(params, card_data, options) {
     var card_font_size_class = card_size_class(card_data, options);
     
@@ -358,6 +611,12 @@ function card_element_p2e_activity(params, card_data, options) {
 
 
 
+/**
+ * @summary A Savage Worlds stat block.
+ * @description Displays a Savage Worlds stat block.
+ * @example swstats | Agility | Smarts | Spirit | Strength | Vigor | Pace | Parry | Toughness | Loot
+ * @category Savage Worlds
+ */
 function card_element_swstats(params, card_data, options) {
     var stats = [];
     for (var i = 0; i < 9; ++i) {
@@ -392,6 +651,12 @@ function card_element_swstats(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A bulleted list item.
+ * @description Displays a bulleted list item.
+ * @example bullet | text
+ * @category Basic
+ */
 function card_element_bullet(params, card_data, options) {
     var card_font_size_class = card_size_class(card_data, options);
 
@@ -402,6 +667,12 @@ function card_element_bullet(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A section header.
+ * @description Displays a section header. The second parameter is optional and will be right-aligned.
+ * @example section | title | right-aligned-text
+ * @category Basic
+ */
 function card_element_section(params, card_data, options) {
     var color = card_data_color_front(card_data, options);
     var section = params[0] || "";
@@ -417,6 +688,12 @@ function card_element_section(params, card_data, options) {
     return result;
 }
 
+/**
+ * @summary A flexible vertical space.
+ * @description Adds a flexible vertical space that fills the available space.
+ * @example fill | flex-grow
+ * @category Layout
+ */
 function card_element_fill(params, card_data, options) {
     var flex = params[0] || "1";
     return '<span class="card-fill" style="flex:' + flex + '"></span>';
@@ -445,8 +722,18 @@ var card_element_generators = {
     p2e_trait: card_element_p2e_trait,
     p2e_end_trait_section: card_element_end_p2e_trait,
     p2e_activity: card_element_p2e_activity,
+    pills_start: card_element_pills_start,
+    pill: card_element_pill,
+    pills_end: card_element_pills_end,
+    table_start: card_element_table_start,
+    table_head: card_element_table_head,
+    table_row: card_element_table_row,
+    table_end: card_element_table_end,
     swstats: card_element_swstats,
+    sr6spell: card_element_sr6spell,
     text: card_element_text,
+    italic: card_element_italic,
+    rawhtml: card_element_rawhtml,
     center: card_element_center,
     justify: card_element_justify,
     bullet: card_element_bullet,
@@ -557,7 +844,7 @@ function add_size_to_style(style, width, height) {
 
 function add_margin_to_style(style, options) {
     // style string example ----> `style="color:red;"`
-    style = style.slice(0, -1) + 'margin: -webkit-calc(' + options.back_bleed_height + ' / 2) -webkit-calc(' + options.back_bleed_width + ' / 2);' + style.slice(-1);
+    style = style.slice(0, -1) + 'margin: calc(' + options.back_bleed_height + ' / 2) calc(' + options.back_bleed_width + ' / 2 );' + style.slice(-1);
     return style;
 }
 
@@ -588,8 +875,8 @@ function card_generate_back(data, options) {
     var back_bleed_width = options.back_bleed_width;
     var back_bleed_height = options.back_bleed_height;
 
-    var card_width = "-webkit-calc(" + width + " + " + back_bleed_width + ")";
-    var card_height = "-webkit-calc(" + height + " + " + back_bleed_height + ")";
+    var card_width = "calc(" + width + " + " + back_bleed_width + ")";
+    var card_height = "calc(" + height + " + " + back_bleed_height + ")";
 
     var card_style = add_size_to_style(style_color, card_width, card_height);
 
@@ -632,12 +919,25 @@ function card_generate_back(data, options) {
     return result;
 }
 
-function card_generate_empty(count, options) {
-    var style_color = card_generate_color_style("white");
-    var card_style = add_size_to_style(style_color, options.card_width, options.card_height);
+function card_generate_empty(count, options, is_back) {
+    var color = style_color = card_generate_color_style("white");
+    var card_width = options.card_width;
+    var card_height = options.card_height;
 
+    if (is_back) {
+        var back_bleed_width = options.back_bleed_width;
+        var back_bleed_height = options.back_bleed_height;
+        card_width = "calc(" + card_width + " + " + back_bleed_width + ")";
+        card_height = "calc(" + card_height + " + " + back_bleed_height + ")";
+    }
+    else {
+        style_color = add_margin_to_style(color, options);
+    }
+
+    var card_style = add_size_to_style(style_color, card_width, card_height);
     var result = "";
-    result += '<div class="card' + '" ' + card_style + '>';
+    var back_front_class = is_back ? "back" : "front";
+    result += '<div class="card empty ' + back_front_class + '" ' + card_style + '>';
     result += '</div>';
 
     return card_repeat(result, count);
@@ -666,11 +966,11 @@ function card_pages_merge(front_pages, back_pages) {
     return result;
 }
 
-function card_pages_add_padding(cards, options) {
+function card_pages_add_padding(cards, options, is_back) {
     var cards_per_page = options.page_rows * options.page_columns;
     var last_page_cards = cards.length % cards_per_page;
     if (last_page_cards !== 0) {
-        return cards.concat(card_generate_empty(cards_per_page - last_page_cards, options));
+        return cards.concat(card_generate_empty(cards_per_page - last_page_cards, options, is_back));
     } else {
         return cards;
     }
@@ -683,7 +983,7 @@ function card_pages_interleave_cards(front_cards, back_cards, options) {
         result.push(front_cards[i]);
         result.push(back_cards[i]);
         if (options.page_columns > 2) {
-            result.push(card_generate_empty(options.page_columns - 2, options));
+            result.push(card_generate_empty(options.page_columns - 2, options, false));
         }
         ++i;
     }
@@ -702,7 +1002,7 @@ function card_pages_interleave_cards_alt(front_cards, back_cards, options) {
             result.push(back_cards[i]);
         }
         if (options.page_columns > 2) {
-            result.push(card_generate_empty(options.page_columns - 2, options));
+            result.push(card_generate_empty(options.page_columns - 2, options, false));
         }
         ++i;
     }
@@ -761,7 +1061,7 @@ function card_pages_generate_style(options) {
     result += "@page {\n";
     result += "    margin: 0;\n";
     result += "    size:" + pw + " " + ph + ";\n";
-    result += "    -webkit-print-color-adjust: exact;\n";
+    result += "    print-color-adjust: exact;\n";
     result += "}\n";
     result += "</style>\n";
     return result;
@@ -786,23 +1086,23 @@ function card_pages_generate_html(card_data, options) {
     var pages = [];
     if (options.card_arrangement === "doublesided") {
         // Add padding cards so that the last page is full of cards
-        front_cards = card_pages_add_padding(front_cards, options);
-        back_cards = card_pages_add_padding(back_cards, options);
+        front_cards = card_pages_add_padding(front_cards, options, false);
+        back_cards = card_pages_add_padding(back_cards, options, true);
         // Split cards to pages
         var front_pages = card_pages_split(front_cards, rows, cols);
         var back_pages = card_pages_split(back_cards, rows, cols);
         // Interleave front and back pages so that we can print double-sided
         pages = card_pages_merge(front_pages, back_pages);
     } else if (options.card_arrangement === "front_only") {
-        var cards = card_pages_add_padding(front_cards, options);
+        var cards = card_pages_add_padding(front_cards, options, false);
         pages = card_pages_split(cards, rows, cols);
     } else if (options.card_arrangement === "side_by_side") {
         var cards = card_pages_interleave_cards(front_cards, back_cards, options);
-        cards = card_pages_add_padding(cards, options);
+        cards = card_pages_add_padding(cards, options, false);
         pages = card_pages_split(cards, rows, cols);
     } else if (options.card_arrangement === "side_by_side_alt") {
         var cards = card_pages_interleave_cards_alt(front_cards, back_cards, options);
-        cards = card_pages_add_padding(cards, options);
+        cards = card_pages_add_padding(cards, options, false);
         pages = card_pages_split(cards, rows, cols);
     }
 

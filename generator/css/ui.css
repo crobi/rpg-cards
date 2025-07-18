@@ -13,13 +13,14 @@
 
 #preview-container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     background-color: white;
 }
 
 .row-eq-height {
-  display: -webkit-box;
-  display: -webkit-flex;
+  display: box;
+  display: flex;
   display: -ms-flexbox;
   display:         flex;
 }
@@ -33,11 +34,6 @@
 
 .form-group {
     margin-bottom: 10px;
-}
-
-.card h4 {
-    /* Revert bootstrap style for the card preview */
-    font-weight: bold;
 }
 
 .form-horizontal {
@@ -61,4 +57,25 @@
     background-size: auto 90%;
     top: 50%;
     margin-top: -12px;
+}
+
+#card-actions {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#card-actions h4 {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.action-group {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.action-button {
+    margin: 2px;
 }
