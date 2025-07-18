@@ -25,6 +25,7 @@
     flex-direction: column;
     flex: 1;
     font-size: inherit;
+    overflow: hidden;
 }
 
 .card-back {
@@ -246,6 +247,7 @@
     height: 1.0mm;
     margin-top: 0.3em;
     margin-bottom: 0.3em;
+    flex-shrink: 0;
 }
 
 .card-p2e-ruler {
@@ -253,6 +255,7 @@
     height: 1.0mm;
     margin-top: 0;
     margin-bottom: 0;
+    flex-shrink: 0;
 }
 
 .card-box {
