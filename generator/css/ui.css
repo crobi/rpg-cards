@@ -36,11 +36,6 @@
     margin-bottom: 10px;
 }
 
-.card h4 {
-    /* Revert bootstrap style for the card preview */
-    font-weight: bold;
-}
-
 .form-horizontal {
     margin-top: 10px;
 }
