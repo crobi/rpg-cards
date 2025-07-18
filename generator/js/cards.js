@@ -830,7 +830,7 @@ function card_repeat(card, count) {
 }
 
 function card_generate_color_style(color, options) {
-    return 'style="margin:calc(2mm / 2) calc(2mm / 2);color:' + color + '; border-color:' + color + '; background-color:' + color + '"';
+    return 'style="color:' + color + '; border-color:' + color + '; background-color:' + color + '"';
 }
 
 function card_generate_color_gradient_style(color, options) {
@@ -845,7 +845,7 @@ function add_size_to_style(style, width, height) {
 
 function add_margin_to_style(style, options) {
     // style string example ----> `style="color:red;"`
-    style = style.slice(0, -1) + 'margin: calc(' + options.back_bleed_height + ' / 2 + 2mm / 2) calc(' + options.back_bleed_width + ' / 2 + 2mm / 2);' + style.slice(-1);
+    style = style.slice(0, -1) + 'margin: calc(' + options.back_bleed_height + ' / 2) calc(' + options.back_bleed_width + ' / 2 );' + style.slice(-1);
     return style;
 }
 
@@ -921,7 +921,7 @@ function card_generate_back(data, options) {
 }
 
 function card_generate_empty(count, options, is_back) {
-    var style_color = card_generate_color_style("white");
+    var color, style_color = card_generate_color_style("white");
     var card_width = options.card_width;
     var card_height = options.card_height;
 
@@ -930,6 +930,9 @@ function card_generate_empty(count, options, is_back) {
         var back_bleed_height = options.back_bleed_height;
         card_width = "calc(" + card_width + " + " + back_bleed_width + ")";
         card_height = "calc(" + card_height + " + " + back_bleed_height + ")";
+    }
+    else {
+        style_color = card_generate_color_style(color, options);
     }
 
     var card_style = add_size_to_style(style_color, card_width, card_height);
