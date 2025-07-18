@@ -931,7 +931,7 @@ function card_generate_empty(count, options, is_back) {
         card_height = "calc(" + card_height + " + " + back_bleed_height + ")";
     }
     else {
-        style_color = card_generate_color_style(color, options);
+        style_color = add_margin_to_style(color, options);
     }
 
     var card_style = add_size_to_style(style_color, card_width, card_height);
