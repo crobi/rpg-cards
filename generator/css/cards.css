@@ -354,6 +354,11 @@
     font-size: 9.5px;
 }
 
+.card-pills {
+    margin-bottom: 0.3em;
+}
+
 .card-pill {
     border-radius: 1em;
+    line-height: 2;
 }
