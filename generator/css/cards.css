@@ -200,7 +200,9 @@
 .card-property-name {
     display: inline;
     font-size: inherit;
+    font-weight: bold;
 }
+
 .card-property-text {
     display: inline;
 }
@@ -230,14 +232,17 @@
     margin-bottom: 0.0em;
     color: black;
 }
+
 .card-description-name {
     display: inline;
     font-size: inherit;
     font-style: italic;
+    front-weight: bold;
 }
 /* .card-description-name::after {
     content: ".";
 } */
+
 .card-description-text {
     display: inline;
 }
