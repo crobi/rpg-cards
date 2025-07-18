@@ -920,7 +920,7 @@ function card_generate_back(data, options) {
 }
 
 function card_generate_empty(count, options, is_back) {
-    var color, style_color = card_generate_color_style("white");
+    var color = style_color = card_generate_color_style("white");
     var card_width = options.card_width;
     var card_height = options.card_height;
 
