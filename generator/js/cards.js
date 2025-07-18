@@ -141,7 +141,7 @@ function card_element_pills_start() {
  */
 function card_element_pill(params, card_data, options) {
     var text = params[0];
-    var color = params[1] || options.color;
+    var color = params[1] || card_data_color_front(card_data, options);
 
     var result = "";
     result += '<span class="card-pill label label-default" style="background-color:' + color + ';">';
