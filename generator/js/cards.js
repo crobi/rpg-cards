@@ -845,7 +845,7 @@ function add_size_to_style(style, width, height) {
 
 function add_margin_to_style(style, options) {
     // style string example ----> `style="color:red;"`
-    style = style.slice(0, -1) + 'margin: calc(' + options.back_bleed_height + ' / 2) calc(' + options.back_bleed_width + ' / 2);' + style.slice(-1);
+    style = style.slice(0, -1) + 'margin: calc(' + options.back_bleed_height + ' / 2 + 2mm / 2) calc(' + options.back_bleed_width + ' / 2 + 2mm / 2);' + style.slice(-1);
     return style;
 }
 
