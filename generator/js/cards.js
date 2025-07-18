@@ -830,7 +830,7 @@ function card_repeat(card, count) {
 }
 
 function card_generate_color_style(color, options) {
-    return 'style="margin:-webkit-calc(2mm / 2) -webkit-calc(2mm / 2);color:' + color + '; border-color:' + color + '; background-color:' + color + '"';
+    return 'style="margin:calc(2mm / 2) calc(2mm / 2);color:' + color + '; border-color:' + color + '; background-color:' + color + '"';
 }
 
 function card_generate_color_gradient_style(color, options) {
@@ -845,7 +845,7 @@ function add_size_to_style(style, width, height) {
 
 function add_margin_to_style(style, options) {
     // style string example ----> `style="color:red;"`
-    style = style.slice(0, -1) + 'margin: -webkit-calc(' + options.back_bleed_height + ' / 2) -webkit-calc(' + options.back_bleed_width + ' / 2);' + style.slice(-1);
+    style = style.slice(0, -1) + 'margin: calc(' + options.back_bleed_height + ' / 2) calc(' + options.back_bleed_width + ' / 2);' + style.slice(-1);
     return style;
 }
 
@@ -876,8 +876,8 @@ function card_generate_back(data, options) {
     var back_bleed_width = options.back_bleed_width;
     var back_bleed_height = options.back_bleed_height;
 
-    var card_width = "-webkit-calc(" + width + " + " + back_bleed_width + ")";
-    var card_height = "-webkit-calc(" + height + " + " + back_bleed_height + ")";
+    var card_width = "calc(" + width + " + " + back_bleed_width + ")";
+    var card_height = "calc(" + height + " + " + back_bleed_height + ")";
 
     var card_style = add_size_to_style(style_color, card_width, card_height);
 
@@ -928,8 +928,8 @@ function card_generate_empty(count, options, is_back) {
     if (is_back) {
         var back_bleed_width = options.back_bleed_width;
         var back_bleed_height = options.back_bleed_height;
-        card_width = "-webkit-calc(" + card_width + " + " + back_bleed_width + ")";
-        card_height = "-webkit-calc(" + card_height + " + " + back_bleed_height + ")";
+        card_width = "calc(" + card_width + " + " + back_bleed_width + ")";
+        card_height = "calc(" + card_height + " + " + back_bleed_height + ")";
     }
 
     var card_style = add_size_to_style(style_color, card_width, card_height);
@@ -1059,7 +1059,7 @@ function card_pages_generate_style(options) {
     result += "@page {\n";
     result += "    margin: 0;\n";
     result += "    size:" + pw + " " + ph + ";\n";
-    result += "    -webkit-print-color-adjust: exact;\n";
+    result += "    print-color-adjust: exact;\n";
     result += "}\n";
     result += "</style>\n";
     return result;
