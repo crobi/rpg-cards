@@ -134,16 +134,6 @@ function card_element_pills_start() {
 }
 
 /**
- * @summary Ends a pill section.
- * @description Ends a pill section.
- * @example pills_end
- * @category Pills
- */
-function card_element_pills_end() {
-    return '</div>';
-}
-
-/**
  * @summary A pill.
  * @description Displays a pill.
  * @example pill | text | html-color
@@ -154,10 +144,20 @@ function card_element_pill(params, card_data, options) {
     var color = params[1] || options.color;
 
     var result = "";
-    result += '<a href="#" class="label label-default label-as-badge" style="background-color:' + color + ';">';
+    result += '<span class="card-pill label label-default" style="background-color:' + color + ';">';
     result += text;
-    result += '</a>';
+    result += '</span>';
     return result;
+}
+
+/**
+ * @summary Ends a pill section.
+ * @description Ends a pill section.
+ * @example pills_end
+ * @category Pills
+ */
+function card_element_pills_end() {
+    return '</div>';
 }
 
 /**
