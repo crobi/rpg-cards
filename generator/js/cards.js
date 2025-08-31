@@ -255,6 +255,14 @@ function card_element_justify(params, card_data, options) {
     return result;
 }
 
+function card_element_divider(params, card_data, options) {
+    var result = "";
+    result += '<div class="card-element card-description-line" style="text-align: center; background-color: lightgray">';
+    result += '   <p class="card-p card-description-text">' + (params[0] || '&nbsp;') + '</p>';
+    result += '</div>';
+    return result;
+}
+
 function card_element_dndstats(params, card_data, options) {
     var stats = [10, 10, 10, 10, 10, 10];
     var mods = [0,0,0,0,0,0];
@@ -449,6 +457,7 @@ var card_element_generators = {
     text: card_element_text,
     center: card_element_center,
     justify: card_element_justify,
+    divider: card_element_divider,
     bullet: card_element_bullet,
     fill: card_element_fill,
     section: card_element_section,
