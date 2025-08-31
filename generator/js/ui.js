@@ -223,6 +223,7 @@ function ui_update_selected_card() {
     var card = ui_selected_card();
     if (card) {
         $("#card-title").val(card.title);
+        $("#card-type").val(card.card_type);
         $("#card-title-size").val(card.title_size);
         $("#card-font-size").val(card.card_font_size);
         $("#card-count").val(card.count);
@@ -234,6 +235,7 @@ function ui_update_selected_card() {
         $("#card-color").val(card.color).change();
     } else {
         $("#card-title").val("");
+        $("#card-type").val("");
         $("#card-title-size").val("");
         $("#card-font-size").val("");
         $("#card-count").val(1);
@@ -738,6 +740,7 @@ $(document).ready(function () {
     $("#selected-card").change(ui_update_selected_card);
 
     $("#card-title").change(ui_change_card_title);
+    $("#card-type").change(ui_change_card_property);
     $("#card-title-size").change(ui_change_card_property);
     $("#card-font-size").change(ui_change_card_property);
     $("#card-icon").change(ui_change_card_property);

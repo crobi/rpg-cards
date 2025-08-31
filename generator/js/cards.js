@@ -24,6 +24,7 @@ function card_default_options() {
         back_bleed: "2mm,2mm",
         back_bleed_width: "2mm",
         back_bleed_height: "2mm",
+        card_type: ""
     };
 }
 
@@ -105,6 +106,11 @@ function card_element_title(card_data, options) {
     var title = card_data.title || "";
     var title_size = card_data.title_size || options.default_title_size || 'normal';
     return '<div class="card-title card-title-' + title_size + '">' + title + '</div>';
+}
+
+function card_element_type(card_data, options) {
+    var type = card_data.card_type || "";
+    return type ? '<div class="card-type card-title card-title-10">' + type + '</div>' : '';
 }
 
 function card_element_icon(card_data, options) {
@@ -580,6 +586,7 @@ function card_generate_front(data, options) {
     result += '<div class="card ' + (options.rounded_corners ? 'rounded-corners' : '') + '" ' + card_style + '>';
     result += '<div class="card-header">';
     result += card_element_title(data, options);
+    result += card_element_type(data, options);
     result += card_element_icon(data, options);
     result += '</div>';
     result += card_generate_contents(data.contents, data, options);
