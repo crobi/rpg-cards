@@ -303,6 +303,35 @@
     font-size: inherit;
 }
 
+.card-footer {
+    width: 100%;
+    padding: 0.2rem;
+    padding-right: 3px;
+    box-sizing: border-box;
+    text-align: right;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.card-footer-text {
+    color: white;
+    margin: 0;
+    font-size: 8px;
+}
+
+.footer-part {
+    display: inline-block;
+    margin: 0 2px;
+}
+
+.footer-separator {
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 1px;
+    font-weight: bold;
+}
+
+
 .card-p2e-trait-container {
     display: flex;
     flex-direction: row;
