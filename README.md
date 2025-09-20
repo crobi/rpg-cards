@@ -32,11 +32,14 @@ To build this project:
 4. Run `npm install`
 5. Run `npm run build`
 
-To see the generator in action, choose one:
+To lanunch the generator on your pc:
 
 - Run `npm start` to run the local HTTP server, then open one of the indicated URLs (e.g. http://localhost:8080) in your browser
-- Open `./generator/index.html` in your browser 
-- Deploy the content of the `./generator` folder to your server
+
+To deply the generator into a website:
+
+- Deploy the content of the `./generator` folder to your server (i.e. using an FTP client)
+
 
 Support
 =======
