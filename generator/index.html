@@ -31,6 +31,7 @@
     <script type="text/javascript" src="js/cards.js"></script>
     <script type="text/javascript" src="js/colors.js"></script>
     <script type="text/javascript" src="js/icons.js"></script>
+    <script type="text/javascript" src="js/doc_parser.js"></script>
     <script type="text/javascript" defer src="js/ui.js"></script>
     <!-- Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic' rel='stylesheet'
@@ -578,6 +579,12 @@
                             <textarea class="form-control" rows="14" id="card-contents"></textarea>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="card-contents" class="col-sm-2 control-label">Actions</label>
+                        <div class="col-sm-10">
+                            <div id="card-actions"></div>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="col-md-12 col-lg-4">
@@ -656,7 +663,7 @@
                         </li>
                         <li>
                             To learn about what features are available to define a card, inspect the sample deck or
-                            read some basic documentation at the <a href="http://crobi.github.io/rpg-cards/">project
+                            read some basic documentation at the <a href="documentation.html">project
                                 site</a>.
                         </li>
                     </ul>
