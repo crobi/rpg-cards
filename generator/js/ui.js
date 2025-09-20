@@ -248,6 +248,50 @@ function ui_update_selected_card() {
     }
 
     ui_render_selected_card();
+    ui_update_card_actions();
+}
+
+function ui_update_card_actions() {
+    var action_groups = {};
+
+    // Group actions by category
+    for (var function_name in card_action_info) {
+        var info = card_action_info[function_name];
+        if (!action_groups[info.category]) {
+            action_groups[info.category] = [];
+        }
+        action_groups[info.category].push(function_name);
+    }
+
+    var parent = $('#card-actions');
+    parent.empty();
+
+    for (var group_name in action_groups) {
+        var group_div = $('<div class="action-group"></div>');
+        group_div.append($('<h4>' + group_name + '</h4>'));
+        var actions = action_groups[group_name];
+        for (var i = 0; i < actions.length; ++i) {
+            var function_name = actions[i];
+            var info = card_action_info[function_name];
+            var action_name = info.example.split(" ")[0];
+
+            var button = $('<button type="button" class="btn btn-default btn-sm action-button">' + action_name + '</button>');
+            button.attr('title', info.summary);
+            button.attr('data-function-name', function_name);
+            button.click(function () {
+                var contents = $('#card-contents');
+                var function_name = $(this).attr('data-function-name');
+                var info = card_action_info[function_name] || {
+                    summary: 'Missing summary',
+                    example: action_name
+                };
+                contents.val(contents.val() + info.example + "\n");
+                contents.trigger("change");
+            });
+            group_div.append(button);
+        }
+        parent.append(group_div);
+    }
 }
 
 function ui_render_selected_card() {
@@ -686,8 +730,9 @@ function local_store_load() {
 }
 
 $(document).ready(function () {
-    local_store_load();
-    ui_setup_color_selector();
+    parse_card_actions().then(function () {
+        local_store_load();
+        ui_setup_color_selector();
 
     $('#default-icon-front').val(card_options.default_icon_front);
     $('#default-icon-back').val(card_options.default_icon_back);
@@ -784,4 +829,5 @@ $(document).ready(function () {
     $("#filter-execute").click(ui_filter_execute);
 
     ui_update_card_list();
+    });
 });

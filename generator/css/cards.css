@@ -7,6 +7,7 @@
     font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
     font-size: 8pt;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .card.rounded-corners {
@@ -24,6 +25,7 @@
     flex-direction: column;
     flex: 1;
     font-size: inherit;
+    overflow: hidden;
 }
 
 .card-back {
@@ -207,7 +209,9 @@
 .card-property-name {
     display: inline;
     font-size: inherit;
+    font-weight: bold;
 }
+
 .card-property-text {
     display: inline;
 }
@@ -237,14 +241,17 @@
     margin-bottom: 0.0em;
     color: black;
 }
+
 .card-description-name {
     display: inline;
     font-size: inherit;
     font-style: italic;
+    font-weight: bold;
 }
 /* .card-description-name::after {
     content: ".";
 } */
+
 .card-description-text {
     display: inline;
 }
@@ -254,6 +261,7 @@
     height: 1.0mm;
     margin-top: 0.3em;
     margin-bottom: 0.3em;
+    flex-shrink: 0;
 }
 
 .card-p2e-ruler {
@@ -261,6 +269,7 @@
     height: 1.0mm;
     margin-top: 0;
     margin-bottom: 0;
+    flex-shrink: 0;
 }
 
 .card-box {
@@ -386,4 +395,13 @@
 .card-p2e-attributes-text {
     margin: 0;
     font-size: 9.5px;
+}
+
+.card-pills {
+    margin-bottom: 0.3em;
+}
+
+.card-pill {
+    border-radius: 1em;
+    line-height: 2;
 }

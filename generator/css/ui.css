@@ -1,77 +1,93 @@
 #accordion .panel-heading {
-    padding: 0;
+  padding: 0;
 }
 
 #accordion .panel-heading a {
-    padding: 10px 15px;
-    display: block;
+  padding: 10px 15px;
+  display: block;
 }
 
 .control-label {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 #preview-container {
-    display: flex;
-    justify-content: space-evenly;
-    background-color: white;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  background-color: white;
 }
 
 .row-eq-height {
-  display: -webkit-box;
-  display: -webkit-flex;
+  display: box;
+  display: flex;
   display: -ms-flexbox;
-  display:         flex;
+  display: flex;
 }
 
 .color-input-addon {
-    border-right: 0;
-    border-radius: 4px !important;
-    border-top-right-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
+  border-right: 0;
+  border-radius: 4px !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }
 
 .form-group {
-    margin-bottom: 10px;
-}
-
-.card h4 {
-    /* Revert bootstrap style for the card preview */
-    font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .form-horizontal {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
-
-.dropdown-menu>li>a {
-    padding-left: 35px;
-    position: relative;
+.dropdown-menu > li > a {
+  padding-left: 35px;
+  position: relative;
 }
 
 .dropdown-menu a > span {
-    position: absolute;
-    left: 5px;
-    background-color: #000;
-    background-repeat: no-repeat;
-    background-position: center center;
-    width: 24px;
-    height: 24px;
-    background-size: auto 90%;
-    top: 50%;
-    margin-top: -12px;
+  position: absolute;
+  left: 5px;
+  background-color: #000;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 24px;
+  height: 24px;
+  background-size: auto 90%;
+  top: 50%;
+  margin-top: -12px;
+}
+
+#card-actions {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#card-actions h4 {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.action-group {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.action-button {
+  margin: 2px;
 }
 
 .pl-1 {
-    padding-left: 4px;
+  padding-left: 4px;
 }
 
 .pr-1 {
-    padding-right: 4px;
+  padding-right: 4px;
 }
 
 .px-1 {
-    padding-left: 4px;
-    padding-right: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
