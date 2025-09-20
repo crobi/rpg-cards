@@ -28,9 +28,15 @@ To build this project:
 
 1. Check out this repository
 2. Make sure you have [Node](https://nodejs.org/) installed
-3. Run `npm install`
-4. Run `npm run build`
-5. Open `./generator/index.html` in your browser (or deploy the content of the `./generator` folder to your server)
+3. Open the Terminal (or Command Prompt for Windows)
+4. Run `npm install`
+5. Run `npm run build`
+
+To see the generator in action, choose one:
+
+- Run `npm start` to run the local HTTP server, then open one of the indicated URLs (e.g. http://localhost:8080) in your browser
+- Open `./generator/index.html` in your browser 
+- Deploy the content of the `./generator` folder to your server
 
 Support
 =======

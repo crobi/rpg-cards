@@ -352,6 +352,16 @@ function ui_grid_rotate($event) {
     $height.val(width);
 }
 
+function ui_back_bleed_rotate($event) {
+    $event.preventDefault();
+    var $width = $('#back-bleed-width');
+    var $height = $('#back-bleed-height');
+    var width = $width.val();
+    var height = $height.val();
+    $width.val(height);
+    $height.val(width);
+}
+
 function ui_change_option() {
     var property = $(this).attr("data-option");
     var value;
@@ -770,6 +780,7 @@ $(document).ready(function () {
     $("#rounded-corners").change(ui_change_option);
     $("#back-bleed-width").on("input", ui_change_option);
     $("#back-bleed-height").on("input", ui_change_option);
+    $("#back-bleed-rotate").click(ui_back_bleed_rotate);
 
     $("#default-color").change(ui_change_default_color);
     $("#default-icon-front").change(ui_change_default_icon_front);
