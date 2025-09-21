@@ -280,12 +280,13 @@ function ui_update_card_actions() {
             button.attr('data-function-name', function_name);
             button.click(function () {
                 var contents = $('#card-contents');
+                var contentsTextarea = contents[0];
                 var function_name = $(this).attr('data-function-name');
                 var info = card_action_info[function_name] || {
                     summary: 'Missing summary',
                     example: action_name
                 };
-                contents.val(contents.val() + info.example + "\n");
+                insertTextAtCursor(contentsTextarea, info.example);
                 contents.trigger("change");
             });
             group_div.append(button);
