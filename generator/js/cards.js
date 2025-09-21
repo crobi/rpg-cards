@@ -1024,7 +1024,7 @@ function add_margin_to_style(style, options) {
   return style;
 }
 
-function card_generate_front(data, options) {
+function card_generate_front(data, options, isPreview = true) {
   var color = card_data_color_front(data, options);
   var style_color = card_generate_color_style(color, options);
   var card_size_style = add_size_to_style(
@@ -1032,7 +1032,8 @@ function card_generate_front(data, options) {
     options.card_width,
     options.card_height
   );
-  var card_style = add_margin_to_style(card_size_style, options);
+
+  var card_style = isPreview ? card_size_style : add_margin_to_style(card_size_style, options);
 
   var result = "";
   result +=
@@ -1052,19 +1053,20 @@ function card_generate_front(data, options) {
   return result;
 }
 
-function card_generate_back(data, options) {
+function card_generate_back(data, options, isPreview = true) {
   var color = card_data_color_back(data, options);
   var style_color = card_generate_color_style(color, options);
 
   var width = options.card_width;
   var height = options.card_height;
+
   var back_bleed_width = options.back_bleed_width;
   var back_bleed_height = options.back_bleed_height;
 
   var card_width = "calc(" + width + " + " + back_bleed_width + ")";
   var card_height = "calc(" + height + " + " + back_bleed_height + ")";
 
-  var card_style = add_size_to_style(style_color, card_width, card_height);
+  var card_style = isPreview ? add_size_to_style(style_color, width, height) : add_size_to_style(style_color, card_width, card_height);
 
   var $tmpCardContainer = $(
     '<div style="position:absolute;visibility:hidden;pointer-events:none;"></div>'
@@ -1294,8 +1296,8 @@ function card_pages_generate_html(card_data, options) {
   var back_cards = [];
   card_data.forEach(function (data) {
     var count = options.card_count || data.count || 1;
-    var front = card_generate_front(data, options);
-    var back = card_generate_back(data, options);
+    var front = card_generate_front(data, options, false);
+    var back = card_generate_back(data, options, false);
     front_cards = front_cards.concat(card_repeat(front, count));
     back_cards = back_cards.concat(card_repeat(back, count));
   });
