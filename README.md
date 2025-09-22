@@ -24,15 +24,19 @@ The build will update /generator/icons folder with content from:
 - And any .png or .svg files you have added to ./resources/custom-icons (you must build the project and refresh the page in the browser in order to use them).
 
 
+To setup or update this project:
+
+1. Checkout this GIT repository
+2. Make sure you have [Node.js](https://nodejs.org/) installed. The Node installation usually bundles the `npm` command-line interface. We strongly recommend using a Node version manager like [nvm](https://github.com/nvm-sh/nvm) to install Node.js and npm.
+3. Open the Terminal (or Command Prompt for Windows)
+4. Go to the repository folder
+4. Run `npm install`
+
 To build this project:
 
-1. Check out this repository
-2. Make sure you have [Node](https://nodejs.org/) installed
-3. Open the Terminal (or Command Prompt for Windows)
-4. Run `npm install`
-5. Run `npm run build`
+- Run `npm run build`
 
-To lanunch the generator on your pc:
+To lanunch the generator locally on your browser:
 
 - Run `npm start` to run the local HTTP server, then open one of the indicated URLs (e.g. http://localhost:8080) in your browser
 
