@@ -11,11 +11,15 @@
   white-space: nowrap;
 }
 
-#preview-container {
+.preview-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
   background-color: white;
+}
+
+.preview-container .card {
+  margin-bottom: 10px;
 }
 
 .row-eq-height {
