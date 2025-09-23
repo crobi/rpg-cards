@@ -65,6 +65,8 @@ function ui_load_sample() {
 }
 
 function ui_clear_all() {
+    const proceed = document.getElementById('ask-before-delete').checked ? confirm('Delete all cards?') : true;
+    if (!proceed) return;
     card_data = [];
     ui_update_card_list();
 }
@@ -99,6 +101,9 @@ function ui_add_cards(data) {
     ui_init_cards(data);
     card_data = card_data.concat(data);
     ui_update_card_list();
+    ui_select_card_by_index(0);
+
+    $("#collapseDeck").collapse('toggle');
 }
 
 function ui_add_new_card() {
@@ -108,8 +113,8 @@ function ui_add_new_card() {
 }
 
 function ui_duplicate_card() {
-    if (card_data.length > 0) {
-        var old_card = ui_selected_card();
+    var old_card = ui_selected_card();
+    if (old_card && card_data.length > 0) {
         var new_card = $.extend({}, old_card);
         card_data.push(new_card);
         new_card.title = new_card.title + " (Copy)";
@@ -121,8 +126,8 @@ function ui_duplicate_card() {
 }
 
 function ui_copy_card() {
-    if (card_data.length > 0) {
-        const card = ui_selected_card();
+    const card = ui_selected_card();
+    if (card && card_data.length > 0) {
         navigator.clipboard.writeText(JSON.stringify(card, null, 2)).then(function() {
             alert('Card "' + card.title + '" was copied to the clipboard');
         }, function() {
@@ -180,6 +185,9 @@ function ui_selected_card() {
 
 function ui_delete_card() {
     var index = ui_selected_card_index();
+    if (index === -1) return;
+    const proceed = document.getElementById('ask-before-delete').checked ? confirm('Delete ' + card_data[index].title + '?') : true;
+    if (!proceed) return;
     card_data.splice(index, 1);
     ui_update_card_list();
     ui_select_card_by_index(Math.min(index, card_data.length - 1));
@@ -230,7 +238,7 @@ function ui_update_selected_card() {
         $("#card-icon").val(card.icon_front);
         $("#card-icon-back").val(card.icon_back);
 		$("#card-background").val(card.background_image);
-        $("#card-contents").val(card.contents.join("\n"));
+        $("#card-contents").val(card.contents?.join("\n"));
         $("#card-tags").val(card.tags.join(", "));
         $("#card-color").val(card.color).change();
     } else {
@@ -496,6 +504,40 @@ function ui_set_orientation(outputElement, cssWidth, cssHeight) {
     var orientation = getOrientation(cssWidth, cssHeight);
     outputElement.textContent = orientation;
     return orientation;
+}
+
+function ui_move_top() {
+    if (ui_selected_card_index() != null) {
+        card_data.unshift(card_data.splice(ui_selected_card_index(), 1)[0]);
+        ui_update_card_list();
+        ui_select_card_by_index(0);
+    }
+}
+
+function ui_move_bottom() {
+    if (ui_selected_card_index() !== null) {
+        card_data.push(card_data.splice(ui_selected_card_index(), 1)[0]);
+        ui_update_card_list();
+        ui_select_card_by_index(card_data.length - 1);
+    }
+}
+
+function ui_move_up() {
+    var idx = ui_selected_card_index();
+    if (idx !== null && idx > 0) {
+        [card_data[idx], card_data[idx - 1]] = [card_data[idx - 1], card_data[idx]];
+        ui_update_card_list();
+        ui_select_card_by_index(idx - 1);
+    }
+}
+
+function ui_move_down() {
+    var idx = ui_selected_card_index();
+    if (idx !== null && idx < card_data.length - 1) {
+        [card_data[idx], card_data[idx + 1]] = [card_data[idx + 1], card_data[idx]];
+        ui_update_card_list();
+        ui_select_card_by_index(idx + 1);
+    }
 }
 
 function ui_change_card_title() {
@@ -839,6 +881,11 @@ $(document).ready(function () {
 
     $("#sort-execute").click(ui_sort_execute);
     $("#filter-execute").click(ui_filter_execute);
+
+    $("#button-move-top").click(ui_move_top);
+    $("#button-move-bottom").click(ui_move_bottom);
+    $("#button-move-up").click(ui_move_up);
+    $("#button-move-down").click(ui_move_down);
 
     ui_update_card_list();
     });
