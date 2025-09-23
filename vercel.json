@@ -1,0 +1,13 @@
+{
+  "headers": [
+    {
+      "source": "/generator/(.*)\\.(js|css|png|jpg|jpeg|svg|woff2|json)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
+    }
+  ]
+}
