@@ -259,6 +259,24 @@ function ui_update_selected_card() {
     ui_update_card_actions();
 }
 
+function ui_filter_selected_card_title() {
+    const filterInput = document.querySelector('#selected-card-title-filter');
+    const filterValue = filterInput.value;
+    const re = new RegExp(filterValue);
+    const clearButton = filterInput.parentElement.querySelector('button');
+    const clearButtonLabel = clearButton.querySelector('span');
+    clearButton.disabled = !filterValue;
+    clearButtonLabel.style.visibility = filterValue ? '' : 'hidden';
+    document.querySelectorAll('#selected-card option').forEach(option => {
+        option.style.display = re.test(option.textContent) ? '' : 'none';
+    });
+}
+
+function ui_filter_selected_card_title_clear() {
+    $('#selected-card-title-filter').focus().val('');
+    ui_filter_selected_card_title();
+}
+
 function ui_update_card_actions() {
     var action_groups = {};
 
@@ -836,6 +854,8 @@ $(document).ready(function () {
     $("#button-apply-default-icon-back").click(ui_apply_default_icon_back);
 
     $("#selected-card").change(ui_update_selected_card);
+    $("#selected-card-title-filter").on('input', ui_filter_selected_card_title);
+    $("#selected-card-title-filter-clear").click(ui_filter_selected_card_title_clear);
 
     $("#card-title").change(ui_change_card_title);
     $("#card-type").change(ui_change_card_property);
