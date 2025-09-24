@@ -262,7 +262,7 @@ function ui_update_selected_card() {
 function ui_filter_selected_card_title() {
     const filterInput = document.querySelector('#selected-card-title-filter');
     const filterValue = filterInput.value;
-    const re = new RegExp(filterValue);
+    const re = new RegExp(filterValue, 'i');
     const clearButton = filterInput.parentElement.querySelector('button');
     const clearButtonLabel = clearButton.querySelector('span');
     clearButton.disabled = !filterValue;
