@@ -95,3 +95,12 @@
   padding-left: 4px;
   padding-right: 4px;
 }
+
+.move-button {
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  font-size: 32px;
+  line-height: 32px;
+  margin-bottom: 5px;
+}

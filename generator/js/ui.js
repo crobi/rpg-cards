@@ -194,16 +194,19 @@ function ui_delete_card() {
     ui_select_card_by_index(Math.min(index, card_data.length - 1));
 }
 
+const ui_deck_option_text = (card) => {
+    return `${card.count}x ${card.title}`;
+}
+
 function ui_update_card_list() {
-    $("#total_card_count").text("Deck contains " + card_data.length + " unique cards.");
+    $("#total_card_count").text(`Contains ${card_data.length} unique cards, ${card_data.reduce((result, card) => {
+        return result + card.count * 1;
+    }, 0)} in total.`);
 
     $('#selected-card').empty();
     for (var i = 0; i < card_data.length; ++i) {
         var card = card_data[i];
-        $('#selected-card')
-            .append($("<option></option>")
-            .attr("value", i)
-            .text(card.title));
+        $('#selected-card').append(`<option value="${i}">${ui_deck_option_text(card)}</option>`);
     }
 
     ui_update_selected_card();
@@ -566,8 +569,17 @@ function ui_change_card_title() {
     var card = ui_selected_card();
     if (card) {
         card.title = title;
-        $("#selected-card option:selected").text(title);
+        $("#selected-card option:selected").text(ui_deck_option_text(card));
         ui_render_selected_card();
+    }
+}
+
+function ui_change_card_count() {
+    var count = $("#card-count").val();
+    var card = ui_selected_card();
+    if (card) {
+        card.count = count;
+        $("#selected-card option:selected").text(ui_deck_option_text(card));
     }
 }
 
@@ -865,7 +877,7 @@ $(document).ready(function () {
     $("#card-title-size").change(ui_change_card_property);
     $("#card-font-size").change(ui_change_card_property);
     $("#card-icon").change(ui_change_card_property);
-    $("#card-count").change(ui_change_card_property);
+    $("#card-count").change(ui_change_card_count);
     $("#card-icon-back").change(ui_change_card_property);
 	$("#card-background").change(ui_change_card_property);
 	$("#card-color").change(ui_change_card_color);

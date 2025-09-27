@@ -125,18 +125,12 @@
                                 <!-- PANEL BODY -->
                                 <form role="form" class="form-horizontal">
                                     <div class="form-group">
-                                        <label for="selected-card" class="col-sm-2 control-label">Deck</label>
-                                        <div class="col-sm-10">
-                                            <p class="form-control-static" id="total_card_count">Deck contains 0 cards.</p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
                                         <div class="col-sm-2">
                                             <label for="selected-card" class="control-label" style="width: 100%; margin-bottom: 1em;">Card</label>
-                                            <button type="button" class="btn btn-default btn-block btn-sm" title="Move to top" id="button-move-top">⏫</button>
-                                            <button type="button" class="btn btn-default btn-block btn-sm" title="Move up" id="button-move-up">🔼</button>
-                                            <button type="button" class="btn btn-default btn-block btn-sm" title="Move down" id="button-move-down">🔽</button>
-                                            <button type="button" class="btn btn-default btn-block btn-sm" title="Move to bottom" id="button-move-bottom">⏬</button>
+                                            <button type="button" class="move-button" title="Move to top" id="button-move-top">⏫</button>
+                                            <button type="button" class="move-button" title="Move up" id="button-move-up">🔼</button>
+                                            <button type="button" class="move-button" title="Move down" id="button-move-down">🔽</button>
+                                            <button type="button" class="move-button" title="Move to bottom" id="button-move-bottom">⏬</button>
                                         </div>
                                         <div class="col-sm-10">
                                             <div class="input-group">
@@ -146,6 +140,12 @@
                                                 </span>
                                             </div>
                                             <select class="form-control" id="selected-card" size="15"></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-2"></div>
+                                        <div class="col-sm-10">
+                                            <div id="total_card_count">Deck contains 0 cards.</div>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -554,8 +554,7 @@
                     <div class="form-group">
                         <label for="card-count" class="col-sm-2 control-label">Count</label>
                         <div class="col-sm-10">
-                            <input type="number" id="card-count" class="form-control" placeholder="Count"
-                                data-property="count" value="1">
+                            <input type="number" id="card-count" class="form-control" placeholder="Count" value="1">
                         </div>
                     </div>
                     <div class="form-group">
