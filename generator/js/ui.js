@@ -525,24 +525,25 @@ function ui_set_orientation(outputElement, cssWidth, cssHeight) {
 }
 
 function ui_move_top() {
-    if (ui_selected_card_index() != null) {
-        card_data.unshift(card_data.splice(ui_selected_card_index(), 1)[0]);
-        ui_update_card_list();
-        ui_select_card_by_index(0);
-    }
+    var idx = ui_selected_card_index();
+    if (idx === -1) return;
+    card_data.unshift(card_data.splice(idx, 1)[0]);
+    ui_update_card_list();
+    ui_select_card_by_index(0);
 }
 
 function ui_move_bottom() {
-    if (ui_selected_card_index() !== null) {
-        card_data.push(card_data.splice(ui_selected_card_index(), 1)[0]);
-        ui_update_card_list();
-        ui_select_card_by_index(card_data.length - 1);
-    }
+    var idx = ui_selected_card_index();
+    if (idx === -1) return;
+    card_data.push(card_data.splice(idx, 1)[0]);
+    ui_update_card_list();
+    ui_select_card_by_index(card_data.length - 1);
 }
 
 function ui_move_up() {
     var idx = ui_selected_card_index();
-    if (idx !== null && idx > 0) {
+    if (idx === -1) return;
+    if (idx > 0) {
         [card_data[idx], card_data[idx - 1]] = [card_data[idx - 1], card_data[idx]];
         ui_update_card_list();
         ui_select_card_by_index(idx - 1);
@@ -551,7 +552,8 @@ function ui_move_up() {
 
 function ui_move_down() {
     var idx = ui_selected_card_index();
-    if (idx !== null && idx < card_data.length - 1) {
+    if (idx === -1) return;
+    if (idx < card_data.length - 1) {
         [card_data[idx], card_data[idx + 1]] = [card_data[idx + 1], card_data[idx]];
         ui_update_card_list();
         ui_select_card_by_index(idx + 1);
