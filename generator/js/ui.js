@@ -103,6 +103,7 @@ function ui_add_cards(data) {
     ui_update_card_list();
     ui_select_card_by_index(0);
 
+    $("#collapseOne").collapse('toggle');
     $("#collapseDeck").collapse('toggle');
 }
 
