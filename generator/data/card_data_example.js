@@ -1,7 +1,7 @@
 var card_data_example = [
   {
     count: 1,
-    color: "maroon",
+    color_front: "maroon",
     title: "Burning Hands",
     icon_front: "white-book-1",
     icon_back: "robe",
@@ -23,7 +23,7 @@ var card_data_example = [
   },
   {
     count: 1,
-    color: "indigo",
+    color_front: "indigo",
     title: "Cunning Action",
     icon_front: "white-book",
     icon_back: "cloak-dagger",
@@ -40,7 +40,7 @@ var card_data_example = [
   },
   {
     count: 1,
-    color: "dimgray",
+    color_front: "dimgray",
     title: "Full Plate",
     icon_front: "breastplate",
     contents: [
@@ -59,7 +59,7 @@ var card_data_example = [
   },
   {
     count: 1,
-    color: "dimgray",
+    color_front: "dimgray",
     title: "Dagger",
     icon_front: "mixed-swords",
     contents: [
@@ -79,7 +79,7 @@ var card_data_example = [
   },
   {
     count: 1,
-    color: "dimgray",
+    color_front: "dimgray",
     title: "Shortsword of Very Long Names",
     title_size: "10",
     icon_front: "crossed-swords",
@@ -99,7 +99,7 @@ var card_data_example = [
   },
   {
     count: 1,
-    color: "dimgray",
+    color_front: "dimgray",
     title: "Wand of Magic Missiles",
     icon_front: "crystal-wand",
     contents: [
@@ -121,7 +121,7 @@ var card_data_example = [
   },
   {
     count: 2,
-    color: "dimgray",
+    color_front: "dimgray",
     title: "Potion of Healing",
     icon_front: "drink-me",
     contents: [
@@ -139,7 +139,7 @@ var card_data_example = [
   },
   {
     count: 1,
-    color: "black",
+    color_front: "black",
     title: "Goblin",
     icon_front: "imp-laugh",
     contents: [
@@ -187,7 +187,7 @@ var card_data_example = [
       "property | Heightened (3rd) |  The area increases to a 30-foot cone.",
     ],
     tags: ["spell", "cleric", "p2e"],
-    color: "Chocolate",
+    color_front: "Chocolate",
     icon_front: "p2e-2-actions",
     icon_back: "pope-crown",
     title_size: "13",
@@ -220,7 +220,7 @@ var card_data_example = [
       "fill | 1",
     ],
     tags: ["creature", "animal", "p2e"],
-    color: "Crimson",
+    color_front: "Crimson",
     icon_back: "monster-grasp",
     icon_front: "rat",
     card_font_size: "9",
@@ -228,7 +228,7 @@ var card_data_example = [
   },
   {
     count: 1,
-    color: "darkgreen",
+    color_front: "darkgreen",
     title: "Manabolt",
     icon: "magic-swirl",
     contents: [
@@ -241,7 +241,7 @@ var card_data_example = [
   },
   {
     count: 1,
-    color: "black",
+    color_front: "black",
     title: "Whispers from the Void",
     icon: "white-book-9",
     icon_back: "tentacle-heart",
@@ -262,7 +262,7 @@ var card_data_example = [
   },
   {
     count: 1,
-    color: "darkslateblue",
+    color_front: "darkslateblue",
     title: "Gaze of the Abyss",
     icon: "one-eyed",
     contents: [
@@ -279,7 +279,7 @@ var card_data_example = [
   },
   {
     count: 1,
-    color: "purple",
+    color_front: "purple",
     title: "Unspeakable Vessel",
     icon: "imp-laugh",
     contents: [
@@ -329,7 +329,7 @@ var card_data_example = [
       "property | Heightened (10th) | The boons are permanent.",
     ],
     tags: ["ritual", "necromancy", "cosmic-horror", "p2e"],
-    color: "darkred",
+    color_front: "darkred",
     icon: "p2e-3-actions",
     icon_back: "cultist",
     title_size: "12",
@@ -365,7 +365,7 @@ var card_data_example = [
       "fill | 1",
     ],
     tags: ["creature", "humanoid", "cosmic-horror", "p2e"],
-    color: "indigo",
+    color_front: "indigo",
     icon_back: "monster-grasp",
     icon: "p2e-reaction",
     card_font_size: "9",
@@ -373,7 +373,7 @@ var card_data_example = [
   },
   {
     count: 1,
-    color: "darkgreen",
+    color_front: "darkgreen",
     title: "Mind Lash",
     icon: "magic-swirl",
     contents: [
@@ -386,7 +386,7 @@ var card_data_example = [
   },
   {
     count: 1,
-    color: "saddlebrown",
+    color_front: "saddlebrown",
     title: "Zombie",
     icon: "zombie-hand",
     contents: [
@@ -404,7 +404,7 @@ var card_data_example = [
   },
   {
     count: 1,
-    color: "darkslategrey",
+    color_front: "darkslategrey",
     title: "Loot Table",
     icon: "chest",
     contents: [
@@ -424,7 +424,7 @@ var card_data_example = [
   },
   {
     count: 1,
-    color: "darkslategrey",
+    color_front: "darkslategrey",
     title: "Example",
     icon: "chest",
     contents: [

@@ -5,9 +5,11 @@ function card_default_options() {
   return {
     foreground_color: "white",
     background_color: "white",
-    default_color: "black",
+    default_color_front: "black",
+    default_color_back: "",
     default_icon_front: "",
     default_icon_back: "",
+    default_icon_back_container: "rounded-square",
     default_title_size: "13",
     default_card_font_size: "inherit",
     page_size: "210mm,297mm",
@@ -32,14 +34,17 @@ function card_default_data() {
     count: 1,
     title: "New card",
     contents: [],
-    tags: [],
+    tags: []
   };
 }
 
 function card_init(card) {
-  card.title = card.title || "";
-  card.contents = card.contents || [];
-  card.tags = card.tags || [];
+  return {
+    ...card,
+    title: card.title || "",
+    contents: card.contents || [],
+    tags: card.tags || []
+  }
 }
 
 function card_has_tag(card, tag) {
@@ -69,13 +74,13 @@ function card_remove_tag(card, tag) {
 
 function card_data_color_front(card_data, options) {
   return (
-    card_data.color_front || card_data.color || options.default_color || "black"
+    card_data.color_front || options.default_color_front
   );
 }
 
 function card_data_color_back(card_data, options) {
   return (
-    card_data.color_back || card_data.color || options.default_color || "black"
+    card_data.color_back || options.default_color_back || card_data.color_front || options.default_color_front
   );
 }
 
@@ -85,6 +90,10 @@ function card_data_icon_front(card_data, options) {
 
 function card_data_icon_back(card_data, options) {
   return card_data.icon_back || options.default_icon_back || "";
+}
+
+function card_data_icon_back_container(card_data, options) {
+  return card_data.icon_back_container || options.default_icon_back_container || "";
 }
 
 function card_data_split_params(value) {
@@ -962,9 +971,7 @@ function card_generate_contents(contents, card_data, options) {
     });
   });
 
-  result += '<div class="card-content-container">';
-  result += html;
-  result += "</div>";
+  result += `<div class="card-content-container">${html}</div>`;
   return result;
 }
 
@@ -976,57 +983,39 @@ function card_repeat(card, count) {
   return result;
 }
 
-function card_generate_color_style(color, options) {
-  return (
-    'style="color:' +
-    color +
-    "; border-color:" +
-    color +
-    "; background-color:" +
-    color +
-    '"'
-  );
+function card_generate_color_front_style(color, data = {}, options = {}) {
+  return `style="color:${color};border-color:${color};background-color:${color}"`;
+}
+
+function card_generate_color_back_style(color, data = {}, options = {}) {
+  return `style="color:${color};background-color:${color}"`;
+}
+
+function card_generate_color_back_icon_style(color, data = {}, options = {}) {
+  let bgStyle = '';
+  if (data.icon_back_container !== 'none') {
+    bgStyle = `border-color:${color};background-color:${color}`;
+  }
+  return `style="${bgStyle}"`;
 }
 
 function card_generate_color_gradient_style(color, options) {
-  return (
-    'style="background: radial-gradient(ellipse at center, white 20%, ' +
-    color +
-    ' 120%)"'
-  );
+  return `style="background: radial-gradient(ellipse at center, white 20%, ${color} 120%)"`;  
 }
 
 function add_size_to_style(style, width, height) {
   // style string example ----> `style="color:red;"`
-  style =
-    style.slice(0, -1) +
-    ";" +
-    "width:" +
-    width +
-    ";" +
-    "height:" +
-    height +
-    ";" +
-    style.slice(-1);
-  return style;
+  return `${style.slice(0, -1)};width:${width};height:${height};${style.slice(-1)}`;
 }
 
 function add_margin_to_style(style, options) {
   // style string example ----> `style="color:red;"`
-  style =
-    style.slice(0, -1) +
-    "margin: calc(" +
-    options.back_bleed_height +
-    " / 2) calc(" +
-    options.back_bleed_width +
-    " / 2 );" +
-    style.slice(-1);
-  return style;
+  return `${style.slice(0, -1)};margin:calc(${options.back_bleed_height}/2) calc(${options.back_bleed_width}/2);${style.slice(-1)}`;
 }
 
 function card_generate_front(data, options, isPreview = true) {
   var color = card_data_color_front(data, options);
-  var style_color = card_generate_color_style(color, options);
+  var style_color = card_generate_color_front_style(color, data, options);
   var card_size_style = add_size_to_style(
     style_color,
     options.card_width,
@@ -1055,7 +1044,7 @@ function card_generate_front(data, options, isPreview = true) {
 
 function card_generate_back(data, options, isPreview = true) {
   var color = card_data_color_back(data, options);
-  var style_color = card_generate_color_style(color, options);
+  var style_color = card_generate_color_back_style(color, data, options);
 
   var width = options.card_width;
   var height = options.card_height;
@@ -1084,56 +1073,43 @@ function card_generate_back(data, options, isPreview = true) {
   var iconSize = Math.min(innerWidth, innerHeight) / 2 + "px";
   $tmpCard.remove();
 
-  var icon_style = add_size_to_style(style_color, iconSize, iconSize);
+  var icon_style = add_size_to_style(card_generate_color_back_icon_style(color, data, options), iconSize, iconSize);
 
   var url = data.background_image;
   var background_style = "";
   if (url) {
-    background_style =
-      'style = "background-image: url(&quot;' +
-      url +
-      '&quot;); background-size: contain; background-position: center; background-repeat: no-repeat;"';
+    background_style = `style = "background-image: url(&quot;${url}&quot;); background-size: contain; background-position: center; background-repeat: no-repeat;"`;
   } else {
     background_style = card_generate_color_gradient_style(color, options);
   }
   var icon = card_data_icon_back(data, options);
+  var icon_container = card_data_icon_back_container(data, options);
 
   var result = "";
-  result +=
-    '<div class="card' +
-    " " +
-    (options.rounded_corners ? "rounded-corners" : "") +
-    '" ' +
-    card_style +
-    ">";
-  result += '  <div class="card-back" ' + background_style + ">";
+  result += `<div class="card ${options.rounded_corners ? "rounded-corners" : ""}" ${card_style}>`
+  result += `<div class="card-back" ${background_style}>`;
   if (!url) {
-    result += '    <div class="card-back-inner">';
-    result +=
-      '      <div class="card-back-icon icon-' +
-      icon +
-      '" ' +
-      icon_style +
-      "></div>";
-    result += "    </div>";
+    result += `<div class="card-back-inner">`;
+    result += `<div class="card-back-icon card-back-icon-${icon_container} icon-${icon}" ${icon_style}></div>`;
+    result += `</div>`;
   }
-  result += "  </div>";
-  result += "</div>";
-
+  result += `</div>`;
+  result += `</div>`;
   return result;
 }
 
 function card_generate_empty(count, options, is_back) {
-  var color = (style_color = card_generate_color_style("white"));
   var card_width = options.card_width;
   var card_height = options.card_height;
 
   if (is_back) {
+    var color = (style_color = card_generate_color_back_style("white"));
     var back_bleed_width = options.back_bleed_width;
     var back_bleed_height = options.back_bleed_height;
     card_width = "calc(" + card_width + " + " + back_bleed_width + ")";
     card_height = "calc(" + card_height + " + " + back_bleed_height + ")";
   } else {
+    var color = (style_color = card_generate_color_front_style("white"));
     style_color = add_margin_to_style(color, options);
   }
 

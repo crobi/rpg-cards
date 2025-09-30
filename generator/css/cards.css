@@ -53,11 +53,27 @@
 .card-back-icon {
     width: 1in;
     height: 1in;
-    border: 4mm solid;
     border-color: inherit;
-    border-radius: 4mm;
     background-repeat: no-repeat;
     background-size: contain;
+}
+
+.card-back-icon-none {
+    background-color: transparent;
+}
+
+.card-back-icon-square {
+    border: 4mm solid;
+}
+
+.card-back-icon-rounded-square {
+    border: 4mm solid;
+    border-radius: 4mm;
+}
+
+.card-back-icon-circle {
+    border: 4mm solid;
+    border-radius: 50%;
 }
 
 .card-header {

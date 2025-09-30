@@ -148,7 +148,7 @@
                                             <div id="total_card_count">Deck contains 0 cards.</div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group slim-buttons-row">
                                         <div class="col-sm-4">
                                             <button type="button" class="btn btn-primary btn-block" id="button-add-card">New</button>
                                         </div>
@@ -159,7 +159,7 @@
                                             <button type="button" class="btn btn-danger btn-block" id="button-delete-card">Delete</button>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group slim-buttons-row">
                                         <div class="col-sm-4">
                                             <button type="button" class="btn btn-primary btn-block" id="button-copy-card">Copy</button>
                                         </div>
@@ -171,7 +171,7 @@
                                             <button type="button" class="btn btn-primary btn-block" id="button-paste-card">Paste</button>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group slim-buttons-row">
                                         <div class="col-sm-4">
                                             <button type="button" class="btn btn-primary btn-block" id="button-sort">Sort</button>
                                         </div>
@@ -396,40 +396,28 @@
                                 <!-- PANEL BODY -->
                                 <form role="form" class="form-horizontal">
                                     <p>
-                                        The attribute value on each card will be overwritten.<br><br>
+                                        An attribute's default value will be applied to cards that are missing a value for that specific attribute. 
+                                        These default values are stored to the browser but not to the file saved using the "Save to file" button.
                                     </p>
-                                    <div class="form-group">
-                                        <label for="default-color-selector" class="col-sm-4 control-label">Color</label>
+                                    <p>
+                                        Press the '>' button to overwrite existing attribute values on each card.
+                                        These values will be saved to the file.<br><br>
+                                    </p>
+                                    <div class="form-group slim-buttons-row">
+                                        <label for="default-color-front-selector" class="col-sm-4 control-label">Front color</label>
                                         <div class="col-sm-6">
                                             <div class="input-group">
-                                                <select id="default-color-selector" class="colorselector-data"></select>
-                                                <input type="text" id="default-color" class="form-control"
-                                                    placeholder="Card color" data-property="color" value="black">
+                                                <select id="default-color-front-selector" class="colorselector-data"></select>
+                                                <input type="text" id="default-color-front" class="form-control"
+                                                    placeholder="Card front color" data-property="color">
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
-                                            <button type="button" class="btn btn-primary btn-block" id="button-apply-default-color"
+                                            <button type="button" class="btn btn-primary btn-block" id="button-apply-default-color-front"
                                                 onclick="">&gt;</button>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="default-icon-back" class="col-sm-4 control-label">Back icon</label>
-                                        <div class="col-sm-6">
-                                            <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <button class="btn btn-default icon-select-button"
-                                                        type="button">Search</button>
-                                                </span>
-                                                <input type="text" id="default-icon-back" class="form-control icon-list"
-                                                    placeholder="Icon name">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <button type="button" class="btn btn-primary btn-block" id="button-apply-default-icon-back"
-                                                onclick="">&gt;</button>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
+                                    <div class="form-group slim-buttons-row">
                                         <label for="default-icon-front" class="col-sm-4 control-label">Front icon</label>
                                         <div class="col-sm-6">
                                             <div class="input-group">
@@ -446,29 +434,73 @@
                                                 onclick="">&gt;</button>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group slim-buttons-row">
                                         <label for="small-icons" class="col-sm-4 control-label"></label>
                                         <div class="col-sm-6">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" checked id="small-icons"> Use small front
-                                                    icons
+                                                    <input type="checkbox" checked id="small-icons"> Use small icons
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
-                                            <button type="button" class="btn btn-primary btn-block" id=""
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group slim-buttons-row">
+                                        <label for="default-color-back-selector" class="col-sm-4 control-label">Back color</label>
+                                        <div class="col-sm-6">
+                                            <div class="input-group">
+                                                <select id="default-color-back-selector" class="colorselector-data"></select>
+                                                <input type="text" id="default-color-back" class="form-control"
+                                                    placeholder="Card back color" data-property="color">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="button" class="btn btn-primary btn-block" id="button-apply-default-color-back"
                                                 onclick="">&gt;</button>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="default-title-size" class="col-sm-4 control-label">Title font size</label>
+                                    <div class="form-group slim-buttons-row">
+                                        <label for="default-icon-back" class="col-sm-4 control-label">Back icon</label>
+                                        <div class="col-sm-6">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default icon-select-button"
+                                                        type="button">Search</button>
+                                                </span>
+                                                <input type="text" id="default-icon-back" class="form-control icon-list"
+                                                    placeholder="Icon name">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="button" class="btn btn-primary btn-block" id="button-apply-default-icon-back"
+                                                onclick="">&gt;</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group slim-buttons-row">
+                                        <label for="default-icon-back-container" class="col-sm-4 control-label"></label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" id="default-icon-back-container">
+                                                <option value="none">None</option>
+                                                <option value="square">Square</option>
+                                                <option value="rounded-square">Rounded square</option>
+                                                <option value="circle">Circle</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="button" class="btn btn-primary btn-block" id="button-apply-default-icon-back-container"
+                                                onclick="">&gt;</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group slim-buttons-row">
+                                        <label for="default-title-size" class="col-sm-4 control-label">Title size</label>
                                         <div class="col-sm-6">
                                             <select class="form-control" id="default-title-size">
                                                 <option value="16">16pt</option>
                                                 <option value="15">15pt</option>
                                                 <option value="14">14pt</option>
-                                                <option value="13" selected>13pt (initial)</option>
+                                                <option value="13">13pt (initial)</option>
                                                 <option value="12">12pt</option>
                                                 <option value="11">11pt</option>
                                                 <option value="10">10pt</option>
@@ -479,7 +511,7 @@
                                                 onclick="">&gt;</button>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group slim-buttons-row">
                                         <label for="default-card-font-size" class="col-sm-4 control-label">Text font size</label>
                                         <div class="col-sm-6">
                                             <select class="form-control" id="default-card-font-size">
@@ -495,6 +527,15 @@
                                         <div class="col-sm-2">
                                             <button type="button" class="btn btn-primary btn-block" id="button-apply-default-font-card"
                                                 onclick="">&gt;</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group slim-buttons-row">
+                                        <div class="col-sm-4">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <button type="button" class="btn btn-default" style="width: 100%;" id="reset-default-values">Reset default values</button>
+                                        </div>
+                                        <div class="col-sm-2">
                                         </div>
                                     </div>
                                 </form>
@@ -524,7 +565,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="card-title-size" class="col-sm-2 control-label">Title font size</label>
+                        <label for="card-title-size" class="col-sm-2 control-label">Title size</label>
                         <div class="col-sm-10">
                             <select class="form-control" id="card-title-size" data-property="title_size">
                                 <option value="16">16pt</option>
@@ -564,14 +605,34 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="card-icon" class="col-sm-2 control-label">Front icons</label>
+                        <label for="card-color-front" class="col-sm-2 control-label">Front color</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <select id="card-color-front-selector" class="colorselector-data"></select>
+                                <input type="text" id="card-color-front" class="form-control" placeholder="Default color"
+                                    data-property="color-front">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="card-icon-front" class="col-sm-2 control-label">Front icons</label>
                         <div class="col-sm-10">
                             <div class="input-group">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default icon-select-button" type="button">Search</button>
                                 </span>
-                                <input type="text" id="card-icon" class="form-control icon-list"
+                                <input type="text" id="card-icon-front" class="form-control icon-list"
                                     placeholder="Card icons, space separated" data-property="icon_front">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="card-color-back" class="col-sm-2 control-label">Back color</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <select id="card-color-back-selector" class="colorselector-data"></select>
+                                <input type="text" id="card-color-back" class="form-control" placeholder="Default color"
+                                    data-property="color-back">
                             </div>
                         </div>
                     </div>
@@ -588,17 +649,18 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="card-color" class="col-sm-2 control-label">Color</label>
-                        <div class="col-sm-10">
-                            <div class="input-group">
-                                <select id="card-color-selector" class="colorselector-data"></select>
-                                <input type="text" id="card-color" class="form-control" placeholder="Default color"
-                                    data-property="color">
-                            </div>
-                        </div>
+                         <label for="card-icon-back-container" class="col-sm-2 control-label"></label>
+                         <div class="col-sm-10">
+                            <select class="form-control" id="card-icon-back-container" data-property="icon_back_container">
+                                <option value="none">None</option>
+                                <option value="square">Square</option>
+                                <option value="rounded-square">Rounded square</option>
+                                <option value="circle">Circle</option>
+                            </select>
+                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="card-background" class="col-sm-2 control-label">Background</label>
+                        <label for="card-background" class="col-sm-2 control-label">Back image</label>
                         <div class="col-sm-10">
                             <input type="text" id="card-background" class="form-control"
                                 placeholder="Background image URL" data-property="background_image">

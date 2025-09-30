@@ -104,3 +104,14 @@
   line-height: 32px;
   margin-bottom: 5px;
 }
+
+.slim-buttons-row > div {
+  padding-left: 7.5px;
+  padding-right: 7.5px;
+}
+
+.slim-buttons-row .btn {
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
