@@ -85,3 +85,7 @@ function insertTextWithUndo(textarea, text, start, end) {
     textarea.selectionStart = textarea.selectionEnd = newPos;
   }
 }
+
+function isNil(q) {
+  return q === null || q === undefined;
+}

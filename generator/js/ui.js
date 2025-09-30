@@ -866,18 +866,18 @@ function legacy_card_data(oldData = []) {
     let changed = false;
     const newData = oldData?.map(oldCard => {
         const card = card_init({ ...oldCard });
-        if (card.icon !== undefined) {
+        if (!isNil(card.icon)) {
             card.icon_front = card.icon;
             delete card.icon;
             changed = true;
         }
-        if (card.color !== undefined) {
+        if (!isNil(card.color)) {
             card.color_front = card.color;
             card.color_back = '';
             delete card.color;
             changed = true;
         }
-        if (card.icon_back_container === undefined) {
+        if (!isNil(card.icon_back_container)) {
             card.icon_back_container = 'rounded-square';
             changed = true;
         }
@@ -889,6 +889,10 @@ function legacy_card_data(oldData = []) {
 function legacy_card_options(oldData = {}) {
     let changed = false;
     const newData = { ...oldData };
+    if (!isNil(newData.default_icon_back_container)) {
+        newData.default_icon_back_container = 'rounded-square';
+        changed = true;
+    }
     return [newData, changed];
 }
 
