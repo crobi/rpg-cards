@@ -905,6 +905,8 @@ function local_store_load() {
                 if (changed) {
                     card_data = newCardData;
                     local_store_save();
+                } else {
+                    card_data = storedCards;
                 }
             }
             const storedOptions = JSON.parse(localStorage.getItem("card_options"));
