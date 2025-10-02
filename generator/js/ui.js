@@ -137,18 +137,18 @@ function ui_copy_card() {
     const card = ui_selected_card();
     if (card && card_data.length > 0) {
         navigator.clipboard.writeText(JSON.stringify(card, null, 2)).then(function() {
-            alert('Card "' + card.title + '" was copied to the clipboard');
+            showToast('Card "' + card.title + '" was copied to the clipboard');
         }, function() {
-            alert('Failure to copy: Check permissions for clipboard or try with another browser');
+            showToast('Failure to copy: Check permissions for clipboard or try with another browser');
         });
     }
 }
 
 function ui_copy_all_cards() {
     navigator.clipboard.writeText(JSON.stringify(card_data, null, 2)).then(function() {
-        alert('All cards were copied to the clipboard');
+        showToast('All cards were copied to the clipboard');
     }, function() {
-        alert('Failure to copy: Check permissions for clipboard or try with another browser');
+        showToast('Failure to copy: Check permissions for clipboard or try with another browser');
     });
 }
 
@@ -219,24 +219,48 @@ function ui_update_card_list() {
     ui_update_selected_card();
 }
 
-function ui_save_file() {
+let ui_save_file_filename = 'rpg_cards.json';
+async function ui_save_file() {
+    const usePicker = $('#native-save-file-picker').prop('checked');
+    console.log('xxx usePicker',usePicker);
     var str = JSON.stringify(card_data, null, "  ");
     var parts = [str];
     var blob = new Blob(parts, { type: 'application/json' });
-    var url = URL.createObjectURL(blob);
 
-    var a = $("#file-save-link")[0];
-    a.href = url;
-    var filename = prompt("Filename:", ui_save_file.filename);
-    if (filename) {
-        a.download = filename 
-        ui_save_file.filename = filename;
-        a.click();
+    if (window.showSaveFilePicker && usePicker) {
+        try {
+          const options = {
+            suggestedName: ui_save_file_filename,
+            types: [{
+              description: 'File JSON',
+              accept: { 'application/json': ['.json'] }
+            }]
+          };
+
+          const handle = await showSaveFilePicker(options);
+          const writable = await handle.createWritable();
+          await writable.write(jsonString);
+          await writable.close();
+          return;
+        } catch (err) {
+          if (err.name === 'AbortError') {
+            return;
+          }
+        }
     }
 
+    var url = URL.createObjectURL(blob);
+    var a = $("#file-save-link")[0];
+    a.href = url;
+    var filename = ui_save_file_filename;
+    if (!usePicker) filename = prompt("Filename:", ui_save_file_filename);
+    if (filename) {
+        a.download = filename 
+        ui_save_file_filename = filename;
+        a.click();
+    }
     setTimeout(function () { URL.revokeObjectURL(url); }, 500);
 }
-ui_save_file.filename = 'rpg_cards.json';
 
 function ui_update_selected_card() {
     var card = ui_selected_card();
@@ -920,11 +944,36 @@ function local_store_load() {
     }
 }
 
+function showToast(message, type = 'info', duration = 5000) {
+  // Create toast element with animation class
+  var toastDiv = $('<div class="alert alert-' + type + ' alert-dismissible toast-animate" role="alert" style="min-width: 250px; margin-top: 10px;">' +
+                     '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                       '<span aria-hidden="true">&times;</span>' +
+                     '</button>' +
+                     message +
+                   '</div>');
+
+    $('#toast-container').append(toastDiv);
+
+  // Auto-dismiss after duration
+  setTimeout(function () {
+    toastDiv.alert('close');
+  }, duration);
+}
+
 $(document).ready(function () {
     parse_card_actions().then(function () {
         local_store_load();
         ui_setup_color_selector();
 
+    if (window.showSaveFilePicker) {
+        $('#native-save-file-picker').prop('checked', true);
+        $('#native-save-file-picker-available-help').removeClass('hidden');
+    } else {
+        $('#native-save-file-picker').prop('checked', false);
+        $('#native-save-file-picker-unavailable-help').removeClass('hidden');
+    }
+    
     $('#default-icon-front').val(card_options.default_icon_front);
     $('#default-icon-back').val(card_options.default_icon_back);
     $('#default-title-size').val(card_options.default_title_size);
@@ -957,7 +1006,7 @@ $(document).ready(function () {
     $("#file-load").change(ui_load_files);
     $("#button-clear").click(ui_clear_all);
     $("#button-load-sample").click(ui_load_sample);
-    //$("#button-save").click(ui_save_file);
+    $("#button-save").click(ui_save_file);
     $("#button-sort").click(ui_sort);
     $("#button-filter").click(ui_filter);
     $("#button-add-card").click(ui_add_new_card);
