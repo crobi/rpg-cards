@@ -40,13 +40,6 @@ To lanunch the generator locally on your browser:
 
 - Run `npm start` to run the local HTTP server, then open one of the indicated URLs (e.g. http://localhost:8080) in your browser. Please use localhost instead of other aliases, since it is treated as a [secure context](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts). This enables access to more advanced JavaScript features.
 
-
----
-
-Do you want me to make it more formal (e.g., documentation style) or more casual (developer guide style)?
-
-
-
 To deply the generator into a website:
 
 - Deploy the content of the `./generator` folder to your server (i.e. using an FTP client)
