@@ -61,7 +61,7 @@
                 <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span
                         class="sr-only">Close</span></button>
                 <strong>Note</strong>
-                Click on "Open help" to display some information about how to use this generator.
+                Click on "Help" to display some information about how to use this generator.
                 However, if you find a bug or have a feature request, please note that <strong>this project is rarely mantained</strong>.
             </div>
         </div>
@@ -75,15 +75,14 @@
                         <div class="panel-heading" role="tab" id="headingOne">
                             <h4 class="panel-title">
                                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-                                    aria-expanded="true" aria-controls="collapseOne">
+                                    aria-expanded="false" aria-controls="collapseOne">
                                     <!-- PANEL TITLE -->
                                     File
                                     <!-- /PANEL TITLE -->
                                 </a>
                             </h4>
                         </div>
-                        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel"
-                            aria-labelledby="headingOne">
+                        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                             <div class="panel-body">
                                 <!-- PANEL BODY -->
                                 <form style="display:none" id="file-load-form">
@@ -92,39 +91,89 @@
                                 </form>
                                 <form role="form" class="form-horizontal">
                                     <div class="form-group">
-                                        <div class="col-sm-6">
-                                            <button type="button" class="btn btn-info btn-block" id="button-help">Open Help</button>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <button type="button" class="btn btn-primary btn-block"
-                                                id="button-load">Load from file</button>
+                                        <div class="col-sm-12">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="file-name" placeholder="File name">
+                                                <span class="input-group-btn">
+                                                    <button  type="button" class="btn btn-primary" id="button-save">Download</button>
+                                                </span>
+                                            <a href="" id="file-save-link" style="display:none">Hidden download link</a>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div id="download-settings-closed" class="hidden">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <p><a href="javascript:;" id="download-settings-show">Show settings</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="download-settings-opened" class="hidden">
+                                        <p><a href="javascript:;" id="download-settings-hide">Hide settings</a></p>
+                                        <div id="download-settings-available">
+                                            <em class="help-block"><small>Please note that changing one of these settings may automatically adjust another.</small></em>
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <p style="margin-bottom: 0px;">Would you like to select the save location each time you save a file?</p>
+                                                    <label class="radio-inline" style="padding-bottom: 7px;">
+                                                        <input type="radio" name="save-file-dialog" id="save-file-dialog-no" value="0">
+                                                        No
+                                                    </label>
+                                                    <label class="radio-inline" style="padding-bottom: 7px;">
+                                                        <input type="radio" name="save-file-dialog" id="save-file-dialog-yes" value="1">
+                                                        Yes</span>
+                                                        <span id="save-file-custom-dialog-label" class="hidden">File name</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="alert alert-info" role="alert">
+                                                <div class="form-group" style="margin-bottom: 0;">
+                                                    <div style="display: flex;">
+                                                        <div style="padding: 0 15px;">
+                                                            <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                                                        </div>
+                                                        <div style="padding-right: 45px;">
+                                                            <p style="margin-bottom: 0px;">
+                                                                Is your browser set to ask where to save files before downloading?
+                                                            </p>
+                                                            <label class="radio-inline" style="padding-bottom: 7px;">
+                                                                <input type="radio" name="browser-asks-where-save" id="browser-asks-where-save-no" value="0">
+                                                                No
+                                                            </label>
+                                                            <label class="radio-inline" style="padding-bottom: 7px;">
+                                                                <input type="radio" name="browser-asks-where-save" id="browser-asks-where-save-yes" value="1">
+                                                                Yes
+                                                            </label>
+                                                            <em class="help-block" style="margin-bottom: 0;">
+                                                                Ensure this matches your browser download settings; otherwise, the save dialog may behave unexpectedly.
+                                                            </em>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="download-settings-unavailable" class="help-block hidden">
+                                            <p>Download settings are not available. This may be because the browser lacks necessary features (window.showSaveFilePicker) or the page isn't being used in a <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts">secure context</a>.</p>
+                                            <p>In your browser's download settings, you can choose whether to be asked where to save each file and set a default download location.</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="display: flex; align-items: stretch;">
                                         <div class="col-sm-6">
-                                            <button type="button" class="btn btn-primary btn-block"
+                                            <button type="button" class="btn btn-info btn-block" style="white-space: normal; height: 100%;" id="button-help">Help</button>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <button type="button" class="btn btn-primary btn-block" style="white-space: normal; height: 100%;"
+                                                id="button-open">Open</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="display: flex; align-items: stretch;">
+                                        <div class="col-sm-6">
+                                            <button type="button" class="btn btn-primary btn-block" style="white-space: normal; height: 100%;"
                                                 id="button-load-sample">Load sample</button>
                                         </div>
                                         <div class="col-sm-6">
-                                            <button type="button" class="btn btn-primary btn-block" id="button-save"
-                                                >Save to file</button>
-                                            <a href="" download="rpg_cards.json" id="file-save-link"
-                                                style="display:none">Hidden download link</a>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-12">
-                                            <div class="checkbox" style="padding-bottom: 7px;">
-                                                <label>
-                                                    <input type="checkbox" checked id="native-save-file-picker"> Native Save File Picker.
-                                                    <span id="native-save-file-picker-available-help" class="help-block hidden" style="display: inline; font-style: italic;">
-                                                        Note: if your browser is set to ask where to save files before downloading, uncheck this option to avoid seeing two file pickers.
-                                                    </span>
-                                                    <span id="native-save-file-picker-unavailable-help" class="help-block hidden" style="display: inline; font-style: italic;">
-                                                        Note: if your browser is not set to ask where to save files before downloading, the file picker will not appear.
-                                                    </span>
-                                                </label>
-                                            </div>
+                                            <button type="button" class="btn btn-primary btn-block" style="white-space: normal; height: 100%;"
+                                                id="button-load">Load from file</button>
                                         </div>
                                     </div>
                                 </form>
@@ -136,7 +185,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading" role="tab" id="headingDeck">
                             <h4 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseDeck" aria-expanded="false" aria-controls="collapseDeck">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseDeck" aria-expanded="true" aria-controls="collapseDeck">
                                     <!-- PANEL TITLE -->
                                     Deck
                                     <!-- /PANEL TITLE -->
@@ -210,7 +259,7 @@
                                         <div class="col-sm-12">
                                            <div class="checkbox" style="padding-bottom: 7px;">
                                                 <label>
-                                                    <input type="checkbox" checked id="ask-before-delete"> Ask before delete
+                                                    <input type="checkbox" checked id="ask-before-delete"> Ask before deleting
                                                 </label>
                                             </div>
                                         </div>
@@ -545,18 +594,14 @@
                                         </div>
                                     </div>
                                     <div class="form-group slim-buttons-row">
-                                        <div class="col-sm-4">
-                                        </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-12">
                                             <button type="button" class="btn btn-default" style="width: 100%;" id="reset-default-values">Reset default values</button>
-                                        </div>
-                                        <div class="col-sm-2">
                                         </div>
                                     </div>
                                     <div class="help-block">
                                         <p>
                                             An attribute's default value will be applied to cards that are missing a value for that specific attribute. 
-                                            These default values are stored to the browser but not to the file saved using the "Save to file" button.
+                                            These default values are stored to the browser but not to the file saved using the "Download" button.
                                         </p>
                                         <p>
                                             Press the ">" button to overwrite existing attribute values on each card.
@@ -845,7 +890,7 @@ else {
                     <textarea class="form-control" rows="10" id="filter-function" wrap="off">
 // Color all spell cards yellow
 if (card_has_tag(card, "spell")) {
-    card.color = "yellow";
+    card.color = "yellow";w
 }
 
 // Remove all creature cards

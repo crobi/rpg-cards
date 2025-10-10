@@ -1,6 +1,17 @@
 // Ugly global variable holding the current card deck
 var card_data = [];
 var card_options = card_default_options();
+var app_settings = app_default_settings();
+
+function app_default_settings() {
+    return {
+        defaultFileName: 'rpg_cards',
+        currentFileName: 'rpg_cards',
+        browserAsksWhereSave: false,
+        openSaveDialog: false,
+        showDownloadSettings: true
+    }
+}
 
 function mergeSort(arr, compare) {
     if (arr.length < 2)
@@ -61,28 +72,54 @@ function ui_load_sample() {
     // card_data = card_data_example;
     // ui_init_cards(card_data);
     // ui_update_card_list();
+    const firstAddedCardIndex = card_data.length;
     ui_add_cards(card_data_example);
+    ui_select_card_by_index(firstAddedCardIndex);
 }
 
 function ui_clear_all() {
+    if (!card_data.length) {
+        return true;
+    }
     const proceed = document.getElementById('ask-before-delete').checked ? confirm('Delete all cards?') : true;
-    if (!proceed) return;
-    card_data = [];
-    ui_update_card_list();
+    if (proceed) {
+        card_data = [];
+        ui_update_card_list();
+        $('#file-name').val(app_settings.defaultFileName).trigger('change');
+    }
+    return proceed;
 }
 
 function ui_load_files(evt) {
     // ui_clear_all();
+    const target = evt.target;
+    const files = target.files;
+    const isOpening = Boolean(Number(evt.target.getAttribute('data-opening')));
+    const firstAddedCardIndex = card_data.length;
 
-    var files = evt.target.files;
+    for (let i = 0; i < files.length; i++) {
+        let f = files[i];
+        const reader = new FileReader();
 
-    for (var i = 0, f; f = files[i]; i++) {
-        var reader = new FileReader();
-
-        reader.onload = function (reader) {
-            var data = JSON.parse(this.result);
-            const [newData] = legacy_card_data(data);
-            ui_add_cards(newData);
+        reader.onload = function () {
+            const result = (this.result || '').trim();
+            if (!result) {
+                showToast(`The file ${f.name} is empty.`);
+                return;
+            }
+            try {
+                const data = JSON.parse(result);
+                const newData = legacy_card_data(data);
+                ui_add_cards(newData);
+                if (isOpening) {
+                    $('#file-name').val(f.name.replace(/\.[^/.]+$/, '')).change();
+                } else {
+                    ui_select_card_by_index(firstAddedCardIndex);
+                }
+            } catch (err) {
+                console.error(`Error parsing ${f.name}:`, err);
+                showToast(`Error parsing ${f.name}:`, 'danger');
+            }
         };
 
         reader.readAsText(f);
@@ -103,9 +140,7 @@ function ui_add_cards(data) {
     card_data = card_data.concat(newData);
     ui_update_card_list();
     ui_select_card_by_index(0);
-
     $("#collapseDeck").collapse('toggle');
-    if ($("#collapseOne").hasClass('in')) $('#collapseOne').collapse('hide');
 }
 
 function ui_add_new_card() {
@@ -219,41 +254,42 @@ function ui_update_card_list() {
     ui_update_selected_card();
 }
 
-let ui_save_file_filename = 'rpg_cards.json';
 async function ui_save_file() {
-    const usePicker = $('#native-save-file-picker').prop('checked');
-    console.log('xxx usePicker',usePicker);
-    var str = JSON.stringify(card_data, null, "  ");
-    var parts = [str];
-    var blob = new Blob(parts, { type: 'application/json' });
+    const str = JSON.stringify(card_data, null, "  ");
+    const parts = [str];
+    const blob = new Blob(parts, { type: 'application/json' });
 
-    if (window.showSaveFilePicker && usePicker) {
-        try {
-          const options = {
-            suggestedName: ui_save_file_filename,
-            types: [{
-              description: 'File JSON',
-              accept: { 'application/json': ['.json'] }
-            }]
-          };
+    let filename = app_settings.currentFileName;
 
-          const handle = await showSaveFilePicker(options);
-          const writable = await handle.createWritable();
-          await writable.write(jsonString);
-          await writable.close();
-          return;
-        } catch (err) {
-          if (err.name === 'AbortError') {
-            return;
-          }
+    if (window.showSaveFilePicker) {
+        if (app_settings.openSaveDialog) {
+            if (!app_settings.browserAsksWhereSave) {
+                try {
+                    const options = {
+                        suggestedName: app_settings.currentFileName + '.json',
+                        types: [{
+                        description: 'File JSON',
+                        accept: { 'application/json': ['.json'] }
+                        }]
+                    };
+
+                    const handle = await showSaveFilePicker(options);
+                    const writable = await handle.createWritable();
+                    await writable.write(jsonString);
+                    await writable.close();
+                    return;
+                } catch (err) {
+                    if (err.name === 'AbortError') {
+                        return;
+                    }
+                }
+            }
         }
     }
 
-    var url = URL.createObjectURL(blob);
-    var a = $("#file-save-link")[0];
+    const url = URL.createObjectURL(blob);
+    const a = $("#file-save-link")[0];
     a.href = url;
-    var filename = ui_save_file_filename;
-    if (!usePicker) filename = prompt("Filename:", ui_save_file_filename);
     if (filename) {
         a.download = filename 
         ui_save_file_filename = filename;
@@ -879,6 +915,7 @@ function local_store_save() {
         try {
             localStorage.setItem("card_data", JSON.stringify(card_data));
             localStorage.setItem("card_options", JSON.stringify(card_options));
+            localStorage.setItem("app_settings", JSON.stringify(app_settings));
         } catch (e){
             //if the local store save failed should we notify the user that the data is not being saved?
             console.log(e);
@@ -887,37 +924,37 @@ function local_store_save() {
 }
 
 function legacy_card_data(oldData = []) {
-    let changed = false;
     const newData = oldData?.map(oldCard => {
         const card = card_init({ ...oldCard });
         if (!isNil(card.icon)) {
             card.icon_front = card.icon;
             delete card.icon;
-            changed = true;
         }
         if (!isNil(card.color)) {
             card.color_front = card.color;
             card.color_back = '';
             delete card.color;
-            changed = true;
         }
         if (!isNil(card.icon_back_container)) {
             card.icon_back_container = 'rounded-square';
-            changed = true;
         }
         return card;
     });
-    return [newData, changed];
+    return newData;
 }
 
-function legacy_card_options(oldData = {}) {
-    let changed = false;
-    const newData = { ...oldData };
-    if (!isNil(newData.default_icon_back_container)) {
-        newData.default_icon_back_container = 'rounded-square';
-        changed = true;
-    }
-    return [newData, changed];
+function legacy_card_options(data = {}) {
+    return {
+        ...card_default_options(),
+        ...data
+    };
+}
+
+function legacy_app_settings(data = {}) {
+    return {
+        ...app_default_settings(),
+        ...data
+    };
 }
 
 function local_store_load() {
@@ -925,21 +962,21 @@ function local_store_load() {
         try {
             const storedCards = JSON.parse(localStorage.getItem("card_data"));
             if (storedCards) {
-                const [newCardData, changed] = legacy_card_data(storedCards);
-                if (changed) {
-                    card_data = newCardData;
-                    local_store_save();
-                } else {
-                    card_data = storedCards;
-                }
+                card_data = legacy_card_data(storedCards)
             }
             const storedOptions = JSON.parse(localStorage.getItem("card_options"));
             if (storedOptions) {
-                [card_options] = legacy_card_options(storedOptions);
+                card_options = legacy_card_options(storedOptions);
+            }
+            const storedSettings = JSON.parse(localStorage.getItem("app_settings"));
+            if (storedSettings) {
+                app_settings = legacy_app_settings(storedSettings);
             }
         } catch (e){
             //if the local store load failed should we notify the user that the data load failed?
-            console.log(e);
+            showToast('Error loading from localStorage', 'danger')
+            console.error(e);
+
         }
     }
 }
@@ -961,19 +998,66 @@ function showToast(message, type = 'info', duration = 5000) {
   }, duration);
 }
 
+function ui_change_current_file_name(event) {
+    if (event.target.value) {
+        app_settings.currentFileName = event.target.value;
+    } else {
+        app_settings.currentFileName = app_settings.defaultFileName;
+        event.target.value = app_settings.defaultFileName;
+    }
+    local_store_save();
+}
+
+function ui_change_browser_asks_where_save(event) {
+    const browserAsks = Boolean(Number(event.target.value));
+    app_settings.browserAsksWhereSave = browserAsks;
+    if (browserAsks) {
+        $('#save-file-dialog-yes').prop('checked', true).change();
+    }
+    local_store_save();
+}
+
+function ui_change_save_file_dialog(event) {
+    const openDialog = Boolean(Number(event.target.value));
+    app_settings.openSaveDialog = openDialog;
+    if (!openDialog) {
+        $('#browser-asks-where-save-no').prop('checked', true).change();
+    }
+    local_store_save();
+}
+
+function ui_download_settings_toggle(event) {
+    $('#download-settings-opened,#download-settings-closed').toggleClass('hidden');
+    app_settings.showDownloadSettings = event.target.id === ('download-settings-show');
+    local_store_save();
+}
+
 $(document).ready(function () {
     parse_card_actions().then(function () {
         local_store_load();
         ui_setup_color_selector();
 
-    if (window.showSaveFilePicker) {
-        $('#native-save-file-picker').prop('checked', true);
-        $('#native-save-file-picker-available-help').removeClass('hidden');
-    } else {
-        $('#native-save-file-picker').prop('checked', false);
-        $('#native-save-file-picker-unavailable-help').removeClass('hidden');
+    // accordion panel collapse fix
+    $('#accordion .panel-collapse').on('show.bs.collapse', function(event){
+        $('#accordion .panel-collapse').not(event.target).collapse('hide');
+    });
+
+    if (!window.showSaveFilePicker) {
+        $('#download-settings-available,#download-settings-unavailable').toggleClass('hidden');
     }
-    
+
+    if (app_settings.showDownloadSettings) {
+        $('#download-settings-opened').removeClass('hidden');
+    } else {
+        $('#download-settings-closed').removeClass('hidden');
+    }
+
+    $('#download-settings-show,#download-settings-hide').click(ui_download_settings_toggle);
+
+    $('#file-name').val(app_settings.currentFileName).change(ui_change_current_file_name).focus(function(){this.select()});
+    $(`input[name="browser-asks-where-save"]`).change(ui_change_browser_asks_where_save).filter(`[value="${Number(app_settings.browserAsksWhereSave)}"]`).prop('checked', true);
+    $(`input[name="save-file-dialog"]`).change(ui_change_save_file_dialog).filter(`[value="${Number(app_settings.openSaveDialog)}"]`).prop('checked', true);
+
     $('#default-icon-front').val(card_options.default_icon_front);
     $('#default-icon-back').val(card_options.default_icon_back);
     $('#default-title-size').val(card_options.default_title_size);
@@ -1002,7 +1086,13 @@ $(document).ready(function () {
     });
 
     $("#button-generate").click(ui_generate);
-    $("#button-load").click(function () { $("#file-load").click(); });
+    $("#button-load").click(function () {
+        $("#file-load").attr('data-opening', '0').click();
+    });
+    $("#button-open").click(function () {
+        if (!ui_clear_all()) return;
+        $("#file-load").attr('data-opening', '1').click();
+    });
     $("#file-load").change(ui_load_files);
     $("#button-clear").click(ui_clear_all);
     $("#button-load-sample").click(ui_load_sample);
@@ -1074,7 +1164,6 @@ $(document).ready(function () {
     }
 
     function ui_reset_default_values(event) {
-        event.target.blur();
         ui_set_default_values(card_default_options());
     }
 

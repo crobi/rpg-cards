@@ -23,8 +23,8 @@ function card_default_options() {
     card_count: null,
     icon_inline: true,
     rounded_corners: true,
-    back_bleed_width: "0mm",
-    back_bleed_height: "0mm",
+    back_bleed_width: "2mm",
+    back_bleed_height: "2mm",
     card_type: "",
   };
 }
