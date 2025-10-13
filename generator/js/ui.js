@@ -935,7 +935,7 @@ function legacy_card_data(oldData = []) {
             card.color_back = '';
             delete card.color;
         }
-        if (!isNil(card.icon_back_container)) {
+        if (isNil(card.icon_back_container)) {
             card.icon_back_container = 'rounded-square';
         }
         return card;
