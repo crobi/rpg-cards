@@ -214,12 +214,14 @@ function ui_paste_card() {
 }
 
 function ui_select_card_by_index(index) {
-    $("#selected-card").val(index);
+    $(`#deck-cards-list .radio:nth-child(${index + 1}) input[type="radio"]`).prop('checked', true);
     ui_update_selected_card();
 }
 
 function ui_selected_card_index() {
-    return document.getElementById('selected-card').options.selectedIndex;
+    const $checkedInput = $('#deck-cards-list input[type="radio"]:checked');
+    if (!$checkedInput) return -1;
+    return $checkedInput.closest('.radio').index();
 }
 
 function ui_selected_card() {
@@ -241,14 +243,16 @@ const ui_deck_option_text = (card) => {
 }
 
 function ui_update_card_list() {
-    $("#total_card_count").text(`Contains ${card_data.length} unique cards, ${card_data.reduce((result, card) => {
+    $("#total-card-count").text(`Contains ${card_data.length} unique cards, ${card_data.reduce((result, card) => {
         return result + (card?.count || 1) * 1;
     }, 0)} in total.`);
 
-    $('#selected-card').empty();
+    const $deck = $('#deck-cards-list');
+
+    $deck.empty();
     for (var i = 0; i < card_data.length; ++i) {
         var card = card_data[i];
-        $('#selected-card').append(`<option value="${i}">${ui_deck_option_text(card)}</option>`);
+        $deck.append(`<div class="radio"><label><input type="radio" name="deck-option" value="${i}"> <span>${ui_deck_option_text(card)}</span></label></div>`);
     }
 
     ui_update_selected_card();
@@ -335,20 +339,20 @@ function ui_update_selected_card() {
 }
 
 function ui_filter_selected_card_title() {
-    const filterInput = document.querySelector('#selected-card-title-filter');
+    const filterInput = document.querySelector('#deck-cards-list-title-filter');
     const filterValue = filterInput.value;
     const re = new RegExp(filterValue, 'i');
     const clearButton = filterInput.parentElement.querySelector('button');
     const clearButtonLabel = clearButton.querySelector('span');
     clearButton.disabled = !filterValue;
     clearButtonLabel.style.visibility = filterValue ? '' : 'hidden';
-    document.querySelectorAll('#selected-card option').forEach(option => {
+    document.querySelectorAll('#deck-cards-list .radio').forEach(option => {
         option.style.display = re.test(option.textContent) ? '' : 'none';
     });
 }
 
 function ui_filter_selected_card_title_clear() {
-    $('#selected-card-title-filter').focus().val('');
+    $('#deck-cards-list-title-filter').focus().val('');
     ui_filter_selected_card_title();
 }
 
@@ -657,7 +661,7 @@ function ui_change_card_title() {
     var card = ui_selected_card();
     if (card) {
         card.title = title;
-        $("#selected-card option:selected").text(ui_deck_option_text(card));
+        $('#deck-cards-list .radio:has(input[type="radio"]:checked) .text').text(ui_deck_option_text(card));
         ui_render_selected_card();
     }
 }
@@ -667,7 +671,7 @@ function ui_change_card_count() {
     var card = ui_selected_card();
     if (card) {
         card.count = count;
-        $("#selected-card option:selected").text(ui_deck_option_text(card));
+        $('#deck-cards-list .radio:has(input[type="radio"]:checked) .text').text(ui_deck_option_text(card));
     }
 }
 
@@ -1114,9 +1118,9 @@ $(document).ready(function () {
     $("#button-apply-default-icon-back").click(ui_apply_default_icon_back);
     $("#button-apply-default-icon-back-container").click(ui_apply_default_icon_back_container);
 
-    $("#selected-card").change(ui_update_selected_card);
-    $("#selected-card-title-filter").on('input', ui_filter_selected_card_title);
-    $("#selected-card-title-filter-clear").click(ui_filter_selected_card_title_clear);
+    $("#deck-cards-list").change(ui_update_selected_card);
+    $("#deck-cards-list-title-filter").on('input', ui_filter_selected_card_title);
+    $("#deck-cards-list-title-filter-clear").click(ui_filter_selected_card_title_clear);
 
     $("#card-title").change(ui_change_card_title);
     $("#card-type").change(ui_change_card_property);
