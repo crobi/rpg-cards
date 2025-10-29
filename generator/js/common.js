@@ -1,21 +1,38 @@
-function parseNumberAndMeasureUnit(value) {
-    var re = /\d+(\.\d{1,2})?/;
-    var matches = String(value).match(re);
-    if (!matches) return null;
-    var number = matches[0];
-    var mu = value.slice(number.length);
-    return { number: Number(number), mu: mu };
+// Measure Unit and Number parts
+function UnitValue(v, m) {
+    const re = /^(\d+)(?:\.\d+)?(mm|in)$/;
+    const allowedMU = ['mm', 'in'];
+    let value, mu;
+    if (!m) {
+        value = parseFloat(v);
+        [, , mu] = v.match(re) || [];
+    } else {
+        value = v;
+        mu = m;
+    }
+    if (!allowedMU.includes(mu)) {
+        [, , mu] = card_options['card_width'].match(re) || [];
+        if (!allowedMU.includes(mu)) {
+            mu = 'mm';
+        }
+    }
+    if (Number.isNaN(value)) {
+      value = 0;
+    }
+    this.value = value;
+    this.mu = mu;
+    return this;
+}
+
+UnitValue.prototype.toString = function () {
+    return new BigNumber(this.value).toFixed(2).replace(/\.?0+$/, '') + this.mu;
 }
 
 function getOrientation(cssWidth, cssHeight) {
     var orientation = "";
-    var widthMatches = parseNumberAndMeasureUnit(cssWidth);
-    var heightMatches = parseNumberAndMeasureUnit(cssHeight);
-    if (widthMatches && heightMatches) {
-        var width = widthMatches.number;
-        var height = heightMatches.number;
-        orientation = width > height ? 'landscape' : 'portrait'; 
-    }
+    var width = new UnitValue(cssWidth);
+    var height = new UnitValue(cssHeight);
+    orientation = width.value > height.value ? 'landscape' : 'portrait'; 
     return orientation;
 }
 

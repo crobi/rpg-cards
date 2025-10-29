@@ -15,11 +15,14 @@ function card_default_options() {
     page_size: "210mm,297mm",
     page_rows: "3",
     page_columns: "3",
-    page_zoom: "100",
+    page_zoom_width: 100,
+    page_zoom_height: 100,
     card_arrangement: "doublesided",
-    card_size: "2.5in,3.5in",
-    card_width: "2.5in",
-    card_height: "3.5in",
+    card_size: "63mm,88mm",
+    card_width: "63mm",
+    card_height: "88mm",
+    card_zoom_width: "63mm",
+    card_zoom_height: "88mm",
     card_count: null,
     icon_inline: true,
     rounded_corners: true,
@@ -94,6 +97,14 @@ function card_data_icon_back(card_data, options) {
 
 function card_data_icon_back_container(card_data, options) {
   return card_data.icon_back_container || options.default_icon_back_container || "";
+}
+
+function card_data_icon_back_rotation(card_data, options) {
+  return card_data.icon_back_rotation || options.default_icon_back_rotation || "";
+}
+
+function card_data_back_image(card_data, options) {
+  return card_data.background_image || options.default_background_image || "";
 }
 
 function card_data_split_params(value) {
@@ -991,16 +1002,25 @@ function card_generate_color_back_style(color, data = {}, options = {}) {
   return `style="color:${color};background-color:${color}"`;
 }
 
-function card_generate_color_back_icon_style(color, data = {}, options = {}) {
+function card_generate_back_icon_style(color, data = {}, options = {}) {
+  const rotation = card_data_icon_back_rotation(data, options);
   let bgStyle = '';
   if (data.icon_back_container !== 'none') {
-    bgStyle = `border-color:${color};background-color:${color}`;
+    bgStyle = `background-repeat: no-repeat; transform: rotate(${rotation}deg);`;
+  }
+  return `style="${bgStyle}"`;
+}
+
+function card_generate_back_icon_container_style(color, data = {}, options = {}) {
+  let bgStyle = '';
+  if (data.icon_back_container !== 'none') {
+    bgStyle = `border-color:${color}; background-color:${color}; display: flex; justify-content: center; align-items: center;`;
   }
   return `style="${bgStyle}"`;
 }
 
 function card_generate_color_gradient_style(color, options) {
-  return `style="background: radial-gradient(ellipse at center, white 20%, ${color} 120%)"`;  
+  return `style="background: radial-gradient(ellipse at center, white 20%, ${color} 120%);"`;  
 }
 
 function add_size_to_style(style, width, height) {
@@ -1070,27 +1090,29 @@ function card_generate_back(data, options, isPreview = true) {
   var $tmpCardInner = $tmpCard.find(".card-back-inner");
   var innerWidth = $tmpCardInner.width();
   var innerHeight = $tmpCardInner.height();
-  var iconSize = Math.min(innerWidth, innerHeight) / 2 + "px";
+  var iconContainerSize = Math.min(innerWidth, innerHeight) / 2;
+  var iconSize = iconContainerSize * 0.75;
   $tmpCard.remove();
 
-  var icon_style = add_size_to_style(card_generate_color_back_icon_style(color, data, options), iconSize, iconSize);
-
   var url = data.background_image;
-  var background_style = "";
+  var card_background_style = "";
   if (url) {
-    background_style = `style = "background-image: url(&quot;${url}&quot;); background-size: contain; background-position: center; background-repeat: no-repeat;"`;
+    card_background_style = `style="background-image: url(&quot;${url}&quot;); background-size: contain; background-position: center; background-repeat: no-repeat;"`;
   } else {
-    background_style = card_generate_color_gradient_style(color, options);
+    card_background_style = card_generate_color_gradient_style(color, options);
   }
   var icon = card_data_icon_back(data, options);
   var icon_container = card_data_icon_back_container(data, options);
 
+  var icon_container_style = add_size_to_style(card_generate_back_icon_container_style(color, data, options), `${iconContainerSize}px`, `${iconContainerSize}px`);
+  var icon_style = card_generate_back_icon_style(color, data, options);
+
   var result = "";
   result += `<div class="card ${options.rounded_corners ? "rounded-corners" : ""}" ${card_style}>`
-  result += `<div class="card-back" ${background_style}>`;
+  result += `<div class="card-back" ${card_background_style}>`;
   if (!url) {
     result += `<div class="card-back-inner">`;
-    result += `<div class="card-back-icon card-back-icon-${icon_container} icon-${icon}" ${icon_style}></div>`;
+    result += `<div class="card-back-icon card-back-icon-${icon_container}" ${icon_container_style}><div class="icon-${icon}" ${icon_style}></div></div>`;
     result += `</div>`;
   }
   result += `</div>`;
@@ -1200,8 +1222,6 @@ function card_pages_wrap(pages, options) {
   var orientation = getOrientation(options.page_width, options.page_height);
   var pageWidth = options.page_width;
   var pageHeight = options.page_height;
-  var parsedPageWidth = parseNumberAndMeasureUnit(pageWidth || "210mm");
-  var parsedPageHeight = parseNumberAndMeasureUnit(pageHeight || "297mm");
 
   var result = "";
   for (var i = 0; i < pages.length; ++i) {
@@ -1211,28 +1231,25 @@ function card_pages_wrap(pages, options) {
     } else {
       style += "background-color:" + options.foreground_color + ";";
     }
-    // style += 'padding-left: calc( (' + (parsedPageWidth.number + parsedPageWidth.mu) + ' - ' + options.card_width + ' * ' + options.page_columns + ' ) / 2);';
-    // style += 'padding-right: calc( (' + (parsedPageWidth.number + parsedPageWidth.mu) + ' - ' + options.card_width + ' * ' + options.page_columns + ' ) / 2);';
     style += '"';
     style = add_size_to_style(
       style,
-      parsedPageWidth.number + parsedPageWidth.mu,
-      parsedPageHeight.number + parsedPageHeight.mu
+      pageWidth,
+      pageHeight
     );
 
-    var z = options.page_zoom / 100;
-    // var zoomWidth = parsedPageWidth.number * z;
-    // var zoomHeight = parsedPageHeight.number * z;
+    var zw = options.page_zoom_width / 100;
+    var zh = options.page_zoom_height / 100;
     var zoomStyle = 'style="';
-    zoomStyle += "transform: scale(" + z + ");";
+    zoomStyle += `transform: scale(${zw} ${zh});`;
     if (options.card_arrangement === "doublesided" && i % 2 === 1) {
       zoomStyle += "flex-direction:" + "row-reverse" + ";";
     }
     zoomStyle += '"';
     zoomStyle = add_size_to_style(
       zoomStyle,
-      parsedPageWidth.number + parsedPageWidth.mu,
-      parsedPageHeight.number + parsedPageHeight.mu
+      `calc((${options.card_width} + ${options.back_bleed_width}) * ${options.page_rows})`,
+      `calc((${options.card_height} + ${options.back_bleed_height}) * ${options.page_columns})`
     );
 
     result +=

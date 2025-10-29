@@ -10,6 +10,8 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
+    <!-- Library: bignumber -->
+    <script type="text/javascript" src="lib/bignumber/bignumber.min.js" charset="utf-8"></script>
     <!-- Library: jQuery -->
     <script type="text/javascript" src="lib/jquery/jquery.min.js" charset="utf-8"></script>
     <!-- Library: Bootstrap -->
@@ -66,7 +68,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12 col-lg-3">
+            <div class="col-md-12 col-lg-3" style="overflow-y: auto;">
 
 
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -169,11 +171,11 @@
                                     <div class="form-group" style="display: flex; align-items: stretch;">
                                         <div class="col-sm-6">
                                             <button type="button" class="btn btn-primary btn-block" style="white-space: normal; height: 100%;"
-                                                id="button-load-sample">Load sample</button>
+                                                id="button-load-sample">Add sample</button>
                                         </div>
                                         <div class="col-sm-6">
                                             <button type="button" class="btn btn-primary btn-block" style="white-space: normal; height: 100%;"
-                                                id="button-load">Load from file</button>
+                                                id="button-load">Add</button>
                                         </div>
                                     </div>
                                 </form>
@@ -192,7 +194,7 @@
                                 </a>
                             </h4>
                         </div>
-                        <div id="collapseDeck" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingDeck">
+                        <div id="collapseDeck" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingDeck">
                             <div class="panel-body">
                                 <!-- PANEL BODY -->
                                 <form role="form" class="form-horizontal">
@@ -289,7 +291,7 @@
                                 </a>
                             </h4>
                         </div>
-                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                        <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel"
                             aria-labelledby="headingTwo">
                             <div class="panel-body">
                                 <!-- PANEL BODY -->
@@ -324,20 +326,23 @@
                                     <div class="form-group">
                                         <label for="card-size" class="col-sm-4 control-label">Card Size</label>
                                         <div class="col-sm-8">
-                                            <select class="form-control" id="card-size" data-option="card_size">
-                                                <option value="63mm,88mm">Standard, Poker EU, MtG - 63mm &times; 88mm</option>
-                                                <option value="2.5in,3.5in">Standard, Poker US - 2 1/2” &times; 3 1/2”</option>
-                                                <option value="2.25in,3.5in">Standard, American - 2 1/4” &times; 3 1/2”</option>
-                                                <option value="59mm,92mm">Standard, European - 59mm &times; 92mm</option>
+                                            <select class="form-control card-size" id="card-size" data-option="card_size">
+                                                <option value="63mm,88mm">Poker EU, MtG - 63mm &times; 88mm</option>
+                                                <option value="2.5in,3.5in">Poker US - 2 1/2” &times; 3 1/2”</option>
+                                                <option value="57mm,89mm">Bridge - 57mm &times; 89mm</option>
+                                                <option value="2.25in,3.5in">Bridge - 2 1/4” &times; 3 1/2”</option>
+                                                <option value="59mm,92mm">Standard - 59mm &times; 92mm</option>
+                                                <option value="2.25in,3.5in">Standard - 2 1/4” &times; 3 1/2”</option>
                                                 <option value="3in,2in">Standard Small - 3” &times; 2”</option>
                                                 <option value="3.5in,5in">Standard Large - 3 1/2” &times; 5”</option>
                                                 <option value="3.5in,5.5in">Standard Jumbo - 3 1/2” &times; 5 1/2”</option>
+                                                <option value="44mm,68mm">Mini - 44m &times; 68mm</option>
                                                 <option value="1.75in,2.5in">Mini - 1 3/4” &times; 2 1/2”</option>
-                                                <option value="1.625in,2.5in">Mini, American - 1 5/8” &times; 2 1/2”</option>
-                                                <option value="44mm,68mm">Mini, European - 44m &times; 68mm</option>
-                                                <option value="2.25in,3.5in">Bridge - 2 1/4” &times; 3 1/2”</option>
+                                                <option value="70mm,120mm">Tarot - 70mm &times; 120mm</option>
                                                 <option value="2.75in,4.75in">Tarot - 2 3/4” &times; 4 3/4”</option>
-                                                <option value="3.5in,6in">Tarot Large - 3 1/2” &times; 6”</option>
+                                                <option value="89mm,152mm">Tarot Large - 89mm &times; 152mm</option>
+                                                <option value="3.5in,5.75in">Tarot Large - 3 1/2” &times; 5 3/4”</option>
+                                                <option value="85mm,55mm">Business - 85mm &times; 55mm</option>
                                                 <option value="3.5in,2in">Business - 3 1/2” &times; 2”</option>
                                                 <option value="1.75in,3.5in">Domino - 1 3/4” &times; 3 1/2”</option>
                                                 <option value="3in,4.5in">Index Small - 3” &times; 4 1/2”</option>
@@ -391,27 +396,6 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="page-zoom" class="col-sm-4 control-label">Zoom</label>
-                                        <div class="col-sm-8">
-                                            <div class="input-group">
-                                                <input type="number" id="page-zoom" class="form-control"
-                                                    data-option="page_zoom" value="100">
-                                                <div class="input-group-addon">%</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="rounded-corners" class="col-sm-4 control-label">Corners</label>
-                                        <div class="col-sm-8">
-                                            <div class="checkbox" style="padding-bottom: 7px;">
-                                                <label>
-                                                    <input type="checkbox" checked id="rounded-corners"
-                                                        data-option="rounded_corners" value="1"> Rounded card corners
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
                                         <label for="back-bleed-width" class="col-sm-4 control-label">Back bleed</label>
                                         <div class="col-sm-8" style="display: flex;">
                                             <input type="text" id="back-bleed-width" class="form-control"
@@ -429,7 +413,7 @@
                                                 <select id="foreground_color_selector"
                                                     class="colorselector-data"></select>
                                                 <input type="text" id="foreground-color" class="form-control"
-                                                    placeholder="Front page color" data-property="color" value="white">
+                                                    placeholder="Front page color" data-property="foreground_color" value="white">
                                             </div>
                                         </div>
                                     </div>
@@ -440,7 +424,66 @@
                                                 <select id="background_color_selector"
                                                     class="colorselector-data"></select>
                                                 <input type="text" id="background-color" class="form-control"
-                                                    placeholder="Back page color" data-property="color" value="white">
+                                                    placeholder="Back page color" data-property="background_color" value="white">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <legend class="col-sm-4 control-label">Zoom</legend>
+                                            <div class="col-sm-8">
+                                                <div style="display: flex; justify-content: space-between;">
+                                                    <div class="checkbox" style="padding-bottom: 7px;">
+                                                        <label>
+                                                            <input type="checkbox" checked id="zoom-aspect-ratio"
+                                                                data-option="zoom_aspect_ratio" value="1"> Keep aspect ratio
+                                                        </label>
+                                                    </div>
+                                                    <div style="padding-top: 7px; padding-left: 15px;">
+                                                        <a id="page-zoom-100" href="javascript:;">100%</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <fieldset>
+                                            <div class="form-group">
+                                                <legend class="col-sm-4 control-label" style="font-weight: normal;">Perc. (%)</legend>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group" style="display: flex;">
+                                                        <input type="number" id="page-zoom-width" class="form-control"
+                                                            data-option="page_zoom_width">
+                                                        <div class="text-center"><button class="btn btn-secondary"
+                                                            id="page-zoom-rotate">&times;</button></div>
+                                                        <input type="number" id="page-zoom-height" class="form-control"
+                                                            data-option="page_zoom_height">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <fieldset>
+                                            <div class="form-group">
+                                                <legend class="col-sm-4 control-label" style="font-weight: normal;">Card size</legend>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group" style="display: flex;">
+                                                        <input type="text" id="card-zoom-width" class="form-control"
+                                                            data-option="card_zoom_width">
+                                                        <div class="text-center"><button class="btn btn-secondary"
+                                                            id="card-zoom-rotate">&times;</button></div>
+                                                        <input type="text" id="card-zoom-height" class="form-control"
+                                                            data-option="card_zoom_height">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </fieldset>
+                                    <div class="form-group">
+                                        <label for="rounded-corners" class="col-sm-4 control-label">Corners</label>
+                                        <div class="col-sm-8">
+                                            <div class="checkbox" style="padding-bottom: 7px;">
+                                                <label>
+                                                    <input type="checkbox" checked id="rounded-corners"
+                                                        data-option="rounded_corners" value="1"> Rounded card corners
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
@@ -448,8 +491,13 @@
                                 <form role="form" class="form-horizontal">
                                     <div class="form-group">
                                         <div class="col-sm-12">
+                                            <button type="button" class="btn btn-default" style="width: 100%;" id="reset-page-tab-values">Reset this tab's values</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
                                             <button type="button" class="btn btn-success btn-block"
-                                                id="button-generate">Generate</button>
+                                                id="button-generate"><div style="padding: 1em;">Generate</div></button>
                                         </div>
                                     </div>
                                 </form>
@@ -475,6 +523,42 @@
                             <div class="panel-body">
                                 <!-- PANEL BODY -->
                                 <form role="form" class="form-horizontal">
+                                    <div class="form-group slim-buttons-row">
+                                        <label for="default-title-size" class="col-sm-4 control-label">Title size</label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" id="default-title-size">
+                                                <option value="16">16pt</option>
+                                                <option value="15">15pt</option>
+                                                <option value="14">14pt</option>
+                                                <option value="13">13pt (initial)</option>
+                                                <option value="12">12pt</option>
+                                                <option value="11">11pt</option>
+                                                <option value="10">10pt</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="button" class="btn btn-primary btn-block" id="button-apply-default-font-title"
+                                                onclick="">&gt;</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group slim-buttons-row">
+                                        <label for="default-card-font-size" class="col-sm-4 control-label">Text font size</label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" id="default-card-font-size">
+                                                <option value="12" selected>12px (initial)</option>
+                                                <option value="11">11px</option>
+                                                <option value="inherit">10.66px (inherit: 8pt)</option>
+                                                <option value="10">10px</option>
+                                                <option value="9">9px</option>
+                                                <option value="smaller">8.88px (smaller)</option>
+                                                <option value="8">8px</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="button" class="btn btn-primary btn-block" id="button-apply-default-font-card"
+                                                onclick="">&gt;</button>
+                                        </div>
+                                    </div>
                                     <div class="form-group slim-buttons-row">
                                         <label for="default-color-front-selector" class="col-sm-4 control-label">Front color</label>
                                         <div class="col-sm-6">
@@ -551,7 +635,17 @@
                                         </div>
                                     </div>
                                     <div class="form-group slim-buttons-row">
-                                        <label for="default-icon-back-container" class="col-sm-4 control-label"></label>
+                                        <label for="default-icon-back-rotation" class="col-sm-4 control-label" style="font-weight: normal;">Rotation (°)</label>
+                                        <div class="col-sm-6">
+                                            <input type="number" max="360" min="-360" id="default-icon-back-rotation" class="form-control" placeholder="0">
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="button" class="btn btn-primary btn-block" id="button-apply-default-icon-back-rotation"
+                                                onclick="">&gt;</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group slim-buttons-row">
+                                        <label for="default-icon-back-container" class="col-sm-4 control-label" style="font-weight: normal;">Container</label>
                                         <div class="col-sm-6">
                                             <select class="form-control" id="default-icon-back-container">
                                                 <option value="none">None</option>
@@ -566,38 +660,12 @@
                                         </div>
                                     </div>
                                     <div class="form-group slim-buttons-row">
-                                        <label for="default-title-size" class="col-sm-4 control-label">Title size</label>
+                                        <label for="default-card-background" class="col-sm-4 control-label">Back image</label>
                                         <div class="col-sm-6">
-                                            <select class="form-control" id="default-title-size">
-                                                <option value="16">16pt</option>
-                                                <option value="15">15pt</option>
-                                                <option value="14">14pt</option>
-                                                <option value="13">13pt (initial)</option>
-                                                <option value="12">12pt</option>
-                                                <option value="11">11pt</option>
-                                                <option value="10">10pt</option>
-                                            </select>
+                                            <input type="text" id="default-card-background" class="form-control">
                                         </div>
                                         <div class="col-sm-2">
-                                            <button type="button" class="btn btn-primary btn-block" id="button-apply-default-font-title"
-                                                onclick="">&gt;</button>
-                                        </div>
-                                    </div>
-                                    <div class="form-group slim-buttons-row">
-                                        <label for="default-card-font-size" class="col-sm-4 control-label">Text font size</label>
-                                        <div class="col-sm-6">
-                                            <select class="form-control" id="default-card-font-size">
-                                                <option value="12" selected>12px (initial)</option>
-                                                <option value="11">11px</option>
-                                                <option value="inherit">10.66px (inherit: 8pt)</option>
-                                                <option value="10">10px</option>
-                                                <option value="9">9px</option>
-                                                <option value="smaller">8.88px (smaller)</option>
-                                                <option value="8">8px</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <button type="button" class="btn btn-primary btn-block" id="button-apply-default-font-card"
+                                            <button type="button" class="btn btn-primary btn-block" id="button-apply-default-card-background"
                                                 onclick="">&gt;</button>
                                         </div>
                                     </div>
@@ -613,7 +681,7 @@
                                     </div>
                                     <div class="form-group slim-buttons-row">
                                         <div class="col-sm-12">
-                                            <button type="button" class="btn btn-default" style="width: 100%;" id="reset-default-values">Reset default values</button>
+                                            <button type="button" class="btn btn-default" style="width: 100%;" id="reset-default-tab-values">Reset this tab's values</button>
                                         </div>
                                     </div>
                                 </form>
@@ -627,7 +695,7 @@
 
 
             </div>
-            <div class="col-md-12 col-lg-5">
+            <div class="col-md-12 col-lg-5" style="overflow: auto;">
                 <!--<h3>Card</h3>-->
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
@@ -727,7 +795,13 @@
                         </div>
                     </div>
                     <div class="form-group">
-                         <label for="card-icon-back-container" class="col-sm-2 control-label"></label>
+                        <label for="icon-back-rotation" class="col-sm-2 control-label" style="font-weight: normal;">Rotation (°)</label>
+                        <div class="col-sm-10">
+                            <input type="number" id="card-icon-back-rotation" class="form-control" value="0" data-property="icon_back_rotation" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                         <label for="card-icon-back-container" class="col-sm-2 control-label" style="font-weight: normal;">Container</label>
                          <div class="col-sm-10">
                             <select class="form-control" id="card-icon-back-container" data-property="icon_back_container">
                                 <option value="none">None</option>
@@ -758,42 +832,9 @@
                     </div>
                 </form>
             </div>
-            <div class="col-md-12 col-lg-4">
+            <div class="col-md-12 col-lg-4" style="overflow-y: auto;">
                 <!--<h3>Preview</h3>-->
                 <div id="preview-container" class="preview-container">
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal -->
-    <div class="modal" id="print-modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span
-                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Printing generated cards</h4>
-                </div>
-                <div class="modal-body">
-                    <ul>
-                        <li>The generated cards open in a new tab or window. If you don't see any new tab or window,
-                            check your popup and script blockers. If that does not help, try disabling all addons.</li>
-                        <li>Make sure you enable the printing of background images and colors in your browser.</li>
-                        <li>Make sure your printer uses the correct paper size (same as in the editor).</li>
-                        <li>Enable double sided printing (flip on long edge).</li>
-                        <li>Do not scale the document to fit the page. Print at original size.</li>
-                        <li>
-                            Some printers are not very precise (pages print slightly shifted or rotated) and the cards
-                            will not line up with the card backs.
-                            If this is the case, there's not much you can do.
-                            Try making the page background the same color as the cards, so that you won't get any white
-                            edges on the card.
-                            If that does not help, try a different printer or print single-sided.
-                        </li>
-                    </ul>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Ok, got it</button>
                 </div>
             </div>
         </div>
@@ -840,6 +881,15 @@
                                 <li>inspect the sample deck</li>
                             </ul>
                         </li>
+                    </ul>
+                    <h4>Printing notes</h4>
+                    <ul>
+                        <li>The generated cards open in a new tab or window. If you don't see any new tab or window, check your popup and script blockers. If that does not help, try disabling all addons.</li>
+                        <li>Make sure you enable the printing of background images and colors in your browser.</li>
+                        <li>Make sure your printer uses the correct paper size (same as in the editor).</li>
+                        <li>You can use the double-sided (flip on long edge) print setting, but manually printing each side usually aligns the pages more accurately.</li>
+                        <li>Do not scale the document to fit the page. Print at original size.</li>
+                        <li>Some printers are not very precise (pages print slightly shifted or rotated) and the cards will not line up with the card backs. If this is the case, there's not much you can do. Try making the page background the same color as the cards or use the bleed option, so that you won't get any white edges on the card. If that does not help, try a different printer or print single-sided.</li>
                     </ul>
                 </div>
                 <div class="modal-footer">

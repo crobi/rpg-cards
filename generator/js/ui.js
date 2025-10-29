@@ -44,7 +44,16 @@ function merge(left, right, compare) {
     return result;
 }
 
-var ui_generate_modal_shown = false;
+function swapInputValues(e1, e2) {
+    const $e1 = $(e1);
+    const $e2 = $(e2);
+    const v1 = $e1.val();
+    const v2 = $e2.val();
+    $e1.val(v2);
+    $e2.val(v1);
+    return [$e1, $e2];
+}
+
 function ui_generate() {
     if (card_data.length === 0) {
         alert("Your deck is empty. Please define some cards first, or load the sample deck.");
@@ -58,9 +67,8 @@ function ui_generate() {
     // Use a separate window to avoid CSS conflicts
     var tab = window.open("output.html", 'rpg-cards-output');
 
-    if (ui_generate_modal_shown === false) {
-        $("#print-modal").modal('show');
-        ui_generate_modal_shown = true;
+    if (!tab || tab.closed || typeof tab.closed === 'undefined') {
+        alert(`It looks like your browser blocked the popup window. Please allow popups for this site to continue.`)
     }
 
     // Send the generated HTML to the new window
@@ -249,10 +257,18 @@ function ui_update_card_list() {
 
     const $deck = $('#deck-cards-list');
 
-    $deck.empty();
-    for (var i = 0; i < card_data.length; ++i) {
+    var i = card_data.length;
+    while (i--) {
         var card = card_data[i];
-        $deck.append(`<div class="radio"><label><input type="radio" name="deck-option" value="${i}"> <span>${ui_deck_option_text(card)}</span></label></div>`);
+        $option = $deck.find(`[data-uuid="${card.uuid}"]`);
+        if (!$option.length) {
+            $deck.prepend(`<div class="radio" data-uuid="${card.uuid}"><label><input type="radio" name="deck-option" value="${i}"> <span class="text">${ui_deck_option_text(card)}</span></label></div>`);
+        } else if ($option.index() === i) {
+            $option.find('.text').text(ui_deck_option_text(card));
+        } else {
+            $option.find('.text').text(ui_deck_option_text(card));
+            $deck.prepend($option.detach());
+        }
     }
 
     ui_update_selected_card();
@@ -313,6 +329,7 @@ function ui_update_selected_card() {
         $("#card-icon-front").val(card.icon_front);
         $("#card-icon-back").val(card.icon_back);
         $("#card-icon-back-container").val(card.icon_back_container);
+        $("#card-icon-back-rotation").val(card.icon_back_rotation);
 		$("#card-background").val(card.background_image);
         $("#card-contents").val(card.contents?.join("\n"));
         $("#card-tags").val(card.tags.join(", "));
@@ -327,6 +344,7 @@ function ui_update_selected_card() {
         $("#card-icon-front").val("");
         $("#card-icon-back").val("");
         $("#card-icon-back-container").val(card_options.default_icon_back_container);
+        $("#card-icon-back-rotation").val("");
 		$("#card-background").val("");
         $("#card-contents").val("");
         $("#card-tags").val("");
@@ -483,50 +501,47 @@ function ui_set_default_color_back(color) {
 
 function ui_set_foreground_color(color) {
     card_options.foreground_color = color;
+    local_store_save();
 }
 
 function ui_set_background_color(color) {
     card_options.background_color = color;
+    local_store_save();
 }
 
 function ui_page_rotate($event) {
     $event.preventDefault();
-    var $width = $('#page-width');
-    var $height = $('#page-height');
-    var width = $width.val();
-    var height = $height.val();
-    $width.val(height).trigger('input');
-    $height.val(width).trigger('input');
+    swapInputValues('#page-width', '#page-height').each(function(){$(this).trigger('input');});
 }
 
 function ui_card_rotate($event) {
     $event.preventDefault();
-    var $width = $('#card-width');
-    var $height = $('#card-height');
-    var width = $width.val();
-    var height = $height.val();
-    $width.val(height).trigger('input');
-    $height.val(width).trigger('input');
+    swapInputValues('#card-width', '#card-height').each(function(){$(this).trigger('input');});
 }
 
 function ui_grid_rotate($event) {
     $event.preventDefault();
-    var $width = $('#page-rows');
-    var $height = $('#page-columns');
-    var width = $width.val();
-    var height = $height.val();
-    $width.val(height);
-    $height.val(width);
+    swapInputValues('#page-rows', '#page-columns');
+}
+
+function ui_zoom_rotate($event) {
+    $event.preventDefault();
+    swapInputValues('#page-zoom-width', '#page-zoom-height');
+    swapInputValues('#card-zoom-width', '#card-zoom-height');
+}
+
+function ui_zoom_100($event) {
+    const $ratioCheckbox = $('#zoom-aspect-ratio');
+    const keepRatio = $ratioCheckbox.prop('checked');
+    if (keepRatio) $ratioCheckbox.prop('checked', false);
+    $("#page-zoom-width").val(100).trigger('input');
+    $("#page-zoom-height").val(100).trigger('input');
+    if (keepRatio) $ratioCheckbox.prop('checked', true);
 }
 
 function ui_back_bleed_rotate($event) {
     $event.preventDefault();
-    var $width = $('#back-bleed-width');
-    var $height = $('#back-bleed-height');
-    var width = $width.val();
-    var height = $height.val();
-    $width.val(height);
-    $height.val(width);
+    swapInputValues('#back-bleed-width', '#back-bleed-height');
 }
 
 function ui_change_option() {
@@ -534,8 +549,7 @@ function ui_change_option() {
     var value;
     if ($(this).attr('type') === 'checkbox') {
         value = $(this).is(':checked');
-    }
-    else {
+    } else {
         value = $(this).val();
     }
     switch (property) {
@@ -581,6 +595,7 @@ function ui_change_option() {
             ui_match_format(document.getElementById('card-size'), width, height);
             ui_set_card_custom_size(width, height);
             ui_set_orientation(document.getElementById('card-orientation'), width, height);
+            // ui_zoom_100();
             break;
         }
         case 'page_width':
@@ -591,6 +606,48 @@ function ui_change_option() {
             ui_match_format(document.getElementById('page-size'), width, height);
             ui_set_page_custom_size(width, height);
             ui_set_orientation(document.getElementById('page-orientation'), width, height);
+            break;
+        }
+        case 'page_zoom_width':
+        case 'page_zoom_height':
+        case 'card_zoom_width':
+        case 'card_zoom_height': {
+            const keepRatio = $('#zoom-aspect-ratio').prop('checked');
+            const cardWidth = new UnitValue(card_options['card_width']);
+            const cardHeight = new UnitValue(card_options['card_height']);
+            const r = cardWidth.value / cardHeight.value;
+            let percWidth;
+            let percHeight;
+            let sizeWidth;
+            let sizeHeight;
+            const setVal = (k, v) => {
+                card_options[k] = v;
+                $(`#${k.replace(/_/g, '-')}`).val(v);
+            }
+            if (property === 'page_zoom_width') {
+                percWidth = Number(value);
+                percHeight = keepRatio ? percWidth : card_options['page_zoom_height'];
+            } else if (property === 'page_zoom_height') {
+                percHeight = Number(value);
+                percWidth = keepRatio ? percHeight : card_options['page_zoom_width'];
+            } else if (property === 'card_zoom_width') {
+                sizeWidth = new UnitValue(value);
+                sizeHeight = keepRatio ? new UnitValue(sizeWidth.value / r, sizeWidth.mu) : new UnitValue(card_options['card_zoom_height']);
+            } else if (property === 'card_zoom_height') {
+                sizeHeight = new UnitValue(value);
+                sizeWidth = keepRatio ? new UnitValue(sizeHeight.value * r, sizeHeight.mu) : new UnitValue(card_options['card_zoom_width']);
+            }
+            if (isNil(percWidth)) {
+                percWidth = sizeWidth.value / cardWidth.value * 100;
+                percHeight = sizeHeight.value / cardHeight.value * 100;
+            } else {
+                sizeWidth = new UnitValue(cardWidth.value * percWidth / 100, cardWidth.mu);
+                sizeHeight = new UnitValue(cardHeight.value * percHeight / 100, cardHeight.mu);
+            }
+            setVal('page_zoom_width', new BigNumber(percWidth).toFixed(2).replace(/\.?0+$/, ''));
+            setVal('page_zoom_height', new BigNumber(percHeight).toFixed(2).replace(/\.?0+$/, ''));
+            setVal('card_zoom_width', new UnitValue(percWidth / 100 * cardWidth.value, cardWidth.mu).toString());
+            setVal('card_zoom_height', new UnitValue(percHeight / 100 * cardHeight.value, cardHeight.mu).toString());
             break;
         }
         default: {
@@ -668,10 +725,12 @@ function ui_change_card_title() {
 
 function ui_change_card_count() {
     var count = $("#card-count").val();
-    var card = ui_selected_card();
+    var idx = ui_selected_card_index();
+    var card = card_data[idx];
     if (card) {
         card.count = count;
         $('#deck-cards-list .radio:has(input[type="radio"]:checked) .text').text(ui_deck_option_text(card));
+        ui_update_card_list();
     }
 }
 
@@ -773,6 +832,12 @@ function ui_change_default_icon_back() {
     ui_render_selected_card();
 }
 
+function ui_change_default_icon_back_rotation() {
+    var value = $(this).val();
+    card_options.default_icon_back_rotation = value;
+    ui_render_selected_card();
+}
+
 function ui_change_default_icon_back_container() {
     var value = $(this).val();
     card_options.default_icon_back_container = value;
@@ -827,6 +892,11 @@ function ui_change_default_card_font_size() {
     ui_render_selected_card();
 }
 
+function ui_change_default_card_background() {
+    card_options.default_background_image = $(this).val();
+    ui_render_selected_card();
+}
+
 function ui_sort() {
     $("#sort-modal").modal('show');
 }
@@ -865,59 +935,78 @@ function ui_filter_execute() {
 }
 
 function ui_apply_default_color_front() {
-    for (var i = 0; i < card_data.length; ++i) {
-        card_data[i].color_front = card_options.default_color_front;
-    }
+    const k = 'color_front';
+    const v = card_options.default_color_front;
+    card_data.forEach(card => { card[k] = v; }); 
     ui_update_selected_card();
 }
 
 function ui_apply_default_color_back() {
-    for (var i = 0; i < card_data.length; ++i) {
-        card_data[i].color_back = card_options.default_color_back;
-    }
+    const k = 'color_back';
+    const v = card_options.default_color_back;
+    card_data.forEach(card => { card[k] = v; }); 
     ui_update_selected_card();
 }
 
 function ui_apply_default_font_title() {
-    for (var i = 0; i < card_data.length; ++i) {
-        card_data[i].title_size = card_options.default_title_size;
-    }
+    const k = 'title_size';
+    const v = card_options.default_title_size;
+    card_data.forEach(card => { card[k] = v; }); 
     ui_update_selected_card();
 }
 
 function ui_apply_default_font_card() {
-    for (var i = 0; i < card_data.length; ++i) {
-        card_data[i].card_font_size = card_options.default_card_font_size;
-    }
+    const k = 'card_font_size';
+    const v = card_options.default_card_font_size;
+    card_data.forEach(card => { card[k] = v; }); 
     ui_update_selected_card();
 }
 
 function ui_apply_default_icon_front() {
-    for (var i = 0; i < card_data.length; ++i) {
-        card_data[i].icon_front = card_options.default_icon_front;
-    }
+    const k = 'icon_front';
+    const v = card_options.default_icon_front;
+    card_data.forEach(card => { card[k] = v; }); 
     ui_update_selected_card();
 }
 
 function ui_apply_default_icon_back() {
-    for (var i = 0; i < card_data.length; ++i) {
-        card_data[i].icon_back = card_options.default_icon_back;
-    }
+    const k = 'icon_back';
+    const v = card_options.default_icon_back;
+    card_data.forEach(card => { card[k] = v; }); 
     ui_update_selected_card();
 }
 
 function ui_apply_default_icon_back_container() {
-    for (var i = 0; i < card_data.length; ++i) {
-        card_data[i].icon_back_container = card_options.default_icon_back_container;
-    }
+    const k = 'icon_back_container';
+    const v = card_options.default_icon_back_container;
+    card_data.forEach(card => { card[k] = v; }); 
+    ui_update_selected_card();
+}
+
+function ui_apply_default_icon_back_rotation() {
+    const k = 'icon_back_rotation';
+    const v = card_options.default_icon_back_rotation;
+    card_data.forEach(card => { card[k] = v; }); 
+    ui_update_selected_card();
+}
+
+function ui_apply_default_card_background() {
+    const k = 'background_image';
+    const v = card_options.default_background_image;
+    card_data.forEach(card => { card[k] = v; }); 
     ui_update_selected_card();
 }
 
 //Adding support for local store
 function local_store_save() {
     if(window.localStorage){
+        const card_data_to_save = card_data.map(c => {
+            const card = { ...c };
+            delete card.uuid;
+            return card;
+        });
         try {
-            localStorage.setItem("card_data", JSON.stringify(card_data));
+            localStorage.setItem("card_data", JSON.stringify(card_data_to_save));
             localStorage.setItem("card_options", JSON.stringify(card_options));
             localStorage.setItem("app_settings", JSON.stringify(app_settings));
         } catch (e){
@@ -942,16 +1031,25 @@ function legacy_card_data(oldData = []) {
         if (isNil(card.icon_back_container)) {
             card.icon_back_container = 'rounded-square';
         }
+        if (isNil(card.uuid)) {
+            card.uuid = crypto.randomUUID();
+        }
         return card;
     });
     return newData;
 }
 
 function legacy_card_options(data = {}) {
-    return {
+    const newData = {
         ...card_default_options(),
         ...data
     };
+    if (!isNil(newData.page_zoom)) {
+        newData.page_zoom_width = newData.page_zoom;
+        newData.page_zoom_height = newData.page_zoom;
+        delete newData.page_zoom;
+    }
+    return newData;
 }
 
 function legacy_app_settings(data = {}) {
@@ -1062,6 +1160,46 @@ $(document).ready(function () {
     $(`input[name="browser-asks-where-save"]`).change(ui_change_browser_asks_where_save).filter(`[value="${Number(app_settings.browserAsksWhereSave)}"]`).prop('checked', true);
     $(`input[name="save-file-dialog"]`).change(ui_change_save_file_dialog).filter(`[value="${Number(app_settings.openSaveDialog)}"]`).prop('checked', true);
 
+    function ui_set_default_tab_values(options) {
+        $("#default-color-front").val(options.default_color_front).change();
+        $("#default-icon-front").val(options.default_icon_front_container);
+        $("#default-color-back").val(options.default_color_back).change();
+        $("#default-icon-back").val(options.default_icon_back);
+        $("#default-icon-back-container").val(options.default_icon_back_container).trigger("change");
+        $("#default-title-size").val(options.default_title_size);
+        $("#default-card-font-size").val(options.default_card_font_size);
+    	$("#default-card-background").val(options.default_background_image);
+    }
+
+    function ui_set_page_tab_values(options) {
+       $("#page-size").val(options.page_size).change();
+       $("#card-size").val(options.card_size).change();
+       $("#card-arrangement").val(options.card_arrangement).change();
+       $("#page-rows").val(options.page_rows).change();
+       $("#page-columns").val(options.page_columns).change();
+       $("#back-bleed-width").val(options.back_bleed_width).change();
+       $("#back-bleed-height").val(options.back_bleed_height).change();
+       $("#foreground-color").val(options.foreground_color).change();
+       $("#background-color").val(options.background_color).change();
+       $("#page-zoom-width").val(options.page_zoom_width);
+       $("#page-zoom-height").val(options.page_zoom_height);
+       $("#card-zoom-width").val(options.card_zoom_width);
+       $("#card-zoom-height").val(options.card_zoom_height);
+    }
+
+    function ui_reset_default_tab_values(event) {
+        if (!confirm('Reset the current tab\'s value?')) return;
+        ui_set_default_tab_values(card_default_options());
+    }
+
+    function ui_reset_page_tab_values(event) {
+        if (!confirm('Reset the current tab\'s value?')) return;
+        ui_set_page_tab_values(card_default_options());
+    }
+    
+    ui_set_page_tab_values(card_options);
+    ui_set_default_tab_values(card_options);
+
     $('#default-icon-front').val(card_options.default_icon_front);
     $('#default-icon-back').val(card_options.default_icon_back);
     $('#default-title-size').val(card_options.default_title_size);
@@ -1117,6 +1255,8 @@ $(document).ready(function () {
     $("#button-apply-default-icon-front").click(ui_apply_default_icon_front);
     $("#button-apply-default-icon-back").click(ui_apply_default_icon_back);
     $("#button-apply-default-icon-back-container").click(ui_apply_default_icon_back_container);
+    $("#button-apply-default-icon-back-rotation").click(ui_apply_default_icon_back_rotation);
+    $("#button-apply-default-card-background").click(ui_apply_default_card_background);
 
     $("#deck-cards-list").change(ui_update_selected_card);
     $("#deck-cards-list-title-filter").on('input', ui_filter_selected_card_title);
@@ -1128,8 +1268,9 @@ $(document).ready(function () {
     $("#card-font-size").change(ui_change_card_property);
     $("#card-icon-front").change(ui_change_card_property);
     $("#card-count").change(ui_change_card_count);
-    $("#card-icon-back").change(ui_change_card_property)
-    $("#card-icon-back-container").change(ui_change_card_property)
+    $("#card-icon-back").change(ui_change_card_property);
+    $("#card-icon-back-container").change(ui_change_card_property);
+    $("#card-icon-back-rotation").change(ui_change_card_property);
 	$("#card-background").change(ui_change_card_property);
 	$("#card-color-front").change(ui_change_card_color_front);
 	$("#card-color-back").change(ui_change_card_color_back);
@@ -1144,7 +1285,13 @@ $(document).ready(function () {
     $("#page-rotate").click(ui_page_rotate);
     $("#page-rows").change(ui_change_option);
     $("#page-columns").change(ui_change_option);
-    $("#page-zoom").on("input", ui_change_option);
+    $("#page-zoom-width").on("input", ui_change_option);
+    $("#page-zoom-height").on("input", ui_change_option);
+    $("#page-zoom-rotate").click(ui_zoom_rotate);
+    $('#page-zoom-100').click(ui_zoom_100);
+    $("#card-zoom-width").on("input", ui_change_option);
+    $("#card-zoom-height").on("input", ui_change_option);
+    $("#card-zoom-rotate").click(ui_zoom_rotate);
     $("#grid-rotate").click(ui_grid_rotate);
     $("#card-arrangement").change(ui_change_option);
     $("#card-width").on("input", ui_change_option);
@@ -1157,32 +1304,19 @@ $(document).ready(function () {
     $("#back-bleed-height").on("input", ui_change_option);
     $("#back-bleed-rotate").click(ui_back_bleed_rotate);
 
-    function ui_set_default_values(options) {
-        $("#default-color-front").val(options.default_color_front).change();
-        $("#default-icon-front").val(options.default_icon_front_container);
-        $("#default-color-back").val(options.default_color_back).change();
-        $("#default-icon-back").val(options.default_icon_back);
-        $("#default-icon-back-container").val(options.default_icon_back_container).trigger("change");
-        $("#default-title-size").val(options.default_title_size);
-        $("#default-card-font-size").val(options.default_card_font_size);
-    }
-
-    function ui_reset_default_values(event) {
-        ui_set_default_values(card_default_options());
-    }
-
     $("#default-color-front").change(ui_change_default_color_front);
     $("#default-icon-front").change(ui_change_default_icon_front);
     $("#default-color-back").change(ui_change_default_color_back);
     $("#default-icon-back").change(ui_change_default_icon_back)
+    $("#default-icon-back-rotation").change(ui_change_default_icon_back_rotation);
     $("#default-icon-back-container").change(ui_change_default_icon_back_container);
     $("#default-title-size").change(ui_change_default_title_size);
     $("#default-card-font-size").change(ui_change_default_card_font_size);
-
-    ui_set_default_values(card_options);
+    $("#default-card-background").change(ui_change_default_card_background);
 
     $("#small-icons").change(ui_change_default_icon_size);
-    $("#reset-default-values").click(ui_reset_default_values);
+    $("#reset-default-tab-values").click(ui_reset_default_tab_values);
+    $("#reset-page-tab-values").click(ui_reset_page_tab_values);
 
     $(".icon-select-button").click(ui_select_icon);
 
