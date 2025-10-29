@@ -138,9 +138,9 @@ function ui_load_files(evt) {
 }
 
 function ui_init_cards(data) {
-    return data.map((card) => {
+    return legacy_card_data(data.map((card) => {
         return card_init(card);
-    });
+    }));
 }
 
 function ui_add_cards(data) {
@@ -257,7 +257,13 @@ function ui_update_card_list() {
 
     const $deck = $('#deck-cards-list');
 
-    var i = card_data.length;
+    $deck.children().each(function() {
+        const option = this;
+        if (!card_data.find(card => card.uuid === option.getAttribute('data-uuid'))) option.remove();
+    });
+
+    let i = card_data.length;
+
     while (i--) {
         var card = card_data[i];
         $option = $deck.find(`[data-uuid="${card.uuid}"]`);
