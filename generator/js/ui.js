@@ -138,9 +138,7 @@ function ui_load_files(evt) {
 }
 
 function ui_init_cards(data) {
-    return legacy_card_data(data.map((card) => {
-        return card_init(card);
-    }));
+    return legacy_card_data(data);
 }
 
 function ui_add_cards(data) {
@@ -152,10 +150,10 @@ function ui_add_cards(data) {
 }
 
 function ui_add_new_card() {
-    card_data.push({
+    card_data.push(legacy_card_data([{
         ...card_default_data(),
         icon_back_container: card_options.default_icon_back_container 
-    });
+    }])[0]);
     ui_update_card_list();
     ui_select_card_by_index(card_data.length - 1);
 }
@@ -200,21 +198,16 @@ function ui_copy_all_cards() {
 function ui_paste_card() {
     navigator.clipboard.readText().then(function(s) {
         try {
+            const prev_data_length = card_data.length;
             const pasted_content = JSON.parse(s);
-            if (Array.isArray(pasted_content)) {
-                if (pasted_content.length > 0) {
-                    const prev_data_length = card_data.length;
-                    pasted_content.forEach(c => card_data.push(c));
-                    ui_update_card_list();
-                    ui_select_card_by_index(prev_data_length);
-                }
-            } else {
-                const new_card = pasted_content;
-                card_data.push(new_card);
-                new_card.title = new_card.title + " (Pasted)";
-                ui_update_card_list();
-                ui_select_card_by_index(card_data.length - 1);
-            }
+            const content = Array.isArray(pasted_content) ? pasted_content : [pasted_content];
+            content.forEach(c => {
+                c.uuid = crypto.randomUUID();
+                c.title += " (Pasted)";
+                card_data.push(c);
+            });
+            ui_update_card_list();
+            ui_select_card_by_index(prev_data_length);
         } catch (e) {
             alert('Could not paste clipboard as card or list of cards.\n' + e);
         }
