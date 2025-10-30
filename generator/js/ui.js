@@ -166,9 +166,11 @@ function ui_duplicate_card() {
         var new_card = $.extend({}, old_card);
         card_data.push(new_card);
         new_card.title = new_card.title + " (Copy)";
+        new_card.uuid = crypto.randomUUID();
     } else {
         card_data.push({
         ...card_default_data(),
+        uuid: crypto.randomUUID(),
         icon_back_container: card_options.default_icon_back_container 
     });
     }
