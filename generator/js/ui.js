@@ -51,7 +51,7 @@ function swapInputValues(e1, e2) {
     const v2 = $e2.val();
     $e1.val(v2);
     $e2.val(v1);
-    return [$e1, $e2];
+    return $([$e1, $e2]);
 }
 
 function ui_generate() {
@@ -517,12 +517,16 @@ function ui_set_background_color(color) {
 
 function ui_page_rotate($event) {
     $event.preventDefault();
-    swapInputValues('#page-width', '#page-height').each(function(){$(this).trigger('input');});
+    swapInputValues('#page-width', '#page-height').each(function(){
+        $(this).trigger('input');
+    });
 }
 
 function ui_card_rotate($event) {
     $event.preventDefault();
-    swapInputValues('#card-width', '#card-height').each(function(){$(this).trigger('input');});
+    swapInputValues('#card-width', '#card-height').each(function(){
+        $(this).trigger('input');
+    });
 }
 
 function ui_grid_rotate($event) {
