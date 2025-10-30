@@ -283,12 +283,9 @@ function ui_update_card_list() {
 }
 
 async function ui_save_file() {
-    const str = JSON.stringify(card_data, null, "  ");
-    const parts = [str];
-    const blob = new Blob(parts, { type: 'application/json' });
-
+    const jsonString = JSON.stringify(card_data, null, "  ");
     let filename = app_settings.currentFileName;
-
+    
     if (window.showSaveFilePicker) {
         if (app_settings.openSaveDialog) {
             if (!app_settings.browserAsksWhereSave) {
@@ -310,11 +307,14 @@ async function ui_save_file() {
                     if (err.name === 'AbortError') {
                         return;
                     }
+                    console.error(err);
                 }
             }
         }
     }
 
+    const parts = [jsonString];
+    const blob = new Blob(parts, { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = $("#file-save-link")[0];
     a.href = url;
