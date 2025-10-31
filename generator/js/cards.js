@@ -1241,7 +1241,7 @@ function card_pages_wrap(pages, options) {
     var zw = options.page_zoom_width / 100;
     var zh = options.page_zoom_height / 100;
     var zoomStyle = 'style="';
-    zoomStyle += `transform: scale(${zw} ${zh});`;
+    zoomStyle += `transform: scale(${zw}, ${zh});`;
     if (options.card_arrangement === "doublesided" && i % 2 === 1) {
       zoomStyle += "flex-direction:" + "row-reverse" + ";";
     }
