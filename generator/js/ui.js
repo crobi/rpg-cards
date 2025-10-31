@@ -9,7 +9,8 @@ function app_default_settings() {
         currentFileName: 'rpg_cards',
         browserAsksWhereSave: false,
         openSaveDialog: false,
-        showDownloadSettings: true
+        showDownloadSettings: true,
+        page_zoom_keep_ratio: true
     }
 }
 
@@ -536,12 +537,11 @@ function ui_zoom_rotate($event) {
 }
 
 function ui_zoom_100($event) {
-    const $ratioCheckbox = $('#zoom-aspect-ratio');
-    const keepRatio = $ratioCheckbox.prop('checked');
-    if (keepRatio) $ratioCheckbox.prop('checked', false);
+    const keepRatio = app_settings.page_zoom_keep_ratio;
+    if (keepRatio) app_settings.page_zoom_keep_ratio = false;
     $("#page-zoom-width").val(100).trigger('input');
     $("#page-zoom-height").val(100).trigger('input');
-    if (keepRatio) $ratioCheckbox.prop('checked', true);
+    if (keepRatio) app_settings.page_zoom_keep_ratio = true;
 }
 
 function ui_back_bleed_rotate($event) {
@@ -617,7 +617,7 @@ function ui_change_option() {
         case 'page_zoom_height':
         case 'card_zoom_width':
         case 'card_zoom_height': {
-            const keepRatio = $('#zoom-aspect-ratio').prop('checked');
+            const keepRatio = app_settings.page_zoom_keep_ratio;
             const cardWidth = new UnitValue(card_options['card_width']);
             const cardHeight = new UnitValue(card_options['card_height']);
             const r = cardWidth.value / cardHeight.value;
@@ -1139,6 +1139,11 @@ function ui_download_settings_toggle(event) {
     local_store_save();
 }
 
+function ui_zoom_keep_ratio(event) {
+    app_settings.page_zoom_keep_ratio = event.target.checked;
+    local_store_save();
+}
+
 $(document).ready(function () {
     parse_card_actions().then(function () {
         local_store_load();
@@ -1186,6 +1191,7 @@ $(document).ready(function () {
        $("#back-bleed-height").val(options.back_bleed_height).change();
        $("#foreground-color").val(options.foreground_color).change();
        $("#background-color").val(options.background_color).change();
+       $("#page-zoom-keep-ratio").prop('checked', app_settings.page_zoom_keep_ratio);
        $("#page-zoom-width").val(options.page_zoom_width);
        $("#page-zoom-height").val(options.page_zoom_height);
        $("#card-zoom-width").val(options.card_zoom_width);
@@ -1293,6 +1299,7 @@ $(document).ready(function () {
     $("#page-zoom-width").on("input", ui_change_option);
     $("#page-zoom-height").on("input", ui_change_option);
     $("#page-zoom-rotate").click(ui_zoom_rotate);
+    $("#page-zoom-keep-ratio").change(ui_zoom_keep_ratio);
     $('#page-zoom-100').click(ui_zoom_100);
     $("#card-zoom-width").on("input", ui_change_option);
     $("#card-zoom-height").on("input", ui_change_option);
