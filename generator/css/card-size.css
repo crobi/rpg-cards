@@ -16,6 +16,7 @@
 /* Center all content within a page */
 .page {
     display: flex;
+    justify-content: center;
     align-items: center;
     page-break-after: always;
     padding: 0;
