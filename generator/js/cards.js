@@ -1,7 +1,7 @@
 // ============================================================================
 // Card definition related functions
 // ============================================================================
-function card_default_options() {
+function default_card_options() {
   return {
     foreground_color: "white",
     background_color: "white",
@@ -32,7 +32,7 @@ function card_default_options() {
   };
 }
 
-function card_default_data() {
+function default_card_data() {
   return {
     count: 1,
     title: "New card",
@@ -1280,9 +1280,10 @@ function card_pages_generate_style(options) {
 }
 
 function card_pages_generate_html(card_data, options) {
-  options = options || card_default_options();
-  var rows = options.page_rows || 3;
-  var cols = options.page_columns || 3;
+  const defaultOptions = default_card_options();
+  options = options || defaultOptions;
+  var rows = options.page_rows || defaultOptions.page_rows;
+  var cols = options.page_columns || defaultOptions.page_columns;
 
   // Generate the HTML for each card
   var front_cards = [];

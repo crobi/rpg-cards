@@ -1,9 +1,9 @@
 // Ugly global variable holding the current card deck
 var card_data = [];
-var card_options = card_default_options();
-var app_settings = app_default_settings();
+var card_options = default_card_options();
+var app_settings = default_app_settings();
 
-function app_default_settings() {
+function default_app_settings() {
     return {
         defaultFileName: 'rpg_cards',
         currentFileName: 'rpg_cards',
@@ -152,7 +152,7 @@ function ui_add_cards(data) {
 
 function ui_add_new_card() {
     card_data.push(legacy_card_data([{
-        ...card_default_data(),
+        ...default_card_data(),
         icon_back_container: card_options.default_icon_back_container 
     }])[0]);
     ui_update_card_list();
@@ -168,7 +168,7 @@ function ui_duplicate_card() {
         new_card.uuid = crypto.randomUUID();
     } else {
         card_data.push({
-        ...card_default_data(),
+        ...default_card_data(),
         uuid: crypto.randomUUID(),
         icon_back_container: card_options.default_icon_back_container 
     });
@@ -1046,7 +1046,7 @@ function legacy_card_data(oldData = []) {
 
 function legacy_card_options(data = {}) {
     const newData = {
-        ...card_default_options(),
+        ...default_card_options(),
         ...data
     };
     if (!isNil(newData.page_zoom)) {
@@ -1059,7 +1059,7 @@ function legacy_card_options(data = {}) {
 
 function legacy_app_settings(data = {}) {
     return {
-        ...app_default_settings(),
+        ...default_app_settings(),
         ...data
     };
 }
@@ -1200,12 +1200,12 @@ $(document).ready(function () {
 
     function ui_reset_default_tab_values(event) {
         if (!confirm('Reset the current tab\'s value?')) return;
-        ui_set_default_tab_values(card_default_options());
+        ui_set_default_tab_values(default_card_options());
     }
 
     function ui_reset_page_tab_values(event) {
         if (!confirm('Reset the current tab\'s value?')) return;
-        ui_set_page_tab_values(card_default_options());
+        ui_set_page_tab_values(default_card_options());
     }
     
     ui_set_page_tab_values(card_options);
