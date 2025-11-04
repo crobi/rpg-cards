@@ -13,6 +13,8 @@ function default_card_options() {
     default_title_size: "13",
     default_card_font_size: "inherit",
     page_size: "210mm,297mm",
+    page_width: "210mm",
+    page_height: "297mm",
     page_rows: "3",
     page_columns: "3",
     page_zoom_width: 100,
