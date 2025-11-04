@@ -1200,6 +1200,7 @@ $(document).ready(function () {
        $("#page-zoom-height").val(options.page_zoom_height);
        $("#card-zoom-width").val(options.card_zoom_width);
        $("#card-zoom-height").val(options.card_zoom_height);
+       $("#rounded-corners").prop('checked', options.rounded_corners);
     }
 
     function ui_reset_default_tab_values(event) {
