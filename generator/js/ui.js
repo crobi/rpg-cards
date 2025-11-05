@@ -624,41 +624,46 @@ function ui_change_option() {
         case 'card_zoom_width':
         case 'card_zoom_height': {
             const keepRatio = app_settings.page_zoom_keep_ratio;
-            const cardWidth = new UnitValue(card_options['card_width']);
-            const cardHeight = new UnitValue(card_options['card_height']);
-            const r = cardWidth.value / cardHeight.value;
+            const cardWidth = card_options['card_width'];
+            const cardHeight = card_options['card_height'];
+            const r = math_eval(`${cardWidth} / ${cardHeight}`);
             let percWidth;
             let percHeight;
             let sizeWidth;
             let sizeHeight;
-            const setVal = (k, v) => {
-                card_options[k] = v;
-                $(`#${k.replace(/_/g, '-')}`).val(v);
+            const setVal = (k, v, property) => {
+                if (k === property) {
+                    card_options[k] = value;
+                } else {
+                    const val = math_format(v);
+                    card_options[k] = val;
+                    $(`#${k.replace(/_/g, '-')}`).val(val);
+                }
             }
             if (property === 'page_zoom_width') {
-                percWidth = Number(value);
+                percWidth = value;
                 percHeight = keepRatio ? percWidth : card_options['page_zoom_height'];
             } else if (property === 'page_zoom_height') {
-                percHeight = Number(value);
+                percHeight = value;
                 percWidth = keepRatio ? percHeight : card_options['page_zoom_width'];
             } else if (property === 'card_zoom_width') {
-                sizeWidth = new UnitValue(value);
-                sizeHeight = keepRatio ? new UnitValue(sizeWidth.value / r, sizeWidth.mu) : new UnitValue(card_options['card_zoom_height']);
+                sizeWidth = value;
+                sizeHeight = keepRatio ? math_eval(`${sizeWidth} / ${r}`) : card_options['card_zoom_height'];
             } else if (property === 'card_zoom_height') {
-                sizeHeight = new UnitValue(value);
-                sizeWidth = keepRatio ? new UnitValue(sizeHeight.value * r, sizeHeight.mu) : new UnitValue(card_options['card_zoom_width']);
+                sizeHeight = value;
+                sizeWidth = keepRatio ? math_eval(`${sizeWidth} * ${r}`) : card_options['card_zoom_width'];
             }
             if (isNil(percWidth)) {
-                percWidth = sizeWidth.value / cardWidth.value * 100;
-                percHeight = sizeHeight.value / cardHeight.value * 100;
+                percWidth = math_eval(`${sizeWidth} / ${cardWidth} * 100`);
+                percHeight = math_eval(`${sizeHeight} / ${cardHeight} * 100`);
             } else {
-                sizeWidth = new UnitValue(cardWidth.value * percWidth / 100, cardWidth.mu);
-                sizeHeight = new UnitValue(cardHeight.value * percHeight / 100, cardHeight.mu);
+                sizeWidth = math_eval(`${cardWidth} * ${percWidth} / 100`);
+                sizeHeight = math_eval(`${cardHeight} * ${percHeight} / 100`);
             }
-            setVal('page_zoom_width', new BigNumber(percWidth).toFixed(2).replace(/\.?0+$/, ''));
-            setVal('page_zoom_height', new BigNumber(percHeight).toFixed(2).replace(/\.?0+$/, ''));
-            setVal('card_zoom_width', new UnitValue(percWidth / 100 * cardWidth.value, cardWidth.mu).toString());
-            setVal('card_zoom_height', new UnitValue(percHeight / 100 * cardHeight.value, cardHeight.mu).toString());
+            setVal('page_zoom_width', percWidth, property);
+            setVal('page_zoom_height', percHeight, property);
+            setVal('card_zoom_width', sizeWidth, property);
+            setVal('card_zoom_height', sizeHeight, property);
             break;
         }
         default: {

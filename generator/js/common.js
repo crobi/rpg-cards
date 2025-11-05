@@ -1,39 +1,96 @@
-// Measure Unit and Number parts
-function UnitValue(v, m) {
-    const re = /^(\d+)(?:\.\d+)?(mm|in)$/;
-    const allowedMU = ['mm', 'in'];
-    let value, mu;
-    if (!m) {
-        value = parseFloat(v);
-        [, , mu] = v.match(re) || [];
-    } else {
-        value = v;
-        mu = m;
-    }
-    if (!allowedMU.includes(mu)) {
-        [, , mu] = card_options['card_width'].match(re) || [];
-        if (!allowedMU.includes(mu)) {
-            mu = 'mm';
-        }
-    }
-    if (Number.isNaN(value)) {
-      value = 0;
-    }
-    this.value = value;
-    this.mu = mu;
-    return this;
+/**
+ * Evaluates a mathematical expression using MathJS.
+ *
+ * ⚠️ Important:
+ * To ensure correct unit simplification, **arrange terms so that unit cancellation happens first**.
+ * MathJS may produce incorrect results if units are multiplied/divided in the wrong order.
+ *
+ * Example of incorrect usage:
+ *   math_eval("63mm * 100 / 210mm") 
+ *   // Returns: '30 mm^2' (incorrect)
+ *
+ * Correct usage with proper unit cancellation:
+ *   math_eval("63mm / 210mm * 100") 
+ *   // Returns: '30'
+ *
+ * @param {string} x - A string containing the expression to evaluate. Units must be compatible if used.
+ * @returns {number|math.Unit} - The evaluated result, which may be a number or a MathJS unit object.
+ */
+function math_eval(x) {
+  return math.evaluate(x);
 }
 
-UnitValue.prototype.toString = function () {
-    return new BigNumber(this.value).toFixed(2).replace(/\.?0+$/, '') + this.mu;
+/**
+ * Formats a number, BigNumber, unit, or unit-like string into a concise, human-readable string.
+ *
+ * Features:
+ * - Rounds numeric values to 2 decimal places by default.
+ * - Removes unnecessary trailing zeros (e.g., `2.50` → `2.5`, `3.00` → `3`).
+ * - For MathJS units, formats the numeric part while preserving the unit, removing all spaces.
+ * - Handles strings containing numbers, units, or unit expressions.
+ *
+ * Examples:
+ *   math_format(math.bignumber(2.5000))         // "2.5"
+ *   math_format(3)                               // "3"
+ *   math_format(math.unit('63 mm'))             // "63mm"
+ *   math_format('100 cm')                        // "100cm"
+ *   math_format('2.5000 kg')                     // "2.5kg"
+ *
+ * Notes:
+ * - Uses high precision internally (precision: 20) to avoid rounding issues with units.
+ * - All spaces in the formatted string are removed.
+ * - Accepts numbers, MathJS BigNumber, MathJS Unit, or strings representing numbers/units.
+ *
+ * @param {number | math.BigNumber | math.Unit | string} x - The value to format.
+ * @returns {string} A formatted string with rounded numeric part and cleaned-up units.
+ */
+function math_format(x) {
+  const t = math.typeOf(x);
+
+  // Helper: round numeric part and remove trailing zeros
+  const roundAndTrim = (num, decimals = 2) => {
+    const rounded = math.round(math.bignumber(num), decimals);
+    let s = rounded.toString();
+    if (s.includes('.')) s = s.replace(/\.?0+$/, '');
+    return s;
+  };
+
+  if (t === 'Unit') {
+    const formatted = x.format({ notation: 'fixed', precision: 20 }); // high precision to avoid rounding issues
+    const match = formatted.match(/^([+-]?\d*\.?\d+)(.*)$/);
+    if (match) {
+      const value = roundAndTrim(match[1], 2);
+      const unit = match[2];
+      return `${value}${unit}`.replace(/\s+/g, ''); // remove all spaces
+    }
+    return formatted.replace(/\s+/g, '');
+  }
+
+  if (t === 'BigNumber' || t === 'number') {
+    return roundAndTrim(x);
+  }
+
+  if (typeof x === 'string') {
+    if (/[a-zA-Z]/.test(x)) {
+      const unit = math.unit(x);
+      const formatted = unit.format({ notation: 'fixed', precision: 20 });
+      const match = formatted.match(/^([+-]?\d*\.?\d+)(.*)$/);
+      if (match) {
+        const value = roundAndTrim(match[1], 2);
+        const unitStr = match[2];
+        return `${value}${unitStr}`.replace(/\s+/g, '');
+      }
+      return formatted.replace(/\s+/g, '');
+    } else {
+      return roundAndTrim(x);
+    }
+  }
+
+  return String(x).replace(/\s+/g, '');
 }
 
 function getOrientation(cssWidth, cssHeight) {
-    var orientation = "";
-    var width = new UnitValue(cssWidth);
-    var height = new UnitValue(cssHeight);
-    orientation = width.value > height.value ? 'landscape' : 'portrait'; 
-    return orientation;
+    return math.evaluate(`${cssWidth} > ${cssHeight}`) ? 'landscape' : 'portrait';
 }
 
 function isLandscape(width, height) {
