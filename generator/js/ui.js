@@ -560,40 +560,42 @@ function ui_change_option() {
     switch (property) {
         case 'card_size': {
             card_options[property] = value;
-            if (value) {
-                var size = value.split(',');
-                var w = size[0], h = size[1];
-                var width = 0, height = 0;
-                var landscape = isLandscape(card_options['card_width'], card_options['card_height']);
-                if (landscape) {
-                    width = h;  height = w;
-                } else {
-                    width = w;  height = h;
-                }
-                card_options['card_width'] = width;
-                card_options['card_height'] = height;
-                $('#card-width').val(width).trigger("input");
-                $('#card-height').val(height).trigger("input");
+            var size = value ? value.split(',') : ['', ''];
+            var w = size[0], h = size[1];
+            var width = 0, height = 0;
+            var landscape = isLandscape(card_options['card_width'], card_options['card_height']);
+            if (landscape) {
+                width = h;  height = w;
+            } else {
+                width = w;  height = h;
+            }
+            card_options['card_width'] = width;
+            card_options['card_height'] = height;
+            $('#card-width').val(width).trigger("input");
+            $('#card-height').val(height).trigger("input");
+            if (card_options['page_zoom_width'] === '100' && card_options['page_zoom_height'] === '100') {
+                $('#card-zoom-width').val(width);
+                $('#card-zoom-height').val(height);
+            } else {
+                $('#card-zoom-width').trigger('input');
             }
             break;
         }
         case 'page_size': {
             card_options[property] = value;
-            if (value) {
-                var size = value.split(',');
-                var w = size[0], h = size[1];
-                var width = 0, height = 0;
-                var landscape = isLandscape(card_options['page_width'], card_options['page_height']);
-                if (landscape) {
-                    width = h;  height = w;
-                } else {
-                    width = w;  height = h;
-                }
-                card_options['page_width'] = width;
-                card_options['page_height'] = height;
-                $('#page-width').val(width).trigger("input");
-                $('#page-height').val(height).trigger("input");
+            var size = value ? value.split(',') : ['', ''];
+            var w = size[0], h = size[1];
+            var width = 0, height = 0;
+            var landscape = isLandscape(card_options['page_width'], card_options['page_height']);
+            if (landscape) {
+                width = h;  height = w;
+            } else {
+                width = w;  height = h;
             }
+            card_options['page_width'] = width;
+            card_options['page_height'] = height;
+            $('#page-width').val(width).trigger("input");
+            $('#page-height').val(height).trigger("input");            
         break;
         }
         case 'card_width':
