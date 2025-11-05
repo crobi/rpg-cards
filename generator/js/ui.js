@@ -1014,22 +1014,28 @@ function ui_apply_default_card_background() {
 }
 
 //Adding support for local store
-function local_store_save() {
-    if(window.localStorage){
-        const card_data_to_save = card_data.map(c => {
-            const card = { ...c };
-            delete card.uuid;
-            return card;
-        });
-        try {
-            localStorage.setItem("card_data", JSON.stringify(card_data_to_save));
-            localStorage.setItem("card_options", JSON.stringify(card_options));
-            localStorage.setItem("app_settings", JSON.stringify(app_settings));
-        } catch (e){
-            //if the local store save failed should we notify the user that the data is not being saved?
-            console.log(e);
+function local_store_save () {
+    function save() {
+       if(window.localStorage){
+            const card_data_to_save = card_data.map(c => {
+                const card = { ...c };
+                delete card.uuid;
+                return card;
+            });
+            try {
+                localStorage.setItem('card_data', JSON.stringify(card_data_to_save));
+                localStorage.setItem('card_options', JSON.stringify(card_options));
+                localStorage.setItem('app_settings', JSON.stringify(app_settings));
+            } catch (e){
+                //if the local store save failed should we notify the user that the data is not being saved?
+                console.log(e);
+            }
         }
     }
+    // Replace this function with its debounced version
+    local_store_save = debounce(save, 500);
+    // Call it immediately with the first invocation’s arguments
+    return local_store_save.apply(this, arguments);
 }
 
 function legacy_card_data(oldData = []) {

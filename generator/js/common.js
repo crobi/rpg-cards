@@ -163,3 +163,11 @@ function insertTextWithUndo(textarea, text, start, end) {
 function isNil(q) {
   return q === null || q === undefined;
 }
+
+function debounce(fn, delay) {
+  let timer;
+  return function(...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
