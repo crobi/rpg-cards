@@ -559,11 +559,17 @@ function ui_change_option() {
     }
     switch (property) {
         case 'card_size': {
-            card_options[property] = value;
-            var size = value ? value.split(',') : ['', ''];
-            var w = size[0], h = size[1];
-            var width = 0, height = 0;
-            var landscape = isLandscape(card_options['card_width'], card_options['card_height']);
+            const changed = card_options[property] !== value;
+            let w, h;
+            if (changed) {
+                card_options[property] = value;
+                [w, h] = value ? value.split(',') : ['', ''];
+            } else {
+                w = card_options['card_width'];
+                h = card_options['card_height'];
+            }
+            var width = '', height = '';
+            var landscape = isLandscape(w, h);
             if (landscape) {
                 width = h;  height = w;
             } else {
@@ -583,9 +589,8 @@ function ui_change_option() {
         }
         case 'page_size': {
             card_options[property] = value;
-            var size = value ? value.split(',') : ['', ''];
-            var w = size[0], h = size[1];
-            var width = 0, height = 0;
+            var [w, h] = value ? value.split(',') : ['', ''];
+            var width = '', height = '';
             var landscape = isLandscape(card_options['page_width'], card_options['page_height']);
             if (landscape) {
                 width = h;  height = w;
@@ -606,7 +611,12 @@ function ui_change_option() {
             ui_match_format(document.getElementById('card-size'), width, height);
             ui_set_card_custom_size(width, height);
             ui_set_orientation(document.getElementById('card-orientation'), width, height);
-            // ui_zoom_100();
+            if (card_options['page_zoom_width'] === '100' && card_options['page_zoom_height'] === '100') {
+                $('#card-zoom-width').val(width);
+                $('#card-zoom-height').val(height);
+            } else {
+                $('#card-zoom-width').trigger('input');
+            }
             break;
         }
         case 'page_width':
@@ -623,14 +633,6 @@ function ui_change_option() {
         case 'page_zoom_height':
         case 'card_zoom_width':
         case 'card_zoom_height': {
-            const keepRatio = app_settings.page_zoom_keep_ratio;
-            const cardWidth = card_options['card_width'];
-            const cardHeight = card_options['card_height'];
-            const r = math_eval(`${cardWidth} / ${cardHeight}`);
-            let percWidth;
-            let percHeight;
-            let sizeWidth;
-            let sizeHeight;
             const setVal = (k, v, property) => {
                 if (k === property) {
                     card_options[k] = value;
@@ -640,30 +642,40 @@ function ui_change_option() {
                     $(`#${k.replace(/_/g, '-')}`).val(val);
                 }
             }
-            if (property === 'page_zoom_width') {
-                percWidth = value;
-                percHeight = keepRatio ? percWidth : card_options['page_zoom_height'];
-            } else if (property === 'page_zoom_height') {
-                percHeight = value;
-                percWidth = keepRatio ? percHeight : card_options['page_zoom_width'];
-            } else if (property === 'card_zoom_width') {
-                sizeWidth = value;
-                sizeHeight = keepRatio ? math_eval(`${sizeWidth} / ${r}`) : card_options['card_zoom_height'];
-            } else if (property === 'card_zoom_height') {
-                sizeHeight = value;
-                sizeWidth = keepRatio ? math_eval(`${sizeWidth} * ${r}`) : card_options['card_zoom_width'];
+            const cardWidth = card_options['card_width'];
+            const cardHeight = card_options['card_height'];
+            const r = math_eval(`${cardWidth} / ${cardHeight}`);
+            if (r) {
+                let percWidth;
+                let percHeight;
+                let sizeWidth;
+                let sizeHeight;
+                const keepRatio = app_settings.page_zoom_keep_ratio;
+                if (property === 'page_zoom_width') {
+                    percWidth = value;
+                    percHeight = keepRatio ? percWidth : card_options['page_zoom_height'];
+                } else if (property === 'page_zoom_height') {
+                    percHeight = value;
+                    percWidth = keepRatio ? percHeight : card_options['page_zoom_width'];
+                } else if (property === 'card_zoom_width') {
+                    sizeWidth = value;
+                    sizeHeight = keepRatio ? math_eval(`${sizeWidth} / ${r}`) : card_options['card_zoom_height'];
+                } else if (property === 'card_zoom_height') {
+                    sizeHeight = value;
+                    sizeWidth = keepRatio ? math_eval(`${sizeWidth} * ${r}`) : card_options['card_zoom_width'];
+                }
+                if (isNil(percWidth)) {
+                    percWidth = math_eval(`${sizeWidth} / ${cardWidth} * 100`);
+                    percHeight = math_eval(`${sizeHeight} / ${cardHeight} * 100`);
+                } else {
+                    sizeWidth = math_eval(`${cardWidth} * ${percWidth} / 100`);
+                    sizeHeight = math_eval(`${cardHeight} * ${percHeight} / 100`);
+                }
+                setVal('page_zoom_width', percWidth, property);
+                setVal('page_zoom_height', percHeight, property);
+                setVal('card_zoom_width', sizeWidth, property);
+                setVal('card_zoom_height', sizeHeight, property);
             }
-            if (isNil(percWidth)) {
-                percWidth = math_eval(`${sizeWidth} / ${cardWidth} * 100`);
-                percHeight = math_eval(`${sizeHeight} / ${cardHeight} * 100`);
-            } else {
-                sizeWidth = math_eval(`${cardWidth} * ${percWidth} / 100`);
-                sizeHeight = math_eval(`${cardHeight} * ${percHeight} / 100`);
-            }
-            setVal('page_zoom_width', percWidth, property);
-            setVal('page_zoom_height', percHeight, property);
-            setVal('card_zoom_width', sizeWidth, property);
-            setVal('card_zoom_height', sizeHeight, property);
             break;
         }
         default: {

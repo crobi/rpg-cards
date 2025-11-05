@@ -1,9 +1,13 @@
 /**
- * Evaluates a mathematical expression using MathJS.
+ * Safely evaluates a mathematical expression using MathJS.
  *
  * ⚠️ Important:
  * To ensure correct unit simplification, **arrange terms so that unit cancellation happens first**.
  * MathJS may produce incorrect results if units are multiplied/divided in the wrong order.
+ *
+ * Error Handling:
+ * - If the expression is invalid (syntax error, incompatible units, or other runtime error), 
+ *   the function returns `null` instead of throwing an exception.
  *
  * Example of incorrect usage:
  *   math_eval("63mm * 100 / 210mm") 
@@ -11,13 +15,58 @@
  *
  * Correct usage with proper unit cancellation:
  *   math_eval("63mm / 210mm * 100") 
- *   // Returns: '30'
+ *   // Returns: 30
  *
  * @param {string} x - A string containing the expression to evaluate. Units must be compatible if used.
- * @returns {number|math.Unit} - The evaluated result, which may be a number or a MathJS unit object.
+ * @returns {number | math.Unit | null} The evaluated result (number or MathJS Unit) or `null` if invalid.
  */
 function math_eval(x) {
-  return math.evaluate(x);
+  try {
+    return math.evaluate(x);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Determines whether a given expression is valid and can be safely evaluated by MathJS.
+ *
+ * This function first checks whether the input is a non-empty string,
+ * then attempts to evaluate it using `math.evaluate()`.  
+ * If evaluation succeeds without throwing an error, the expression is considered valid.  
+ * Otherwise, it is invalid — for example, due to syntax errors, incompatible units, or undefined symbols.
+ *
+ * ✅ Features:
+ * - Validates both numeric and unit-based expressions (e.g. `"2 + 3"`, `"5mm + 2cm"`).
+ * - Safely catches syntax and runtime errors without throwing exceptions.
+ * - Returns `false` for empty, blank, or invalid inputs.
+ * - Designed for simple expression validation before actual evaluation.
+ *
+ * ⚠️ Notes:
+ * - This function **does not** return the evaluated result — only whether it is valid.
+ * - For diagnostic use cases (e.g. returning the specific error message), 
+ *   you can extend this by capturing the error inside the `catch` block.
+ *
+ * @param {string} expr - The mathematical expression to validate. May include numbers, operators, functions, or compatible units.
+ * @returns {boolean} `true` if the expression is non-empty and can be evaluated by MathJS; otherwise `false`.
+ *
+ * @example
+ * math_valid("2mm");          // true
+ * math_valid("2 + 3");        // true
+ * math_valid("5mm + 3cm");    // true
+ * math_valid("5mm + 3kg");    // false (incompatible units)
+ * math_valid("2 +");          // false (syntax error)
+ * math_valid("");             // false (empty input)
+ * math_valid("   ");          // false (whitespace only)
+ */
+function math_valid(expr) {
+  if (!String(expr).trim()) return false;
+  try {
+    math.evaluate(expr);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 /**
@@ -40,11 +89,13 @@ function math_eval(x) {
  * - Uses high precision internally (precision: 20) to avoid rounding issues with units.
  * - All spaces in the formatted string are removed.
  * - Accepts numbers, MathJS BigNumber, MathJS Unit, or strings representing numbers/units.
+ * - If x is falsy, the function returns x
  *
  * @param {number | math.BigNumber | math.Unit | string} x - The value to format.
  * @returns {string} A formatted string with rounded numeric part and cleaned-up units.
  */
 function math_format(x) {
+  if (!x) return x;
   const t = math.typeOf(x);
 
   // Helper: round numeric part and remove trailing zeros
@@ -89,12 +140,55 @@ function math_format(x) {
   return String(x).replace(/\s+/g, '');
 }
 
+/**
+ * Determines whether the given dimensions represent a landscape or portrait orientation.
+ *
+ * Accepts both numeric values and unit strings (e.g. "100mm", "10cm", "4in").
+ * Automatically converts compatible units before comparison.
+ * Falls back to 'portrait' if inputs are invalid or non-comparable.
+ *
+ * @param {number|string|math.Unit} cssWidth  - The width value, may include units (mm, cm, in, etc.).
+ * @param {number|string|math.Unit} cssHeight - The height value, may include units (mm, cm, in, etc.).
+ * @returns {'landscape'|'portrait'} Returns 'landscape' if width > height; otherwise 'portrait'.
+ *
+ * @example
+ * getOrientation('100mm', '50mm');  // 'landscape'
+ * getOrientation('5cm', '2in');     // 'landscape' (converted automatically)
+ * getOrientation('2in', '20cm');    // 'portrait'
+ * getOrientation(500, 300);         // 'landscape'
+ * getOrientation(null, 300);        // 'portrait'
+ */
 function getOrientation(cssWidth, cssHeight) {
-    return math.evaluate(`${cssWidth} > ${cssHeight}`) ? 'landscape' : 'portrait';
+  try {
+    // Convert inputs to MathJS units if they contain unit symbols
+    const parseUnit = (value) => {
+      if (value == null || value === '') return math.unit(0, 'mm');
+      if (typeof value === 'number') return math.unit(value, 'mm'); // assume mm for plain numbers
+      if (typeof value === 'string') {
+        // If it contains a recognized unit, parse as unit; otherwise, treat as number in mm
+        const hasUnit = /[a-zA-Z]/.test(value);
+        return hasUnit ? math.unit(value) : math.unit(parseFloat(value) || 0, 'mm');
+      }
+      if (math.typeOf(value) === 'Unit') return value;
+      return math.unit(0, 'mm');
+    };
+
+    const w = parseUnit(cssWidth);
+    const h = parseUnit(cssHeight);
+
+    // Convert both to a common base unit (mm)
+    const wVal = w.toNumber('mm');
+    const hVal = h.toNumber('mm');
+
+    return wVal > hVal ? 'landscape' : 'portrait';
+  } catch (err) {
+    console.warn('getOrientation: invalid input', err);
+    return 'portrait';
+  }
 }
 
 function isLandscape(width, height) {
-    return getOrientation(width, height) === 'landscape';
+    return getOrientation(width || 0, height || 0) === 'landscape';
 }
 
 function forEachMatch(regexp, str, func){
