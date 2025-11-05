@@ -662,7 +662,7 @@ function ui_change_option() {
                     sizeHeight = keepRatio ? math_eval(`${sizeWidth} / ${r}`) : card_options['card_zoom_height'];
                 } else if (property === 'card_zoom_height') {
                     sizeHeight = value;
-                    sizeWidth = keepRatio ? math_eval(`${sizeWidth} * ${r}`) : card_options['card_zoom_width'];
+                    sizeWidth = keepRatio ? math_eval(`${sizeHeight} * ${r}`) : card_options['card_zoom_width'];
                 }
                 if (isNil(percWidth)) {
                     percWidth = math_eval(`${sizeWidth} / ${cardWidth} * 100`);
