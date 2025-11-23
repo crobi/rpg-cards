@@ -5,11 +5,10 @@ var app_settings = default_app_settings();
 
 function default_app_settings() {
     return {
-        defaultFileName: 'rpg_cards',
-        currentFileName: 'rpg_cards',
-        browserAsksWhereSave: false,
-        openSaveDialog: false,
-        showDownloadSettings: true,
+        file_name: 'rpg_cards',
+        browser_asks_where_save: false,
+        open_save_dialog: false,
+        show_download_settings: true,
         page_zoom_keep_ratio: true
     }
 }
@@ -86,24 +85,24 @@ function ui_load_sample() {
     ui_select_card_by_index(firstAddedCardIndex);
 }
 
-function ui_clear_all() {
+function ui_clear_all(enableAsking) {
     if (!card_data.length) {
         return true;
     }
-    const proceed = document.getElementById('ask-before-delete').checked ? confirm('Delete all cards?') : true;
+    const proceed = enableAsking && document.getElementById('ask-before-delete').checked ? confirm('Delete all cards?') : true;
     if (proceed) {
         card_data = [];
         ui_update_card_list();
-        $('#file-name').val(app_settings.defaultFileName).trigger('change');
+        getField('file-name').reset();
     }
     return proceed;
 }
 
 function ui_load_files(evt) {
-    // ui_clear_all();
     const target = evt.target;
     const files = target.files;
-    const isOpening = Boolean(Number(evt.target.getAttribute('data-opening')));
+    const isOpening = Boolean(evt.target.getAttribute('data-opening'));
+    const clearAll = Boolean(evt.target.getAttribute('data-clear-all'));
     const firstAddedCardIndex = card_data.length;
 
     for (let i = 0; i < files.length; i++) {
@@ -119,9 +118,12 @@ function ui_load_files(evt) {
             try {
                 const data = JSON.parse(result);
                 const newData = legacy_card_data(data);
+                if (isOpening && clearAll) {
+                    ui_clear_all(false);
+                }
                 ui_add_cards(newData);
                 if (isOpening) {
-                    $('#file-name').val(f.name.replace(/\.[^/.]+$/, '')).change();
+                    getField('file-name').changeValue(f.name.replace(/\.[^/.]+$/, ''));
                 } else {
                     ui_select_card_by_index(firstAddedCardIndex);
                 }
@@ -153,6 +155,7 @@ function ui_add_cards(data) {
 function ui_add_new_card() {
     card_data.push(legacy_card_data([{
         ...default_card_data(),
+        title: 'New card',
         icon_back_container: card_options.default_icon_back_container 
     }])[0]);
     ui_update_card_list();
@@ -278,14 +281,14 @@ function ui_update_card_list() {
 
 async function ui_save_file() {
     const jsonString = JSON.stringify(card_data, null, "  ");
-    let filename = app_settings.currentFileName;
+    let filename = app_settings.file_name;
     
     if (window.showSaveFilePicker) {
-        if (app_settings.openSaveDialog) {
-            if (!app_settings.browserAsksWhereSave) {
+        if (app_settings.open_save_dialog) {
+            if (!app_settings.browser_asks_where_save) {
                 try {
                     const options = {
-                        suggestedName: app_settings.currentFileName + '.json',
+                        suggestedName: filename + '.json',
                         types: [{
                         description: 'File JSON',
                         accept: { 'application/json': ['.json'] }
@@ -296,6 +299,8 @@ async function ui_save_file() {
                     const writable = await handle.createWritable();
                     await writable.write(jsonString);
                     await writable.close();
+                    const newFilename = handle.name.split('.').slice(0, -1).join('.');
+                    if (newFilename !== filename) getField('file-name').changeValue(newFilename);
                     return;
                 } catch (err) {
                     if (err.name === 'AbortError') {
@@ -323,7 +328,6 @@ async function ui_save_file() {
 function ui_update_selected_card() {
     var card = ui_selected_card();
     if (card) {
-        $("#card-title").val(card.title);
         $("#card-type").val(card.card_type);
         $("#card-title-size").val(card.title_size);
         $("#card-font-size").val(card.card_font_size);
@@ -335,10 +339,10 @@ function ui_update_selected_card() {
 		$("#card-background").val(card.background_image);
         $("#card-contents").val(card.contents?.join("\n"));
         $("#card-tags").val(card.tags.join(", "));
-        $("#card-color-front").val(card.color_front).change();
-        $("#card-color-back").val(card.color_back).change();
+        getFieldGroup('card').forEach(field => {
+            field.changeValue(field.getData(), { updateData: false });
+        });
     } else {
-        $("#card-title").val("");
         $("#card-type").val("");
         $("#card-title-size").val("");
         $("#card-font-size").val("");
@@ -350,8 +354,7 @@ function ui_update_selected_card() {
 		$("#card-background").val("");
         $("#card-contents").val("");
         $("#card-tags").val("");
-        $("#card-color-front").val("").change();
-        $("#card-color-back").val("").change();
+        getFieldGroup('card').forEach(field => field.reset());
     }
 
     ui_render_selected_card();
@@ -439,89 +442,19 @@ function ui_select_icon() {
     window.open("http://game-icons.net/", "_blank");
 }
 
-function ui_setup_color_selector() {
-    // Insert colors
-    $.each(card_colors, function (name, val) {
-        $(".colorselector-data")
-            .append($("<option></option>")
-            .attr("value", name)
-            .attr("data-color", val)
-            .text(name));
-    });
-    
-    // Callbacks for when the user picks a color
-    $('#default-color-front-selector').colorselector({
-        callback: function (value, color, title) {
-            $("#default-color-front").val(title);
-            ui_set_default_color_front(value);
-        }
-    });
-    $('#default-color-back-selector').colorselector({
-        callback: function (value, color, title) {
-            $("#default-color-back").val(title);
-            ui_set_default_color_back(value);
-        }
-    });
-    $('#card-color-front-selector').colorselector({
-        callback: function (value, color, title) {
-            $("#card-color-front").val(title);
-            ui_set_card_color_front(value);
-        }
-    });
-    $('#card-color-back-selector').colorselector({
-        callback: function (value, color, title) {
-            $("#card-color-back").val(title);
-            ui_set_card_color_back(value);
-        }
-    });
-    $('#foreground_color_selector').colorselector({
-        callback: function (value, color, title) {
-            $("#foreground-color").val(title);
-            ui_set_foreground_color(value);
-        }
-    });
-    $('#background_color_selector').colorselector({
-        callback: function (value, color, title) {
-            $("#background-color").val(title);
-            ui_set_background_color(value);
-        }
-    });
-
-    // Styling
-    $(".dropdown-colorselector").addClass("input-group-addon color-input-addon");
-}
-
-function ui_set_default_color_front(color) {
-    card_options.default_color_front = color;
-    ui_render_selected_card();
-}
-
-function ui_set_default_color_back(color) {
-    card_options.default_color_back = color;
-    ui_render_selected_card();
-}
-
-function ui_set_foreground_color(color) {
-    card_options.foreground_color = color;
-    local_store_save();
-}
-
-function ui_set_background_color(color) {
-    card_options.background_color = color;
-    local_store_save();
-}
-
 function ui_page_rotate($event) {
     $event.preventDefault();
     swapInputValues('#page-width', '#page-height').each(function(){
-        $(this).trigger('input');
+        const $el = this;
+        $el[0].dispatchEvent(new Event('input'));
     });
 }
 
 function ui_card_rotate($event) {
     $event.preventDefault();
     swapInputValues('#card-width', '#card-height').each(function(){
-        $(this).trigger('input');
+        const $el = this;
+        $el[0].dispatchEvent(new Event('input'));
     });
 }
 
@@ -587,22 +520,6 @@ function ui_change_option() {
             }
             break;
         }
-        case 'page_size': {
-            card_options[property] = value;
-            var [w, h] = value ? value.split(',') : ['', ''];
-            var width = '', height = '';
-            var landscape = isLandscape(card_options['page_width'], card_options['page_height']);
-            if (landscape) {
-                width = h;  height = w;
-            } else {
-                width = w;  height = h;
-            }
-            card_options['page_width'] = width;
-            card_options['page_height'] = height;
-            $('#page-width').val(width).trigger("input");
-            $('#page-height').val(height).trigger("input");            
-        break;
-        }
         case 'card_width':
         case 'card_height': {
             card_options[property] = value;
@@ -617,16 +534,6 @@ function ui_change_option() {
             } else {
                 $('#card-zoom-width').trigger('input');
             }
-            break;
-        }
-        case 'page_width':
-        case 'page_height': {
-            card_options[property] = value;
-            var width = card_options['page_width'];
-            var height = card_options['page_height'];
-            ui_match_format(document.getElementById('page-size'), width, height);
-            ui_set_page_custom_size(width, height);
-            ui_set_orientation(document.getElementById('page-orientation'), width, height);
             break;
         }
         case 'page_zoom_width':
@@ -686,8 +593,9 @@ function ui_change_option() {
     ui_render_selected_card();
 }
 
-function ui_match_format(selector, width, height) {
-    var len = selector.length;
+function ui_match_format(selectorId, width, height) {
+    var selector = typeof selectorId === 'string' ? document.getElementById(selectorId) : selectorId;
+    var len = selector.options.length;
     var portrait = "", landscape = "", format = "", o = null;
     for(var i = 0; i < len; i++) {
         o = selector.options[i];
@@ -741,20 +649,9 @@ function ui_move_down() {
     }
 }
 
-function ui_change_card_title() {
-    var title = $("#card-title").val();
-    var card = ui_selected_card();
-    if (card) {
-        card.title = title;
-        $('#deck-cards-list .radio:has(input[type="radio"]:checked) .text').text(ui_deck_option_text(card));
-        ui_render_selected_card();
-    }
-}
-
 function ui_change_card_count() {
     var count = $("#card-count").val();
-    var idx = ui_selected_card_index();
-    var card = card_data[idx];
+    var card = ui_selected_card();
     if (card) {
         card.count = count;
         $('#deck-cards-list .radio:has(input[type="radio"]:checked) .text').text(ui_deck_option_text(card));
@@ -772,22 +669,6 @@ function ui_change_card_property() {
     }
 }
 
-function ui_set_card_color_front(value) {
-    var card = ui_selected_card();
-    if (card) {
-        card.color_front = value;
-        ui_render_selected_card();
-    }
-}
-
-function ui_set_card_color_back(value) {
-    var card = ui_selected_card();
-    if (card) {
-        card.color_back = value;
-        ui_render_selected_card();
-    }
-}
-
 function ui_set_card_custom_size(width, height) {
     var card = ui_selected_card();
     if (card) {
@@ -797,61 +678,10 @@ function ui_set_card_custom_size(width, height) {
     }
 }
 
-function ui_set_page_custom_size(width, height) {
-    var card = ui_selected_card();
-    if (card) {
-        card.page_width = width;
-        card.page_height = height;
-    }
-}
-
-function ui_update_color_selector(color, input, selector) {
-    if ($(selector + " option[value='" + color + "']").length > 0) {
-        // Update the color selector to the entered value
-        $(selector).colorselector("setValue", color);
-    } else {
-        // Unknown color - select a neutral color and reset the text value
-        $(selector).colorselector("setValue", "");
-        input.val(color);
-    }
-}
-
-function ui_change_card_color_front() {
-    var input = $(this);
-    var color = input.val();
-
-    ui_update_color_selector(color, input, "#card-color-front-selector");
-    ui_set_card_color_front(color);
-}
-
-function ui_change_card_color_back() {
-    var input = $(this);
-    var color = input.val();
-
-    ui_update_color_selector(color, input, "#card-color-back-selector");
-    ui_set_card_color_back(color);
-}
-
-function ui_change_default_color_front() {
-    var input = $(this);
-    var color = input.val();
-
-    ui_update_color_selector(color, input, "#default-color-front-selector");
-    ui_set_default_color_front(color);
-}
-
 function ui_change_default_icon_front() {
     var value = $(this).val();
     card_options.default_icon_front = value;
     ui_render_selected_card();
-}
-
-function ui_change_default_color_back() {
-    var input = $(this);
-    var color = input.val();
-
-    ui_update_color_selector(color, input, "#default-color-back-selector");
-    ui_set_default_color_back(color);
 }
 
 function ui_change_default_icon_back() {
@@ -1134,37 +964,9 @@ function showToast(message, type = 'info', duration = 5000) {
   }, duration);
 }
 
-function ui_change_current_file_name(event) {
-    if (event.target.value) {
-        app_settings.currentFileName = event.target.value;
-    } else {
-        app_settings.currentFileName = app_settings.defaultFileName;
-        event.target.value = app_settings.defaultFileName;
-    }
-    local_store_save();
-}
-
-function ui_change_browser_asks_where_save(event) {
-    const browserAsks = Boolean(Number(event.target.value));
-    app_settings.browserAsksWhereSave = browserAsks;
-    if (browserAsks) {
-        $('#save-file-dialog-yes').prop('checked', true).change();
-    }
-    local_store_save();
-}
-
-function ui_change_save_file_dialog(event) {
-    const openDialog = Boolean(Number(event.target.value));
-    app_settings.openSaveDialog = openDialog;
-    if (!openDialog) {
-        $('#browser-asks-where-save-no').prop('checked', true).change();
-    }
-    local_store_save();
-}
-
 function ui_download_settings_toggle(event) {
     $('#download-settings-opened,#download-settings-closed').toggleClass('hidden');
-    app_settings.showDownloadSettings = event.target.id === ('download-settings-show');
+    app_settings.show_download_settings = event.target.id === ('download-settings-show');
     local_store_save();
 }
 
@@ -1176,7 +978,6 @@ function ui_zoom_keep_ratio(event) {
 $(document).ready(function () {
     parse_card_actions().then(function () {
         local_store_load();
-        ui_setup_color_selector();
 
     // accordion panel collapse fix
     $('#accordion .panel-collapse').on('show.bs.collapse', function(event){
@@ -1187,7 +988,7 @@ $(document).ready(function () {
         $('#download-settings-available,#download-settings-unavailable').toggleClass('hidden');
     }
 
-    if (app_settings.showDownloadSettings) {
+    if (app_settings.show_download_settings) {
         $('#download-settings-opened').removeClass('hidden');
     } else {
         $('#download-settings-closed').removeClass('hidden');
@@ -1195,14 +996,19 @@ $(document).ready(function () {
 
     $('#download-settings-show,#download-settings-hide').click(ui_download_settings_toggle);
 
-    $('#file-name').val(app_settings.currentFileName).change(ui_change_current_file_name).focus(function(){this.select()});
-    $(`input[name="browser-asks-where-save"]`).change(ui_change_browser_asks_where_save).filter(`[value="${Number(app_settings.browserAsksWhereSave)}"]`).prop('checked', true);
-    $(`input[name="save-file-dialog"]`).change(ui_change_save_file_dialog).filter(`[value="${Number(app_settings.openSaveDialog)}"]`).prop('checked', true);
+    $('#danger-zone-show,#danger-zone-hide').click(() => {
+        $('#danger-zone-opened,#danger-zone-closed').toggleClass('hidden');
+    });
+
+    $('#clear-all').on('click', () => {
+        if (confirm('Delete all saved data?\n\nThis action will remove all saved cards and settings.\nMake sure you’ve downloaded your cards before continuing.')) {
+            localStorage.clear();
+            window.location.reload();
+        }
+    });
 
     function ui_set_default_tab_values(options) {
-        $("#default-color-front").val(options.default_color_front).change();
         $("#default-icon-front").val(options.default_icon_front_container);
-        $("#default-color-back").val(options.default_color_back).change();
         $("#default-icon-back").val(options.default_icon_back);
         $("#default-icon-back-container").val(options.default_icon_back_container).trigger("change");
         $("#default-title-size").val(options.default_title_size);
@@ -1211,15 +1017,12 @@ $(document).ready(function () {
     }
 
     function ui_set_page_tab_values(options) {
-       $("#page-size").val(options.page_size).change();
        $("#card-size").val(options.card_size).change();
        $("#card-arrangement").val(options.card_arrangement).change();
        $("#page-rows").val(options.page_rows).change();
        $("#page-columns").val(options.page_columns).change();
        $("#back-bleed-width").val(options.back_bleed_width).change();
        $("#back-bleed-height").val(options.back_bleed_height).change();
-       $("#foreground-color").val(options.foreground_color).change();
-       $("#background-color").val(options.background_color).change();
        $("#page-zoom-keep-ratio").prop('checked', app_settings.page_zoom_keep_ratio);
        $("#page-zoom-width").val(options.page_zoom_width);
        $("#page-zoom-height").val(options.page_zoom_height);
@@ -1228,16 +1031,21 @@ $(document).ready(function () {
        $("#rounded-corners").prop('checked', options.rounded_corners);
     }
 
-    function ui_reset_default_tab_values(event) {
+    function ui_reset_group_tab_values(group) {
         if (!confirm('Reset the current tab\'s value?')) return;
-        ui_set_default_tab_values(default_card_options());
-    }
-
-    function ui_reset_page_tab_values(event) {
-        if (!confirm('Reset the current tab\'s value?')) return;
-        ui_set_page_tab_values(default_card_options());
+        getFieldGroup(group).forEach(field => field.reset());
+        if(group === 'page') {
+            ui_set_page_tab_values(default_card_options());
+        } else if (group === 'default') {
+            ui_set_default_tab_values(default_card_options());
+        }
     }
     
+    UI_FIELDS_CONFIGURATION_PREPARE.forEach((prepareGroupConfig, key) => {
+        UI_FIELDS_CONFIGURATION.set(key, prepareGroupConfig());
+    });
+    UI_FIELDS_CONFIGURATION.forEach(groupConfig => groupConfig.forEach(initField));
+
     ui_set_page_tab_values(card_options);
     ui_set_default_tab_values(card_options);
 
@@ -1270,14 +1078,22 @@ $(document).ready(function () {
 
     $("#button-generate").click(ui_generate);
     $("#button-load").click(function () {
-        $("#file-load").attr('data-opening', '0').click();
+        $("#file-load").attr({
+            'data-opening': '',
+            'data-clear-all': '',
+        }).click();
     });
     $("#button-open").click(function () {
-        if (!ui_clear_all()) return;
-        $("#file-load").attr('data-opening', '1').click();
+        if (card_data.length && document.getElementById('ask-before-delete').checked) {
+            if (!confirm('This will delete all cards.\nAre you sure?')) return;
+        }
+        $("#file-load").attr({
+            'data-opening': '1',
+            'data-clear-all': '1',
+        }).click();
     });
     $("#file-load").change(ui_load_files);
-    $("#button-clear").click(ui_clear_all);
+    $("#button-clear").click(function () { ui_clear_all(true); });
     $("#button-load-sample").click(ui_load_sample);
     $("#button-save").click(ui_save_file);
     $("#button-sort").click(ui_sort);
@@ -1303,7 +1119,6 @@ $(document).ready(function () {
     $("#deck-cards-list-title-filter").on('input', ui_filter_selected_card_title);
     $("#deck-cards-list-title-filter-clear").click(ui_filter_selected_card_title_clear);
 
-    $("#card-title").change(ui_change_card_title);
     $("#card-type").change(ui_change_card_property);
     $("#card-title-size").change(ui_change_card_property);
     $("#card-font-size").change(ui_change_card_property);
@@ -1313,16 +1128,11 @@ $(document).ready(function () {
     $("#card-icon-back-container").change(ui_change_card_property);
     $("#card-icon-back-rotation").change(ui_change_card_property);
 	$("#card-background").change(ui_change_card_property);
-	$("#card-color-front").change(ui_change_card_color_front);
-	$("#card-color-back").change(ui_change_card_color_back);
     $("#card-contents").change(ui_change_card_contents);
     $("#card-tags").change(ui_change_card_tags);
 
     $("#card-contents").keyup(ui_change_card_contents_keyup);
 
-    $("#page-width").on("input", ui_change_option);
-    $("#page-height").on("input", ui_change_option);
-    $("#page-size").change(ui_change_option).trigger("change");
     $("#page-rotate").click(ui_page_rotate);
     $("#page-rows").change(ui_change_option);
     $("#page-columns").change(ui_change_option);
@@ -1346,9 +1156,7 @@ $(document).ready(function () {
     $("#back-bleed-height").on("input", ui_change_option);
     $("#back-bleed-rotate").click(ui_back_bleed_rotate);
 
-    $("#default-color-front").change(ui_change_default_color_front);
     $("#default-icon-front").change(ui_change_default_icon_front);
-    $("#default-color-back").change(ui_change_default_color_back);
     $("#default-icon-back").change(ui_change_default_icon_back)
     $("#default-icon-back-rotation").change(ui_change_default_icon_back_rotation);
     $("#default-icon-back-container").change(ui_change_default_icon_back_container);
@@ -1357,8 +1165,8 @@ $(document).ready(function () {
     $("#default-card-background").change(ui_change_default_card_background);
 
     $("#small-icons").change(ui_change_default_icon_size);
-    $("#reset-default-tab-values").click(ui_reset_default_tab_values);
-    $("#reset-page-tab-values").click(ui_reset_page_tab_values);
+    $("#reset-default-tab-values").click(()=>ui_reset_group_tab_values('default'));
+    $("#reset-page-tab-values").click(()=>ui_reset_group_tab_values('page'));
 
     $(".icon-select-button").click(ui_select_icon);
 

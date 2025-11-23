@@ -37,7 +37,7 @@ function default_card_options() {
 function default_card_data() {
   return {
     count: 1,
-    title: "New card",
+    title: '',
     contents: [],
     tags: []
   };

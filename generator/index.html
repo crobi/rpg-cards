@@ -28,6 +28,13 @@
     <script type="text/javascript" src="data/card_data_example.js"></script>
     <!-- Javascript -->
     <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/fields/field.js"></script>
+    <script type="text/javascript" src="js/fields/fields_utils.js"></script>
+    <script type="text/javascript" src="js/fields/fields_file.js"></script>
+    <script type="text/javascript" src="js/fields/fields_deck.js"></script>
+    <script type="text/javascript" src="js/fields/fields_page.js"></script>
+    <script type="text/javascript" src="js/fields/fields_default.js"></script>
+    <script type="text/javascript" src="js/fields/fields_card.js"></script>
     <script type="text/javascript" src="js/cards.js"></script>
     <script type="text/javascript" src="js/colors.js"></script>
     <script type="text/javascript" src="js/icons.js"></script>
@@ -119,11 +126,11 @@
                                                 <div class="col-sm-12">
                                                     <p style="margin-bottom: 0px;">Would you like to select the save location each time you save a file?</p>
                                                     <label class="radio-inline" style="padding-bottom: 7px;">
-                                                        <input type="radio" name="save-file-dialog" id="save-file-dialog-no" value="0">
+                                                        <input type="radio" name="open-save-dialog" value="">
                                                         No
                                                     </label>
                                                     <label class="radio-inline" style="padding-bottom: 7px;">
-                                                        <input type="radio" name="save-file-dialog" id="save-file-dialog-yes" value="1">
+                                                        <input type="radio" name="open-save-dialog" value="1">
                                                         Yes</span>
                                                         <span id="save-file-custom-dialog-label" class="hidden">File name</span>
                                                     </label>
@@ -140,11 +147,11 @@
                                                                 Is your browser set to ask where to save files before downloading?
                                                             </p>
                                                             <label class="radio-inline" style="padding-bottom: 7px;">
-                                                                <input type="radio" name="browser-asks-where-save" id="browser-asks-where-save-no" value="0">
+                                                                <input type="radio" name="browser-asks-where-save" value="">
                                                                 No
                                                             </label>
                                                             <label class="radio-inline" style="padding-bottom: 7px;">
-                                                                <input type="radio" name="browser-asks-where-save" id="browser-asks-where-save-yes" value="1">
+                                                                <input type="radio" name="browser-asks-where-save" value="1">
                                                                 Yes
                                                             </label>
                                                             <em class="help-block" style="margin-bottom: 0;">
@@ -316,12 +323,9 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-8" style="display: flex;">
-                                            <input type="text" id="page-width" class="form-control"
-                                                data-option="page_width" placeholder="0mm">
-                                            <div class="text-center"><button class="btn btn-secondary"
-                                                    id="page-rotate">&times;</button></div>
-                                            <input type="text" id="page-height" class="form-control"
-                                                data-option="page_height" placeholder="0mm">
+                                            <input type="text" id="page-width" class="form-control" placeholder="0mm">
+                                            <div class="text-center"><button class="btn btn-secondary" id="page-rotate">&times;</button></div>
+                                            <input type="text" id="page-height" class="form-control" placeholder="0mm">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -411,10 +415,9 @@
                                         <label for="foreground-color" class="col-sm-4 control-label">Front color</label>
                                         <div class="col-sm-8">
                                             <div class="input-group">
-                                                <select id="foreground_color_selector"
-                                                    class="colorselector-data"></select>
+                                                <select id="foreground-color-selector"></select>
                                                 <input type="text" id="foreground-color" class="form-control"
-                                                    placeholder="Front page color" data-property="foreground_color" value="white">
+                                                    placeholder="Front page color" data-property="foreground_color">
                                             </div>
                                         </div>
                                     </div>
@@ -422,10 +425,9 @@
                                         <label for="background-color" class="col-sm-4 control-label">Back color</label>
                                         <div class="col-sm-8">
                                             <div class="input-group">
-                                                <select id="background_color_selector"
-                                                    class="colorselector-data"></select>
+                                                <select id="background-color-selector"></select>
                                                 <input type="text" id="background-color" class="form-control"
-                                                    placeholder="Back page color" data-property="background_color" value="white">
+                                                    placeholder="Back page color" data-property="background_color">
                                             </div>
                                         </div>
                                     </div>
@@ -477,22 +479,26 @@
                                             </div>
                                         </fieldset>
                                     </fieldset>
-                                    <div class="form-group">
-                                        <label for="rounded-corners" class="col-sm-4 control-label">Corners</label>
-                                        <div class="col-sm-8">
-                                            <div class="checkbox" style="padding-bottom: 7px;">
-                                                <label>
-                                                    <input type="checkbox" checked id="rounded-corners"
-                                                        data-option="rounded_corners" value="1"> Rounded card corners
-                                                </label>
+                                    <fieldset>
+                                        <div class="form-group" style="margin-bottom: 0;">
+                                            <legend class="col-sm-4 control-label">Other</legend>
+                                            <div class="col-sm-8">
+                                                <div style="display: flex; justify-content: space-between;">
+                                                    <div class="checkbox" style="padding-bottom: 7px;">
+                                                        <label>
+                                                            <input type="checkbox" checked id="rounded-corners"
+                                                            data-option="rounded_corners" value="1"> Rounded card corners
+                                                        </label>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </fieldset>
                                 </form>
                                 <form role="form" class="form-horizontal">
                                     <div class="form-group">
                                         <div class="col-sm-12">
-                                            <button type="button" class="btn btn-default" style="width: 100%;" id="reset-page-tab-values">Reset this tab's values</button>
+                                            <button type="button" class="btn btn-default" style="width: 100%;" id="reset-page-tab-values">Restore this tab's default values</button>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -682,7 +688,22 @@
                                     </div>
                                     <div class="form-group slim-buttons-row">
                                         <div class="col-sm-12">
-                                            <button type="button" class="btn btn-default" style="width: 100%;" id="reset-default-tab-values">Reset this tab's values</button>
+                                            <button type="button" class="btn btn-default" style="width: 100%;" id="reset-default-tab-values">Restore this tab's default values</button>
+                                        </div>
+                                    </div>
+                                    <div id="danger-zone-closed">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <p><a href="javascript:;" id="danger-zone-show">Show Danger Zone</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="danger-zone-opened" class="hidden">
+                                        <p><a href="javascript:;" id="danger-zone-hide">Hide Danger Zone</a></p>
+                                        <div class="form-group slim-buttons-row">
+                                            <div class="col-sm-12 text-center">
+                                                <button type="button" class="btn btn-danger" style="width: 100%;" id="clear-all">CLEAR ALL</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
