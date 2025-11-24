@@ -1,12 +1,16 @@
 .card {
-    border: 2mm solid;
-    box-sizing: border-box;
     position: relative;
+}
+
+.card-content {
+    box-sizing: border-box;
+    height: 100%;
+    border: 2mm solid;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
     font-size: 8pt;
-    overflow: hidden;
     flex-shrink: 0;
 }
 
@@ -437,3 +441,73 @@
     border-radius: 1em;
     line-height: 2;
 }
+
+:root {
+    --crop-mark-width: 1px;
+    --crop-mark-distance: 1mm;
+    --crop-mark-length: 5mm;
+    --crop-mark-total: calc(var(--crop-mark-distance) + var(--crop-mark-length));
+}
+
+.crop-mark {
+    position: absolute;
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+.crop-mark-top-left-v {
+    top: 0;
+    /* left: 0; */
+    height: var(--crop-mark-length);
+    transform: translateY(calc(var(--crop-mark-total) * -1));
+}
+
+.crop-mark-top-left-h {
+    /* top: 0; */
+    left: 0;
+    width: var(--crop-mark-length);
+    transform: translateX(calc(var(--crop-mark-total) * -1));
+}
+
+.crop-mark-top-right-v {
+    top: 0;
+    /* right: 0; */
+    height: var(--crop-mark-length);
+    transform: translateY(calc(var(--crop-mark-total) * -1));
+}
+
+.crop-mark-top-right-h {
+    /* top: 0; */
+    right: 0;
+    width: var(--crop-mark-length);
+    transform: translateX(var(--crop-mark-total));
+}
+
+.crop-mark-bottom-left-v {
+    bottom: 0;
+    /* left: 0; */
+    height: var(--crop-mark-length);
+    transform: translateY(var(--crop-mark-total));
+}
+
+.crop-mark-bottom-left-h {
+    /* bottom: 0; */
+    left: 0;
+    width: var(--crop-mark-length);
+    transform: translateX(calc(var(--crop-mark-total) * -1));
+}
+
+.crop-mark-bottom-right-v {
+    bottom: 0;
+    /* right: 0; */
+    height: var(--crop-mark-length);
+    transform: translateY(var(--crop-mark-total));
+}
+
+.crop-mark-bottom-right-h {
+    /* bottom: 0; */
+    right: 0;
+    width: var(--crop-mark-length);
+    transform: translateX(var(--crop-mark-total));
+}
+
