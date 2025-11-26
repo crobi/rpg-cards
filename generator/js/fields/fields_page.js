@@ -41,12 +41,12 @@ UI_FIELDS_CONFIGURATION_PREPARE.set('page', () => [
     {
         id: 'foreground-color',
         property: 'card_options.foreground_color',
-        init: ui_fields_init_colorfield
+        init: ui_fields_colorfield_init
     },
     {
         id: 'background-color',
         property: 'card_options.background_color',
-        init: ui_fields_init_colorfield
+        init: ui_fields_colorfield_init
     },
     {
         id: 'crop-marks',

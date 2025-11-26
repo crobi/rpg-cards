@@ -51,8 +51,14 @@ class Field {
                 return { dataName, key, data, value: result?.[key] ?? null };
             }
 
-            // "objectName.key"
             if (typeof dataName === 'string') {
+                // name of a function returning a data object
+                if (typeof window[dataName] === 'function') {
+                    const data = window[dataName];
+                    const result = data();
+                    return { dataName, key, data, value: result?.[key] ?? null };
+                }
+                // "objectName.key"
                 const data = window[dataName];
                 return { dataName, key, data, value: data?.[key] ?? null };
             }
