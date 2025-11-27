@@ -18,6 +18,10 @@
     border-radius: 4px;
 }
 
+.card.rounded-corners .card-content {
+    border-radius: inherit;
+}
+
 .card-content-container {
     padding:2mm;
     padding-top:1mm;
