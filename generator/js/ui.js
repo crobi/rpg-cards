@@ -61,7 +61,7 @@ function ui_generate() {
     }
 
     // Generate output HTML
-    var card_html = card_pages_generate_html(card_data, card_options);
+    var { html, pages } = card_pages_generate_html(card_data, card_options);
 
     // Open a new window for the output
     // Use a separate window to avoid CSS conflicts
@@ -73,7 +73,9 @@ function ui_generate() {
 
     // Send the generated HTML to the new window
     // Use a delay to give the new window time to set up a message listener
-    setTimeout(function () { tab.postMessage(card_html, '*'); }, 500);
+    setTimeout(function () {
+        tab.postMessage({ html, pages, options: card_options }, '*');
+    }, 500);
 }
 
 function ui_load_sample() {

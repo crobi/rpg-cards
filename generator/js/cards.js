@@ -1010,14 +1010,14 @@ function card_generate_crop_marks(card_data, options, params = {}) {
   if (!options.crop_marks || isPreview) return '';
 
   return `
-      <div class="crop-mark crop-mark-top-left-v" style="left:${bleed_width};"></div>
-      <div class="crop-mark crop-mark-top-right-v" style="right:${bleed_width};"></div>
-      <div class="crop-mark crop-mark-bottom-left-v" style="left:${bleed_width};"></div>
-      <div class="crop-mark crop-mark-bottom-right-v" style="right:${bleed_width};"></div>
-      <div class="crop-mark crop-mark-top-left-h" style="top:${bleed_height};"></div>
-      <div class="crop-mark crop-mark-bottom-left-h" style="bottom:${bleed_height};"></div>
-      <div class="crop-mark crop-mark-top-right-h" style="top:${bleed_height};"></div>
-      <div class="crop-mark crop-mark-bottom-right-h" style="bottom:${bleed_height};"></div>
+      <div class="crop-mark crop-mark-top-left-v hide" style="left:${bleed_width};"></div>
+      <div class="crop-mark crop-mark-top-right-v hide" style="right:${bleed_width};"></div>
+      <div class="crop-mark crop-mark-bottom-left-v hide" style="left:${bleed_width};"></div>
+      <div class="crop-mark crop-mark-bottom-right-v hide" style="right:${bleed_width};"></div>
+      <div class="crop-mark crop-mark-top-left-h hide" style="top:${bleed_height};"></div>
+      <div class="crop-mark crop-mark-bottom-left-h hide" style="bottom:${bleed_height};"></div>
+      <div class="crop-mark crop-mark-top-right-h hide" style="top:${bleed_height};"></div>
+      <div class="crop-mark crop-mark-bottom-right-h hide" style="bottom:${bleed_height};"></div>
   `;
 }
 
@@ -1293,7 +1293,7 @@ function card_pages_wrap(pages, options) {
   return result;
 }
 
-function card_pages_generate_style(pages, options) {
+function card_pages_generate_style(options) {
   const page_width = options.page_width;
   const page_height = options.page_height;
   const portrait = parseFloat(page_width) < parseFloat(page_height);
@@ -1305,61 +1305,6 @@ function card_pages_generate_style(pages, options) {
       margin: 0;
       size:" + pw + " " + ph + ";
       print-color-adjust: exact;
-  }
-  `;
-
-  result += `
-    .crop-mark-top-left-v,
-    .crop-mark-top-right-v,
-    .crop-mark-bottom-left-v,
-    .crop-mark-bottom-right-v,
-    .crop-mark-top-left-h,
-    .crop-mark-top-right-h,
-    .crop-mark-bottom-left-h,
-    .crop-mark-bottom-right-h {
-      display: none;
-    }
-  `;
-
-  const pageRows = Number(options.page_rows);
-  const pageColumns = Number(options.page_columns);
-
-  const firstRowSelector = `.card:nth-child(-n+${pageColumns})`;
-  const lastRowSelector = `.card:nth-child(${pageColumns}n):nth-last-child(-n+${pageColumns+1}) ~ *`;
-  const firstColumnSelector = `.card:nth-child(${pageColumns}n+1)`
-  const lastColumnSelector = `.card:nth-child(${pageColumns}n)`
-
-  result += `
-    ${firstRowSelector} .crop-mark-top-left-v,
-    ${firstRowSelector} .crop-mark-top-right-v,
-    ${lastRowSelector} .crop-mark-bottom-left-v,
-    ${lastRowSelector} .crop-mark-bottom-right-v,
-  `;
-  
-  if (options.card_arrangement === "doublesided") {
-    result += `
-      .page:nth-of-type(even) ${lastColumnSelector} .crop-mark-top-left-h,
-      .page:nth-of-type(odd) ${firstColumnSelector} .crop-mark-top-left-h,
-
-      .page:nth-of-type(even) ${lastColumnSelector} .crop-mark-bottom-left-h,
-      .page:nth-of-type(odd) ${firstColumnSelector} .crop-mark-bottom-left-h,
-
-      .page:nth-of-type(even) ${firstColumnSelector} .crop-mark-top-right-h,
-      .page:nth-of-type(odd) ${lastColumnSelector} .crop-mark-top-right-h,
-
-      .page:nth-of-type(even) ${firstColumnSelector} .crop-mark-bottom-right-h,
-      .page:nth-of-type(odd) ${lastColumnSelector} .crop-mark-bottom-right-h
-    `;
-  } else {
-    result += `
-      ${firstColumnSelector} .crop-mark-top-left-h,
-      ${firstColumnSelector} .crop-mark-bottom-left-h,
-      ${lastColumnSelector} .crop-mark-top-right-h,
-      ${lastColumnSelector} .crop-mark-bottom-right-h
-    `;
-  }
-  result += ` {
-    display: block;
   }
   `;
 
@@ -1412,19 +1357,11 @@ function card_pages_generate_html(card_data, options) {
 
   // Wrap all pages in a <page> element and add CSS for the page size
   var result = "";
-  result += card_pages_generate_style(pages, options);
+  result += card_pages_generate_style(options);
   result += card_pages_wrap(pages, options);
 
-  return result;
-}
-
-function card_pages_insert_into(card_data, container) {
-  // Clear the previous content of the document
-  while (container.hasChildNodes()) {
-    container.removeChild(container.lastChild);
-  }
-
-  // Insert the HTML
-  var html = card_pages_generate_html(card_data);
-  container.innerHTML = html;
+  return {
+    html: result,
+    pages
+  };
 }

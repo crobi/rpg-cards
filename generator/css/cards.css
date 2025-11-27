@@ -2,6 +2,10 @@
     position: relative;
 }
 
+.hide {
+    display: none;
+}
+
 .card-content {
     box-sizing: border-box;
     height: 100%;
@@ -73,6 +77,7 @@
 .card-back-icon-square {
 
 }
+
 .card-back-icon-square > div {
     width: 100%;
     height: 100%;
@@ -447,7 +452,7 @@
 }
 
 :root {
-    --crop-mark-width: 1px;
+    --crop-mark-stroke: 1px;
     --crop-mark-distance: 1mm;
     --crop-mark-length: 5mm;
     --crop-mark-total: calc(var(--crop-mark-distance) + var(--crop-mark-length));
@@ -463,55 +468,55 @@
     top: 0;
     /* left: 0; */
     height: var(--crop-mark-length);
-    transform: translateY(calc(var(--crop-mark-total) * -1));
+    transform: translateY(calc(var(--crop-mark-total) * -1)) translateX(calc(var(--crop-mark-stroke) / -2));
 }
 
 .crop-mark-top-left-h {
     /* top: 0; */
     left: 0;
     width: var(--crop-mark-length);
-    transform: translateX(calc(var(--crop-mark-total) * -1));
+    transform: translateX(calc(var(--crop-mark-total) * -1)) translateY(calc(var(--crop-mark-stroke) / -2));
 }
 
 .crop-mark-top-right-v {
     top: 0;
     /* right: 0; */
     height: var(--crop-mark-length);
-    transform: translateY(calc(var(--crop-mark-total) * -1));
+    transform: translateY(calc(var(--crop-mark-total) * -1)) translateX(calc(var(--crop-mark-stroke) / 2));
 }
 
 .crop-mark-top-right-h {
     /* top: 0; */
     right: 0;
     width: var(--crop-mark-length);
-    transform: translateX(var(--crop-mark-total));
+    transform: translateX(var(--crop-mark-total)) translateY(calc(var(--crop-mark-stroke) / -2));
 }
 
 .crop-mark-bottom-left-v {
     bottom: 0;
     /* left: 0; */
     height: var(--crop-mark-length);
-    transform: translateY(var(--crop-mark-total));
+    transform: translateY(var(--crop-mark-total)) translateX(calc(var(--crop-mark-stroke) / -2));
 }
 
 .crop-mark-bottom-left-h {
     /* bottom: 0; */
     left: 0;
     width: var(--crop-mark-length);
-    transform: translateX(calc(var(--crop-mark-total) * -1));
+    transform: translateX(calc(var(--crop-mark-total) * -1)) translateY(calc(var(--crop-mark-stroke) / 2));
 }
 
 .crop-mark-bottom-right-v {
     bottom: 0;
     /* right: 0; */
     height: var(--crop-mark-length);
-    transform: translateY(var(--crop-mark-total));
+    transform: translateY(var(--crop-mark-total)) translateX(calc(var(--crop-mark-stroke) / 2));
 }
 
 .crop-mark-bottom-right-h {
     /* bottom: 0; */
     right: 0;
     width: var(--crop-mark-length);
-    transform: translateX(var(--crop-mark-total));
+    transform: translateX(var(--crop-mark-total)) translateY(calc(var(--crop-mark-stroke) / 2));
 }
 
