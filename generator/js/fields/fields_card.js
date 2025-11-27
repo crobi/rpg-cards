@@ -17,6 +17,7 @@ UI_FIELDS_CONFIGURATION_PREPARE.set('card', () => [
         defaultProperty: [default_card_data, 'color_front'],
         init: ui_fields_colorfield_init,
         events: [
+            ['input', ui_render_selected_card],
             ['change', ui_render_selected_card]
         ]
     },
@@ -26,6 +27,7 @@ UI_FIELDS_CONFIGURATION_PREPARE.set('card', () => [
         defaultProperty: '',
         init: ui_fields_colorfield_init,
         events: [
+            ['input', ui_render_selected_card],
             ['change', ui_render_selected_card]
         ]
     },
