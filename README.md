@@ -56,7 +56,7 @@ FAQ
 =====================
 
 - What browsers are supported?
-  - A modern browser (Chrome, Firefox, Edge, Safari). The generator has some issues on IE.
+  - A modern browser (Chrome, Edge, Safari). The generator has some issues on IE and Firefox, that are not supported (Firefox due to privacy concerns).
 - Cards are generated without icons and background colors, what's wrong?
   - Enable printing backround images in your browser print dialog
 - The layout of the cards is broken (e.g., cards are placed outside the page), what's wrong?
