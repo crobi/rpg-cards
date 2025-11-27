@@ -1279,8 +1279,8 @@ function card_pages_wrap(pages, options) {
     zoomStyle += '"';
     zoomStyle = add_size_to_style(
       zoomStyle,
-      `calc((${options.card_width} + ${options.back_bleed_width}) * ${options.page_rows})`,
-      `calc((${options.card_height} + ${options.back_bleed_height}) * ${options.page_columns})`
+      `calc((${options.card_width} + ${options.back_bleed_width}) * ${options.page_columns})`,
+      `calc((${options.card_height} + ${options.back_bleed_height}) * ${options.page_rows})`
     );
 
     result +=
