@@ -1086,6 +1086,46 @@ function card_generate_front(data, options, { isPreview }) {
   </div>`;
 }
 
+
+function card_generate_back_html({
+  renderInner = true,
+  card_style = '',
+  corners_class = '',
+  card_background_style = '',
+  icon_container,
+  icon_container_style,
+  icon,
+  icon_style,
+  crop_marks = ''
+}) {
+  let card = `<div class="card ${corners_class}" ${card_style}>`;
+
+  card += `<div class="card-content">`;
+  card += `<div class="card-back" ${card_background_style}>`;
+
+  if (renderInner) {
+    card += `
+      <div class="card-back-inner">
+        <div class="card-back-icon card-back-icon-${icon_container}" ${icon_container_style}>
+          <div class="icon-${icon}" ${icon_style}></div>
+        </div>
+      </div>
+    `;
+  }
+
+  card += `</div>`;
+  card += `</div>`;
+
+  if (crop_marks) {
+    card += `<div>${crop_marks}</div>`;
+  }
+
+  card += `</div>`;
+
+  return card;
+}
+
+
 function card_generate_back(data, options, { isPreview }) {
   var color = card_data_color_back(data, options);
   var style_color = card_generate_color_back_style(color, data, options);
@@ -1101,21 +1141,15 @@ function card_generate_back(data, options, { isPreview }) {
 
   var card_style = isPreview ? add_size_to_style(style_color, width, height) : add_size_to_style(style_color, card_width, card_height);
 
-  var $tmpCardContainer = $(
-    '<div style="position:absolute;visibility:hidden;pointer-events:none;"></div>'
-  );
-  var $tmpCard = $(
-    '<div class="card" ' +
-      card_style +
-      '><div class="card-content"><div class="card-back"><div class="card-back-inner"><div class="card-back-icon"></div></div></div></div></div>'
-  );
+  const $tmpCard = $(card_generate_back_html({ card_style }));
+  const $tmpCardContainer = $('<div style="position:absolute;visibility:hidden;pointer-events:none;"></div>');
   $("#preview-container").append($tmpCardContainer.append($tmpCard));
 
   var $tmpCardInner = $tmpCard.find(".card-back-inner");
   var innerWidth = $tmpCardInner.width();
   var innerHeight = $tmpCardInner.height();
   var iconContainerSize = Math.min(innerWidth, innerHeight) / 2;
-  $tmpCard.remove();
+  $tmpCardContainer.remove();
 
   var url = data.background_image;
   var card_background_style = "";
@@ -1130,23 +1164,18 @@ function card_generate_back(data, options, { isPreview }) {
   var icon_container_style = add_size_to_style(card_generate_back_icon_container_style(color, data, options), `${iconContainerSize}px`, `${iconContainerSize}px`);
   var icon_style = card_generate_back_icon_style(color, data, options);
 
-  const cornersClass = options.rounded_corners  ? "rounded-corners" : "";
-  return `<div class="card ${cornersClass}" ${card_style}>
-    <div class="card-content">
-      <div class="card-back" ${card_background_style}>
-        ${!url && `
-          <div class="card-back-inner">
-            <div class="card-back-icon card-back-icon-${icon_container}" ${icon_container_style}>
-              <div class="icon-${icon}" ${icon_style}></div>
-            </div>
-          </div>
-        `}
-      </div>
-    </div>
-    <div>
-      ${card_generate_crop_marks(data, options, { isPreview, isBack: true })}
-    </div>
-  </div>`;
+  return card_generate_back_html({
+    renderInner: !url,
+    card_style,
+    corners_class: options.rounded_corners  ? "rounded-corners" : "",
+    card_background_style,
+    url,
+    icon_container,
+    icon_container_style,
+    icon,
+    icon_style,
+    crop_marks: card_generate_crop_marks(data, options, { isPreview, isBack: true })
+  });
 }
 
 function card_generate_empty(count, options, is_back) {
