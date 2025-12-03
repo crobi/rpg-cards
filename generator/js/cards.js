@@ -1107,7 +1107,7 @@ function card_generate_back(data, options, { isPreview }) {
   var $tmpCard = $(
     '<div class="card" ' +
       card_style +
-      '><div class="card-back"><div class="card-back-inner"><div class="card-back-icon"></div></div></div></div>'
+      '><div class="card-content"><div class="card-back"><div class="card-back-inner"><div class="card-back-icon"></div></div></div></div></div>'
   );
   $("#preview-container").append($tmpCardContainer.append($tmpCard));
 
@@ -1115,7 +1115,6 @@ function card_generate_back(data, options, { isPreview }) {
   var innerWidth = $tmpCardInner.width();
   var innerHeight = $tmpCardInner.height();
   var iconContainerSize = Math.min(innerWidth, innerHeight) / 2;
-  var iconSize = iconContainerSize * 0.75;
   $tmpCard.remove();
 
   var url = data.background_image;
