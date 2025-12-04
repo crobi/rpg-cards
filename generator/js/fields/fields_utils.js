@@ -19,6 +19,7 @@ function ui_fields_colorfield_change_handler(field, $selector) {
     field.el.previousElementSibling.style.backgroundColor = foundValue ? '' : newValue;
     if (!foundValue) {
         field.update(newValue);
+        ui_render_selected_card();
     }
 }
 
@@ -33,6 +34,7 @@ function ui_fields_colorfield_init(field) {
         callback: function (value, color, title) {
             field.el.previousElementSibling.style.backgroundColor = '';
             field.update(title);
+            ui_render_selected_card();
         }
     });
     $selector.next('.dropdown-colorselector').addClass("input-group-addon color-input-addon");
