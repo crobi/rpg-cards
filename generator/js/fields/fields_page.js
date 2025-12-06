@@ -4,17 +4,22 @@ UI_FIELDS_CONFIGURATION_PREPARE.set('page', () => [
         property: 'card_options.page_size',
         events: [
             ['change', function () {
-                const value = card_options.page_size;
-                const [w, h] = value ? value.split(',') : ['', ''];
-                if (isLandscape(card_options.page_width, card_options.page_height)) {
-                    getField('page-width').changeValue(h);
-                    getField('page-height').changeValue(w);
+                const { page_size, page_width, page_height } = card_options;
+                const [w, h] = page_size ? page_size.split(',') : ['', ''];
+                if (isLandscape(page_width, page_height)) {
+                    getField('page-width').update(h);
+                    getField('page-height').update(w);
                 } else {
-                    getField('page-width').changeValue(w);
-                    getField('page-height').changeValue(h);
+                    getField('page-width').update(w);
+                    getField('page-height').update(h);
                 }
+                ui_set_orientation_info('page-orientation', page_width, page_height);
             }]
-        ]
+        ],
+        init: () => {
+            const { page_width, page_height } = card_options;
+            ui_set_orientation_info('page-orientation', page_width, page_height);
+        }
     },
     {
         id: 'page-width',
@@ -22,8 +27,8 @@ UI_FIELDS_CONFIGURATION_PREPARE.set('page', () => [
         events: [
             ['change', function() {
                 const { page_width, page_height } = card_options;
-                ui_match_format('page-size', page_width, page_height);
-                ui_set_orientation(document.getElementById('page-orientation'), page_width, page_height);
+                ui_set_value_to_format('page-size', page_width, page_height);
+                ui_set_orientation_info('page-orientation', page_width, page_height);
             }]
         ]
     },
@@ -33,8 +38,8 @@ UI_FIELDS_CONFIGURATION_PREPARE.set('page', () => [
         events: [
             ['change', function() {
                 const { page_width, page_height } = card_options;
-                ui_match_format(getField('page-size').el, page_width, page_height);
-                ui_set_orientation(document.getElementById('page-orientation'), page_width, page_height);
+                ui_set_value_to_format(getField('page-size').el, page_width, page_height);
+                ui_set_orientation_info('page-orientation', page_width, page_height);
             }]
         ]
     },

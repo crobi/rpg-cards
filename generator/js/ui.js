@@ -44,14 +44,24 @@ function merge(left, right, compare) {
     return result;
 }
 
-function swapInputValues(e1, e2) {
-    const $e1 = $(e1);
-    const $e2 = $(e2);
-    const v1 = $e1.val();
-    const v2 = $e2.val();
-    $e1.val(v2);
-    $e2.val(v1);
-    return $([$e1, $e2]);
+function swapInputValues(id1, id2) {
+    const field1 = getField(id1);
+    const field2 = getField(id2);
+    if (field1 && field2) {
+        const v1 = field1.getData();
+        const v2 = field2.getData();
+        field1.changeValue(v2);
+        field2.changeValue(v1);
+    } else {
+        const e1 = document.getElementById(e1);
+        const e2 = document.getElementById(e2);
+        const v1 = e1.value;
+        const v2 = e2.value;
+        e1.value = v2;
+        e1.dispatchEvent(new Event('input'));
+        e2.value = v1;
+        e2.dispatchEvent(new Event('input'));
+    }
 }
 
 function ui_generate() {
@@ -446,29 +456,23 @@ function ui_select_icon() {
 
 function ui_page_rotate($event) {
     $event.preventDefault();
-    swapInputValues('#page-width', '#page-height').each(function(){
-        const $el = this;
-        $el[0].dispatchEvent(new Event('input'));
-    });
+    swapInputValues('page-width', 'page-height');
 }
 
 function ui_card_rotate($event) {
     $event.preventDefault();
-    swapInputValues('#card-width', '#card-height').each(function(){
-        const $el = this;
-        $el[0].dispatchEvent(new Event('input'));
-    });
+    swapInputValues('card-width', 'card-height');
 }
 
 function ui_grid_rotate($event) {
     $event.preventDefault();
-    swapInputValues('#page-rows', '#page-columns');
+    swapInputValues('page-rows', 'page-columns');
 }
 
 function ui_zoom_rotate($event) {
     $event.preventDefault();
-    swapInputValues('#page-zoom-width', '#page-zoom-height');
-    swapInputValues('#card-zoom-width', '#card-zoom-height');
+    swapInputValues('page-zoom-width', 'page-zoom-height');
+    swapInputValues('card-zoom-width', 'card-zoom-height');
 }
 
 function ui_zoom_100($event) {
@@ -481,7 +485,7 @@ function ui_zoom_100($event) {
 
 function ui_back_bleed_rotate($event) {
     $event.preventDefault();
-    swapInputValues('#back-bleed-width', '#back-bleed-height');
+    swapInputValues('back-bleed-width', 'back-bleed-height');
 }
 
 function ui_change_option() {
@@ -527,9 +531,9 @@ function ui_change_option() {
             card_options[property] = value;
             var width = card_options['card_width'];
             var height = card_options['card_height'];
-            ui_match_format(document.getElementById('card-size'), width, height);
+            ui_set_value_to_format(document.getElementById('card-size'), width, height);
             ui_set_card_custom_size(width, height);
-            ui_set_orientation(document.getElementById('card-orientation'), width, height);
+            ui_set_orientation_info('card-orientation', width, height);
             if (card_options['page_zoom_width'] === '100' && card_options['page_zoom_height'] === '100') {
                 $('#card-zoom-width').val(width);
                 $('#card-zoom-height').val(height);
@@ -595,7 +599,7 @@ function ui_change_option() {
     ui_render_selected_card();
 }
 
-function ui_match_format(selectorId, width, height) {
+function ui_set_value_to_format(selectorId, width, height) {
     var selector = typeof selectorId === 'string' ? document.getElementById(selectorId) : selectorId;
     var len = selector.options.length;
     var portrait = "", landscape = "", format = "", o = null;
@@ -609,9 +613,9 @@ function ui_match_format(selectorId, width, height) {
     selector.value = format;
 }
 
-function ui_set_orientation(outputElement, cssWidth, cssHeight) {
+function ui_set_orientation_info(elementId, cssWidth, cssHeight) {
     var orientation = getOrientation(cssWidth, cssHeight);
-    outputElement.textContent = orientation;
+    document.getElementById(elementId).textContent = orientation;
     return orientation;
 }
 
