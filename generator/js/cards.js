@@ -1000,24 +1000,23 @@ function card_repeat(card, count) {
 
 function card_generate_crop_marks(card_data, options, params = {}) {
   const {
-    isPreview,
-    isBack,
+    isPreview
   } = params;
 
-  const bleed_width = isBack ? options.back_bleed_width : '0';
-  const bleed_height = isBack ? options.back_bleed_height : '0';
+  const bleed_width_half = `calc(${options.back_bleed_width} / 2)`;
+  const bleed_height_half = `calc(${options.back_bleed_height} / 2)`;
   
   if (!options.crop_marks || isPreview) return '';
 
   return `
-      <div class="crop-mark crop-mark-top-left-v hide" style="left:${bleed_width};"></div>
-      <div class="crop-mark crop-mark-top-right-v hide" style="right:${bleed_width};"></div>
-      <div class="crop-mark crop-mark-bottom-left-v hide" style="left:${bleed_width};"></div>
-      <div class="crop-mark crop-mark-bottom-right-v hide" style="right:${bleed_width};"></div>
-      <div class="crop-mark crop-mark-top-left-h hide" style="top:${bleed_height};"></div>
-      <div class="crop-mark crop-mark-bottom-left-h hide" style="bottom:${bleed_height};"></div>
-      <div class="crop-mark crop-mark-top-right-h hide" style="top:${bleed_height};"></div>
-      <div class="crop-mark crop-mark-bottom-right-h hide" style="bottom:${bleed_height};"></div>
+      <div class="crop-mark crop-mark-top-left-v hide" style="left:${bleed_width_half};"></div>
+      <div class="crop-mark crop-mark-top-right-v hide" style="right:${bleed_width_half};"></div>
+      <div class="crop-mark crop-mark-bottom-left-v hide" style="left:${bleed_width_half};"></div>
+      <div class="crop-mark crop-mark-bottom-right-v hide" style="right:${bleed_width_half};"></div>
+      <div class="crop-mark crop-mark-top-left-h hide" style="top:${bleed_height_half};"></div>
+      <div class="crop-mark crop-mark-bottom-left-h hide" style="bottom:${bleed_height_half};"></div>
+      <div class="crop-mark crop-mark-top-right-h hide" style="top:${bleed_height_half};"></div>
+      <div class="crop-mark crop-mark-bottom-right-h hide" style="bottom:${bleed_height_half};"></div>
   `;
 }
 
@@ -1050,29 +1049,49 @@ function card_generate_color_gradient_style(color, options) {
   return `style="background: radial-gradient(ellipse at center, white 20%, ${color} 120%);"`;  
 }
 
-function add_size_to_style(style, width, height) {
+function add_to_style(style = ' style=""', css) {
   // style string example ----> `style="color:red;"`
-  return `${style.slice(0, -1)};width:${width};height:${height};${style.slice(-1)}`;
+  const finalQuote = style.slice(-1) === '"' ? '"' : '';
+  let result = finalQuote ? style.slice(0, -1) : style;
+  const lastChar = result.slice(-1);
+  if (lastChar !== ';' && lastChar !== '"') {
+    result += ';';
+  }
+  for (const [key, value] of Object.entries(css)) {
+    result += `${key}:${value};`;
+  }
+  result += finalQuote;
+  return result;
 }
 
-function add_margin_to_style(style, options) {
-  // style string example ----> `style="color:red;"`
-  return `${style.slice(0, -1)};margin:calc(${options.back_bleed_height}/2) calc(${options.back_bleed_width}/2);${style.slice(-1)}`;
+function add_size_to_style(style, width, height) {
+  return add_to_style(style, { width, height });
 }
+
+function add_bleed_to_style(style) {
+  return add_to_style(style, { padding: `calc(${card_options.back_bleed_height}/2) calc(${card_options.back_bleed_width}/2)` });
+}
+
 
 function card_generate_front(data, options, { isPreview }) {
   var color = card_data_color_front(data, options);
   var style_color = card_generate_color_front_style(color, data, options);
-  var card_size_style = add_size_to_style(
-    style_color,
-    options.card_width,
-    options.card_height
-  );
 
-  var card_style = isPreview ? card_size_style : add_margin_to_style(card_size_style, options);
+  var width = options.card_width;
+  var height = options.card_height;
+
+  var back_bleed_width = options.back_bleed_width;
+  var back_bleed_height = options.back_bleed_height;
+
+  var card_width = "calc(" + width + " + " + back_bleed_width + ")";
+  var card_height = "calc(" + height + " + " + back_bleed_height + ")";
+
+  var card_style = isPreview ? add_size_to_style(style_color, width, height) : add_size_to_style(style_color, card_width, card_height);
+
+  var card_content_style = isPreview ? '' : add_bleed_to_style();
   const cornersClass = options.rounded_corners  ? "rounded-corners" : "";
   return `<div class="card ${cornersClass}" ${card_style}>
-    <div class="card-content">
+    <div class="card-content" ${card_content_style}>
       <div class="card-header">
         ${card_element_title(data, options)}
         ${card_element_type(data, options)}
@@ -1091,6 +1110,7 @@ function card_generate_back_html({
   renderInner = true,
   card_style = '',
   corners_class = '',
+  card_content_style = '',
   card_background_style = '',
   icon_container,
   icon_container_style,
@@ -1100,7 +1120,7 @@ function card_generate_back_html({
 }) {
   let card = `<div class="card ${corners_class}" ${card_style}>`;
 
-  card += `<div class="card-content">`;
+  card += `<div class="card-content" ${card_content_style}>`;
   card += `<div class="card-back" ${card_background_style}>`;
 
   if (renderInner) {
@@ -1164,17 +1184,20 @@ function card_generate_back(data, options, { isPreview }) {
   var icon_container_style = add_size_to_style(card_generate_back_icon_container_style(color, data, options), `${iconContainerSize}px`, `${iconContainerSize}px`);
   var icon_style = card_generate_back_icon_style(color, data, options);
 
+  var card_content_style = add_bleed_to_style();
+
   return card_generate_back_html({
     renderInner: !url,
     card_style,
     corners_class: options.rounded_corners  ? "rounded-corners" : "",
+    card_content_style,
     card_background_style,
     url,
     icon_container,
     icon_container_style,
     icon,
     icon_style,
-    crop_marks: card_generate_crop_marks(data, options, { isPreview, isBack: true })
+    crop_marks: card_generate_crop_marks(data, options, { isPreview })
   });
 }
 
@@ -1182,23 +1205,18 @@ function card_generate_empty(count, options, is_back) {
   var card_width = options.card_width;
   var card_height = options.card_height;
 
-  if (is_back) {
-    var color = (style_color = card_generate_color_back_style("white"));
+    var style_color = card_generate_color_back_style("white");
     var back_bleed_width = options.back_bleed_width;
     var back_bleed_height = options.back_bleed_height;
     card_width = "calc(" + card_width + " + " + back_bleed_width + ")";
     card_height = "calc(" + card_height + " + " + back_bleed_height + ")";
-  } else {
-    var color = (style_color = card_generate_color_front_style("white"));
-    style_color = add_margin_to_style(color, options);
-  }
 
   var card_style = add_size_to_style(style_color, card_width, card_height);
   var result = "";
   var back_front_class = is_back ? "back" : "front";
   result +=
     '<div class="card empty ' + back_front_class + '" ' + card_style + ">";
-  result += card_generate_crop_marks({}, options, { isBack: is_back } );
+  result += card_generate_crop_marks({}, options);
   result += "</div>";
 
   return card_repeat(result, count);

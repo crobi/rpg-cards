@@ -401,7 +401,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="back-bleed-width" class="col-sm-4 control-label">Back bleed</label>
+                                        <div class="col-sm-4 control-label"><label for="back-bleed-width">Bleed</label> <a href="javascript;" onclick="$('#bleed-info').toggle(); return false;">(?)</a></div>
                                         <div class="col-sm-8" style="display: flex;">
                                             <input type="text" id="back-bleed-width" class="form-control"
                                                 data-option="back_bleed_width" placeholder="0mm">
@@ -409,6 +409,12 @@
                                                     id="back-bleed-rotate">&times;</button></div>
                                             <input type="text" id="back-bleed-height" class="form-control"
                                                 data-option="back_bleed_height" placeholder="0mm">
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="bleed-info" style="display: none;">
+                                        <div class="col-sm-4"></div>
+                                        <div class="col-sm-8 help-block">
+                                            The values entered are TOTAL bleed. For example, entering 4 mm as horizontal bleed adds 2 mm to the left and 2 mm to the right.
                                         </div>
                                     </div>
                                     <div class="form-group">
