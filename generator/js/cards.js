@@ -961,7 +961,11 @@ function card_generate_contents(card_data, options) {
             attrs.class += "game-icon game-icon-" + attrValue;
           } else if (attrName === "size") {
             if (!attrs.style) attrs.style = "";
-            attrs.style += "font-size:" + attrValue + "pt;";
+            if (Number.isFinite(Number(attrValue))) attrs.style += "font-size:" + attrValue + "pt;";
+            else attrs.style += "font-size:" + attrValue + ";";
+          } else if (attrName === "color") {
+            if (!attrs.style) attrs.style = "";
+            attrs.style += "color:" + attrValue + ";";
           }
         });
         forEachMatch(attrRegExp, match[0], function (m, i) {
