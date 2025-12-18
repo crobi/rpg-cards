@@ -1364,7 +1364,7 @@ function card_pages_generate_style(options) {
   var result = `
   @page {
       margin: 0;
-      size:" + pw + " " + ph + ";
+      size:${pw} ${ph};
       print-color-adjust: exact;
   }
   `;
