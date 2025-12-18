@@ -254,8 +254,21 @@ function insertTextWithUndo(textarea, text, start, end) {
   }
 }
 
+// Returns true if the variable is null or undefined.
+//
+// NOTE:
+// To also check whether a variable is undeclared, instead of isNil use:
+//   typeof undeclaredVariable === 'undefined' || undeclaredVariable === null
+//
+// It is not possible to check an undeclared variable by calling:
+//   isNil(undeclaredVariable)
+//
+// This is because JavaScript evaluates function arguments before calling the function,
+// so passing an undeclared variable throws a ReferenceError,
+// even if typeof is used inside isNil.
 function isNil(q) {
-  return q === null || q === undefined;
+  // Using loose equality on purpose, because "== null" matches only null and undefined.
+  return q == null;
 }
 
 function debounce(fn, delay) {

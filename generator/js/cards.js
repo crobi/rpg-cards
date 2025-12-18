@@ -886,7 +886,7 @@ function card_element_empty(params, card_data, options) {
   return "";
 }
 
-var card_element_generators = {
+const card_element_generators = {
   subtitle: card_element_subtitle,
   property: card_element_property,
   rule: card_element_ruler,
@@ -931,30 +931,29 @@ var card_element_generators = {
 // ============================================================================
 
 function card_generate_contents(card_data, options) {
-  var result = "";
-  var contents = card_data.contents;
+  let result = '';
+  const contents = card_data.contents;
 
-  var html = contents
+  let html = contents
     .map(function (value) {
-      var parts = card_data_split_params(value);
-      var element_name = parts[0];
-      var element_params = parts.splice(1);
-      var element_generator = card_element_generators[element_name];
+      const [element_name, ...element_params] = card_data_split_params(value);
+      const element_generator = card_element_generators[element_name];
       if (element_generator) {
         return element_generator(element_params, card_data, options);
-      } else if (element_name.length > 0) {
+      }
+      if (element_name.length > 0) {
         return card_element_unknown(element_params, card_data, options);
       }
     })
-    .join("\n");
+    .join('\n');
 
-  var tagNames = ["icon"];
+  const tagNames = ['icon'];
 
   tagNames.forEach(function (tagName) {
-    var tagRegExp = new RegExp("<" + tagName + "[^>]*>", "g");
-    var attrRegExp = new RegExp('([\\w-]+)="([^"]+)"', "g");
+    const tagRegExp = new RegExp(`<${tagName}[^>]*>`, 'g');
+    const attrRegExp = new RegExp(`([\\w-]+)="([^"]+)"`, 'g');
 
-    var matches = [];
+    const matches = [];
     forEachMatch(tagRegExp, html, function (m) {
       matches.push(m);
     });
@@ -965,8 +964,7 @@ function card_generate_contents(card_data, options) {
       if (tagName === "icon") {
         var attrs = {};
         forEachMatch(attrRegExp, match[0], function (m, i) {
-          var attrName = m[1];
-          var attrValue = m[2];
+          const [attrName, attrValue] = m.splice(1);
           if (attrName === "name") {
             if (!attrs.class) attrs.class = "";
             attrs.class += "game-icon game-icon-" + attrValue;
