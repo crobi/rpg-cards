@@ -257,7 +257,7 @@ function insertTextWithUndo(textarea, text, start, end) {
 // Returns true if the variable is null or undefined.
 //
 // NOTE:
-// To also check whether a variable is undeclared, instead of isNil use:
+// If you need to also check whether a variable is undeclared, instead of isNil use:
 //   typeof undeclaredVariable === 'undefined' || undeclaredVariable === null
 //
 // It is not possible to check an undeclared variable by calling:
