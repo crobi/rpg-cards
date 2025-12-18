@@ -1,15 +1,15 @@
 var showCloseButton = true;
 
 function receiveMessage(event) {
-    const { html, pages, options } = event.data;
+    const { style, html, pages, options } = event.data;
     if (typeof html === 'string') {
         showCloseButton = false;
-        insertCards(html);
+        insertCards(style, html);
         cropMarks(pages, options)
     }
 }
 
-function insertCards(html) {
+function insertCards(style, html) {
     // Remove all previous content
     (function waitForBody() {
         if (!document.body){
@@ -24,7 +24,7 @@ function insertCards(html) {
         var div = document.createElement("div");
         div.setAttribute("class", "output-container");
         div.id = "output-container";
-        div.innerHTML = html;
+        div.innerHTML = style + DOMPurify.sanitize(html, { ADD_TAGS: [ 'page'] });
     
         // Add the new div to the document
         document.body.appendChild(div);
@@ -32,6 +32,7 @@ function insertCards(html) {
 }
 
 window.addEventListener("message", receiveMessage, false);
+
 setTimeout(function(){
     if (showCloseButton) {
         const btn = document.getElementById('close-button');

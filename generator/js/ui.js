@@ -71,7 +71,7 @@ function ui_generate() {
     }
 
     // Generate output HTML
-    var { html, pages } = card_pages_generate_html(card_data, card_options);
+    var { style, html, pages } = card_pages_generate_html(card_data, card_options);
 
     // Open a new window for the output
     // Use a separate window to avoid CSS conflicts
@@ -84,7 +84,7 @@ function ui_generate() {
     // Send the generated HTML to the new window
     // Use a delay to give the new window time to set up a message listener
     setTimeout(function () {
-        tab.postMessage({ html, pages, options: card_options }, '*');
+        tab.postMessage({ style, html, pages, options: card_options }, '*');
     }, 500);
 }
 
@@ -441,7 +441,7 @@ function ui_render_selected_card() {
     if (card) {
         var front = card_generate_front(card, card_options, { isPreview: true });
         var back = card_generate_back(card, card_options, { isPreview: true });
-        $('#preview-container').html(front + "\n" + back);
+        $('#preview-container').html(DOMPurify.sanitize(front + "\n" + back));
     }
     local_store_save();
 }

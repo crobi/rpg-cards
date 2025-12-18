@@ -280,7 +280,17 @@ function card_element_table_end(params, card_data, options) {
 }
 
 /**
- * @summary Input raw HTML unaffected by extra formatting
+ * @summary Input raw HTML unaffected by extra formatting.
+ * @description Inserts raw HTML into the card.
+ * @example html | html
+ * @category Basic
+ */
+function card_element_html(params) {
+  return params[0];
+}
+
+/**
+ * @summary Input raw HTML unaffected by extra formatting but inside a container.
  * @description Inserts raw HTML into the card.
  * @example rawhtml | html
  * @category Basic
@@ -902,6 +912,7 @@ var card_element_generators = {
   sr6spell: card_element_sr6spell,
   text: card_element_text,
   italic: card_element_italic,
+  html: card_element_html,
   rawhtml: card_element_rawhtml,
   center: card_element_center,
   justify: card_element_justify,
@@ -1405,13 +1416,9 @@ function card_pages_generate_html(card_data, options) {
     pages = card_pages_split(cards, rows, cols);
   }
 
-  // Wrap all pages in a <page> element and add CSS for the page size
-  var result = "";
-  result += card_pages_generate_style(options);
-  result += card_pages_wrap(pages, options);
-
   return {
-    html: result,
+    style: card_pages_generate_style(options),
+    html: card_pages_wrap(pages, options),
     pages
   };
 }
