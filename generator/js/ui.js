@@ -292,7 +292,12 @@ function ui_update_card_list() {
 }
 
 async function ui_save_file() {
-    const jsonString = JSON.stringify(card_data, null, "  ");
+    const data = card_data.map(item => {
+        const card = { ...item };
+        delete card.uuid;
+        return card;
+    });
+    const jsonString = JSON.stringify(data, null, "  ");
     let filename = app_settings.file_name;
     
     if (window.showSaveFilePicker) {
@@ -340,8 +345,6 @@ async function ui_save_file() {
 function ui_update_selected_card() {
     var card = ui_selected_card();
     if (card) {
-        $("#card-type").val(card.card_type);
-        $("#card-title-size").val(card.title_size);
         $("#card-font-size").val(card.card_font_size);
         $("#card-count").val(card.count);
         $("#card-icon-front").val(card.icon_front);
@@ -355,8 +358,6 @@ function ui_update_selected_card() {
             field.changeValue(field.getData(), { updateData: false });
         });
     } else {
-        $("#card-type").val("");
-        $("#card-title-size").val("");
         $("#card-font-size").val("");
         $("#card-count").val(1);
         $("#card-icon-front").val("");
@@ -377,19 +378,38 @@ function ui_filter_selected_card_title() {
     const filterInput = document.querySelector('#deck-cards-list-title-filter');
     const filterValue = filterInput.value;
     const re = new RegExp(filterValue, 'i');
-    const clearButton = filterInput.parentElement.querySelector('button');
-    const clearButtonLabel = clearButton.querySelector('span');
-    clearButton.disabled = !filterValue;
-    clearButtonLabel.style.visibility = filterValue ? '' : 'hidden';
     document.querySelectorAll('#deck-cards-list .radio').forEach(option => {
         option.style.display = re.test(option.textContent) ? '' : 'none';
     });
 }
 
-function ui_filter_selected_card_title_clear() {
-    $('#deck-cards-list-title-filter').focus().val('');
-    ui_filter_selected_card_title();
+function search_clear_button_init(button) {
+    button.disabled = true;
+    button.style.cursor = 'default';
+
+    const buttonLabel = document.createElement('span');
+    buttonLabel.style.visibility = 'hidden';
+    buttonLabel.innerHTML = '&times;';
+    button.appendChild(buttonLabel);
+
+    const input = button.closest('.input-group').querySelector('input[type="search"]');
+    input.addEventListener('input', event => {
+        button.disabled = !input.value;
+        buttonLabel.style.visibility = input.value ? '' : 'hidden';
+    })
+
+    button.addEventListener('click', event => {
+        input.focus();
+        input.value = '';
+        input.dispatchEvent(new Event('input'));
+        input.dispatchEvent(new Event('change'));
+    });
 }
+
+// function ui_filter_selected_card_title_clear() {
+//     $('#deck-cards-list-title-filter').focus().val('');
+//     ui_filter_selected_card_title();
+// }
 
 function ui_update_card_actions() {
     var action_groups = {};
@@ -819,6 +839,13 @@ function ui_apply_default_font_title() {
     ui_update_selected_card();
 }
 
+function ui_apply_default_title_color() {
+    const k = 'title_color';
+    const v = card_options.default_title_color;
+    card_data.forEach(card => { card[k] = v; }); 
+    ui_update_selected_card();
+}
+
 function ui_apply_default_font_card() {
     const k = 'card_font_size';
     const v = card_options.default_card_font_size;
@@ -1114,6 +1141,7 @@ $(document).ready(function () {
     $("#button-apply-default-color-front").click(ui_apply_default_color_front);
     $("#button-apply-default-color-back").click(ui_apply_default_color_back);
     $("#button-apply-default-font-title").click(ui_apply_default_font_title);
+    $("#button-apply-default-title-color").click(ui_apply_default_title_color);
     $("#button-apply-default-font-card").click(ui_apply_default_font_card);
     $("#button-apply-default-icon-front").click(ui_apply_default_icon_front);
     $("#button-apply-default-icon-back").click(ui_apply_default_icon_back);
@@ -1123,10 +1151,9 @@ $(document).ready(function () {
 
     $("#deck-cards-list").change(ui_update_selected_card);
     $("#deck-cards-list-title-filter").on('input', ui_filter_selected_card_title);
-    $("#deck-cards-list-title-filter-clear").click(ui_filter_selected_card_title_clear);
+    $('.search-clear-btn').each(function(){search_clear_button_init(this)});
+    // $("#deck-cards-list-title-filter-clear").click(ui_filter_selected_card_title_clear);
 
-    $("#card-type").change(ui_change_card_property);
-    $("#card-title-size").change(ui_change_card_property);
     $("#card-font-size").change(ui_change_card_property);
     $("#card-icon-front").change(ui_change_card_property);
     $("#card-count").change(ui_change_card_count);

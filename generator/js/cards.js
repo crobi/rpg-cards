@@ -11,7 +11,9 @@ function default_card_options() {
     default_icon_back: "",
     default_icon_back_container: "rounded-square",
     default_title_size: "13",
+    default_title_color: "white",
     default_card_font_size: "inherit",
+    vertical_alignment_reference: "",
     page_size: "210mm,297mm",
     page_width: "210mm",
     page_height: "297mm",
@@ -134,11 +136,11 @@ function card_size_class(card_data, options) {
 // ============================================================================
 
 function card_element_title(card_data, options) {
-  var title = card_data.title || "";
-  var title_size =
-    card_data.title_size || options.default_title_size || "normal";
+  var title = card_data.title_display || card_data.title || "";
+  var title_size = card_data.title_size || options.default_title_size || "normal";
+  var title_color = card_data.title_color || options.default_title_color || "";
   return (
-    '<div class="card-title card-title-' + title_size + '">' + title + "</div>"
+    '<div class="card-title card-title-' + title_size + '" style="color: ' + title_color + '">' + title + "</div>"
   );
 }
 
@@ -1100,10 +1102,13 @@ function card_generate_front(data, options, { isPreview }) {
   var card_height = "calc(" + height + " + " + back_bleed_height + ")";
 
   var card_style = isPreview ? add_size_to_style(style_color, width, height) : add_size_to_style(style_color, card_width, card_height);
-
   var card_content_style = isPreview ? '' : add_bleed_to_style();
-  const cornersClass = options.rounded_corners  ? "rounded-corners" : "";
-  return `<div class="card ${cornersClass}" ${card_style}>
+
+  const cardClasses = ['card'];
+  if (options.rounded_corners) cardClasses.push('rounded-corners');
+  if (data.vertical_alignment_reference === 'content-area') cardClasses.push('valignref-content-area'); 
+
+  return `<div class="${cardClasses.join(' ')}" ${card_style}>
     <div class="card-content" ${card_content_style}>
       <div class="card-header">
         ${card_element_title(data, options)}

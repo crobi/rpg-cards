@@ -15,6 +15,21 @@ UI_FIELDS_CONFIGURATION_PREPARE.set('default', () => [
             ['change', ui_render_selected_card]
         ]
     },
+    {
+        id: 'default-title-size',
+        property: 'card_options.default_title_size',
+        events: [
+            ['change', ui_render_selected_card]
+        ]
+    },
+    {
+        id: 'default-title-color',
+        property: 'card_options.default_title_color',
+        init: ui_fields_colorfield_init,
+        events: [
+            ['change', ui_render_selected_card]
+        ]
+    },
 
     // $('#default-color-front-selector').colorselector({
     //     callback: function (value, color, title) {

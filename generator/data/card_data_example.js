@@ -1,11 +1,11 @@
 var card_data_example = [
   {
-    count: 1,
-    color_front: "maroon",
-    title: "Burning Hands",
-    icon_front: "white-book-1",
-    icon_back: "robe",
-    contents: [
+    "count": 1,
+    "color_front": "Maroon",
+    "title": "Burning Hands",
+    "icon_front": "white-book-1",
+    "icon_back": "robe",
+    "contents": [
       "subtitle | 1st level evocation",
       "rule",
       "property | Casting time | 1 action",
@@ -17,33 +17,49 @@ var card_data_example = [
       "text | The fire ignites any flammable objects in the area that aren't being worn or carried.",
       "fill | 3",
       "section | At higher levels",
-      "text | +1d6 damage for each slot above 1st",
+      "text | +1d6 damage for each slot above 1st"
     ],
-    tags: ["spell", "mage", "dnd"],
+    "tags": [
+      "spell",
+      "mage",
+      "dnd"
+    ],
+    "icon_back_container": "rounded-square",
+    "color_back": "",
+    "title_color": "",
+    "title_display": "",
+    "card_type": ""
   },
   {
-    count: 1,
-    color_front: "indigo",
-    title: "Cunning Action",
-    icon_front: "white-book",
-    icon_back: "cloak-dagger",
-    contents: [
+    "count": 1,
+    "color_front": "Indigo",
+    "title": "Cunning Action",
+    "icon_front": "white-book",
+    "icon_back": "cloak-dagger",
+    "contents": [
       "subtitle | Rogue feature",
       "rule",
       "fill | 2",
       "text | You can take a <b>bonus action on each of your turns</b> in combat. This action can be used only to take the <b>Dash, Disengage, or Hide</b> action.",
       "fill | 2",
       "section | Fast hands (Thief 3rd)",
-      "text | You can also use the bonus action to make a Dexterity (<b>Sleight of Hand</b>) check, use your thieves' tools to <b>disarm a trap</b> or <b>open a lock</b>, or take the <b>Use an Object</b> action.",
+      "text | You can also use the bonus action to make a Dexterity (<b>Sleight of Hand</b>) check, use your thieves' tools to <b>disarm a trap</b> or <b>open a lock</b>, or take the <b>Use an Object</b> action."
     ],
-    tags: ["feature", "rogue", "dnd"],
+    "tags": [
+      "feature",
+      "rogue",
+      "dnd"
+    ],
+    "icon_back_container": "rounded-square",
+    "color_back": "",
+    "title_color": ""
   },
   {
-    count: 1,
-    color_front: "dimgray",
-    title: "Full Plate",
-    icon_front: "breastplate",
-    contents: [
+    "count": 1,
+    "color_front": "dimgray",
+    "title": "Full Plate",
+    "icon_front": "breastplate",
+    "contents": [
       "subtitle | Heavy armor (1500gp)",
       "rule",
       "property | AC | 18",
@@ -53,16 +69,24 @@ var card_data_example = [
       "fill | 2",
       "description | Heavy | Unless you have the required strength, your speed is reduced by 10 feet.",
       "description | Stealth | You have disadvantage on Dexterity (Stealth) checks.",
-      "fill | 3",
+      "fill | 3"
     ],
-    tags: ["item", "armor", "dnd"],
+    "tags": [
+      "item",
+      "armor",
+      "dnd"
+    ],
+    "icon_back_container": "rounded-square",
+    "color_back": "",
+    "icon_back": "swords-emblem",
+    "title_color": ""
   },
   {
-    count: 1,
-    color_front: "dimgray",
-    title: "Dagger",
-    icon_front: "mixed-swords",
-    contents: [
+    "count": 1,
+    "color_front": "dimgray",
+    "title": "Dagger",
+    "icon_front": "mixed-swords",
+    "contents": [
       "subtitle | Simple melee weapon (2gp)",
       "rule",
       "property | Damage | 1d4 piercing",
@@ -73,17 +97,25 @@ var card_data_example = [
       "description | Finesse | Use your choice of Strength or Dexterity modifier for attack and damage.",
       "description | Light | When you attack while dual wielding light weapons, you may use a bonus action to attack with your off hand.",
       "description | Thrown | You can throw the weapon to make a ranged attack with the given range.",
-      "fill | 3",
+      "fill | 3"
     ],
-    tags: ["item", "weapon", "dnd"],
+    "tags": [
+      "item",
+      "weapon",
+      "dnd"
+    ],
+    "icon_back_container": "rounded-square",
+    "color_back": "",
+    "icon_back": "swords-emblem",
+    "title_color": ""
   },
   {
-    count: 1,
-    color_front: "dimgray",
-    title: "Shortsword of Very Long Names",
-    title_size: "10",
-    icon_front: "crossed-swords",
-    contents: [
+    "count": 1,
+    "color_front": "dimgray",
+    "title": "Shortsword of Very Long Names",
+    "title_size": "10",
+    "icon_front": "crossed-swords",
+    "contents": [
       "subtitle | Simple melee weapon (10gp)",
       "rule",
       "property | Damage | 1d6 piercing",
@@ -93,16 +125,24 @@ var card_data_example = [
       "fill | 2",
       "description | Finesse | Use your choice of Strength or Dexterity modifier for attack and damage.",
       "description | Light | When you attack while dual wielding light weapons, you may use a bonus action to attack with your off hand.",
-      "fill | 3",
+      "fill | 3"
     ],
-    tags: ["item", "weapon", "magic"],
+    "tags": [
+      "item",
+      "weapon",
+      "magic"
+    ],
+    "icon_back_container": "rounded-square",
+    "color_back": "",
+    "icon_back": "swords-emblem",
+    "title_color": ""
   },
   {
-    count: 1,
-    color_front: "dimgray",
-    title: "Wand of Magic Missiles",
-    icon_front: "crystal-wand",
-    contents: [
+    "count": 1,
+    "color_front": "DarkBlue",
+    "title": "Wand of Magic Missiles",
+    "icon_front": "crystal-wand",
+    "contents": [
       "subtitle | Wondrous item",
       "rule",
       "property | Maximum charges | 7",
@@ -115,16 +155,25 @@ var card_data_example = [
       "bullet | magic missile, 2nd level (2 charges)",
       "bullet | magic missile, 3rd level (3 charges)",
       "fill | 3",
-      "boxes | 7 | 2.5",
+      "boxes | 7 | 2.5"
     ],
-    tags: ["item", "wondrous-item", "magic", "dnd"],
+    "tags": [
+      "item",
+      "wondrous-item",
+      "magic",
+      "dnd"
+    ],
+    "icon_back_container": "rounded-square",
+    "color_back": "",
+    "icon_back": "crystal-ball",
+    "title_color": ""
   },
   {
-    count: 2,
-    color_front: "dimgray",
-    title: "Potion of Healing",
-    icon_front: "drink-me",
-    contents: [
+    "count": 2,
+    "color_front": "DarkBlue",
+    "title": "Potion of Healing",
+    "icon_front": "drink-me",
+    "contents": [
       "subtitle | Potion (50gp)",
       "rule",
       "property | Use time | 1 action",
@@ -133,16 +182,23 @@ var card_data_example = [
       "fill | 2",
       "text | When you drink this potion, you regain 2d4+2 hitpoints.",
       "text | Drinking or administering a potion takes 1 action.",
-      "fill | 3",
+      "fill | 3"
     ],
-    tags: ["item", "consumable"],
+    "tags": [
+      "item",
+      "consumable"
+    ],
+    "icon_back_container": "rounded-square",
+    "color_back": "",
+    "icon_back": "crystal-ball",
+    "title_color": ""
   },
   {
-    count: 1,
-    color_front: "black",
-    title: "Goblin",
-    icon_front: "imp-laugh",
-    contents: [
+    "count": 1,
+    "color_front": "Black",
+    "title": "Goblin",
+    "icon_front": "imp-laugh",
+    "contents": [
       "subtitle | Small humanoid (goblinoid)",
       "rule",
       "property | Armor class | 15 (leather armor, shield)",
@@ -156,14 +212,22 @@ var card_data_example = [
       "description | Nimble escape | Disengage or Hide as bonus action",
       "fill | 2",
       "section | Actions",
-      "description | Scimitar | Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage",
+      "description | Scimitar | Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage"
     ],
-    tags: ["creature", "humanoid", "dnd"],
+    "tags": [
+      "creature",
+      "humanoid",
+      "dnd"
+    ],
+    "icon_back_container": "rounded-square",
+    "color_back": "",
+    "icon_back": "monster-grasp",
+    "title_color": ""
   },
   {
-    count: "1",
-    title: "Dazzling Flash",
-    contents: [
+    "count": "1",
+    "title": "Dazzling Flash",
+    "contents": [
       "p2e_start_trait_section",
       "p2e_trait | uncommon | Uncommon",
       "p2e_trait | common | Cleric",
@@ -184,19 +248,26 @@ var card_data_example = [
       "property | Failure | The creature is blinded for 1 round and dazzled for 1 minute. The creature can spend an Interact action rubbing its eyes to end the blinded condition.",
       "property | Critical Failure |  The creature is blinded for 1 round and dazzled for 1 hour.",
       "p2e_ruler",
-      "property | Heightened (3rd) |  The area increases to a 30-foot cone.",
+      "property | Heightened (3rd) |  The area increases to a 30-foot cone."
     ],
-    tags: ["spell", "cleric", "p2e"],
-    color_front: "Chocolate",
-    icon_front: "p2e-2-actions",
-    icon_back: "pope-crown",
-    title_size: "13",
-    card_font_size: "9",
+    "tags": [
+      "spell",
+      "cleric",
+      "p2e"
+    ],
+    "color_front": "Chocolate",
+    "icon_front": "p2e-2-actions",
+    "icon_back": "pope-crown",
+    "title_size": "13",
+    "card_font_size": "9",
+    "icon_back_container": "rounded-square",
+    "color_back": "",
+    "title_color": ""
   },
   {
-    count: 1,
-    title: "Giant Rat",
-    contents: [
+    "count": 1,
+    "title": "Giant Rat",
+    "contents": [
       "p2e_start_trait_section",
       "p2e_trait | alignment | N",
       "p2e_trait | size | Small",
@@ -217,35 +288,49 @@ var card_data_example = [
       "bullet | Stage 4 unconscious (1 day)",
       "bullet | Stage 5 dead",
       "",
-      "fill | 1",
+      "fill | 1"
     ],
-    tags: ["creature", "animal", "p2e"],
-    color_front: "Crimson",
-    icon_back: "monster-grasp",
-    icon_front: "rat",
-    card_font_size: "9",
-    title_size: "11",
+    "tags": [
+      "creature",
+      "animal",
+      "p2e"
+    ],
+    "color_front": "Crimson",
+    "icon_back": "monster-grasp",
+    "icon_front": "rat",
+    "card_font_size": "9",
+    "title_size": "11",
+    "icon_back_container": "rounded-square",
+    "color_back": "Black",
+    "title_color": ""
   },
   {
-    count: 1,
-    color_front: "darkgreen",
-    title: "Manabolt",
-    icon: "magic-swirl",
-    contents: [
+    "count": 1,
+    "color_front": "DarkGreen",
+    "title": "Manabolt",
+    "contents": [
       "subtitle | Direct Spell, Combat",
       "sr6spell | LOS | P | I | F-3 | P",
       "rule",
-      "text |This spell transforms mana into a focused bolt of energy that you can hurl at a target. The target resists with Willpower. The bolt inflicts Physical damage. The spell can be learned only by magicians and mystic adepts.",
+      "text |This spell transforms mana into a focused bolt of energy that you can hurl at a target. The target resists with Willpower. The bolt inflicts Physical damage. The spell can be learned only by magicians and mystic adepts."
     ],
-    tags: ["spell", "combat", "shadowrun"],
+    "tags": [
+      "spell",
+      "combat",
+      "shadowrun"
+    ],
+    "icon_front": "magic-swirl",
+    "icon_back_container": "rounded-square",
+    "color_back": "",
+    "icon_back": "magic-swirl",
+    "title_color": ""
   },
   {
-    count: 1,
-    color_front: "black",
-    title: "Whispers from the Void",
-    icon: "white-book-9",
-    icon_back: "tentacle-heart",
-    contents: [
+    "count": 1,
+    "color_front": "Black",
+    "title": "Whispers from the Void",
+    "icon_back": "tentacle-heart",
+    "contents": [
       "subtitle | Forbidden Knowledge",
       "rule",
       "text | You gain insight into the terrifying truths of the cosmos, knowledge that can shatter a lesser mind.",
@@ -256,16 +341,23 @@ var card_data_example = [
       "bullet | You can cast 'Dissonant Whispers' once per day.",
       "bullet | You have advantage on saving throws against being frightened.",
       "fill | 3",
-      "boxes | 3 | 1.5",
+      "boxes | 3 | 1.5"
     ],
-    tags: ["eldritch", "boon", "cosmic-horror"],
+    "tags": [
+      "eldritch",
+      "boon",
+      "cosmic-horror"
+    ],
+    "icon_front": "white-book-9",
+    "icon_back_container": "rounded-square",
+    "color_back": "",
+    "title_color": ""
   },
   {
-    count: 1,
-    color_front: "darkslateblue",
-    title: "Gaze of the Abyss",
-    icon: "one-eyed",
-    contents: [
+    "count": 1,
+    "color_front": "DarkSlateBlue",
+    "title": "Gaze of the Abyss",
+    "contents": [
       "subtitle | Eldritch Invocation",
       "rule",
       "property | Prerequisite | 15th level, Great Old One patron",
@@ -273,16 +365,24 @@ var card_data_example = [
       "text | You can open your mind to the void, unleashing a torrent of psychic energy.",
       "description | Action | As an action, you can target one creature you can see within 60 feet. The target must make a Wisdom saving throw. On a failed save, the creature takes 8d10 psychic damage and is stunned until the end of your next turn. On a successful save, the creature takes half damage and is not stunned.",
       "fill | 2",
-      "text | Once you use this feature, you can't use it again until you finish a long rest.",
+      "text | Once you use this feature, you can't use it again until you finish a long rest."
     ],
-    tags: ["warlock", "invocation", "cosmic-horror"],
+    "tags": [
+      "warlock",
+      "invocation",
+      "cosmic-horror"
+    ],
+    "icon_front": "one-eyed",
+    "icon_back_container": "rounded-square",
+    "color_back": "",
+    "icon_back": "magic-swirl",
+    "title_color": ""
   },
   {
-    count: 1,
-    color_front: "purple",
-    title: "Unspeakable Vessel",
-    icon: "imp-laugh",
-    contents: [
+    "count": 1,
+    "color_front": "Purple",
+    "title": "Unspeakable Vessel",
+    "contents": [
       "subtitle | Large aberration",
       "rule",
       "property | Armor class | 17 (natural armor)",
@@ -300,14 +400,23 @@ var card_data_example = [
       "rule",
       "section | Actions",
       "description | Tentacle Slam | Melee Weapon Attack: +10 to hit, reach 10 ft., one target. Hit: 18 (3d8 + 5) bludgeoning damage, and the target is grappled (escape DC 15).",
-      "description | Maddening Gaze | The vessel targets one creature it can see within 60 feet. The target must succeed on a DC 16 Wisdom saving throw or be affected by the 'confusion' spell for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success.",
+      "description | Maddening Gaze | The vessel targets one creature it can see within 60 feet. The target must succeed on a DC 16 Wisdom saving throw or be affected by the 'confusion' spell for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
     ],
-    tags: ["creature", "aberration", "cosmic-horror"],
+    "tags": [
+      "creature",
+      "aberration",
+      "cosmic-horror"
+    ],
+    "icon_front": "imp-laugh",
+    "icon_back_container": "rounded-square",
+    "color_back": "Black",
+    "icon_back": "monster-grasp",
+    "title_color": ""
   },
   {
-    count: "1",
-    title: "Blood for the Star-Gods",
-    contents: [
+    "count": "1",
+    "title": "Blood for the Star-Gods",
+    "contents": [
       "p2e_start_trait_section",
       "p2e_trait | rare | Rare",
       "p2e_trait | common | Ritual",
@@ -326,19 +435,27 @@ var card_data_example = [
       "property | Failure | The ritual fails and you attract the attention of a malevolent entity.",
       "property | Critical Failure | A portal to a horrifying dimension opens, unleashing an unspeakable horror.",
       "ruler",
-      "property | Heightened (10th) | The boons are permanent.",
+      "property | Heightened (10th) | The boons are permanent."
     ],
-    tags: ["ritual", "necromancy", "cosmic-horror", "p2e"],
-    color_front: "darkred",
-    icon: "p2e-3-actions",
-    icon_back: "cultist",
-    title_size: "12",
-    card_font_size: "9",
+    "tags": [
+      "ritual",
+      "necromancy",
+      "cosmic-horror",
+      "p2e"
+    ],
+    "color_front": "DarkRed",
+    "icon_back": "cultist",
+    "title_size": "12",
+    "card_font_size": "9",
+    "icon_front": "p2e-3-actions",
+    "icon_back_container": "rounded-square",
+    "color_back": "",
+    "title_color": ""
   },
   {
-    count: 1,
-    title: "Servant of the Outer Gods",
-    contents: [
+    "count": 1,
+    "title": "Servant of the Outer Gods",
+    "contents": [
       "p2e_start_trait_section",
       "p2e_trait | alignment | CE",
       "p2e_trait | size | Medium",
@@ -362,52 +479,97 @@ var card_data_example = [
       "bullet | Stage 4 unconscious (1 day)",
       "bullet | Stage 5 dead",
       "",
-      "fill | 1",
+      "fill | 1"
     ],
-    tags: ["creature", "humanoid", "cosmic-horror", "p2e"],
-    color_front: "indigo",
-    icon_back: "monster-grasp",
-    icon: "p2e-reaction",
-    card_font_size: "9",
-    title_size: "11",
+    "tags": [
+      "creature",
+      "humanoid",
+      "cosmic-horror",
+      "p2e"
+    ],
+    "color_front": "Indigo",
+    "icon_back": "monster-grasp",
+    "card_font_size": "9",
+    "title_size": "11",
+    "icon_front": "p2e-reaction",
+    "icon_back_container": "rounded-square",
+    "color_back": "Black",
+    "title_color": ""
   },
   {
-    count: 1,
-    color_front: "darkgreen",
-    title: "Mind Lash",
-    icon: "magic-swirl",
-    contents: [
+    "count": 1,
+    "color_front": "DarkGreen",
+    "title": "Mind Lash",
+    "contents": [
       "subtitle | Direct Spell, Combat",
       "sr6spell | LOS | P | I | F-2 | S",
       "rule",
-      "text | This spell allows the caster to manifest their will as a psychic whip, lashing out at the target's mind. The target resists with Willpower + Firewall. The whip inflicts Stun damage. The spell can be learned by any magic user with a connection to the astral plane.",
+      "text | This spell allows the caster to manifest their will as a psychic whip, lashing out at the target's mind. The target resists with Willpower + Firewall. The whip inflicts Stun damage. The spell can be learned by any magic user with a connection to the astral plane."
     ],
-    tags: ["spell", "combat", "shadowrun", "cosmic-horror"],
+    "tags": [
+      "spell",
+      "combat",
+      "shadowrun",
+      "cosmic-horror"
+    ],
+    "icon_front": "magic-swirl",
+    "icon_back_container": "rounded-square",
+    "color_back": "",
+    "icon_back": "magic-swirl",
+    "title_color": ""
   },
   {
-    count: 1,
-    color_front: "saddlebrown",
-    title: "Zombie",
-    icon: "zombie-hand",
-    contents: [
+    "count": 1,
+    "color_front": "SaddleBrown",
+    "title": "Zombie",
+    "contents": [
       "subtitle | Undead",
       "swstats | 6 | 4 | 6 | 4 | 6 | 4 | 4 | 7",
       "rule",
       "center | This is centered text.",
       "justify | This is justified text. It should spread out to fill the whole line. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.",
       "italic | This is italic text.",
-      'rawhtml | <p style="color:red">This is raw HTML.</p>',
+      "rawhtml | <p style=\"color:red\">This is raw HTML.</p>",
       "picture | https://i.imgur.com/8i2nJso.png | 100",
-      "icon | zombie-hand | 50 | center",
+      "icon | zombie-hand | 50 | center"
     ],
-    tags: ["creature", "undead", "savage-worlds"],
+    "tags": [
+      "creature",
+      "undead",
+      "savage-worlds"
+    ],
+    "icon_front": "zombie-hand",
+    "icon_back_container": "rounded-square",
+    "color_back": "Black",
+    "icon_back": "monster-grasp",
+    "title_color": ""
   },
   {
-    count: 1,
-    color_front: "darkslategrey",
-    title: "Loot Table",
-    icon: "chest",
-    contents: [
+    "count": 1,
+    "title": "Elf of Conversion",
+    "contents": [
+      "picture | https://game-icons.net/icons/ffffff/000000/1x1/delapouite/woman-elf-face.png | 200",
+      "fill",
+      "center | <icon name=\"clockwise-rotation\">: add <icon name=\"beech\"><icon name=\"beech\"><icon name=\"beech\"> to your mana pool.",
+      "fill"
+    ],
+    "tags": [],
+    "icon_back_container": "none",
+    "color_front": "Green",
+    "color_back": "SaddleBrown",
+    "vertical_alignment_reference": "content-area",
+    "title_color": "",
+    "title_display": "Elf of Conversion",
+    "icon_front": "beech beech",
+    "card_type": "1",
+    "title_size": "12",
+    "card_font_size": "12"
+  },
+  {
+    "count": 1,
+    "color_front": "darkslategrey",
+    "title": "Loot Table",
+    "contents": [
       "subtitle | Random loot",
       "table_start",
       "table_head | d6 | Item",
@@ -418,16 +580,23 @@ var card_data_example = [
       "table_row | 5 | A mysterious note",
       "table_row | 6 | Nothing",
       "table_end",
-      "disabled | This is a disabled line and should not appear.",
+      "disabled | This is a disabled line and should not appear."
     ],
-    tags: ["table", "loot"],
+    "tags": [
+      "table",
+      "loot"
+    ],
+    "icon_front": "chest",
+    "icon_back_container": "none",
+    "color_back": "",
+    "title_color": ""
   },
   {
-    count: 1,
-    color_front: "darkslategrey",
-    title: "Example",
-    icon: "chest",
-    contents: [
+    "count": 1,
+    "color_front": "darkslategrey",
+    "title": "Example",
+    "contents": [
+      "html | <!-- You can add a comment if you want -->",
       "section | Pills",
       "pills_start",
       "pill | Red pill | red",
@@ -453,8 +622,102 @@ var card_data_example = [
       "italic | This text is in italics",
       "fill | 1",
       "section | SR6spell",
-      "sr6spell | Touch | P | S | 5 | 2",
+      "sr6spell | Touch | P | S | 5 | 2"
     ],
-    tags: ["pills"],
+    "tags": [
+      "pills"
+    ],
+    "icon_front": "chest",
+    "icon_back_container": "circle",
+    "color_back": "",
+    "card_type": "Dummy",
+    "title_color": ""
   },
+  {
+    "count": 1,
+    "title": "A♥",
+    "contents": [
+      "fill",
+      "center | <icon name=\"hearts\" size=\"85\" color=\"red\">",
+      "fill"
+    ],
+    "tags": [],
+    "icon_back_container": "none",
+    "color_front": "Red",
+    "color_back": "CadetBlue",
+    "title_color": ""
+  },
+  {
+    "count": 1,
+    "title": "A♥ borderless",
+    "contents": [
+      "fill",
+      "center | <icon name=\"hearts\" size=\"85\" color=\"red\">",
+      "fill"
+    ],
+    "tags": [],
+    "icon_back_container": "none",
+    "color_front": "White",
+    "color_back": "CadetBlue",
+    "vertical_alignment_reference": "",
+    "title_color": "Red",
+    "title_display": "A♥"
+  },
+  {
+    "count": 1,
+    "title": "A♥ centered to content area",
+    "contents": [
+      "html | <div style=\"position:absolute;inset:0;mask:url(icons/hearts.svg) no-repeat center / 50%; background-color:red;\">",
+      "html | <!--",
+      "html | Perfectly vertically centered to the content area",
+      "html | thanks to the \"CSS position\" field.",
+      "html | -->",
+      "html | </div>"
+    ],
+    "tags": [],
+    "icon_back_container": "none",
+    "color_front": "Red",
+    "color_back": "CadetBlue",
+    "vertical_alignment_reference": "content-area",
+    "title_color": "",
+    "title_display": "A♥"
+  },
+  {
+    "count": 1,
+    "title": "9♣",
+    "contents": [
+      "fill",
+      "table_start",
+      "table_row | <icon name=\"clubs\" size=\"20\"> |  | <icon name=\"clubs\" size=\"20\"> | ",
+      "table_row | <icon name=\"clubs\" size=\"20\"> |  | <icon name=\"clubs\" size=\"20\"> | ",
+      "table_row | | <icon name=\"clubs\" size=\"20\"> | | ",
+      "table_row | <icon name=\"clubs\" size=\"20\"> |  | <icon name=\"clubs\" size=\"20\"> | ",
+      "table_row | <icon name=\"clubs\" size=\"20\"> |  | <icon name=\"clubs\" size=\"20\"> | ",
+      "table_end",
+      "fill",
+      ""
+    ],
+    "tags": [],
+    "icon_back_container": "none",
+    "color_front": "Black",
+    "color_back": "CadetBlue",
+    "title_color": ""
+  },
+  {
+    "count": 1,
+    "title": "9♠",
+    "contents": [
+      "fill",
+      "table_start",
+      "table_row | <span style=\"font-size:10mm;\">♠<br>♠<br>♠<br>♠</span> | <i style=\"font-size:10mm;\">♠</i> | <span style=\"font-size:10mm;\">♠<br>♠<br>♠<br>♠</span> | ",
+      "table_end",
+      "fill",
+      ""
+    ],
+    "tags": [],
+    "icon_back_container": "none",
+    "color_front": "",
+    "color_back": "CadetBlue",
+    "title_color": ""
+  }
 ];

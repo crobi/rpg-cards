@@ -27,7 +27,6 @@
 }
 
 .card-content-container {
-    position: relative; /* Added to allow the HTML card content to be absolutely centered */
     padding:2mm;
     padding-top:1mm;
     border-radius: 2mm;
@@ -39,6 +38,10 @@
     flex: 1;
     font-size: inherit;
     overflow: hidden;
+}
+
+.valignref-content-area .card-content-container {
+    position: relative;
 }
 
 .card-back {

@@ -167,3 +167,34 @@ html, body {
   width: 0;
   height: 0;
 }
+
+select.first-option-placeholder:has(option:first-child:checked) {
+  color: #999999;
+}
+select.first-option-placeholder:has(option:first-child:checked) option:not(:first-child) {
+  color: #555555;
+}
+select.first-option-placeholder:not(:has(option:first-child:checked)) option:first-child {
+  color: #999999;
+}
+
+/* nasconde il checkbox */
+label.lock-addon input {
+    display: none;
+}
+
+/* area cliccabile */
+label.lock-addon {
+    cursor: pointer;
+    user-select: none;
+}
+
+/* stato di default → sbloccato */
+label.lock-addon::before {
+    content: "🔓";
+}
+
+/* stato checked → bloccato */
+label.lock-addon:has(input:checked)::before {
+    content: "🔒";
+}
