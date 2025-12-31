@@ -146,8 +146,9 @@ function card_element_title(card_data, options) {
 
 function card_element_type(card_data, options) {
   var type = card_data.card_type || "";
+  var title_color = card_data.title_color || options.default_title_color || "";
   return type
-    ? '<div class="card-type card-title card-title-10">' + type + "</div>"
+    ? '<div class="card-type card-title card-title-10" style="color: ' + title_color + '">' + type + "</div>"
     : "";
 }
 
@@ -155,22 +156,31 @@ function card_element_icon(card_data, options) {
   var icons = card_data_icon_front(card_data, options)
     .split(/[\s\uFEFF\xA0]+/)
     .filter((icon) => icon);
+  var icon_color = card_data.icon_front_color || "";
   var classname = "icon";
   if (options.icon_inline) {
     classname = "inlineicon";
   }
-
-  var result = "";
-  result += '<div class="card-title-' + classname + '-container">';
-  icons.forEach(function (icon) {
-    result +=
-      '    <img class="card-title-' +
-      classname +
-      " icon-" +
-      icon +
-      '" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">';
-  });
-  result += "</div>";
+  var pixel = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+  var result = `<div class="card-title-${classname}-container">`;
+  if (icon_color) {
+    result += icons.map(function (icon) {
+      const img = new Image();
+      img.className = `icon-${icon}`;
+      img.style.position = 'absolute';
+      img.style.visibility = 'hidden';
+      img.style.pointerEvents = 'none';
+      img.src= pixel;
+      document.body.appendChild(img);
+      const style = `mask:${getComputedStyle(img).backgroundImage?.replace(/"/g, "'")} no-repeat center / contain;background-color:${icon_color};background-image:none;`;
+      const result = `<img class="card-title-${classname} icon-${icon}" style="${style}" src="${pixel}">`;
+      img.remove();
+      return result;
+    }).join('');
+  } else {
+    result += icons.map(icon => `<img class="card-title-${classname} icon-${icon}" src="${pixel}">`).join(' ');
+  }
+  result += `</div>`
   return result;
 }
 
@@ -282,7 +292,7 @@ function card_element_table_end(params, card_data, options) {
 }
 
 /**
- * @summary Input raw HTML unaffected by extra formatting.
+ * @summary Input raw HTML.
  * @description Inserts raw HTML into the card.
  * @example html | html
  * @category Basic
@@ -292,7 +302,7 @@ function card_element_html(params) {
 }
 
 /**
- * @summary Input raw HTML unaffected by extra formatting but inside a container.
+ * @summary Input raw HTML affected by some extra formatting but wrapped by a DIV container.
  * @description Inserts raw HTML into the card.
  * @example rawhtml | html
  * @category Basic
@@ -1110,11 +1120,11 @@ function card_generate_front(data, options, { isPreview }) {
 
   return `<div class="${cardClasses.join(' ')}" ${card_style}>
     <div class="card-content" ${card_content_style}>
-      <div class="card-header">
+      ${data.header_show === 'none' ? '' : `<div class="card-header">
         ${card_element_title(data, options)}
         ${card_element_type(data, options)}
         ${card_element_icon(data, options)}
-      </div>
+      </div>`}
       ${card_generate_contents(data, options)}
     </div>
     <div>

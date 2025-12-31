@@ -28,7 +28,8 @@ var card_data_example = [
     "color_back": "",
     "title_color": "",
     "title_display": "",
-    "card_type": ""
+    "card_type": "",
+    "icon_front_color": ""
   },
   {
     "count": 1,
@@ -52,7 +53,10 @@ var card_data_example = [
     ],
     "icon_back_container": "rounded-square",
     "color_back": "",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": "",
+    "card_type": "",
+    "title_size": ""
   },
   {
     "count": 1,
@@ -79,7 +83,8 @@ var card_data_example = [
     "icon_back_container": "rounded-square",
     "color_back": "",
     "icon_back": "swords-emblem",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": ""
   },
   {
     "count": 1,
@@ -107,7 +112,8 @@ var card_data_example = [
     "icon_back_container": "rounded-square",
     "color_back": "",
     "icon_back": "swords-emblem",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": ""
   },
   {
     "count": 1,
@@ -135,7 +141,8 @@ var card_data_example = [
     "icon_back_container": "rounded-square",
     "color_back": "",
     "icon_back": "swords-emblem",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": ""
   },
   {
     "count": 1,
@@ -166,7 +173,8 @@ var card_data_example = [
     "icon_back_container": "rounded-square",
     "color_back": "",
     "icon_back": "crystal-ball",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": ""
   },
   {
     "count": 2,
@@ -191,7 +199,8 @@ var card_data_example = [
     "icon_back_container": "rounded-square",
     "color_back": "",
     "icon_back": "crystal-ball",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": ""
   },
   {
     "count": 1,
@@ -222,7 +231,8 @@ var card_data_example = [
     "icon_back_container": "rounded-square",
     "color_back": "",
     "icon_back": "monster-grasp",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": ""
   },
   {
     "count": "1",
@@ -262,7 +272,8 @@ var card_data_example = [
     "card_font_size": "9",
     "icon_back_container": "rounded-square",
     "color_back": "",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": ""
   },
   {
     "count": 1,
@@ -302,7 +313,8 @@ var card_data_example = [
     "title_size": "11",
     "icon_back_container": "rounded-square",
     "color_back": "Black",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": ""
   },
   {
     "count": 1,
@@ -323,7 +335,8 @@ var card_data_example = [
     "icon_back_container": "rounded-square",
     "color_back": "",
     "icon_back": "magic-swirl",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": ""
   },
   {
     "count": 1,
@@ -351,7 +364,8 @@ var card_data_example = [
     "icon_front": "white-book-9",
     "icon_back_container": "rounded-square",
     "color_back": "",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": ""
   },
   {
     "count": 1,
@@ -376,7 +390,8 @@ var card_data_example = [
     "icon_back_container": "rounded-square",
     "color_back": "",
     "icon_back": "magic-swirl",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": ""
   },
   {
     "count": 1,
@@ -411,7 +426,8 @@ var card_data_example = [
     "icon_back_container": "rounded-square",
     "color_back": "Black",
     "icon_back": "monster-grasp",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": ""
   },
   {
     "count": "1",
@@ -450,7 +466,8 @@ var card_data_example = [
     "icon_front": "p2e-3-actions",
     "icon_back_container": "rounded-square",
     "color_back": "",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": ""
   },
   {
     "count": 1,
@@ -494,7 +511,8 @@ var card_data_example = [
     "icon_front": "p2e-reaction",
     "icon_back_container": "rounded-square",
     "color_back": "Black",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": ""
   },
   {
     "count": 1,
@@ -516,7 +534,8 @@ var card_data_example = [
     "icon_back_container": "rounded-square",
     "color_back": "",
     "icon_back": "magic-swirl",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": ""
   },
   {
     "count": 1,
@@ -529,20 +548,20 @@ var card_data_example = [
       "center | This is centered text.",
       "justify | This is justified text. It should spread out to fill the whole line. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.",
       "italic | This is italic text.",
-      "rawhtml | <p style=\"color:red\">This is raw HTML.</p>",
-      "picture | https://i.imgur.com/8i2nJso.png | 100",
-      "icon | zombie-hand | 50 | center"
+      "picture | https://game-icons.net/icons/ffffff/000000/1x1/delapouite/shambling-zombie.png | 100",
+      "icon | brain | 24 | center"
     ],
     "tags": [
       "creature",
       "undead",
       "savage-worlds"
     ],
-    "icon_front": "zombie-hand",
+    "icon_front": "evil-hand",
     "icon_back_container": "rounded-square",
     "color_back": "Black",
     "icon_back": "monster-grasp",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": ""
   },
   {
     "count": 1,
@@ -561,9 +580,11 @@ var card_data_example = [
     "title_color": "",
     "title_display": "Elf of Conversion",
     "icon_front": "beech beech",
-    "card_type": "1",
-    "title_size": "12",
-    "card_font_size": "12"
+    "card_type": "3",
+    "title_size": "11",
+    "card_font_size": "12",
+    "icon_front_color": "",
+    "header_show": ""
   },
   {
     "count": 1,
@@ -631,7 +652,33 @@ var card_data_example = [
     "icon_back_container": "circle",
     "color_back": "",
     "card_type": "Dummy",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": ""
+  },
+  {
+    "count": 1,
+    "title": "HTML",
+    "contents": [
+      "text | <span style=\"display:block;background-color: yellow\">Each <b>text</b> line is wrapped in a &lt;p&gt; (paragraph) tag.</span>",
+      "text | <span style=\"display:block;background-color: yellow\">You should not use tags like &lt;div&gt; or &lt;table&gt; here, because they are semantically invalid and the browser will place them next to the &lt;p&gt; tag, not inside.</span>",
+      "text | <span style=\"display:block;background-color: yellow\">Paragraphs should contain  <a href=\"https://html.spec.whatwg.org/multipage/dom.html#phrasing-content\" target=\"_blank\"><u>phrasing content</u></a> only.</span>",
+      "fill",
+      "rawhtml | <span style=\"background-color: pink\">Each <b>rawhtml</b> line</span>",
+      "rawhtml | <span style=\"background-color: pink\">is wrapped in a &lt;div&gt; tag.</span>",
+      "fill",
+      "html | <div style=\"background-color:aqua\">",
+      "html | No <b>html</b> line",
+      "html | is wrapped",
+      "html | in any tag.",
+      "html | </div>",
+      ""
+    ],
+    "tags": [],
+    "icon_back_container": "rounded-square",
+    "title_color": "",
+    "color_front": "",
+    "color_back": "",
+    "icon_front_color": ""
   },
   {
     "count": 1,
@@ -645,7 +692,8 @@ var card_data_example = [
     "icon_back_container": "none",
     "color_front": "Red",
     "color_back": "CadetBlue",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": ""
   },
   {
     "count": 1,
@@ -657,11 +705,14 @@ var card_data_example = [
     ],
     "tags": [],
     "icon_back_container": "none",
-    "color_front": "White",
+    "color_front": "transparent",
     "color_back": "CadetBlue",
     "vertical_alignment_reference": "",
     "title_color": "Red",
-    "title_display": "A♥"
+    "title_display": "A♥",
+    "icon_front": "",
+    "icon_front_color": "DarkGray",
+    "card_type": ""
   },
   {
     "count": 1,
@@ -680,7 +731,8 @@ var card_data_example = [
     "color_back": "CadetBlue",
     "vertical_alignment_reference": "content-area",
     "title_color": "",
-    "title_display": "A♥"
+    "title_display": "A♥",
+    "icon_front_color": ""
   },
   {
     "count": 1,
@@ -701,7 +753,8 @@ var card_data_example = [
     "icon_back_container": "none",
     "color_front": "Black",
     "color_back": "CadetBlue",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": ""
   },
   {
     "count": 1,
@@ -718,6 +771,23 @@ var card_data_example = [
     "icon_back_container": "none",
     "color_front": "",
     "color_back": "CadetBlue",
-    "title_color": ""
+    "title_color": "",
+    "icon_front_color": ""
+  },
+  {
+    "count": 1,
+    "title": "Jocker",
+    "contents": [
+      "fill",
+      "center | <icon name=\"jester-hat\" size=\"100\" color=\"Gold\">",
+      "fill"
+    ],
+    "tags": [],
+    "icon_back_container": "none",
+    "title_color": "",
+    "icon_front_color": "",
+    "color_front": "Gold",
+    "color_back": "CadetBlue",
+    "header_show": "none"
   }
 ];

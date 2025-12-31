@@ -771,7 +771,28 @@
                     </div>
                     <hr style="border-top-color: #aaaaaa;">
                     <div class="form-group">
-                        <label for="card-title-display" class="col-sm-2 control-label">Title</label>
+                        <label for="card-color-front" class="col-sm-2 control-label">Front color</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <select id="card-color-front-selector" class="colorselector-data"></select>
+                                <input type="text" id="card-color-front" class="form-control" placeholder="Default front color"
+                                    data-property="color-front">
+                            </div>
+                        </div>
+                    </div>
+                    <fieldset>
+                    <div class="form-group">
+                        <label for="header-show" class="col-sm-2 control-label">Header</label>
+                         <div class="col-sm-10">
+                            <select class="form-control" id="header-show">
+                                <option value="">Show</option>
+                                <option value="none">Hide</option>
+                            </select>
+                         </div>
+                    </div>
+                    </fieldset>
+                    <div class="form-group">
+                        <label for="card-title-display" class="col-sm-2 control-label" style="font-weight: normal;">Title</label>
                         <div class="col-sm-10">
                             <div class="input-group">
                                 <input type="search" id="card-title-display" class="form-control" data-placeholder="Title">
@@ -782,7 +803,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="card-title-size" class="col-sm-2 control-label">Title size</label>
+                        <label for="card-title-size" class="col-sm-2 control-label" style="font-weight: normal;">Title size</label>
                         <div class="col-sm-10">
                             <select class="form-control first-option-placeholder" id="card-title-size">
                                 <option value="">Default title size</option>
@@ -797,7 +818,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="title-color" class="col-sm-2 control-label">Title color</label>
+                        <label for="title-color" class="col-sm-2 control-label" style="font-weight: normal;">Color</label>
                         <div class="col-sm-10">
                             <div class="input-group">
                                 <select id="title-color-selector" class="colorselector-data"></select>
@@ -806,9 +827,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="card-type" class="col-sm-2 control-label">Type</label>
+                        <label for="card-type" class="col-sm-2 control-label" style="font-weight: normal;">Type</label>
                         <div class="col-sm-10">
-                            <input type="text" id="card-type" class="form-control" placeholder="Type">
+                            <input type="text" id="card-type" class="form-control" placeholder="Type or subtitle">
                         </div>
                     </div>
                     <div class="form-group">
@@ -824,12 +845,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="card-color-front" class="col-sm-2 control-label">Front color</label>
+                        <label for="card-icon-front-color" class="col-sm-2 control-label" style="font-weight: normal;">Color</label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <select id="card-color-front-selector" class="colorselector-data"></select>
-                                <input type="text" id="card-color-front" class="form-control" placeholder="Default front color"
-                                    data-property="color-front">
+                                <select id="card-icon-front-color-selector" class="colorselector-data"></select>
+                                <input type="text" id="card-icon-front-color" class="form-control" placeholder="Default title color">
                             </div>
                         </div>
                     </div>
@@ -892,7 +912,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="card-font-size" class="col-sm-2 control-label">Text size</label>
+                        <label for="card-font-size" class="col-sm-2 control-label" style="font-weight: normal;">Text size</label>
                         <div class="col-sm-10">
                             <select class="form-control" id="card-font-size" data-property="card_font_size">
                                 <option value="12">12px (initial)</option>
@@ -906,11 +926,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                         <label for="vertical-alignment-reference" class="col-sm-2 control-label">CSS position</label>
+                         <label for="vertical-alignment-reference" class="col-sm-2 control-label" style="font-weight: normal;">Relative to</label>
                          <div class="col-sm-10">
                             <select class="form-control" id="vertical-alignment-reference">
-                                <option value="">The content is relative to the Full Card</option>
-                                <option value="content-area">The content is relative to the Content Area</option>
+                                <option value="">Full Card (CSS position)</option>
+                                <option value="content-area">Content Area (CSS position)</option>
                             </select>
                          </div>
                     </div>

@@ -29,6 +29,14 @@ UI_FIELDS_CONFIGURATION_PREPARE.set('card', () => [
         ]
     },
     {
+        id: 'header-show',
+        property: [ui_selected_card, 'header_show'],
+        events: [
+            ['input', ui_render_selected_card],
+            ['change', ui_render_selected_card]
+        ]
+    },
+    {
         id: 'card-title-display',
         property: [ui_selected_card, 'title_display'],
         defaultProperty: [default_card_data, 'title'],
@@ -49,6 +57,16 @@ UI_FIELDS_CONFIGURATION_PREPARE.set('card', () => [
         id: 'title-color',
         property: [ui_selected_card, 'title_color'],
         defaultProperty: [default_card_data, 'default_title_color'],
+        init: ui_fields_colorfield_init,
+        events: [
+            ['input', ui_render_selected_card],
+            ['change', ui_render_selected_card]
+        ]
+    },
+    {
+        id: 'card-icon-front-color',
+        property: [ui_selected_card, 'icon_front_color'],
+        defaultProperty: [default_card_data, 'icon_front_color'],
         init: ui_fields_colorfield_init,
         events: [
             ['input', ui_render_selected_card],
