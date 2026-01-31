@@ -261,10 +261,13 @@ const ui_deck_option_text = (card) => {
     return `${card.count}x ${card.title}`;
 }
 
-function ui_update_card_list() {
+const ui_update_deck_total_count = () => {
     $("#total-card-count").text(`Contains ${card_data.length} unique cards, ${card_data.reduce((result, card) => {
         return result + (card?.count || 1) * 1;
     }, 0)} in total.`);
+}
+
+function ui_update_card_list() {
 
     const $deck = $('#deck-cards-list');
 
@@ -288,6 +291,7 @@ function ui_update_card_list() {
         }
     }
 
+    ui_update_deck_total_count();
     ui_update_selected_card();
 }
 
@@ -346,7 +350,6 @@ function ui_update_selected_card() {
     var card = ui_selected_card();
     if (card) {
         $("#card-font-size").val(card.card_font_size);
-        $("#card-count").val(card.count);
         $("#card-icon-front").val(card.icon_front);
         $("#card-icon-back").val(card.icon_back);
         $("#card-icon-back-container").val(card.icon_back_container);
@@ -359,7 +362,6 @@ function ui_update_selected_card() {
         });
     } else {
         $("#card-font-size").val("");
-        $("#card-count").val(1);
         $("#card-icon-front").val("");
         $("#card-icon-back").val("");
         $("#card-icon-back-container").val(card_options.default_icon_back_container);
@@ -672,16 +674,6 @@ function ui_move_down() {
         [card_data[idx], card_data[idx + 1]] = [card_data[idx + 1], card_data[idx]];
         ui_update_card_list();
         ui_select_card_by_index(idx + 1);
-    }
-}
-
-function ui_change_card_count() {
-    var count = $("#card-count").val();
-    var card = ui_selected_card();
-    if (card) {
-        card.count = count;
-        $('#deck-cards-list .radio:has(input[type="radio"]:checked) .text').text(ui_deck_option_text(card));
-        ui_update_card_list();
     }
 }
 
@@ -1156,7 +1148,6 @@ $(document).ready(function () {
 
     $("#card-font-size").change(ui_change_card_property);
     $("#card-icon-front").change(ui_change_card_property);
-    $("#card-count").change(ui_change_card_count);
     $("#card-icon-back").change(ui_change_card_property);
     $("#card-icon-back-container").change(ui_change_card_property);
     $("#card-icon-back-rotation").change(ui_change_card_property);

@@ -1,10 +1,11 @@
 UI_FIELDS_CONFIGURATION_PREPARE.set('card', () => [
+    // Name
     {
         id: 'card-title',
         property: [ui_selected_card, 'title'],
         defaultProperty: [default_card_data, 'title'],
-        events: [
-            ['input', function(event) {
+        eventListeners: {
+            changeHandler: function (event) {
                 ui_render_selected_card();
                 const card = ui_selected_card();
                 const displayTitleField = getField('card-title-display');
@@ -14,74 +15,34 @@ UI_FIELDS_CONFIGURATION_PREPARE.set('card', () => [
                 } else {
                     displayTitleField.el.placeholder = displayTitleField.el.getAttribute('data-placeholder');
                 }
-            }],
-            ['change', function (event) {
-                ui_render_selected_card();
-                const card = ui_selected_card();
-                const displayTitleField = getField('card-title-display');
+            }
+        },
+        events: [
+            ['input', 'changeHandler'],
+            ['change', 'changeHandler']
+        ]
+    },
+    // Count
+    {
+        id: 'card-count',
+        property: [ui_selected_card, 'count'],
+        defaultProperty: [default_card_data, 'card_count'],
+        eventListeners: {
+            changeHandler: function () {
+                var card = ui_selected_card();
                 if (card) {
                     $('#deck-cards-list .radio:has(input[type="radio"]:checked) .text').text(ui_deck_option_text(card));
-                    displayTitleField.el.placeholder = event.target.value;
-                } else {
-                    displayTitleField.el.placeholder = displayTitleField.el.getAttribute('data-placeholder');
+                    ui_update_deck_total_count();
                 }
-            }]
-        ]
-    },
-    {
-        id: 'header-show',
-        property: [ui_selected_card, 'header_show'],
+            }
+        },
         events: [
-            ['input', ui_render_selected_card],
-            ['change', ui_render_selected_card]
+            ['input', 'changeHandler']
         ]
     },
-    {
-        id: 'card-title-display',
-        property: [ui_selected_card, 'title_display'],
-        defaultProperty: [default_card_data, 'title'],
-        events: [
-            ['input', ui_render_selected_card],
-            ['change', ui_render_selected_card]
-        ]
-    },
-    {
-        id: 'card-title-size',
-        property: [ui_selected_card, 'title_size'],
-        defaultProperty: [default_card_data, 'default_title_size'],
-        events: [
-            ['change', ui_render_selected_card]
-        ]
-    },
-    {
-        id: 'title-color',
-        property: [ui_selected_card, 'title_color'],
-        defaultProperty: [default_card_data, 'default_title_color'],
-        init: ui_fields_colorfield_init,
-        events: [
-            ['input', ui_render_selected_card],
-            ['change', ui_render_selected_card]
-        ]
-    },
-    {
-        id: 'card-icon-front-color',
-        property: [ui_selected_card, 'icon_front_color'],
-        defaultProperty: [default_card_data, 'icon_front_color'],
-        init: ui_fields_colorfield_init,
-        events: [
-            ['input', ui_render_selected_card],
-            ['change', ui_render_selected_card]
-        ]
-    },
-    {
-        id: 'card-type',
-        property: [ui_selected_card, 'card_type'],
-        defaultProperty: [default_card_data, 'card_type'],
-        events: [
-            ['input', ui_render_selected_card],
-            ['change', ui_render_selected_card]
-        ]
-    },
+    // Tags
+    // ----------
+    // Front color
     {
         id: 'card-color-front',
         property: [ui_selected_card, 'color_front'],
@@ -92,6 +53,69 @@ UI_FIELDS_CONFIGURATION_PREPARE.set('card', () => [
             ['change', ui_render_selected_card]
         ]
     },
+    // Header
+    {
+        id: 'header-show',
+        property: [ui_selected_card, 'header_show'],
+        events: [
+            ['input', ui_render_selected_card],
+            ['change', ui_render_selected_card]
+        ]
+    },
+    // Title
+    {
+        id: 'card-title-display',
+        property: [ui_selected_card, 'title_display'],
+        defaultProperty: [default_card_data, 'title'],
+        events: [
+            ['input', ui_render_selected_card],
+            ['change', ui_render_selected_card]
+        ]
+    },
+    // Title size
+    {
+        id: 'card-title-size',
+        property: [ui_selected_card, 'title_size'],
+        defaultProperty: [default_card_data, 'default_title_size'],
+        events: [
+            ['change', ui_render_selected_card]
+        ]
+    },
+    // Title color
+    {
+        id: 'title-color',
+        property: [ui_selected_card, 'title_color'],
+        defaultProperty: [default_card_data, 'default_title_color'],
+        init: ui_fields_colorfield_init,
+        events: [
+            ['input', ui_render_selected_card],
+            ['change', ui_render_selected_card]
+        ]
+    },
+    // Card type
+    {
+        id: 'card-type',
+        property: [ui_selected_card, 'card_type'],
+        defaultProperty: [default_card_data, 'card_type'],
+        events: [
+            ['input', ui_render_selected_card],
+            ['change', ui_render_selected_card]
+        ]
+    },
+    // Front icons
+    // Front icons color
+    {
+        id: 'card-icon-front-color',
+        property: [ui_selected_card, 'icon_front_color'],
+        defaultProperty: [default_card_data, 'icon_front_color'],
+        init: ui_fields_colorfield_init,
+        events: [
+            ['input', ui_render_selected_card],
+            ['change', ui_render_selected_card]
+        ]
+    },
+    // ----------
+    // Back color
     {
         id: 'card-color-back',
         property: [ui_selected_card, 'color_back'],
@@ -102,6 +126,16 @@ UI_FIELDS_CONFIGURATION_PREPARE.set('card', () => [
             ['change', ui_render_selected_card]
         ]
     },
+    // Back icon
+    // Back icon rotation
+    // Back icon container
+    // Back image
+    // ----------
+    // Content front or back
+    // Content front
+    // Content back
+    // Text size
+    // Relative to
     {
         id: 'vertical-alignment-reference',
         property: [ui_selected_card, 'vertical_alignment_reference'],
