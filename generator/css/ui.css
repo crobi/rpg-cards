@@ -198,3 +198,7 @@ label.lock-addon::before {
 label.lock-addon:has(input:checked)::before {
     content: "🔒";
 }
+
+.card-fields-groups-separator {
+    border-top-color: #aaaaaa;
+}
