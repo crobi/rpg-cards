@@ -85,7 +85,11 @@ class Field {
      *      Optional callback invoked after setup.
      *
      * @property {Array.<[string, EventListener]>} [events]
-     *      Additional listeners: `[["click", handler]]`.
+     *      Additional listeners: `[["click", handler, options]]`.
+     *      If "handler" is a string, then eventListeners[handler] will be used.
+     *
+     * @property {any} [eventListeners]
+     *      Optional map of event handler functions.
      *
      * @property {(value:any)=>any} [valueGetter]
      *      Value parser/transformer. Defaults to:
@@ -99,7 +103,7 @@ class Field {
      * @throws {Error}
      */
     constructor(options) {
-        const { property, defaultProperty, name, id, init, events, valueGetter } = options;
+        const { property, defaultProperty, name, id, init, events, eventListeners, valueGetter } = options;
 
         if (!id && !name) throw new Error(`Field's id or name are required.`);
         if (id && name) throw new Error(`Field's name must be omitted when an id is provided.`);
@@ -171,7 +175,14 @@ class Field {
                 this.setData(this.getValue());
                 this.storeData();
             });
-            events?.forEach(args => element.addEventListener(...args));
+            events?.forEach(args => {
+                const [ name, callback, options ] = args || [];
+                if (typeof callback === 'function') {
+                    element.addEventListener(...args)
+                } else if (typeof callback ==='string') {
+                    element.addEventListener(name, eventListeners[callback], options);
+                }
+            });
         });
 
         /** @type {JQuery<HTMLElement>} */
