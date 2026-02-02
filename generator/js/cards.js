@@ -153,6 +153,7 @@ function card_element_type(card_data, options) {
 }
 
 function card_element_icon(card_data, options) {
+  const re = /url\(\s*(['"]?)(.*?)\1\s*\)/;
   var icons = card_data_icon_front(card_data, options)
     .split(/[\s\uFEFF\xA0]+/)
     .filter((icon) => icon);
@@ -161,25 +162,27 @@ function card_element_icon(card_data, options) {
   if (options.icon_inline) {
     classname = "inlineicon";
   }
-  var pixel = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
   var result = `<div class="card-title-${classname}-container">`;
-  if (icon_color) {
-    result += icons.map(function (icon) {
-      const img = new Image();
-      img.className = `icon-${icon}`;
-      img.style.position = 'absolute';
-      img.style.visibility = 'hidden';
-      img.style.pointerEvents = 'none';
-      img.src= pixel;
-      document.body.appendChild(img);
-      const style = `mask:${getComputedStyle(img).backgroundImage?.replace(/"/g, "'")} no-repeat center / contain;background-color:${icon_color};background-image:none;`;
-      const result = `<img class="card-title-${classname} icon-${icon}" style="${style}" src="${pixel}">`;
-      img.remove();
-      return result;
-    }).join('');
-  } else {
-    result += icons.map(icon => `<img class="card-title-${classname} icon-${icon}" src="${pixel}">`).join(' ');
-  }
+  result += icons.map(function (icon) {
+    // append a temporary image to retrive the icon url
+    const img = new Image();
+    img.style.position = 'absolute';
+    img.style.visibility = 'hidden';
+    img.style.pointerEvents = 'none';
+    img.className = `icon-${icon}`;
+    document.body.appendChild(img);
+    const match = getComputedStyle(img).backgroundImage?.match(re);
+    let imgUrl = match ? match[2] : null;
+    // sanitize url
+    const u = new URL(imgUrl);
+    imgUrl = ['http:', 'https:'].includes(u.protocol) ? u.href : ''; // u.href is percent encoded
+    // remove temporary image
+    img.remove();
+    // colorize
+    const style = icon_color ? `mask:url('${imgUrl}') no-repeat center / contain;background-color:${icon_color};background-image:none;` : '';
+    // return html
+    return `<span class="card-title-${classname} icon-${icon}" data-onload="fix-icon-size" data-src="${imgUrl}" style="${style}"></span>`;
+  }).join('');
   result += `</div>`
   return result;
 }
@@ -1132,7 +1135,6 @@ function card_generate_front(data, options, { isPreview }) {
     </div>
   </div>`;
 }
-
 
 function card_generate_back_html({
   renderInner = true,

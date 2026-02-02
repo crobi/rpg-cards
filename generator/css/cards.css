@@ -131,11 +131,12 @@
 }
 
 .card-title-inlineicon, .card-font-size-inlineicon {
-    width: auto;
+    display: inline-block;
     height: 100%;
     background-repeat: no-repeat;
     background-size: contain;
     background-color: inherit;
+    background-position: center;
     border-color: inherit;
     margin: -1mm 0 0mm 1mm;
 }

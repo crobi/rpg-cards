@@ -1,3 +1,5 @@
+const PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
 /**
  * Safely evaluates a mathematical expression using MathJS.
  *

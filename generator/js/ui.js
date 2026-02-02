@@ -458,12 +458,14 @@ function ui_update_card_actions() {
 }
 
 function ui_render_selected_card() {
-    var card = ui_selected_card();
+    const card = ui_selected_card();
     $('#preview-container').empty();
     if (card) {
-        var front = card_generate_front(card, card_options, { isPreview: true });
-        var back = card_generate_back(card, card_options, { isPreview: true });
-        $('#preview-container').html(DOMPurify.sanitize(front + "\n" + back));
+        const front = card_generate_front(card, card_options, { isPreview: true });
+        const back = card_generate_back(card, card_options, { isPreview: true });
+        const previewContainer = document.getElementById('preview-container');
+        previewContainer.innerHTML = DOMPurify.sanitize(front + "\n" + back);
+        process_card_generated_front(previewContainer);
     }
     local_store_save();
 }
