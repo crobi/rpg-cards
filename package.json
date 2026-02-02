@@ -1,6 +1,6 @@
 {
   "name": "rpg-cards",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "RPG card generator",
   "main": "generator/generate.html",
   "devDependencies": {
@@ -19,14 +19,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/crobi/rpg-cards.git"
+    "url": "git+https://github.com/mephitrpg/rpg-cards.git"
   },
   "author": "Robert Autenrieth",
+  "contributors": [{
+    "name": "jure",
+    "email": "www.mephit.it@gmail.com",
+    "url": "http://www.mephit.it/"
+  }],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/crobi/rpg-cards/issues"
+    "url": "https://github.com/mephitrpg/rpg-cards/issues"
   },
-  "homepage": "https://github.com/crobi/rpg-cards#readme",
+  "homepage": "https://github.com/mephitrpg/rpg-cards#readme",
   "dependencies": {
     "rimraf": "^6.0.1"
   }
