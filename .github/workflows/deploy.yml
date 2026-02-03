@@ -28,11 +28,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Inject GA ID
+      - name: Replace GA placeholder
         run: |
-          if [ -n "${{ secrets.GA_MEASUREMENT_ID }}" ]; then
-            find ./src -type f -name '*.html' -exec sed -i "s/%GA_MEASUREMENT_ID%/${{ secrets.GA_MEASUREMENT_ID }}/g" {} +
-          fi
+          echo "🔍 Replacing GA placeholder in all files"
+          grep -rl '%GA_MEASUREMENT_ID%' . || echo "🔹 Placeholder not found yet – ensure it's in your source"
+          grep -rl '%GA_MEASUREMENT_ID%' . | xargs sed -i "s/%GA_MEASUREMENT_ID%/${{ secrets.GA_MEASUREMENT_ID }}/g"
 
       - name: Build
         run: npm run build
