@@ -28,6 +28,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Inject GA ID
+        run: |
+          if [ -n "${{ secrets.GA_MEASUREMENT_ID }}" ]; then
+            find ./src -type f -name '*.html' -exec sed -i "s/%GA_MEASUREMENT_ID%/${{ secrets.GA_MEASUREMENT_ID }}/g" {} +
+          fi
+
       - name: Build
         run: npm run build
 
