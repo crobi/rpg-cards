@@ -5,7 +5,7 @@ function receiveMessage(event) {
     if (typeof html === 'string') {
         showCloseButton = false;
         insertCards(style, html);
-        cropMarks(pages, options);
+        if (options.crop_marks) cropMarks(pages, options);
         process_card_generated_front();
     }
 }
