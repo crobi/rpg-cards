@@ -53,8 +53,8 @@ function swapInputValues(id1, id2) {
         field1.changeValue(v2);
         field2.changeValue(v1);
     } else {
-        const e1 = document.getElementById(e1);
-        const e2 = document.getElementById(e2);
+        const e1 = document.getElementById(id1);
+        const e2 = document.getElementById(id2);
         const v1 = e1.value;
         const v2 = e2.value;
         e1.value = v2;
