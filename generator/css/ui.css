@@ -1,5 +1,51 @@
 html, body {
   height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.main-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.main-row-alert {
+  flex: 0 0 auto;
+  overflow: visible;
+}
+
+.main-row-content {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+  gap: 0;
+}
+
+.main-col {
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 15px;
+}
+
+.main-col-left {
+  flex: 0 1 25%;
+  padding-right: 50px;
+}
+
+.main-col-center {
+  flex: 1 1 50%;
+  padding-top: 5px;
+  padding-right: 50px;
+}
+
+.main-col-right {
+  flex: 0 1 25%;
 }
 
 #accordion .panel-heading {
