@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "https://mephitrpg.github.io/rpg-cards/$1",
+      "permanent": true
+    }
+  ]
+}
